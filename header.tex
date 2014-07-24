@@ -1,0 +1,159 @@
+% !TEX root = ./tracking.groundstation.budget.tex
+
+%% =========================== Packages used ============================== %%
+
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage[british]{babel}             % To use English hyphenation.
+\ifdefined\UseNatBib
+\usepackage[round,sort]{natbib}
+\fi
+\usepackage{url}                        % proper line-breaks in biblio URL references
+\usepackage{amsmath}
+\usepackage{amstext}
+\usepackage{wasysym}
+\usepackage[utopia]{mathdesign}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{type1cm}                    % Scale Computer Modern fonts properly
+\usepackage{chngcntr}                   % needed to reset paragraph counters every new section
+\usepackage{bm}                         % needed to display bold-face greek symbols
+\usepackage[multidot]{grffile}          % allows for figures filenames to contain dots
+\usepackage{subfig}                     % pretty sub-figures
+\captionsetup[subfigure]{margin=10pt,justification=centerlast}
+\ifdefined\IncludeAcronymList
+  \usepackage[printonlyused]{acronym}
+\else
+  \usepackage[nolist,nohyperlinks]{acronym}
+\fi
+                                        % acronyms handling:
+                                        % define: \acrodef{label}[acronym]{written out form}
+                                        % normal usage: \ac{label}
+                                        % written out form with acronym in parentheses: \acf{label}
+                                        % acronym form: \acs{label}
+                                        % written out form without following acronym: \acl{label}
+                                        % starred forms does not mark the acronym as used: : \acp*,\acfp*,...
+                                        % plural form of acronym by adding an s: \acps,\acfps,\acsps,\aclps
+\usepackage[section,verbose]{placeins}  % make floats stick to the current section
+\usepackage[normalem]{ulem}             % strike-through, underlines, etc
+% \usepackage{xfrac}                      % provides \sfrac (slanted fractions, the same as $^{num}/_{denom}$ but prettier)
+\usepackage{refcount} 					% allows for the same functionality of pageref (otherwise broken)
+										% using \getpagerefnumber{key}
+\usepackage{array}						% allows m{<widht>} specifications in table columns that are vertically centred.
+\usepackage[section]{placeins}			% prevents floats from appearing after the next section and where \FloatBarrier
+										% is manually placed
+
+\usepackage{tikz}                       %diagrams!
+\usetikzlibrary{shapes,arrows}
+
+\usepackage{ifpdf}
+\ifpdf
+  \usepackage{microtype}
+  % \usepackage[pdftex]{graphicx}
+  \usepackage{color}              % color in your text (conflicts with graphicx)
+	\usepackage{colortbl}				% color in the tables
+  \ifdefined\draft
+    \usepackage[pdftex,unicode,
+          draft=false,
+      pdffitwindow=true,
+      pdfpagemode=UseThumbs,
+      pdfpagelabels,
+      breaklinks=true,
+      colorlinks=true,
+      linkcolor=black,
+      citecolor=black,
+      filecolor=black,
+      urlcolor=black] {hyperref}
+  \else
+    \usepackage[pdftex,unicode,
+      final=true,
+      pdffitwindow=true,
+      pdfpagemode=UseThumbs,
+      pdfpagelabels,
+      breaklinks=true,
+      colorlinks=true,
+      linkcolor=black,
+      citecolor=black,
+      filecolor=black,
+      urlcolor=black] {hyperref}
+  \fi
+  \ifdefined\UseNatBib
+  \ifdefined\draft
+    \usepackage[color,draft]{showkeys}
+  \else
+    \usepackage[color,final]{showkeys}
+  \fi
+  \fi
+\else
+  \usepackage[dvips]{graphicx}
+  \usepackage[dvips]{color}               % color in your text
+  \ifdefined\draft
+    \usepackage[dvips,unicode,
+      draft=true,
+      pdffitwindow=true,
+      pdfpagemode=UseThumbs,
+      pdfpagelabels,
+      breaklinks=true,
+      colorlinks=true,
+      linkcolor=black,
+      citecolor=black,
+      filecolor=black,
+      urlcolor=black] {hyperref}
+  \else
+    \usepackage[dvips,unicode,
+      final=true,
+      pdffitwindow=true,
+      pdfpagemode=UseThumbs,
+      pdfpagelabels,
+      breaklinks=true,
+      colorlinks=true,
+      linkcolor=black,
+      citecolor=black,
+      filecolor=black,
+      urlcolor=black] {hyperref}
+  \fi
+\fi
+
+%% ==========================  automatic referencing ========================== %%
+
+\addto\extrasbritish{
+\def\figureautorefname{Figure}
+\def\tableautorefname{Table}
+\def\partautorefname{Part}
+\def\appendixautorefname{Appendix}
+\def\Itemautorefname{item}
+\def\chapterautorefname{Chapter}
+\def\sectionautorefname{Section}
+\def\subsectionautorefname{Section}
+\def\subsubsectionautorefname{Section}
+\def\paragraphautorefname{Section}
+\def\Hfootnoteautorefname{Section}
+\def\AMSautorefname{Equation}
+\def\pageautorefname{page}
+}
+
+%% =====================  Natbib chapter header fix  ======================== %%
+
+\ifdefined\UseNatBib
+\renewcommand{\bibsection}{%
+  \section*{\bibname}%
+  \markboth{\bibname}{\bibname}%
+  \addcontentsline{toc}{chapter}{\bibname}%
+}
+\fi
+
+%% =========  references to equations are encapsulated in parentesis  ========== %%
+
+%http://www.latex-community.org/forum/viewtopic.php?f=4&t=334
+\makeatletter
+\def\tagform@#1{\maketag@@@{\ignorespaces#1\unskip\@@italiccorr}}
+\let\orgtheequation\theequation
+\def\theequation{(\orgtheequation)}
+\makeatother
+
+%% ========================  user preferences   ========================== %%
+
+%% be a little bit more quiet, please
+\hfuzz=5pt
+
+

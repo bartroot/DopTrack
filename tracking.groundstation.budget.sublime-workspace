@@ -1,0 +1,1206 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"field",
+				"fieldnr"
+			],
+			[
+				"show",
+				"show_caller"
+			],
+			[
+				"de",
+				"debug"
+			],
+			[
+				"Lib",
+				"LibUtils"
+			],
+			[
+				"in",
+				"inj	inject(init) { |mem, var| .. }"
+			],
+			[
+				"sa",
+				"satname"
+			],
+			[
+				"satn",
+				"satnames"
+			],
+			[
+				"sat",
+				"satnames"
+			],
+			[
+				"sate",
+				"satellite"
+			],
+			[
+				"pro",
+				"programs"
+			],
+			[
+				"to",
+				"to_sym"
+			],
+			[
+				"SE",
+				"Setups"
+			],
+			[
+				"SLR",
+				"SLRDATA"
+			],
+			[
+				"LOCATIONS",
+				"LOCATIONS_L1"
+			],
+			[
+				"b",
+				"bin"
+			],
+			[
+				"mdfile",
+				"mdfile_part"
+			],
+			[
+				"Li",
+				"LibUtils"
+			],
+			[
+				"lib",
+				"libutils"
+			],
+			[
+				"mdf",
+				"mdfile"
+			],
+			[
+				"parameter",
+				"parameters"
+			],
+			[
+				"satname",
+				"satname_now"
+			],
+			[
+				"sub",
+				"subvalue"
+			],
+			[
+				"all",
+				"all_satnames"
+			],
+			[
+				"yea",
+				"yeardoy"
+			],
+			[
+				"satna",
+				"satname_nrtdm"
+			],
+			[
+				"data",
+				"data_version"
+			],
+			[
+				"mo",
+				"mode_legal"
+			],
+			[
+				"m",
+				"month"
+			],
+			[
+				"GPS",
+				"GPSinfo"
+			],
+			[
+				"of",
+				"offset"
+			],
+			[
+				"met",
+				"method"
+			],
+			[
+				"metho",
+				"method"
+			],
+			[
+				"file",
+				"file_now"
+			],
+			[
+				"im",
+				"importdataproducts"
+			],
+			[
+				"orbit",
+				"orbit_kipp"
+			],
+			[
+				"process",
+				"processcode"
+			],
+			[
+				"proces",
+				"processcode"
+			],
+			[
+				"require",
+				"requiredproduct"
+			],
+			[
+				"debug",
+				"debugdeep"
+			],
+			[
+				"produ",
+				"productpart"
+			],
+			[
+				"prod",
+				"productpart"
+			],
+			[
+				"find",
+				"findproduct"
+			],
+			[
+				"produc",
+				"productpart"
+			],
+			[
+				"product",
+				"product_list"
+			],
+			[
+				"Meta",
+				"MetaDataFile"
+			],
+			[
+				"meto",
+				"method_name"
+			],
+			[
+				"rep",
+				"respond_to"
+			],
+			[
+				"glo",
+				"global_variables"
+			],
+			[
+				"Year",
+				"YearDoy"
+			],
+			[
+				"uti",
+				"utility_arg"
+			],
+			[
+				"dia",
+				"diagrams_reg"
+			],
+			[
+				"calling",
+				"calling_method"
+			],
+			[
+				"no",
+				"noblankstrip"
+			],
+			[
+				"call",
+				"calling_method"
+			],
+			[
+				"op",
+				"options"
+			],
+			[
+				"check",
+				"checkproduct"
+			],
+			[
+				"out_",
+				"out_prd"
+			],
+			[
+				"from",
+				"fromlist"
+			],
+			[
+				"util",
+				"utility_arg"
+			],
+			[
+				"deb",
+				"debugdeep"
+			],
+			[
+				"Par",
+				"ParentRoutineName"
+			],
+			[
+				"log",
+				"logical"
+			],
+			[
+				"recor",
+				"records_tmp"
+			],
+			[
+				"interf",
+				"interface"
+			],
+			[
+				"time",
+				"timevalues"
+			],
+			[
+				"timeve",
+				"timevector"
+			],
+			[
+				"rec",
+				"records"
+			],
+			[
+				"timeva",
+				"timevalues"
+			],
+			[
+				"tim",
+				"timevalues"
+			],
+			[
+				"sta",
+				"stats_filename"
+			],
+			[
+				"st",
+				"stats_filename"
+			],
+			[
+				"mode",
+				"mode_array"
+			],
+			[
+				"mod",
+				"mode_array"
+			],
+			[
+				"NEW",
+				"NEW_PROD_NAME"
+			],
+			[
+				"SINK",
+				"SINK_PARENT"
+			],
+			[
+				"SA",
+				"SAT_PROD_NAME_TRANS"
+			],
+			[
+				"ATT",
+				"ATT_GHOST"
+			],
+			[
+				"NR",
+				"NRTDM_PROD"
+			],
+			[
+				"NETCDF",
+				"NETCDFHOME"
+			],
+			[
+				"attr",
+				"attr_reader"
+			],
+			[
+				"edge",
+				"edge_now"
+			],
+			[
+				"n",
+				"nodenames"
+			],
+			[
+				"node",
+				"nodenames"
+			],
+			[
+				"build",
+				"builddiagram"
+			],
+			[
+				"arv",
+				"argv_now"
+			],
+			[
+				"UTILI",
+				"UTILITY"
+			],
+			[
+				"Utili",
+				"utilities"
+			],
+			[
+				"opt",
+				"options_set"
+			],
+			[
+				"par",
+				"parameters"
+			],
+			[
+				"input",
+				"inputnodeshape"
+			],
+			[
+				"var",
+				"varvalue"
+			],
+			[
+				"global",
+				"globalvars"
+			],
+			[
+				"exe",
+				"executecommand"
+			],
+			[
+				"tar",
+				"tarfile"
+			],
+			[
+				"DO",
+				"DOWNLOAD_NOW"
+			],
+			[
+				"HEAD",
+				"HEADER_DIR_REL"
+			],
+			[
+				"HEADER",
+				"HEADER_FILE"
+			],
+			[
+				"gsu",
+				"gsub"
+			],
+			[
+				"TE",
+				"TEST_ID"
+			],
+			[
+				"DIR",
+				"DIR_LIST"
+			],
+			[
+				"DIF",
+				"DIFF_LINE"
+			],
+			[
+				"N",
+				"NRNOW"
+			],
+			[
+				"DI",
+				"DIFF_LINE"
+			],
+			[
+				"units",
+				"units_now"
+			],
+			[
+				"sca",
+				"scalebias_sigma"
+			],
+			[
+				"scae",
+				"scalebias"
+			],
+			[
+				"fla",
+				"flatten"
+			],
+			[
+				"nrtdm_",
+				"nrtdm_common_args"
+			],
+			[
+				"nrtdm",
+				"nrtdm_config"
+			],
+			[
+				"Noise",
+				"NoiseLevel"
+			],
+			[
+				"noise",
+				"noiselevel"
+			],
+			[
+				"TI",
+				"TIMESTEP1"
+			],
+			[
+				"tran",
+				"translation"
+			],
+			[
+				"dir",
+				"dircolors"
+			],
+			[
+				"bas",
+				"bashrc"
+			],
+			[
+				"Net",
+				"netCDF"
+			],
+			[
+				"DEK",
+				"DESKTOP_DIR"
+			],
+			[
+				"DESK",
+				"DESKTOP_DIR"
+			],
+			[
+				"goo",
+				"good_idx"
+			],
+			[
+				"fu",
+				"fullfile"
+			],
+			[
+				"is",
+				"is_a"
+			],
+			[
+				"gs",
+				"gsub"
+			],
+			[
+				"nr",
+				"nrtdm"
+			],
+			[
+				"PR",
+				"PRODUCT_LIS"
+			],
+			[
+				"sel",
+				"SELECT"
+			],
+			[
+				"env_",
+				"env_len"
+			],
+			[
+				"set_env_nr",
+				"set_env_nrtdmconfig"
+			],
+			[
+				"Re",
+				"Results0"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "tracking.groundstation.budget.tex",
+			"settings":
+			{
+				"buffer_size": 42939,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/teixeira/projects/Delfi-n3Xt_tracking/hardware/SDR/summary.txt",
+			"settings":
+			{
+				"buffer_size": 3629,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/teixeira/projects/Delfi-n3Xt_tracking/hardware/GPS clocks/summary.txt",
+			"settings":
+			{
+				"buffer_size": 3945,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/teixeira/projects/Delfi-n3Xt_tracking/hardware/Radio/summary.txt",
+			"settings":
+			{
+				"buffer_size": 6897,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "finalize.sh",
+			"settings":
+			{
+				"buffer_size": 168,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "acronyms.tex",
+			"settings":
+			{
+				"buffer_size": 17232,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 375.0,
+		"selected_items":
+		[
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Package Control: Remove Package"
+			],
+			[
+				"p",
+				"Package Control: Remove Package"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"svn",
+				"SVN: Diff"
+			],
+			[
+				"pa",
+				"Package Control: Remove Package"
+			],
+			[
+				"",
+				"Code Folding: Fold Tag Attributes"
+			],
+			[
+				"open",
+				"Snippet: Open File"
+			],
+			[
+				"men",
+				"FileDiffs: Menu"
+			],
+			[
+				"diff",
+				"FileDiffs: Menu"
+			],
+			[
+				"syntax: R",
+				"Set Syntax: Ruby"
+			],
+			[
+				"DIFF",
+				"FileDiffs: Menu"
+			],
+			[
+				"rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"PA",
+				"Package Control: Install Package"
+			],
+			[
+				"Snippet: ",
+				"Snippet: Paragraph"
+			],
+			[
+				"pak",
+				"Preferences: Browse Packages"
+			]
+		],
+		"width": 462.0
+	},
+	"console":
+	{
+		"height": 146.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/teixeira/cloud/Dropbox/Common/sublime-text-2/Packages/Alignment/Default (Linux).sublime-keymap",
+		"/home/teixeira/cloud/Dropbox/Common/sublime-text-2/Packages/Alignment/Base File.sublime-settings",
+		"/home/teixeira/cloud/Dropbox/Common/sublime-text-2/Packages/User/LaTeX.sublime-settings",
+		"/home/teixeira/projects/Delfi-n3Xt_tracking/budget/acronyms.tex",
+		"/home/teixeira/projects/Delfi-n3Xt_tracking/budget/header.tex",
+		"/home/teixeira/projects/Delfi-n3Xt_tracking/budget/tracking.groundstation.budget.sublime-project",
+		"/home/teixeira/.cache/evolution/tmp/evolution-teixeira-EsqpGe/DopTrack proposal.txt",
+		"/home/teixeira/projects/Delfi-n3Xt_tracking/hardware/SDR/summary.txt",
+		"/home/teixeira/projects/Delfi-n3Xt_tracking/hardware/summary.txt",
+		"/home/teixeira/projects/Delfi-n3Xt_tracking/budget/flags.tex",
+		"/home/teixeira/projects/Delfi-n3Xt_tracking/budget/symbols.tex",
+		"/home/teixeira/projects/swarmgen/Scripts/IT2/POD/run_get_data_ext",
+		"/home/teixeira/projects/swarmgen/Scripts/IT2/POD/run.dsat",
+		"/home/teixeira/projects/Delfi-n3Xt_tracking/budget/Variables.ini",
+		"/home/teixeira/cloud/Dropbox/Documents/latex/install.sh",
+		"/home/teixeira/Documents/MSc on GPS-driven gravity field model/symbols.tex",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/rubylibs/aristarchos.sublime-project",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/par_list.txt",
+		"/home/teixeira/projects/Delfi-n3Xt_tracking/hardware/Radio/links.txt",
+		"/home/teixeira/projects/Delfi-n3Xt_tracking/hardware/Radio/summary.txt",
+		"/home/teixeira/projects/Delfi-n3Xt_tracking/links.txt",
+		"/home/teixeira/projects/swarmgen/Scripts/IT2/denswind/lib/swarm_products.rb",
+		"/home/teixeira/projects/swarmgen/Scripts/IT2/denswind/lib/swarm_transfer.rb",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/run_get_grace_data",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/run.source",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/rubylibs/libtime.rb",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/rubylibs/libdot.rb",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/rsync.isdc.sh",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/var_list.txt",
+		"/home/teixeira/projects/swarmgen/Scripts/IT2/denswind/lib/swarmlib.rb",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/run_convert_att",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/data/POD/Data/SLR/champ.0312",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/data/POD/Data/SLR/champ.20031106",
+		"/home/teixeira/.cache/.fr-iSK10p/GPS1B_2003-11-06_A_02.rnx",
+		"/home/teixeira/.cache/.fr-ycRqHe/CH-OG-1-SST+2000_200_00.1.rnx",
+		"/home/teixeira/cloud/Dropbox/Documents/fortran/prime/template.f90",
+		"/home/teixeira/cloud/Dropbox/Documents/fortran/prime/makefile",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/rubylibs/libnrtdm.rb.new",
+		"/home/teixeira/scratch/libnrtdm.rb.mine",
+		"/home/teixeira/cloud/Dropbox/Common/sync.ubuntuone.sh",
+		"/home/teixeira/cloud/Dropbox/Common/bin/unison.user@remote.computer.sh",
+		"/home/teixeira/cloud/Dropbox/Common/bin/ln-show-orphans.sh",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/isdc_sync.pl",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/goce_mirror.sh",
+		"/home/teixeira/cloud/Dropbox/Common/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/home/teixeira/cloud/Dropbox/Common/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/home/teixeira/cloud/Dropbox/Common/bin/change-wallpaper.sh",
+		"/home/teixeira/bin/mount-cloud.sh",
+		"/home/teixeira/cloud/Dropbox/Common/user-dirs.dirs",
+		"/home/teixeira/.btsync/btsync.conf",
+		"/home/teixeira/cloud/Dropbox/Common/btsync/btsync.conf",
+		"/home/teixeira/.cache/.fr-vOY0wC/LICENSE.TXT",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/KIPP.minp",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/data/POD/Logfiles/log.graA.03.311_rdod",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/data/POD/Storage/graA.03.310_RDOD.sp3",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/data/POD/Storage/graA.03.310_KIPP.sp3hpf",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/run_get_data_ext",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/gracea.20031105",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/SPPLEO.minp",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/RDOD.minp",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/PosFit.minp",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/LEAPSEC.table",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/parameters_setup.awk",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/produceghostquat.pl",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/data/POD/Logfiles/log.graA.03.311_kipp",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/data/POD/Setups/graA.03.311_SPPLEO.inp",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/run_get_champ_data",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/data/POD/Logfiles/log.graA.03.311_posfit",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/data/POD/Logfiles/log.graA.03.311_sppleo",
+		"/home/teixeira/Ubuntu One/Desktop/installation",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/data/POD/Setups/graA.03.311_SPPLEO.sp3",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/SkyPlot.minp",
+		"/home/teixeira/projects/swarmgen/Scripts/IT2/POD/CHAMP_SPPLEO.minp",
+		"/home/teixeira/projects/swarmgen/Scripts/V2/denswind/lib/swarmlib.rb",
+		"/home/teixeira/projects/swarmgen/Scripts/V2/POD/run_pod_swarma",
+		"/home/teixeira/projects/swarmgen/Scripts/V2/POD/CHAMP_SPPLEO.minp",
+		"/home/teixeira/projects/swarmgen/WP8000/V2/POD/Setups/GRACEA.03.311_SPPLEO.inp",
+		"/home/teixeira/projects/swarmgen/WP8000/IT2/POD/Setups/CHAMP.03.311_SPPLEO.inp",
+		"/home/teixeira/projects/swarmgen/Scripts/IT2/POD/GRACEB_SPPLEO.minp",
+		"/home/teixeira/projects/swarmgen/Scripts/IT2/POD/run_pod_swarma",
+		"/home/teixeira/projects/swarmgen/WP8000/IT2/POD/Logfiles/log.GRACEB.03.311_rdod",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/ghost/Ghost/SPPLEO.inp",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/ghost/Ghost/SPPLEO.cpp",
+		"/home/teixeira/.cache/.fr-CO7Hbd/GPS1B_2003-11-08_A_02.rnx",
+		"/home/teixeira/.cache/.fr-CS2iiO/GPS1B_2003-11-07_A_02.rnx",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/SLRRES.minp",
+		"/run/user/teixeira/gvfs/sftp",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/src/app/core/importdataproducts.f90",
+		"/home/teixeira/cloud/Dropbox/Common/sublime-text-2/Packages/TrailingSpaces/trailing_spaces.sublime-settings",
+		"/home/teixeira/cloud/Dropbox/Common/sublime-text-2/Packages/User/trailing_spaces.sublime-settings",
+		"/home/teixeira/cloud/Dropbox/Common/sublime-text-2/Packages/Theme - Soda/README.md",
+		"/home/teixeira/cloud/Dropbox/Common/sublime-text-2/Packages/TrailingSpaces/README.md",
+		"/home/teixeira/cloud/Dropbox/Common/sublime-text-2/Packages/User/Side Bar.sublime-settings",
+		"/home/teixeira/cloud/Dropbox/Common/sublime-text-2/Packages/SideBarEnhancements/Side Bar.sublime-settings",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/src/app/core/processdataproducts.f90",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/run_slr",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/run_rep",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/run_cmp",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/swarmscript.sh",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/rubylibs/libutils.rb",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/rubylibs/aristarchos.sublime-workspace",
+		"/home/teixeira/projects/swarmgen/Reports/Failure.Cases/SW-RP-DEOS-GS-0001_POD_TDW_Results_on_Failure_Cases.tex",
+		"/home/teixeira/projects/swarmgen/Reports/Improvements/RD.bib",
+		"/home/teixeira/projects/swarmgen/Reports/Improvements/SW-RP-DEOS-GS-0002_POD_TDW_Improvements.tex",
+		"/home/teixeira/projects/swarmgen/Reports/Improvements/SW-RP-DEOS-GS-0002_POD_TDW_Improvements.synctex.sublime-project",
+		"/home/teixeira/projects/swarmgen/Reports/Improvements/swarmgen.sty",
+		"/home/teixeira/projects/swarmgen/Reports/Improvements/table.scenarios.tex",
+		"/home/teixeira/projects/swarmgen/Reports/Improvements/table.preliminary.tex",
+		"/home/teixeira/projects/swarmgen/Reports/Improvements/appendix.tex",
+		"/home/teixeira/projects/swarmgen/Reports/Improvements/acronyms.tex",
+		"/home/teixeira/projects/swarmgen/Reports/Improvements/acronym-tweaks.tex",
+		"/home/teixeira/projects/swarmgen/Reports/Improvements/header.tex",
+		"/home/teixeira/projects/swarmgen/Reports/Improvements/geometrymodelling.tex",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/rubylibs/libnrtdm.rb",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/run_pod",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/ghost/create_setup.awk",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/scripts/z-reprocess.sh",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/config/ZA_Basic.products.txt",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/config/ZC_Basic.products.txt",
+		"/home/teixeira/projects/swarmgen/Reports/Improvements/SW-RP-DEOS-GS-0002_POD_TDW_Improvements.synctex.sublime-workspace",
+		"/home/teixeira/cloud/Dropbox/Common/sublime-text-2/Packages/LaTeXTools/LaTeXTools Preferences.sublime-settings",
+		"/home/teixeira/cloud/Dropbox/Common/bash_aliases",
+		"/home/teixeira/.profile",
+		"/home/teixeira/to-delete/install-tl-20130729/README",
+		"/home/teixeira/cloud/Dropbox/Documents/Giorgia/matlab/applied_displacement_1.m",
+		"/home/teixeira/cloud/Dropbox/Documents/Giorgia/matlab/applied_displacement_x.dat",
+		"/home/teixeira/cloud/Dropbox/Documents/Giorgia/matlab/applied_displacement_y.dat",
+		"/run/user/teixeira/gvfs/sftp:host=aristarchos.lr.tudelft.nl,user=teixeira/home/teixeira/bin/nrtdm/src/app/core/getproductmetadata.f90"
+	],
+	"find":
+	{
+		"height": 37.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"tudat",
+			"specssdr",
+			"shorturl",
+			"specsradio",
+			"specssdr",
+			"specsclock",
+			"specsradio",
+			"specssdr",
+			"specsradio",
+			"urlclock",
+			"namemaintenance",
+			"pricemaintenance",
+			"namemaintenance",
+			"namemisc",
+			"modelmisc",
+			"namemisc",
+			"\\href",
+			"\\url{",
+			"\\url",
+			"\\} *\\{",
+			"}}",
+			"&                 ",
+			"&        ",
+			"& ",
+			"\\footnote{",
+			"misc",
+			"computer",
+			"splitSband",
+			"splitVUHF",
+			"lightprot",
+			"biasT",
+			"antennaUHF",
+			"clock",
+			"sdrrack",
+			"sdrdb",
+			"sdr",
+			"radioswitch",
+			"C",
+			"C/A",
+			"www.",
+			"\\url",
+			"sband",
+			"\\model",
+			"\\url",
+			"urlclock",
+			"http",
+			"\\url",
+			"http",
+			"SSE",
+			"*",
+			"reference",
+			"PPS",
+			"Mhz",
+			"146",
+			"stream",
+			"tudat",
+			"apendix",
+			"ASM",
+			"signal",
+			"utc",
+			"CA",
+			"url",
+			"usb",
+			"url",
+			"www",
+			"GroundStationName",
+			"{U",
+			"U",
+			"IF",
+			"40",
+			"sse",
+			"tle",
+			"LNA",
+			"antenna",
+			"todo",
+			"setall",
+			"{acronym}",
+			"acronym",
+			"GroundStationName",
+			"TLE",
+			"draf",
+			"IncludeAcronymList",
+			"doptrack",
+			"AuthorName",
+			"DocumentTitle",
+			"DocumentKeywords",
+			"debug=",
+			"RUBY",
+			"and",
+			"puts",
+			".map",
+			"puts",
+			".class",
+			"puts",
+			"debug",
+			"puts",
+			"peek",
+			"puts",
+			"peek",
+			"put",
+			"peek",
+			"LibNRTDM::Options.get_satnames: ",
+			"peek",
+			"out:out",
+			"LibNRTDM::Satnames.",
+			"peek",
+			"caller",
+			"puts",
+			"contain",
+			":in:",
+			"program",
+			"satnames",
+			"satname_reg",
+			"@satname",
+			"@satnameZ",
+			"@satname",
+			"satnames",
+			".option",
+			"false",
+			"global_variables",
+			"par_list_file",
+			"NRTDM[",
+			"NRTDM",
+			"contains",
+			"NRTDM",
+			"all_satnames",
+			"satnames",
+			"SatName"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"  ",
+			"%",
+			"fcov",
+			"%",
+			"/n",
+			"%",
+			" exit 3"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "tracking.groundstation.budget.tex",
+					"settings":
+					{
+						"buffer_size": 42939,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								36405,
+								36405
+							]
+						],
+						"settings":
+						{
+							"spell_check": true,
+							"syntax": "Packages/LaTeX/LaTeX.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 10770.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/home/teixeira/projects/Delfi-n3Xt_tracking/hardware/SDR/summary.txt",
+					"settings":
+					{
+						"buffer_size": 3629,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 108.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/teixeira/projects/Delfi-n3Xt_tracking/hardware/GPS clocks/summary.txt",
+					"settings":
+					{
+						"buffer_size": 3945,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1064,
+								1064
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/home/teixeira/projects/Delfi-n3Xt_tracking/hardware/Radio/summary.txt",
+					"settings":
+					{
+						"buffer_size": 6897,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "finalize.sh",
+					"settings":
+					{
+						"buffer_size": 168,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								168,
+								168
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "acronyms.tex",
+					"settings":
+					{
+						"buffer_size": 17232,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								16723,
+								16723
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/LaTeX.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5177.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 36.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 231.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 281.0
+	},
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/home/teixeira/.gvfs/SFTP for swarmgen on 131.180.117.22/home/swarmgen/Software/nrtdm/src/lib/processing/nasacdfsupport.f90"
+			],
+			[
+				"produc",
+				"/home/teixeira/projects/swarmgen/Scripts/V2/denswind/lib/swarm_products.rb"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/home/teixeira/Documents/Swarm+/Swamr+.sublime-project"
+			],
+			[
+				"drop",
+				"/home/teixeira/cloud/Dropbox/Common/dropbox-common.sublime-project"
+			]
+		],
+		"width": 882.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": false,
+	"side_bar_visible": true,
+	"side_bar_width": 288.0,
+	"status_bar_visible": true
+}
