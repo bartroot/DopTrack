@@ -17,3 +17,5 @@ sync.sh
 *.run.cookie
 *.synctex.gz
 *.d
+.projectname
+.sourcedir
