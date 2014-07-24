@@ -269,8 +269,8 @@ pdfkeywords={\DocumentKeywords}
 \newcommand{\nameradioswitch}{antenna switch}
 \newcommand{\namesdr}{\acs{SDR}}
 \newcommand{\namesdrdb}{\acs{SDR} daughter-board}
-\newcommand{\namesdrrack}{\acs{SDR} Rack Mount}
 \newcommand{\nameclock}{disciplined clock}
+\newcommand{\namesdrrack}{\acs{SDR} Rack Mount}
 \newcommand{\nameantennaVHF}{\acs{VHF} omni-directional}
 \newcommand{\nameantennaUHF}{\acs{UHF} omni-directional}
 \newcommand{\namebiasT}{bias-T ($\times3$)}
@@ -281,18 +281,21 @@ pdfkeywords={\DocumentKeywords}
 \newcommand{\namemisc}{cables, connectors, etc}
 \newcommand{\nametax}{taxes}
 \newcommand{\namedeliv}{shipping costs}
-\newcommand{\nameassembly}{assembly costs}
+\newcommand{\namehardcost}{Hardware costs}
+\newcommand{\nameassembly}{assembly costs (\acs{TA})}
 \newcommand{\namemaintenance}{maintenance costs}
+\newcommand{\nameTA}{\acl{TA}}
+\newcommand{\nameCourseMat}{course material}
 \newcommand{\nametotal}{total}
-\newcommand{\nameTA}{teaching assistant}
+
 
 \newcommand{\modellna}{SP-7000 LNA}
 \newcommand{\modelradio}{AOR AR5001D}
 \newcommand{\modelradioswitch}{AOR AS-5001DX}
 \newcommand{\modelsdr}{USRP N210}
 \newcommand{\modelsdrdb}{USRP BasicRX Daughterboard}
-\newcommand{\modelsdrrack}{USRP U3 Rack Mount Kits}
 \newcommand{\modelclock}{Spectracom Epsilon Clock EC20S}
+\newcommand{\modelsdrrack}{USRP U3 Rack Mount Kits}
 \newcommand{\modelantennaVHF}{EB-144 M$^2$}
 \newcommand{\modelantennaUHF}{EB-432 M$^2$}
 \newcommand{\modelbiasT}{DCC 12/N}
@@ -306,22 +309,24 @@ pdfkeywords={\DocumentKeywords}
 \newcommand{\priceradioswitch}{83.19}
 \newcommand{\pricesdr}{1,490.00}
 \newcommand{\pricesdrdb}{66.00}
-\newcommand{\pricesdrrack}{220.00}
 \newcommand{\priceclock}{2,790.32}
+\newcommand{\pricesdrrack}{220.00}
 \newcommand{\priceantennaVHF}{254.00}
-\newcommand{\priceantennaUHF}{198.00 (!)}
+\newcommand{\priceantennaUHF}{198.00}
 \newcommand{\pricebiasT}{207.87}
 \newcommand{\pricelightprot}{99.16}
 \newcommand{\pricesplitVUHF}{131.29}
 \newcommand{\pricesplitSband}{99.90}
 \newcommand{\pricecomputer}{0}
 \newcommand{\pricemisc}{500}
-\newcommand{\pricetax}{1,747.98 (!)}
-\newcommand{\pricedeliv}{136 (!)}
-\newcommand{\priceassembly}{300 (?)}
-\newcommand{\pricetotal}{10000 (!)}
+\newcommand{\pricetax}{1,789.56}
+\newcommand{\pricedeliv}{136}
+\newcommand{\pricehardcost}{10311.29}
+\newcommand{\priceassembly}{800}
 \newcommand{\pricemaintenance}{1000/year}
-\newcommand{\priceTA}{600(?)/year}
+\newcommand{\priceTA}{1000/year}
+\newcommand{\priceCourseMat}{200/year}
+\newcommand{\pricetotal}{15000}
 
 
 
@@ -476,7 +481,7 @@ The hardware of the \GroundStationName~ is dedicated to the reception of satelli
 
 \subsection{Antenna}
 
-The current existing hardware in the \ac{SSE} ground station includes two antennas: one omni-directional antenna for the \unit{2}{m} band (or \ac{VHF} band, at around \unit{146}{MHz}) and another \unit{3}{m}-dish for the S-band (around \unit{2.4}{GHz}). There is a third omni-directional \unit{70}{cm} band antenna (or \ac{UHF} band, at around \unit{430}{MHz}) which is not in use. The \GroundStationName~ project proposes to use this antenna to expand the number of satellites emitting in two frequencies so that a larger number of satellites can be tracked without errors associated with tropospheric and ionospheric delays.
+The current existing hardware in the \ac{SSE} ground station includes two antennas: one omni-directional antenna for the \unit{2}{m} band (or \ac{VHF} band, at around \unit{146}{MHz}) and another \unit{3}{m}-dish for the S-band (around \unit{2.4}{GHz}). There is the need to acquire a third omni-directional \unit{70}{cm} band antenna (or \ac{UHF} band, at around \unit{430}{MHz}). The \GroundStationName~ project proposes to use this antenna to expand the ability to receive those satellites emitting in two frequencies so that they be tracked without errors associated with tropospheric and ionospheric delays.
 
 The use of the antennas can be done simultaneously with the routine operation of the \ac{SSE} ground station, since the antenna feeds are physically split to both radio receivers. Notably, both \ac{SSE} and \GroundStationName~ hardware can receive different satellite signals at the same time from the same antenna, therefore not limiting the operations of either hardware streams. The exception concerns the S-band directional antenna and the occasional transmission of signals to the TU Delft-built satellites in the \ac{VHF} and \ac{UHF} bands.
 
@@ -614,6 +619,7 @@ All these requirements are easily met with an old computer that is not longer in
 The budget of the \GroundStationName~ hardware is summarized in \ref{tab:budget}
 
 \begin{table}[!ht]
+\begin{minipage}{10cm}
 \centering
 % \begin{tabular}{p{4cm}p{2cm}p{1.5cm}p{1.50cm}}
 \begin{tabular}{llrc}
@@ -635,20 +641,26 @@ Component & Model & Cost (\euro) & Reference\\
 \namesplitVUHF   &{\scriptsize\modelsplitVUHF}   &\pricesplitVUHF   &{\footnotesize \href{\urlsplitVUHF}   {\urlshortsplitVUHF}}   \\
 \namesplitSband  &{\scriptsize\modelsplitSband}  &\pricesplitSband  &{\footnotesize \href{\urlsplitSband}  {\urlshortsplitSband}}  \\
 \namecomputer    &{\scriptsize\modelcomputer}    &\pricecomputer    &{\footnotesize \href{\urlcomputer}    {\urlshortcomputer}}    \\
-\namemisc        &                  &\pricemisc        &{\footnotesize \href{\urlmisc}        {\urlshortmisc}}        \\
+\namemisc        &                  &\pricemisc\footnote{Expected cost, not part of total hardware costs.}        &{\footnotesize \href{\urlmisc}        {\urlshortmisc}}        \\
 \nametax         &                  &\pricetax         &                       \\
 \namedeliv       &                  &\pricedeliv       &                       \\
-\nameassembly    &                  &\priceassembly    &                       \\
-\nametotal       &                  &\pricetotal       &                       \\
 \hline
+\namehardcost    &                  &\pricehardcost    &                       \\
+\hline
+\nameassembly    &                  &\priceassembly    &                       \\
 \namemaintenance &                  &\pricemaintenance &                       \\
 \nameTA          &                  &\priceTA          &                       \\
+\nameCourseMat   &                  &\priceCourseMat   &                       \\
+\hline
+\nametotal       &                  &\pricetotal       &                       \\
 \hline
 \end{tabular}
+\end{minipage}
 \caption{Budget for the \GroundStationName hardware.}
 \label{tab:budget}
 \end{table}
 
+\clearpage
 \section{Software}
 
 
@@ -661,6 +673,17 @@ The following software is going to be used in order to accomplish the objectives
 \item \ac{TUDAT} and C++ for the orbit estimation.
 \end{itemize*}
 
+
+\section{Planning}
+
+The following schedule is currently agreed between all intervening \GroundStationName staff.
+
+\begin{description*}
+\item[Building station:] September - October 2014;
+\item[Testing setup:] November - December 2014;
+\item[Course development:] January - March 2015;
+\item[Combination with Minor:] May - September 2015.
+\end{description*}
 
 
 %% ==========================  acronyms =========================== %%
