@@ -1,0 +1,205 @@
+% !TEX root = ./tracking.groundstation.budget.tex
+
+\newcommand{\ifse}{\expandafter\ifstrequal\expandafter}
+
+\newcommand{\details}[2]{%
+\ifse{#1}{radio}{%
+\ifse{#2}{specs}{\url{http://www.wsplc.com/pdf/ar5001d.pdf}}{}%
+\ifse{#2}{specsshort}{wsplc.com}{}%
+\ifse{#2}{urlshort}{shop.boger.de}{}%
+\ifse{#2}{url}{\url{http://shop.boger.de/index.php?page=shop.product_details&flypage=flypage_images.tpl&product_id=740&category_id=51&keyword=AR-5001&option=com_virtuemart&Itemid=1}}{}%
+\ifse{#2}{name}{radio receiver}{}%
+\ifse{#2}{model}{AOR AR5001D}{}%
+\ifse{#2}{pricereal}{2,689.55}{}%
+\ifse{#2}{price}{3,197.00}{}%
+\ifse{#2}{quant}{1}{}%
+}{}%
+\ifse{#1}{sdr}{%
+\ifse{#2}{specs}{\url{https://www.ettus.com/content/files/07495_Ettus_N200-210_DS_Flyer_HR_1.pdf}}{}%
+\ifse{#2}{specsshort}{ettus.com}{}%
+\ifse{#2}{urlshort}{ettus.com}{}%
+\ifse{#2}{url}{\url{https://www.ettus.com/product/details/UN210-KIT}}{}%
+\ifse{#2}{name}{\acs{SDR}}{}%
+\ifse{#2}{model}{USRP N210}{}%
+\ifse{#2}{pricereal}{1,490.00}{}%
+\ifse{#2}{price}{1,490.00}{}%
+\ifse{#2}{quant}{1}{}%
+}{}%
+\ifse{#1}{clock}{%
+\ifse{#2}{specs}{\url{http://www.spectracomcorp.com/Support/HowCanWeHelpYou/Library/tabid/59/Default.aspx?EntryId=287&Command=Core_Download}}{}%
+\ifse{#2}{specsshort}{spectracomcorp.com}{}%
+\ifse{#2}{urlshort}{spectracomcorp.com}{}%
+\ifse{#2}{url}{\url{http://www.spectracomcorp.com/ProductsServices/TimingSynchronization/GPSTimeFrequencyReferences/EC20SEpsilonGPSClock/tabid/1310/Default.aspx}}{}%
+\ifse{#2}{name}{\acs{GPS}-disciplined clock}{}%
+\ifse{#2}{model}{Spectracom Epsilon Clock EC20S}{}%
+\ifse{#2}{pricereal}{2,790.32}{}%
+\ifse{#2}{price}{2,980.00}{}%
+\ifse{#2}{quant}{1}{}%
+}{}%
+\ifse{#1}{lna}{%
+\ifse{#2}{urlshort}{ssb.de}{}%
+\ifse{#2}{url}{\url{http://www.ssb.de/index.php?cat=c399_---up-to-100W.html}}{}%
+\ifse{#2}{name}{\acs{LNA}}{}%
+\ifse{#2}{model}{SP-7000 LNA}{}%
+\ifse{#2}{pricereal}{313.45}{}%
+\ifse{#2}{price}{439.00}{}%
+\ifse{#2}{quant}{1}{}%
+}{}%
+\ifse{#1}{radioswitch}{%
+\ifse{#2}{urlshort}{shop.boger.de}{}%
+\ifse{#2}{url}{\url{http://shop.boger.de/index.php?page=shop.product_details&flypage=flypage_images.tpl&product_id=749&category_id=51&keyword=AS-5001&option=com_virtuemart&Itemid=1}}{}%
+\ifse{#2}{name}{antenna switch}{}%
+\ifse{#2}{model}{AOR AS-5001DX}{}%
+\ifse{#2}{pricereal}{83.19}{}%
+\ifse{#2}{price}{99.00}{}%
+\ifse{#2}{quant}{1}{}%
+}{}%
+\ifse{#1}{sdrdb}{%
+\ifse{#2}{urlshort}{ettus.com}{}%
+\ifse{#2}{url}{\url{https://www.ettus.com/product/details/BasicRX}}{}%
+\ifse{#2}{name}{\acs{SDR} daughter-board}{}%
+\ifse{#2}{model}{USRP BasicRX Daughterboard}{}%
+\ifse{#2}{pricereal}{66.00}{}%
+\ifse{#2}{price}{66.00}{}%
+\ifse{#2}{quant}{1}{}%
+}{}%
+\ifse{#1}{sdrrack}{%
+\ifse{#2}{urlshort}{ettus.com}{}%
+\ifse{#2}{url}{\url{https://www.ettus.com/product/details/U2-RackMount}}{}%
+\ifse{#2}{name}{\acs{SDR} rack rount}{}%
+\ifse{#2}{model}{USRP U3 rack mount kit}{}%
+\ifse{#2}{pricereal}{220.00}{}%
+\ifse{#2}{price}{220.00}{}%
+\ifse{#2}{quant}{1}{}%
+}{}%
+\ifse{#1}{antennaVHF}{%
+\ifse{#2}{urlshort}{stecker-shop.net}{}%
+\ifse{#2}{url}{\url{http://www.stecker-shop.net/shop/article_00863/EB-144-M\%C2\%B2.html}}{}%
+\ifse{#2}{name}{\acs{VHF} omni-directional}{}%
+\ifse{#2}{model}{EB-144 M$^2$}{}%
+\ifse{#2}{pricereal}{254.00}{}%
+\ifse{#2}{price}{254.00}{}%
+\ifse{#2}{quant}{1}{}%
+}{}%
+\ifse{#1}{antennaUHF}{%
+\ifse{#2}{urlshort}{stecker-shop.net}{}%
+\ifse{#2}{url}{\url{http://www.stecker-shop.net/shop/article_00881/EB-432-M\%C2\%B2.html}}{}%
+\ifse{#2}{name}{\acs{UHF} omni-directional}{}%
+\ifse{#2}{model}{EB-432 M$^2$}{}%
+\ifse{#2}{pricereal}{198.00}{}%
+\ifse{#2}{price}{600.00}{}%
+\ifse{#2}{quant}{1}{}%
+}{}%
+\ifse{#1}{biasT}{%
+\ifse{#2}{urlshort}{ssb.de}{}%
+\ifse{#2}{url}{\url{http://www.ssb.de/product_info.php?info=p1131_DCC-12-N---Bias-T-up-to-3-GHz.html}}{}%
+\ifse{#2}{name}{bias-T}{}%
+\ifse{#2}{model}{DCC 12/N}{}%
+\ifse{#2}{pricereal}{207.87}{}%
+\ifse{#2}{price}{85.00}{}%
+\ifse{#2}{quant}{3}{}%
+}{}%
+\ifse{#1}{lightprot}{%
+\ifse{#2}{urlshort}{ssb.de}{}%
+\ifse{#2}{url}{\url{http://www.ssb.de/product_info.php?info=p3594_Telegaertner-Lightning-Protector-N-FF-J01028B0045-w--Mountin.html}}{}%
+\ifse{#2}{name}{lightning protection}{}%
+\ifse{#2}{model}{N-FF-J01028B0045}{}%
+\ifse{#2}{pricereal}{99.16}{}%
+\ifse{#2}{price}{59.00}{}%
+\ifse{#2}{quant}{2}{}%
+}{}%
+\ifse{#1}{splitVUHF}{%
+\ifse{#2}{urlshort}{minicircuits.com}{}%
+\ifse{#2}{url}{\url{http://www.minicircuits.com/MCLStore/ModelInfoDisplay?13941991476170.6821325670760451}}{}%
+\ifse{#2}{name}{\acs{VHF}\slash\acs{UHF} splitter}{}%
+\ifse{#2}{model}{ZFSC-3-1WB-N+}{}%
+\ifse{#2}{pricereal}{131.29}{}%
+\ifse{#2}{price}{50.34}{}%
+\ifse{#2}{quant}{2}{}%
+}{}%
+\ifse{#1}{splitSband}{%
+\ifse{#2}{urlshort}{minicircuits.com}{}%
+\ifse{#2}{url}{\url{http://217.34.103.131/MCLStore/ModelInfoDisplay?13941977453560.12032963512138639}}{}%
+\ifse{#2}{name}{S-band splitter}{}%
+\ifse{#2}{model}{ZB3PD-63-N+}{}%
+\ifse{#2}{pricereal}{99.90}{}%
+\ifse{#2}{price}{132.31}{}%
+\ifse{#2}{quant}{1}{}%
+}{}%
+\ifse{#1}{computer}{%
+\ifse{#2}{urlshort}{hp.com}{}%
+\ifse{#2}{url}{\url{http://h10010.www1.hp.com/wwpc/ca/en/sm/WF04a/12132708-12132884-12132884-12132884-80584512.html?dnr=2}}{}%
+\ifse{#2}{name}{computer}{}%
+\ifse{#2}{model}{HP Compaq dc7800 Minitower}{}%
+\ifse{#2}{pricereal}{0.00}{}%
+\ifse{#2}{price}{0.00}{}%
+\ifse{#2}{quant}{1}{}%
+}{}%
+\ifse{#1}{adapters}{%
+\ifse{#2}{urlshort}{\acs{N/A}}{}%
+\ifse{#2}{url}{\acs{N/A}}{}%
+\ifse{#2}{name}{Cabble adapters}{}%
+\ifse{#2}{model}{N-F BNC-M RoHS}{}%
+\ifse{#2}{pricereal}{10.00}{}%
+\ifse{#2}{price}{10.00}{}%
+\ifse{#2}{quant}{8}{}%
+}{}%
+\ifse{#1}{radiorack}{%
+\ifse{#2}{urlshort}{shop.boger.de}{}%
+\ifse{#2}{url}{\acs{N/A}}{}%
+\ifse{#2}{name}{Radio rack mount}{}%
+\ifse{#2}{model}{HRE5001 19" rack mount kit}{}%
+\ifse{#2}{pricereal}{932.77}{}%
+\ifse{#2}{price}{1000.00}{}%
+\ifse{#2}{quant}{1}{}%
+}{}%
+\ifse{#1}{gpsantenna}{%
+\ifse{#2}{urlshort}{cnrood.com}{}%
+\ifse{#2}{url}{\acs{N/A}}{}%
+\ifse{#2}{name}{\acs{GPS} antenna kit}{}%
+\ifse{#2}{model}{\acs{N/A}}{}%
+\ifse{#2}{pricereal}{770.00}{}%
+\ifse{#2}{price}{500.00}{}%
+\ifse{#2}{quant}{1}{}%
+}{}%
+\ifse{#1}{misc}{%
+\ifse{#2}{urlshort}{ssb.de}{}%
+\ifse{#2}{url}{\url{http://www.ssb.de/index.php?cat=c1_Coaxial-Cables----.html}}{}%
+\ifse{#2}{name}{cables, connectors, etc}{}%
+\ifse{#2}{price}{500.00}{}%
+}{}%
+\ifse{#1}{tax}{%
+\ifse{#2}{name}{taxes}{}%
+\ifse{#2}{price}{1,789.56}{}%
+}{}%
+\ifse{#1}{deliv}{%
+\ifse{#2}{name}{shipping costs}{}%
+\ifse{#2}{price}{136.00}{}%
+}{}%
+\ifse{#1}{hardcost}{%
+\ifse{#2}{name}{hardware costs}{}%
+\ifse{#2}{pricereal}{10311.29}{}%
+\ifse{#2}{price}{11,776.99}{}%
+}{}%
+\ifse{#1}{assembly}{%
+\ifse{#2}{name}{assembly costs (\acs{TA})}{}%
+\ifse{#2}{price}{800.00}{}%
+}{}%
+\ifse{#1}{maintenance}{%
+\ifse{#2}{name}{maintenance costs}{}%
+\ifse{#2}{price}{1000/year}{}%
+}{}%
+\ifse{#1}{TA}{%
+\ifse{#2}{name}{\acl{TA}}{}%
+\ifse{#2}{price}{1000/year}{}%
+}{}%
+\ifse{#1}{CourseMat}{%
+\ifse{#2}{name}{course material}{}%
+\ifse{#2}{price}{200/year}{}%
+}{}%
+\ifse{#1}{total}{%
+\ifse{#2}{name}{total}{}%
+\ifse{#2}{price}{13000.00}{}%
+}{}%
+}
+

@@ -97,12 +97,12 @@
 
 %\acrodef derivatives cumulative with \acrodefsymplural that generate "x,y,z components of the #2 #1", using the long plural forms
 \newcommand*{\acrodefcompvec}[2]{
-	\acrodefsymplural	{#1.x.#2}	{\acs{#1}\acs{x}\acs{#2}}{\acl{x} of the \acl{#2} \acl {#1}}
-									{\acs{#1}\acs{x}\acs{#2}}{\acl{x} of the \acl{#2} \aclp{#1}}
-	\acrosdefymplural	{#1.y.#2}	{\acs{#1}\acs{y}\acs{#2}}{\acl{y} of the \acl{#2} \acl {#1}}
-									{\acs{#1}\acs{y}\acs{#2}}{\acl{y} of the \acl{#2} \aclp{#1}}
-	\acrodefsymplural	{#1.z.#2}	{\acs{#1}\acs{z}\acs{#2}}{\acl{z} of the \acl{#2} \acl {#1}}
-									{\acs{#1}\acs{z}\acs{#2}}{\acl{z} of the \acl{#2} \aclp{#1}}
+  \acrodefsymplural  {#1.x.#2}  {\acs{#1}\acs{x}\acs{#2}}{\acl{x} of the \acl{#2} \acl {#1}}
+                              {\acs{#1}\acs{x}\acs{#2}}{\acl{x} of the \acl{#2} \aclp{#1}}
+  \acrodefsymplural  {#1.y.#2}  {\acs{#1}\acs{y}\acs{#2}}{\acl{y} of the \acl{#2} \acl {#1}}
+                              {\acs{#1}\acs{y}\acs{#2}}{\acl{y} of the \acl{#2} \aclp{#1}}
+  \acrodefsymplural  {#1.z.#2}  {\acs{#1}\acs{z}\acs{#2}}{\acl{z} of the \acl{#2} \acl {#1}}
+                              {\acs{#1}\acs{z}\acs{#2}}{\acl{z} of the \acl{#2} \aclp{#1}}
 }
 %\acrodef derivatives cumulative with \acrodefsymplural that generate "x,y,z components of the #2 #1", NOT using the long plural forms
 \newcommand*{\acrodefcompvecnp}[2]{
@@ -112,6 +112,15 @@
 									{\acs{#1}\acs{y}\acs{#2}}{\acl{y} of the \acl{#2} \acl{#1}}
 	\acrodefsymplural	{#1.z.#2}	{\acs{#1}\acs{z}\acs{#2}}{\acl{z} of the \acl{#2} \acl{#1}}
 									{\acs{#1}\acs{z}\acs{#2}}{\acl{z} of the \acl{#2} \acl{#1}}
+}
+%\acrodef derivatives cumulative with \acrodefsymplural that generate "x,y,z components of the #1", using the long plural forms and superscripts
+\newcommand*{\acrodefcompvecu}[1]{
+  \acrodefsymplural {#1.xu} {\acs{#1}\acs{xu}}{\acl{x} of the \acl {#1}}
+                            {\acs{#1}\acs{xu}}{\acl{x} of the \aclp{#1}}
+  \acrodefsymplural {#1.yu} {\acs{#1}\acs{yu}}{\acl{y} of the \acl {#1}}
+                            {\acs{#1}\acs{yu}}{\acl{y} of the \aclp{#1}}
+  \acrodefsymplural {#1.zu} {\acs{#1}\acs{zu}}{\acl{z} of the \acl {#1}}
+                            {\acs{#1}\acs{zu}}{\acl{z} of the \aclp{#1}}
 }
 
 %% ======================== olerloading composite forms of acronyms ========================== %%
@@ -190,12 +199,12 @@ The electronic version of this document includes clickable links on most instanc
 %
 \acrodef{error}[!error!]{!acronym error!}
 %
-\acrosymni			{a0}				{$A_0$}					{vertical amplitude}
-\acrosymni			{b0}				{$B_0$}					{cross-track amplitude}
-\acrosymni			{alpha}			{$\alpha$}			{vertical phase}
-\acrosymni			{beta}			{$\beta$}				{horizontal phase}
-\acrosymni			{xoff}			{$x_{\rm off}$}	{vertical offset}
-\acrosymni			{yoff}			{$y_{\rm off}$}	{along-track offset}
+\acrosymni      {a0}        {$A_0$}          {radial amplitude}
+\acrosymni      {b0}        {$B_0$}          {cross-track amplitude}
+\acrosymni      {alpha}      {$\alpha$}      {radial phase}
+\acrosymni      {beta}      {$\beta$}        {horizontal phase}
+\acrosymni      {xoff}      {$x_{\rm off}$}  {radial offset}
+\acrosymni      {yoff}      {$y_{\rm off}$}  {along-track offset}
 
 \acrodefcompni	{a0} 				{est}
 \acrodefcompni	{b0} 				{est}
@@ -348,14 +357,15 @@ The electronic version of this document includes clickable links on most instanc
 %\acrodef{grav.field.ref}[\acs{grav.field}\acs{ref}]{\acl{ref} \acl{grav.field}}
 %\acrodefplural{grav.field.ref}[\acs{error}]{\acl{error}}
 
-\acrosym				{acc}					{${\bf a}$}													{acceleration}
-\acrosym				{acc.mag}			{$a$}																{\acl{acc} magnitude}
-\acrosym				{acc.avg}			{${\bf \bar a}$}										{averaged \acl{acc}}
-\acrocomp				{acc}					{ng}
-\acrocomp				{acc}					{fr}
-\acrocomp				{acc}					{cor}
-\acrocomp				{acc}					{eul}
-\acrocomp				{acc}					{is}
+\acrosym        {acc}          {${\bf a}$}                          {acceleration}
+\acrosym        {acc.mag}      {$a$}                                {\acl{acc} magnitude}
+\acrodefcompvecu{acc.mag}
+\acrosym        {acc.avg}      {${\bf \bar a}$}                    {averaged \acl{acc}}
+\acrocomp        {acc}          {ng}
+\acrocomp        {acc}          {fr}
+\acrocomp        {acc}          {cor}
+\acrocomp        {acc}          {eul}
+\acrocomp        {acc}          {is}
 
 \acrosym				{isa}					{\acs{acc}\acs{is}}									{point-wise \acl{is} \acl{acc}}
 \acrosymnp			{isa.x}				{\acs{isa}\acs{los.rf}\acs{x}}			{\acl{x} of the \acl{isa} in the \acl{los.rf}}
@@ -369,10 +379,10 @@ The electronic version of this document includes clickable links on most instanc
 \acrocomp				{uv.los}			{obs}
 \acrosym				{v.los}				{${\bf d}$}													{\ac{LOS} vector}
 
-\acrosymnip			{theta}				{$\theta$}%
-															{angle between the \ac{LOS} vector at successive epochs}
-\acrodefsymnip	{theta.i}			{\acs{theta}\acs{epoch.i}}%
-															{angles \acs{theta} between the \ac{LOS} vectors at successive epochs}
+\acrosymnip      {theta}        {$\theta$}%
+                              {angle between the \ac{LOS} vectors at successive epochs}
+\acrodefsymnip  {theta.i}      {\acs{theta}\acs{epoch.i}}%
+                              {angles \acs{theta} between the \ac{LOS} vectors at successive epochs}
 %don't use \ace, \act or \acf with these two acronyms
 \acrodefsymnip	{theta.minus}	{\acs{theta}\acs{epoch.i}$_{-}$}%
 															{angle between the \ac{LOS} vector at \acl{epoch.i} and at the previous epoch}
@@ -438,9 +448,9 @@ The electronic version of this document includes clickable links on most instanc
 \acrosymnp		{noise.t}					{${\bm{\Delta}}$}					{\acl{noise}\acroextra{ (tensor)}}
 
 %make sure this is in agreement with grav.pot
-\acrodefsymplural	{noise.gf}		{${\bm\Delta}^{\rm\left(V\right)}$}				{gravity field model error}
-																{${\bm\Delta}^{\rm\left(V\right)}$}				{error in the gravity field models}
-\acrodefsymnp	{noise.res3rc}		{${\bm\Delta}^{\rm\left(V,GRACE\right)}$}	{\acs{GRACE} a posteriori residuals}
+\acrodefsymplural  {noise.gf}    {${\bm\Delta}^{\rm\left(V\right)}$}        {gravity field error}
+                                {${\bm\Delta}^{\rm\left(V\right)}$}        {error in the gravity field models}
+\acrodefsymnp  {noise.res3rc}    {${\bm\Delta}^{\rm\left(V,GRACE\right)}$}  {\acs{GRACE} a posteriori residuals}
 
 
 \acrodefsymnp	{Noise}						{\acs{noise}}							{Noise}

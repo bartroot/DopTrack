@@ -2,11 +2,11 @@
 
 %% =========================== Global flags ============================== %%
 
-\input{flags.tex}
+\input{flags}
 
 %% ========================  packages  ========================== %%
 
-\input{header.tex}
+\input{header}
 
 %% ========================  user preferences  ========================== %%
 
@@ -25,6 +25,14 @@
 \setcounter{secnumdepth}{4}
 \setcounter{tocdepth}{2}
 
+% widow and orphan penalty
+\widowpenalty=1000
+\clubpenalty=1000
+
+% new colors
+\definecolor{Gray}{gray}{0.9}
+
+%% ==========================	Author details =========================== %%
 %details
 \newcommand{\GroundStationName}{${\rm D^{\rm op}T^{\rm rack}}$}
 \newcommand{\AuthorNameA}{Jo\~ao Teixeira da Encarna\c c\~ao}
@@ -79,6 +87,11 @@
 %% ===== locally changing page margins	===== %%
 
 %http://stackoverflow.com/questions/1670463/latex-change-margins-of-only-a-few-pages
+%
+%Use it as:
+%\begin{changemargin}{-1cm}{-1cm}
+%<something>
+%\end{changemargin}
 \newenvironment{changemargin}[2]{%
 \begin{list}{}{%
 \setlength{\topsep}{0pt}%
@@ -179,6 +192,10 @@
 \newcommand{\superscript}[1]{\ensuremath{^{\textrm{#1}}}}
 \newcommand{\subscript}[1]{\ensuremath{_{\textrm{#1}}}}
 
+%% ========================  avoid text stretching  ========================== %%
+
+% https://tex.stackexchange.com/questions/10743/why-does-latex-stretch-small-sections-across-the-whole-page-vertically
+\raggedbottom
 %% ========================  code snippets  ========================== %%
 
 % \begin{figure}[!ht]
@@ -224,111 +241,7 @@ pdfkeywords={\DocumentKeywords}
 
 %% ==========================  start writing here  =========================== %%
 
-\newcommand{\specsradio}{http://www.wsplc.com/pdf/ar5001d.pdf}
-\newcommand{\specssdr}{https://www.ettus.com/content/files/07495_Ettus_N200-210_DS_Flyer_HR_1.pdf}
-\newcommand{\specsclock}{http://www.spectracomcorp.com/Support/HowCanWeHelpYou/Library/tabid/59/Default.aspx?EntryId=287&Command=Core_Download}
-
-\newcommand{\specsradioshorturl}{wsplc.com}
-\newcommand{\specssdrshorturl}{ettus.com}
-\newcommand{\specsclockshorturl}{spectracomcorp.com}
-
-\newcommand{\urlshortlna}{ssb.de}
-\newcommand{\urlshortradio}{shop.boger.de}
-\newcommand{\urlshortradioswitch}{shop.boger.de}
-\newcommand{\urlshortsdr}{ettus.com}
-\newcommand{\urlshortsdrdb}{ettus.com}
-\newcommand{\urlshortsdrrack}{ettus.com}
-\newcommand{\urlshortclock}{cnrood.com}
-\newcommand{\urlshortantennaVHF}{stecker-shop.net}
-\newcommand{\urlshortantennaUHF}{stecker-shop.net}
-\newcommand{\urlshortbiasT}{ssb.de}
-\newcommand{\urlshortlightprot}{ssb.de}
-\newcommand{\urlshortsplitVUHF}{minicircuits.com}
-\newcommand{\urlshortsplitSband}{minicircuits.com}
-\newcommand{\urlshortcomputer}{hp.com}
-\newcommand{\urlshortmisc}{ssb.de}
-
-\newcommand{\urllna}{http://www.ssb.de/index.php?cat=c399_---up-to-100W.html}
-\newcommand{\urlradio}{http://shop.boger.de/index.php?page=shop.product_details&flypage=flypage_images.tpl&product_id=740&category_id=51&keyword=AR-5001&option=com_virtuemart&Itemid=1}
-\newcommand{\urlradioswitch}{http://shop.boger.de/index.php?page=shop.product_details&flypage=flypage_images.tpl&product_id=749&category_id=51&keyword=AS-5001&option=com_virtuemart&Itemid=1}
-\newcommand{\urlsdr}{https://www.ettus.com/product/details/UN210-KIT}
-\newcommand{\urlsdrdb}{https://www.ettus.com/product/details/BasicRX}
-\newcommand{\urlsdrrack}{https://www.ettus.com/product/details/U2-RackMount}
-\newcommand{\urlclock}{ahartsuiker@cnrood.com}
-\newcommand{\urlantennaVHF}{http://www.stecker-shop.net/shop/article_00863/EB-144-M\%C2\%B2.html}
-\newcommand{\urlantennaUHF}{http://www.stecker-shop.net/shop/article_00881/EB-432-M\%C2\%B2.html}
-\newcommand{\urlbiasT}{http://www.ssb.de/product_info.php?info=p1131_DCC-12-N---Bias-T-up-to-3-GHz.html}
-\newcommand{\urllightprot}{http://www.ssb.de/product_info.php?info=p3594_Telegaertner-Lightning-Protector-N-FF-J01028B0045-w--Mountin.html}
-\newcommand{\urlsplitVUHF}{http://www.minicircuits.com/MCLStore/ModelInfoDisplay?13941991476170.6821325670760451}
-\newcommand{\urlsplitSband}{http://217.34.103.131/MCLStore/ModelInfoDisplay?13941977453560.12032963512138639}
-\newcommand{\urlcomputer}{http://h10010.www1.hp.com/wwpc/ca/en/sm/WF04a/12132708-12132884-12132884-12132884-80584512.html?dnr=2}
-\newcommand{\urlmisc}{http://www.ssb.de/index.php?cat=c1_Coaxial-Cables----.html}
-
-\newcommand{\namelna}{\acs{LNA}}
-\newcommand{\nameradio}{radio receiver}
-\newcommand{\nameradioswitch}{antenna switch}
-\newcommand{\namesdr}{\acs{SDR}}
-\newcommand{\namesdrdb}{\acs{SDR} daughter-board}
-\newcommand{\nameclock}{disciplined clock}
-\newcommand{\namesdrrack}{\acs{SDR} Rack Mount}
-\newcommand{\nameantennaVHF}{\acs{VHF} omni-directional}
-\newcommand{\nameantennaUHF}{\acs{UHF} omni-directional}
-\newcommand{\namebiasT}{bias-T ($\times3$)}
-\newcommand{\namelightprot}{lightning protection ($\times2$)}
-\newcommand{\namesplitVUHF}{\acs{VHF}\slash\acs{UHF} splitter ($\times2$)}
-\newcommand{\namesplitSband}{S-band splitter}
-\newcommand{\namecomputer}{computer}
-\newcommand{\namemisc}{cables, connectors, etc}
-\newcommand{\nametax}{taxes}
-\newcommand{\namedeliv}{shipping costs}
-\newcommand{\namehardcost}{Hardware costs}
-\newcommand{\nameassembly}{assembly costs (\acs{TA})}
-\newcommand{\namemaintenance}{maintenance costs}
-\newcommand{\nameTA}{\acl{TA}}
-\newcommand{\nameCourseMat}{course material}
-\newcommand{\nametotal}{total}
-
-
-\newcommand{\modellna}{SP-7000 LNA}
-\newcommand{\modelradio}{AOR AR5001D}
-\newcommand{\modelradioswitch}{AOR AS-5001DX}
-\newcommand{\modelsdr}{USRP N210}
-\newcommand{\modelsdrdb}{USRP BasicRX Daughterboard}
-\newcommand{\modelclock}{Spectracom Epsilon Clock EC20S}
-\newcommand{\modelsdrrack}{USRP U3 Rack Mount Kits}
-\newcommand{\modelantennaVHF}{EB-144 M$^2$}
-\newcommand{\modelantennaUHF}{EB-432 M$^2$}
-\newcommand{\modelbiasT}{DCC 12/N}
-\newcommand{\modellightprot}{N-FF-J01028B0045}
-\newcommand{\modelsplitVUHF}{ZFSC-3-1WB-N+}
-\newcommand{\modelsplitSband}{ZB3PD-63-N+}
-\newcommand{\modelcomputer}{HP Compaq dc7800 Minitower}
-
-\newcommand{\pricelna}{313.45}
-\newcommand{\priceradio}{2,689.55}
-\newcommand{\priceradioswitch}{83.19}
-\newcommand{\pricesdr}{1,490.00}
-\newcommand{\pricesdrdb}{66.00}
-\newcommand{\priceclock}{2,790.32}
-\newcommand{\pricesdrrack}{220.00}
-\newcommand{\priceantennaVHF}{254.00}
-\newcommand{\priceantennaUHF}{198.00}
-\newcommand{\pricebiasT}{207.87}
-\newcommand{\pricelightprot}{99.16}
-\newcommand{\pricesplitVUHF}{131.29}
-\newcommand{\pricesplitSband}{99.90}
-\newcommand{\pricecomputer}{0}
-\newcommand{\pricemisc}{500}
-\newcommand{\pricetax}{1,789.56}
-\newcommand{\pricedeliv}{136}
-\newcommand{\pricehardcost}{10311.29}
-\newcommand{\priceassembly}{800}
-\newcommand{\pricemaintenance}{1000/year}
-\newcommand{\priceTA}{1000/year}
-\newcommand{\priceCourseMat}{200/year}
-\newcommand{\pricetotal}{15000}
-
-
+\input{tracking.groundstation.budget.details}
 
 \section{Introduction}
 
@@ -481,6 +394,8 @@ The hardware of the \GroundStationName~ is dedicated to the reception of satelli
 
 \subsection{Antenna}
 
+\details{lna}{model}
+
 The current existing hardware in the \ac{SSE} ground station includes two antennas: one omni-directional antenna for the \unit{2}{m} band (or \ac{VHF} band, at around \unit{146}{MHz}) and another \unit{3}{m}-dish for the S-band (around \unit{2.4}{GHz}). There is the need to acquire a third omni-directional \unit{70}{cm} band antenna (or \ac{UHF} band, at around \unit{430}{MHz}). The \GroundStationName~ project proposes to use this antenna to expand the ability to receive those satellites emitting in two frequencies so that they be tracked without errors associated with tropospheric and ionospheric delays.
 
 The use of the antennas can be done simultaneously with the routine operation of the \ac{SSE} ground station, since the antenna feeds are physically split to both radio receivers. Notably, both \ac{SSE} and \GroundStationName~ hardware can receive different satellite signals at the same time from the same antenna, therefore not limiting the operations of either hardware streams. The exception concerns the S-band directional antenna and the occasional transmission of signals to the TU Delft-built satellites in the \ac{VHF} and \ac{UHF} bands.
@@ -490,7 +405,7 @@ There is the need to acquire one \ac{LNA} to connect to the \unit{70}{cm} antenn
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=\halftextwidth]{LNA}
-\caption{\modellna}
+\caption{\acl{LNA}}
 \label{fig:lna}
 \end{figure}
 
@@ -511,20 +426,20 @@ The requirements for the radio receiver are:
 
 Using the radio receiver as a down-converter also opens the possibility of other listening to other frequency bands of interest. Should that prove to be advantageous in the future, there is only the need to acquire the corresponding antenna and \ac{LNA}.
 
-The radio receiver of the \GroundStationName~ is chosen to be the \modelradio\footnote{Further details: \href{\specsradio}{\specsradioshorturl}}, see \ref{fig:radio}, with the following relevant characteristics:
+The radio receiver of the \GroundStationName~ is chosen to be the \details{radio}{model}\footnote{Further details: \details{radio}{url}}, see \ref{fig:radio}, with the following relevant characteristics:
 
 \begin{itemize*}
 \item Frequency range: \unit{40}{kHz} to \unit{3.15}{GHz};
 \item \unit{10}{MHz} reference input (SMA-J connector) for \unit{0.01}{\acs{ppm}} frequency accuracy for the \unit{10}{MHz} internal master oscillator is obtained when synchronized to a \ac{GPS} signal;
 \item \unit{45.05}{MHz} Analogue \ac{IF} output with \unit{15}{MHz} bandwidth (BNC-J connector);
 \item \ac{USB} 1.1/2.0 connector for \ac{PC} control;
-\item remote antenna switching, requires \modelradioswitch\footnote{Further details: \href{\urlradioswitch}{\urlshortradioswitch}}.
+\item remote antenna switching, requires \details{radioswitch}{model}\footnote{Further details:  \details{radioswitch}{url}}.
 \end{itemize*}
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=\semitextwidth]{radio}
-\caption{\modelradio ~ Radio receiver}
+\caption{Radio receiver}
 \label{fig:radio}
 \end{figure}
 
@@ -542,7 +457,7 @@ The \ac{SDR} is the key component of the \GroundStationName~ hardware, since it 
 \item Remote controllable.
 \end{itemize*}
 
-The \ac{SDR} of the \GroundStationName~ is chosen to be the \modelsdr\footnote{Further details: \href{\specssdr}{\specssdrshorturl}}, see \ref{fig:sdr}, with the following relevant characteristics:
+The \ac{SDR} of the \GroundStationName~ is chosen to be the \details{sdr}{model}\footnote{Further details: \details{sdr}{url}}, see \ref{fig:sdr}, with the following relevant characteristics:
 
 \begin{itemize*}
 \item \unit{50}{MS/s} streaming rate (upgradable to \unit{100}{MS/s});
@@ -550,13 +465,13 @@ The \ac{SDR} of the \GroundStationName~ is chosen to be the \modelsdr\footnote{F
 \item \unit{10}{MHz} reference frequency input;
 \item Dual \unit{100}{MS/s}, \unit{14}{bit} \ac{ADC};
 \item based on open-source GNU Radio software;
-\item \modelsdrdb for \unit{1-250}{MHz} reception.
+\item \details{sdrdb}{model} for \unit{1-250}{MHz} reception.
 \end{itemize*}
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=\semitextwidth]{sdr}
-\caption{\modelsdr ~ \acl{SDR}}
+\caption{\acl{SDR}}
 \label{fig:sdr}
 \end{figure}
 
@@ -577,7 +492,7 @@ The requirements for the \acs{GPS} disciplined clock are:
 \item Remote controllable.
 \end{itemize*}
 
-The \acs{GPS} disciplined clock of the \GroundStationName~ is chosen to be the \modelclock\footnote{Further details: \href{\specsclock}{\specsclockshorturl}}, see \ref{fig:clock}, with the following relevant characteristics:
+The \acs{GPS} disciplined clock of the \GroundStationName~ is chosen to be the \details{clock}{model}\footnote{Further details: \details{clock}{url}}, see \ref{fig:clock}, with the following relevant characteristics:
 
 \begin{itemize*}
 \item \ac{GPS} 12 channel reception on \ac{L1} \ac{C/A-code};
@@ -594,7 +509,7 @@ The \acs{GPS} disciplined clock of the \GroundStationName~ is chosen to be the \
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=\fulltextwidth]{clock}
-\caption{\modelclock ~ \acs{GPS} disciplined clock}
+\caption{\acs{GPS} disciplined clock}
 \label{fig:clock}
 \end{figure}
 
@@ -618,44 +533,46 @@ All these requirements are easily met with an old computer that is not longer in
 
 The budget of the \GroundStationName~ hardware is summarized in \ref{tab:budget}
 
+\newcommand{\tablerow}[1]{\details{#1}{name} & \details{#1}{model} & \details{#1}{quant} & \details{#1}{price} \\}
+
 \begin{table}[!ht]
-\begin{minipage}{10cm}
 \centering
-% \begin{tabular}{p{4cm}p{2cm}p{1.5cm}p{1.50cm}}
-\begin{tabular}{llrc}
+\begin{tabular}{m{4cm}>{\raggedright\arraybackslash}m{4cm}>{\centering\arraybackslash}m{1.50cm}>{\raggedleft\arraybackslash}m{1.5cm}}
+% \begin{tabular}{llrc}
 \hline
-Component & Model & Cost (\euro) & Reference\\
+Component & Model & Quantity & Cost (\euro) \\
 \hline
 % \foreach \item in {lna,radio,radioswitch,sdr,sdrdb,sdrrack,clock,antennaUHF,biasT,lightprot,splitVUHF,splitSband,computer,misc}{
-\namelna         &{\scriptsize\modellna}         &\pricelna         &{\footnotesize \href{\urllna}{\urlshortlna}}        \\
-
-\nameradio       &{\scriptsize\modelradio}       &\priceradio       &{\footnotesize \href{\urlradio}{\urlshortradio}}       \\
-\nameradioswitch &{\scriptsize\modelradioswitch} &\priceradioswitch &{\footnotesize \href{\urlradioswitch}{\urlshortradioswitch}} \\
-\namesdr         &{\scriptsize\modelsdr}         &\pricesdr         &{\footnotesize \href{\urlsdr}{\urlshortsdr}}         \\
-\namesdrdb       &{\scriptsize\modelsdrdb}       &\pricesdrdb       &{\footnotesize \href{\urlsdrdb}       {\urlshortsdrdb}}       \\
-\namesdrrack     &{\scriptsize\modelsdrrack}     &\pricesdrrack     &{\footnotesize \href{\urlsdrrack}     {\urlshortsdrrack}}     \\
-\nameclock       &{\scriptsize\modelclock}       &\priceclock       &{\footnotesize \href{\urlclock}       {\urlshortclock}}       \\
-\nameantennaUHF  &{\scriptsize\modelantennaUHF}  &\priceantennaUHF  &{\footnotesize \href{\urlantennaUHF}  {\urlshortantennaUHF}}  \\
-\namebiasT       &{\scriptsize\modelbiasT}       &\pricebiasT       &{\footnotesize \href{\urlbiasT}       {\urlshortbiasT}}       \\
-\namelightprot   &{\scriptsize\modellightprot}   &\pricelightprot   &{\footnotesize \href{\urllightprot}   {\urlshortlightprot}}   \\
-\namesplitVUHF   &{\scriptsize\modelsplitVUHF}   &\pricesplitVUHF   &{\footnotesize \href{\urlsplitVUHF}   {\urlshortsplitVUHF}}   \\
-\namesplitSband  &{\scriptsize\modelsplitSband}  &\pricesplitSband  &{\footnotesize \href{\urlsplitSband}  {\urlshortsplitSband}}  \\
-\namecomputer    &{\scriptsize\modelcomputer}    &\pricecomputer    &{\footnotesize \href{\urlcomputer}    {\urlshortcomputer}}    \\
-\namemisc        &                  &\pricemisc\footnote{Expected cost, not part of total hardware costs.}        &{\footnotesize \href{\urlmisc}        {\urlshortmisc}}        \\
-\nametax         &                  &\pricetax         &                       \\
-\namedeliv       &                  &\pricedeliv       &                       \\
+\tablerow{antennaUHF}
+\tablerow{lna}
+\tablerow{radio}
+\tablerow{radioswitch}
+\tablerow{sdr}
+\tablerow{sdrdb}
+\tablerow{computer}
+\tablerow{clock}
+\tablerow{sdrrack}
+\tablerow{misc}
+\tablerow{biasT}
+\tablerow{lightprot}
+\tablerow{splitSband}
+\tablerow{splitVUHF}
+\tablerow{adapters}
+\tablerow{radiorack}
+\tablerow{gpsantenna}
+% \tablerow{tax}
+% \tablerow{deliv}
 \hline
-\namehardcost    &                  &\pricehardcost    &                       \\
+\tablerow{hardcost}
 \hline
-\nameassembly    &                  &\priceassembly    &                       \\
-\namemaintenance &                  &\pricemaintenance &                       \\
-\nameTA          &                  &\priceTA          &                       \\
-\nameCourseMat   &                  &\priceCourseMat   &                       \\
+\tablerow{assembly}
+\tablerow{maintenance}
+\tablerow{TA}
+\tablerow{CourseMat}
 \hline
-\nametotal       &                  &\pricetotal       &                       \\
+\tablerow{total}
 \hline
 \end{tabular}
-\end{minipage}
 \caption{Budget for the \GroundStationName hardware.}
 \label{tab:budget}
 \end{table}
@@ -684,6 +601,39 @@ The following schedule is currently agreed between all intervening \GroundStatio
 \item[Course development:] January - March 2015;
 \item[Combination with Minor:] May - September 2015.
 \end{description*}
+
+\pagebreak
+\section{Technical specifications}
+
+
+The technical specifications of the hardware can be found in the (click-able) web pages listed in \ref{tab:techspecs}.
+
+\renewcommand{\tablerow}[1]{\details{#1}{name} & \details{#1}{url} \\ \hline}
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{m{3cm}>{\footnotesize\arraybackslash}m{9cm}}
+\hline
+Component & Brochure/Technical Specifications \\
+\hline
+\tablerow{lna}
+\tablerow{radio}
+\tablerow{radioswitch}
+\tablerow{sdr}
+\tablerow{sdrdb}
+\tablerow{sdrrack}
+\tablerow{clock}
+\tablerow{antennaUHF}
+\tablerow{biasT}
+\tablerow{lightprot}
+\tablerow{splitVUHF}
+\tablerow{splitSband}
+\tablerow{computer}
+\end{tabular}
+\caption{Technical specifications of the \GroundStationName hardware.}
+\label{tab:techspecs}
+\end{table}
+
 
 
 %% ==========================  acronyms =========================== %%
