@@ -12,7 +12,7 @@ This diectory contains the latex and supporting files of the DopTrack budget doc
 Dev
 ---
 
-This directory contains software tools developed for the operation of DopTrack.
+This directory contains software tools developed for the operation of DopTrack (to be added when relevant).
 
 
 Doc
