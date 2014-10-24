@@ -1,13 +1,15 @@
 #!/bin/bash -u
 
-TTY=/dev/ttyS0
 
 if [[ ! "${@//-serial/}" == "$@" ]]
 then
-  echo "Connecting to $TTY..."
+  TTY=/dev/ttyS0
   echo "Use Ctr-A K to kill screen (as usual)."
-  sudo screen /dev/ttyS0 9600
+  echo "Connecting to $TTY..."
+  sudo screen $TTY 9600
 else
+  IP=192.168.1.2
+  echo "Connecting to $IP..."
   telnet 192.168.1.2
 fi
 
