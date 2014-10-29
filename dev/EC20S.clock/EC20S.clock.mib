@@ -1,0 +1,711 @@
+EC20S-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+        MODULE-IDENTITY,OBJECT-IDENTITY,NOTIFICATION-TYPE,
+        OBJECT-TYPE,Integer32,
+        enterprises FROM SNMPv2-SMI;
+
+ec20sDesciption MODULE-IDENTITY
+        LAST-UPDATED "201202130000Z"
+        ORGANIZATION "Spectracom"
+        CONTACT-INFO
+                "Spectracom
+                 Primary Author: Spectracom
+                 postal: 3 avenue du Canada, 91953 Les Ulis, FRANCE
+                 phone: 01.69.82.21.90
+                 email:synchro@spectracom.fr"
+        DESCRIPTION "EC20S MIB"
+        REVISION "201202130000Z"
+        DESCRIPTION "EC20S MIB"
+    ::= {ec20s 0}
+
+spectracom OBJECT IDENTIFIER       ::= { enterprises 25121}
+ec20s OBJECT IDENTIFIER            ::= { spectracom 5 }
+
+    
+ec20s-status                    OBJECT IDENTIFIER        ::= { ec20s 1 }
+
+ec20s-gps                       OBJECT IDENTIFIER        ::= { ec20s 2 }
+
+ec20s-ntp                       OBJECT IDENTIFIER        ::= { ec20s 3 }
+
+ec20s-traps                     OBJECT IDENTIFIER        ::= { ec20s 4 }
+
+ec20s-config                    OBJECT IDENTIFIER        ::= { ec20s 5 }
+
+ec20s-traps-oids                OBJECT IDENTIFIER        ::= { ec20s 99 }
+
+--
+--
+
+trapData                        OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..18))
+        MAX-ACCESS              accessible-for-notify
+        STATUS                  current
+        DESCRIPTION             "Trap data. Cf specific trap description."
+        ::= { ec20s 6 }
+
+--------------------------
+-- CLOCK STATUS
+--------------------------
+
+ec20s-STA-HARDWARE-OK           OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "General status
+                                 0: hardware error (internal, distribution, synchronization)
+                                 1: hardware ok and tracking status locked
+                                 2: Hardware ok and tracking status not locked"
+        ::= { ec20s-status 1 }
+
+ec20s-STA-DATETIME              OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "Date and time of the system"
+        ::= { ec20s-status 2 }
+
+ec20s-STA-TIMEREF               OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "Time reference
+                                 71: GPS
+                                 76: Local time
+                                 77: Manual time
+                                 78: None
+                                 85: UTC"
+        ::= { ec20s-status 3 }
+
+ec20s-STA-SYNCSOURCE            OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "Synchronization source
+                                 0: none
+                                 1: GPS
+                                 2: NMEA / External PPS"
+        ::= { ec20s-status 4 }
+
+ec20s-STA-SYNCTIME              OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "Synchronization time (seconds)"
+        ::= { ec20s-status 5 }
+
+ec20s-STA-1PPSOUT               OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "Global state of the Pps outputs
+                                 0: OK
+                                 1: Alarm
+                                 2: Squelched
+                                 3: Disabled"
+        ::= { ec20s-status 6 }
+
+ec20s-STA-1PPSOUT-FAILURE       OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "State of the individual Pps outputs
+                                 bit 0: OK
+                                 bit 1: Alarm"
+        ::= { ec20s-status 7 }
+
+ec20s-STA-10MHZOUT              OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "Global state of the 10 MHz outputs
+                                 0: OK
+                                 1: Alarm
+                                 2: Squelched
+                                 3: Disabled"
+        ::= { ec20s-status 8 }
+
+ec20s-STA-10MHZOUT-FAILURE      OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "State of the individual 10 MHz outputs
+                                 bit 0: OK
+                                 bit 1: Alarm"
+        ::= { ec20s-status 9 }
+
+ec20s-STA-FREQ-ERROR            OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "Frequency error (nHz)"
+        ::= { ec20s-status 10 }
+
+ec20s-STA-FREQ-ALARM            OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "Internal frequency threshold alarm
+                                 0: the frequency reached the alarm limit
+                                 1: no error"
+        ::= { ec20s-status 11 }
+
+ec20s-STA-PHASE-ERROR           OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "Phase error (ns)"
+        ::= { ec20s-status 12 }
+
+ec20s-STA-PHASE-ALARM           OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "Internal phase threshold alarm
+                                 0: the phase reached the alarm limit
+                                 1: no error"
+        ::= { ec20s-status 13 }
+
+ec20s-STA-REFEXT-PRESENCE       OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "External reference / NMEA
+                                  0: Alarm
+                                  1: OK
+                                  3: Disabled"
+        ::= { ec20s-status 14 }
+
+ec20s-STA-NMEA-VALIDITY         OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "NMEA validity
+                                  0: Alarm
+                                  1: OK
+                                  3: Disabled"
+        ::= { ec20s-status 15 }
+
+ec20s-STA-HOLDOVER              OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "Holdover status
+                                 0: warming up
+                                 1: tracking search
+                                 2: locked
+                                 3: holdover
+                                 4: forced holdover"
+        ::= { ec20s-status 16 }
+
+ec20s-STA-DCPOWER-OK            OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "DC power status
+                                 0: Alarm
+                                 1: OK
+                                 3: Disabled"
+        ::= { ec20s-status 17 }
+
+ec20s-STA-ACPOWER-OK            OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "AC power status
+                                 0: Alarm
+                                 1: OK
+                                 3: Disabled"
+        ::= { ec20s-status 18 }
+
+ec20s-STA-OPT-IRIG-OUT          OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "State of the optional IRIG output
+                                 0: OK
+                                 1: Alarm
+                                 2: Squelched
+                                 3: Disabled"
+        ::= { ec20s-status 19 }
+
+ec20s-STA-OPT-STANAG-OUT          OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "State of the optional STANAG output
+                                 0: OK
+                                 1: Alarm
+                                 2: Squelched
+                                 3: Disabled"
+        ::= { ec20s-status 20 }
+
+ec20s-STA-OPT-2MHZ-OUT          OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "State of the optional 2MHz output
+                                 0: OK
+                                 1: Alarm
+                                 2: Squelched
+                                 3: Disabled"
+        ::= { ec20s-status 21 }
+
+ec20s-STA-SFN                   OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "Single Frequency Network (SFN) status
+                                 0: Off
+                                 1: On"
+        ::= { ec20s-status 22 }
+        
+--------------------------
+-- GPS STATUS
+--------------------------
+
+ec20s-GPS-LOCKED                OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "GPS lock
+                                 0: GPS not locked
+                                 1: GPS locked"
+        ::= { ec20s-gps 1 }
+
+ec20s-GPS-SAT-LOCKED            OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "Number of locked satellites"
+        ::= { ec20s-gps 2 }
+
+ec20s-GPS-SAT-ID1               OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "ID of satellite 1"
+        ::= { ec20s-gps 3 }
+
+ec20s-GPS-SAT-SNR1              OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "SNR of satellite 1"
+        ::= { ec20s-gps 4 }
+
+ec20s-GPS-SAT-ID2               OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "ID of satellite 2"
+        ::= { ec20s-gps 5 }
+
+ec20s-GPS-SAT-SNR2              OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "SNR of satellite 2"
+        ::= { ec20s-gps 6 }
+
+ec20s-GPS-SAT-ID3               OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "ID of satellite 3"
+        ::= { ec20s-gps 7 }
+
+ec20s-GPS-SAT-SNR3              OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "SNR of satellite 3"
+        ::= { ec20s-gps 8 }
+
+ec20s-GPS-SAT-ID4               OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "ID of satellite 4"
+        ::= { ec20s-gps 9 }
+
+ec20s-GPS-SAT-SNR4              OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "SNR of satellite 4"
+        ::= { ec20s-gps 10 }
+
+ec20s-GPS-SAT-ID5               OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "ID of satellite 5"
+        ::= { ec20s-gps 11 }
+
+ec20s-GPS-SAT-SNR5              OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "SNR of satellite 5"
+        ::= { ec20s-gps 12 }
+
+ec20s-GPS-SAT-ID6               OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "ID of satellite 6"
+        ::= { ec20s-gps 13 }
+
+ec20s-GPS-SAT-SNR6              OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "SNR of satellite 6"
+        ::= { ec20s-gps 14 }
+
+ec20s-GPS-SAT-ID7               OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "ID of satellite 7"
+        ::= { ec20s-gps 15 }
+
+ec20s-GPS-SAT-SNR7              OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "SNR of satellite 7"
+        ::= { ec20s-gps 16 }
+
+ec20s-GPS-SAT-ID8               OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "ID of satellite 8"
+        ::= { ec20s-gps 17 }
+
+ec20s-GPS-SAT-SNR8              OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "SNR of satellite 8"
+        ::= { ec20s-gps 18 }
+
+ec20s-GPS-ANTENNA-MODE          OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "Antenna positionning mode :
+                                 1: automatic
+                                 2: manual
+                                 3: mobile"
+        ::= { ec20s-gps 19 }
+
+ec20s-GPS-RECEPTION-MODE        OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "GPS reception mode
+                                 5: 0D
+                                 6: 2D
+                                 7: 3D"
+        ::= { ec20s-gps 20 }
+
+ec20s-GPS-ANTENNA-STATUS        OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "Antenna status
+                                 0: antenna OK (powered)
+                                 1: antenna shorted
+                                 2: no antenna"
+        ::= { ec20s-gps 21 }
+
+ec20s-GPS-LATITUDE              OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "GPS latitude"
+        ::= { ec20s-gps 22 }
+
+ec20s-GPS-LONGITUDE             OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "GPS longitude"
+        ::= { ec20s-gps 23 }
+
+ec20s-GPS-ALTITUDE              OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "GPS altitude (m)"
+        ::= { ec20s-gps 24 }
+
+--------------------------
+-- NTP SERVICE
+--------------------------
+
+ec20s-NTP-MAC-ADDRESS           OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..20))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "NTP port: hardware MAC address"
+        ::= { ec20s-ntp 1 }
+
+ec20s-NTP-STRATUM-LEVEL         OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..5))
+        MAX-ACCESS              read-only
+        STATUS                  current
+        DESCRIPTION             "NTP port: stratum level"
+        ::= { ec20s-ntp 2 }
+
+--------------------------
+-- TRAPS CONFIG
+--------------------------
+
+ec20s-TRAPS-DESTINATION-1       OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..16))
+        MAX-ACCESS              read-write
+        STATUS                  current
+        DESCRIPTION             "Trap destination 1 (IP address)"
+        ::= { ec20s-traps 1 }
+
+ec20s-TRAPS-DESTINATION-2       OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..16))
+        MAX-ACCESS              read-write
+        STATUS                  current
+        DESCRIPTION             "Trap destination 2 (IP address)"
+        ::= { ec20s-traps 2 }
+
+ec20s-TRAPS-COMMUNITY           OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..16))
+        MAX-ACCESS              read-write
+        STATUS                  current
+        DESCRIPTION             "Trap community"
+        ::= { ec20s-traps 3 }
+
+ec20s-TRAPS-ENABLE              OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..16))
+        MAX-ACCESS              read-write
+        STATUS                  current
+        DESCRIPTION             "Enable traps
+                                 0: No
+                                 1: Yes"
+        ::= { ec20s-traps 4 }
+
+--------------------------
+-- EC20S CONFIG
+--------------------------
+
+ec20s-CFG-FREQ-ALARM-LIMIT      OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..16))
+        MAX-ACCESS              read-write
+        STATUS                  current
+        DESCRIPTION             "Frequency alarm limit (nHz)
+                                 Range [0;1000]"
+        ::= { ec20s-config 1 }
+
+ec20s-CFG-PHASE-ALARM-LIMIT     OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..16))
+        MAX-ACCESS              read-write
+        STATUS                  current
+        DESCRIPTION             "Phase alarm limit (ns)
+                                 Range [0;100000]"
+        ::= { ec20s-config 2 }
+
+ec20s-CFG-DATE-FORMAT           OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..16))
+        MAX-ACCESS              read-write
+        STATUS                  current
+        DESCRIPTION             "Date format:
+                                 1: DD/MM/AAAA
+                                 2: MM/DD/AAAA
+                                 3: Day/AAAA"
+        ::= {ec20s-config 3 }
+
+ec20s-CFG-1PPS-MUTE-MODE     OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..16))
+        MAX-ACCESS              read-write
+        STATUS                  current
+        DESCRIPTION             "Mute mode for 1PPS
+                                 0: Disabled
+                                 1: Automatic
+         2: On Time"
+        ::= { ec20s-config 4 }
+
+ec20s-CFG-10MHZ-MUTE-MODE    OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..16))
+        MAX-ACCESS              read-write
+        STATUS                  current
+        DESCRIPTION             "Mute mode for 10 MHz
+                                 0: Disabled
+                                 1: Automatic
+         2: On Time"
+        ::= { ec20s-config 5 }
+
+ec20s-CFG-MUTE-LOST-SOURCES-TIME    OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..16))
+        MAX-ACCESS              read-write
+        STATUS                  current
+        DESCRIPTION             "Time Delays (s) for On Time Mute Mode
+        After Lost of Synchronization Sources
+        Range [0;65535]"
+        ::= { ec20s-config 6 }
+
+ec20s-CFG-MUTE-POWER-ON-TIME    OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..16))
+        MAX-ACCESS              read-write
+        STATUS                  current
+        DESCRIPTION             "Time Delays (s) for On Time Mute Mode
+        After Power On 
+        Range [0;65535]"
+        ::= { ec20s-config 7 }
+
+ec20s-CFG-MUTE-ACQUISITION-SOURCES-TIME    OBJECT-TYPE
+        SYNTAX                  OCTET STRING (SIZE(0..16))
+        MAX-ACCESS              read-write
+        STATUS                  current
+        DESCRIPTION             "Time Delays (s) for On Time Mute Mode
+        After Acquisition of Synchronization Sources
+        Range [0;65535]"
+        ::= { ec20s-config 8 }
+
+
+--------------------------
+-- TRAPS OIDs
+--------------------------
+
+ec20sGeneralHardwareFault       NOTIFICATION-TYPE
+        OBJECTS                 { trapData }
+        STATUS                  current
+        DESCRIPTION             "General hardware fault
+                                 0: Ok
+                                 1: Alarm"
+        ::= { ec20s-traps-oids 1 }
+
+ec20sGpsFault                   NOTIFICATION-TYPE
+        OBJECTS                 { trapData }
+        STATUS                  current
+        DESCRIPTION             "GPS fault
+                                 0: Ok
+                                 1: Alarm"
+        ::= { ec20s-traps-oids 2 }
+
+ec20sExternalPpsFault           NOTIFICATION-TYPE
+        OBJECTS                 { trapData }
+        STATUS                  current
+        DESCRIPTION             "External PPS fault
+                                 0: Ok
+                                 1: Alarm"
+        ::= { ec20s-traps-oids 3 }
+    
+ec20sNmeaFault                  NOTIFICATION-TYPE
+        OBJECTS                 { trapData }
+        STATUS                  current
+        DESCRIPTION             "NMEA validity fault
+                                 0: Ok
+                                 1: Alarm"
+        ::= { ec20s-traps-oids 4 }
+
+ec20sInternalOscFault           NOTIFICATION-TYPE
+        OBJECTS                 { trapData }
+        STATUS                  current
+        DESCRIPTION             "Internal oscillator fault
+                                 0: Ok
+                                 1: Alarm"
+        ::= { ec20s-traps-oids 5 }
+
+ec20sInternalppsFault           NOTIFICATION-TYPE
+        OBJECTS                 { trapData }
+        STATUS                  current
+        DESCRIPTION             "Internal 1pps fault
+                                 0: Ok
+                                 1: Alarm"
+        ::= { ec20s-traps-oids 6 }
+
+ec20sPhaseAccuracyFault         NOTIFICATION-TYPE
+        OBJECTS                 { trapData }
+        STATUS                  current
+        DESCRIPTION             "Phase accuracy fault
+                                 0: Ok
+                                 1: Alarm"
+        ::= { ec20s-traps-oids 7 }
+
+ec20sFreqAccuracyFault          NOTIFICATION-TYPE
+        OBJECTS                 { trapData }
+        STATUS                  current
+        DESCRIPTION             "Frequency accuracy fault
+                                 0: Ok
+                                 1: Alarm"
+        ::= { ec20s-traps-oids 8 }
+
+ec20sSyncSourceChangeAlarm      NOTIFICATION-TYPE
+        OBJECTS                 { trapData }
+        STATUS                  current
+        DESCRIPTION             "Synchronization source change
+                                 1: No source
+                                 2: GPS
+                                 3: External Reference"
+        ::= { ec20s-traps-oids 9 }
+
+ec20sEnteringHoldoverModeAlarm  NOTIFICATION-TYPE
+        OBJECTS                 { trapData }
+        STATUS                  current
+        DESCRIPTION             "Tracking status
+                                 0: Quit holdover mode
+                                 1: Enter holdover mode"
+        ::= { ec20s-traps-oids 10 }
+
+ec20sPowerFault                 NOTIFICATION-TYPE
+        OBJECTS                 { trapData }
+        STATUS                  current
+        DESCRIPTION             "AC/DC Power fault
+                                 0: Ok
+                                 1: Alarm"
+        ::= { ec20s-traps-oids 11 }
+
+ec20sOptionIrig                 NOTIFICATION-TYPE
+        OBJECTS                 { trapData }
+        STATUS                  current
+        DESCRIPTION             "Optional IRIG distribution fault
+                                 0: Ok
+                                 1: Alarm"
+        ::= { ec20s-traps-oids 12 }
+
+ec20sOptionStanag               NOTIFICATION-TYPE
+        OBJECTS                 { trapData }
+        STATUS                  current
+        DESCRIPTION             "Optional STANAG distribution fault
+                                 0: Ok
+                                 1: Alarm"
+        ::= { ec20s-traps-oids 13 }
+
+ec20sOption2MHz                 NOTIFICATION-TYPE
+        OBJECTS                 { trapData }
+        STATUS                  current
+        DESCRIPTION             "Optional 2 MHz distribution fault
+                                 0: Ok
+                                 1: Alarm"
+        ::= { ec20s-traps-oids 14 }
+
+ec20sOutputPPSFault             NOTIFICATION-TYPE
+        OBJECTS                 { trapData }
+        STATUS                  current
+        DESCRIPTION             "1PPS Output fault
+                                 0: Ok
+                                 1: Alarm"
+        ::= { ec20s-traps-oids 15 }
+
+ec20sOutput10MHzFault           NOTIFICATION-TYPE
+        OBJECTS                 { trapData }
+        STATUS                  current
+        DESCRIPTION             "10 MHz Output fault
+                                 0: Ok
+                                 1: Alarm"
+        ::= { ec20s-traps-oids 16 }
+
+END
+
