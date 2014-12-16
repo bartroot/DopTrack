@@ -19,4 +19,4 @@ sync.sh
 *.d
 .projectname
 .sourcedir
-*.sublime-*
+*.sublime-workspace
