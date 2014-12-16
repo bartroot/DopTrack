@@ -1,13 +1,14 @@
 #!/usr/bin/env ruby
 
 require 'net/telnet'
+require 'rubygems'
+require 'highline/import'
+
+pwd = ask("Enter password: ") { |q| q.echo = false }
 
 #retrieve IP of power switch
 ip = File.open("#{File.expand_path(File.dirname(__FILE__))}/ip.txt","r").read
 
-#ask for the password
-print "password: "
-pwd = gets.chomp
 
 powerswitch = Net::Telnet::new("Host" => ip,
                              "Timeout" => 3,
