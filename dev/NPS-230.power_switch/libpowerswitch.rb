@@ -13,6 +13,6 @@ powerswitch = Net::Telnet::new("Host" => ip,
                              "Timeout" => 3,
                              "Prompt" => /[$%#>] \z/n)
 
-localhost.cmd(pwd) { |c| print c }
-localhost.cmd("/X") { |c| print c }
-localhost.close
+powerswitch.cmd(pwd) { |c| print c }
+powerswitch.cmd("/X") { |c| print c }
+powerswitch.close
