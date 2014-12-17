@@ -38,7 +38,7 @@ module PowerSwitch
       when String
         @connection.cmd(comlist) { |c| print c }
       else
-        RuntimeError,"Can only deal with input argument 'comlist' as an " +
+        raise RuntimeError,"Can only deal with input argument 'comlist' as an " +
           "Array, NilClass or Strings, not class '#{comlist.class}'." unless comlist.is_a?(Array)
       end
       return self
