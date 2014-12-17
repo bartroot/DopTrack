@@ -14,8 +14,8 @@ module PowerSwitch
     @@comlist={
       :help    => "H",
       :status  => "S",
-      :general => "G\n\e",
-      :network => "N\n\e",
+      :general => "G\e",
+      :network => "N\e",
       :exit    => "X",
     }
     @@power_modes=["On","Off","Boot"]
