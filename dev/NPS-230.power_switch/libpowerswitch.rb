@@ -21,7 +21,7 @@ module PowerSwitch
         "Timeout" => 3,
         "Prompt" => /[$%#>] \z/n
       )
-      @connection.cmd(pwd) { |c| print c }
+      @connection.cmd(pwd)
     end
 
     def close
@@ -30,12 +30,17 @@ module PowerSwitch
     end
 
     def cmd(comlist)
-      raise RuntimeError,"Can only deal with input argument 'comlist' as an Array, not class '#{comlist.class}'." unless comlist.is_a?(Array)
-      out=Array.new
-      comlist.each do |c|
-        out.push(@connection.cmd("/X") { |c| print c })
+      case comlist
+      when NilClass
+        return nil
+      when Array
+        return comlist.map{ |c| self.cmd(c) }
+      when String
+        return @connection.cmd("/X") { |c| print c })
+      else
+        raise RuntimeError,"Can only deal with input argument 'comlist' as an " +
+          "Array, NilClass or Strings, not class '#{comlist.class}'." unless comlist.is_a?(Array)
       end
-      return out
     end
 
     def self.help
