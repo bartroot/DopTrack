@@ -63,7 +63,7 @@ module PowerSwitch
       raise RuntimeError,"Can only deal with input argument 'mode' as a " +
           "String, not class '#{mode.class}'." unless mode.is_a?(String)
       raise RuntimeError,"Can only deal with input argument 'plug' as a " +
-          "Integer, not class '#{plug.class}'." unless plug.is_a?(String)
+          "Fixnum, not class '#{plug.class}'." unless plug.is_a?(Fixnum)
       raise RuntimeError,"Mode has to be one of #{@@power_modes.join(',')}, not '#{mode}'." unless @@power_modes.include?(mode)
       self.cmd("#{mode} #{plug}")
     end
