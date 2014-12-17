@@ -17,7 +17,7 @@ module PowerSwitch
       pwd = ask("Enter password: ") { |q| q.echo = false }
       #open the connection
       @connection = Net::Telnet::new(
-        "Host" => ip,
+        "Host" => @@ip,
         "Timeout" => 3,
         "Prompt" => /[$%#>] \z/n
       )
