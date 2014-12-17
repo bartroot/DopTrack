@@ -11,6 +11,13 @@ module PowerSwitch
     attr_reader :connection
     #retrieve IP of power switch
     @@ip=File.open("#{File.expand_path(File.dirname(__FILE__))}/ip.txt","r").read
+    @@comlist={
+      :help    => "H",
+      :status  => "S",
+      :general => "G",
+      :network => "N",
+      :exit    => "X",
+    }
 
     def initialize
       #need password
@@ -25,35 +32,26 @@ module PowerSwitch
     end
 
     def close
-      @connection.cmd("/X")
+      self.cmd(:exit)
       @connection.close
     end
 
     def cmd(comlist)
-      case comlist
+      case com
       when NilClass
         nil
       when Array
-        comlist.map{ |c| self.cmd(c) }
+         com.map{ |c| self.cmd(c) }
+      when Symbol
+        raise RuntimeError,"Can not understand command #{com}'." unless @@comlist.has_key?(com)
+        self.cmd(@@comlist[com])
       when String
-        @connection.cmd(comlist) { |c| print c }
+          @connection.cmd("/"+com) { |c| print c }
       else
-        raise RuntimeError,"Can only deal with input argument 'comlist' as an " +
-          "Array, NilClass or Strings, not class '#{comlist.class}'." unless comlist.is_a?(Array)
+        raise RuntimeError,"Can only deal with input argument 'com' as an " +
+          "Array, NilClass or Strings, not class '#{com.class}'." unless com.is_a?(Array)
       end
       return self
-    end
-
-    def help
-      cmd("/H")
-    end
-
-    def status
-      cmd("/S")
-    end
-
-    def status
-      self.cmd("")
     end
 
   end
@@ -61,5 +59,5 @@ end
 
 #run status if this file is called explicitly
 if __FILE__==$0
-  puts PowerSwitch::Control.new.help.help.close
+  puts PowerSwitch::Control.new.cmd(:help).cmd(:status).close
 end
