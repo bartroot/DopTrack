@@ -26,7 +26,7 @@ module PowerSwitch
       #open the connection
       @connection = Net::Telnet::new(
         "Host" => @@ip,
-        "Timeout" => 3,
+        "Timeout" => 30,
         "Prompt" => /[$%#>] \z/n
       )
       @connection.cmd(pwd)
