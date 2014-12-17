@@ -21,7 +21,7 @@ module PowerSwitch
         "Timeout" => 3,
         "Prompt" => /[$%#>] \z/n
       )
-      powerswitch.cmd(pwd) { |c| print c }
+      @connection.cmd(pwd) { |c| print c }
     end
 
     def close
