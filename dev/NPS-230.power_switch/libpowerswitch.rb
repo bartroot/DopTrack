@@ -73,5 +73,5 @@ end
 
 #run status if this file is called explicitly
 if __FILE__==$0
-  puts PowerSwitch::Control.new.cmd(:status).power("Off",2).cmd(:status).wait(5).cmd(:status).power("On",2).cmd(:status).wait(1).cmd(:status).close
+  puts PowerSwitch::Control.new.cmd(:status).power("Off",2).cmd(:status).power("On",2).cmd(:status).close
 end
