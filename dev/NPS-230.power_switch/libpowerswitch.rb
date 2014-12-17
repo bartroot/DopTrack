@@ -36,7 +36,7 @@ module PowerSwitch
       when Array
         return comlist.map{ |c| self.cmd(c) }
       when String
-        return @connection.cmd("/X") { |c| print c })
+        return @connection.cmd("/X") { |c| print c }
       else
         raise RuntimeError,"Can only deal with input argument 'comlist' as an " +
           "Array, NilClass or Strings, not class '#{comlist.class}'." unless comlist.is_a?(Array)
