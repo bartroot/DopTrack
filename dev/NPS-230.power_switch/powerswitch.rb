@@ -94,6 +94,6 @@ if __FILE__==$0
   end
   #sanity
   raise RuntimeError,"Cannot understand the input arguments. Use either:\n"+
-    " - one of #{PowerSwitch::COMLIST.keys.map{|k| k.to_s}.join(',')};\n"+
-    " - one of #{PowerSwitch::POWERMODES.join(',')} followed by the plug number." unless done
+    " - one of #{PowerSwitch::COMLIST.keys.map{|k| k.to_s}.join(', ')};\n"+
+    " - one of #{PowerSwitch::POWERMODES.join(', ')} followed by the plug number." unless done
 end
