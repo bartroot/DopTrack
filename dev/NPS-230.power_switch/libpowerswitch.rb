@@ -32,15 +32,16 @@ module PowerSwitch
     def cmd(comlist)
       case comlist
       when NilClass
-        return nil
+        nil
       when Array
-        return comlist.map{ |c| self.cmd(c) }
+        comlist.map{ |c| self.cmd(c) }
       when String
-        return @connection.cmd(comlist) { |c| print c }
+        @connection.cmd(comlist) { |c| print c }
       else
-        raise RuntimeError,"Can only deal with input argument 'comlist' as an " +
+        RuntimeError,"Can only deal with input argument 'comlist' as an " +
           "Array, NilClass or Strings, not class '#{comlist.class}'." unless comlist.is_a?(Array)
       end
+      return self
     end
 
     def self.help
