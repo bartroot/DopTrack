@@ -36,7 +36,7 @@ module PowerSwitch
       @connection.close
     end
 
-    def cmd(comlist)
+    def cmd(com)
       case com
       when NilClass
         nil
