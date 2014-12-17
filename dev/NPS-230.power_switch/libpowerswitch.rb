@@ -44,8 +44,12 @@ module PowerSwitch
       return self
     end
 
-    def self.help
-      PowerSwitch::Control.new.cmd("/H").close
+    def help
+      cmd("/H")
+    end
+
+    def status
+      cmd("/S")
     end
 
     def status
@@ -57,5 +61,5 @@ end
 
 #run status if this file is called explicitly
 if __FILE__==$0
-  puts PowerSwitch::Control.help
+  puts PowerSwitch::Control.status.help.close
 end
