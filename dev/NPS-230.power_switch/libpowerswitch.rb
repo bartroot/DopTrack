@@ -46,6 +46,7 @@ module PowerSwitch
       self.cmd("")
     end
 
+  end
 end
 
 #run status if this file is called explicitly
