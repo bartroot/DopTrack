@@ -1,0 +1,1392 @@
+30 Oct 16:50:07 ntpdate[12642]: adjust time server 192.168.1.5 offset 0.009928 sec
+30 Oct 16:55:07 ntpdate[12728]: adjust time server 192.168.1.5 offset 0.000737 sec
+30 Oct 17:00:07 ntpdate[12778]: adjust time server 192.168.1.5 offset -0.004425 sec
+30 Oct 17:05:07 ntpdate[12860]: adjust time server 192.168.1.5 offset 0.005995 sec
+30 Oct 17:10:07 ntpdate[12946]: adjust time server 192.168.1.5 offset 0.002036 sec
+30 Oct 17:15:07 ntpdate[13001]: adjust time server 192.168.1.5 offset 0.009794 sec
+30 Oct 17:20:07 ntpdate[13083]: adjust time server 192.168.1.5 offset -0.009307 sec
+30 Oct 17:25:07 ntpdate[13169]: adjust time server 192.168.1.5 offset 0.010472 sec
+30 Oct 17:30:07 ntpdate[13223]: adjust time server 192.168.1.5 offset 0.000028 sec
+30 Oct 17:35:07 ntpdate[13302]: adjust time server 192.168.1.5 offset -0.000391 sec
+30 Oct 17:40:07 ntpdate[13387]: adjust time server 192.168.1.5 offset -0.003499 sec
+30 Oct 17:45:07 ntpdate[13443]: adjust time server 192.168.1.5 offset 0.012933 sec
+30 Oct 17:50:07 ntpdate[13520]: adjust time server 192.168.1.5 offset -0.001845 sec
+30 Oct 17:55:07 ntpdate[13605]: adjust time server 192.168.1.5 offset 0.005854 sec
+30 Oct 18:00:07 ntpdate[13660]: adjust time server 192.168.1.5 offset -0.000093 sec
+30 Oct 18:05:07 ntpdate[13738]: adjust time server 192.168.1.5 offset -0.005735 sec
+30 Oct 18:10:07 ntpdate[13823]: adjust time server 192.168.1.5 offset 0.012973 sec
+30 Oct 18:15:07 ntpdate[13878]: adjust time server 192.168.1.5 offset -0.004998 sec
+30 Oct 18:20:07 ntpdate[13959]: adjust time server 192.168.1.5 offset 0.007969 sec
+30 Oct 18:25:08 ntpdate[14045]: adjust time server 192.168.1.5 offset -0.001198 sec
+30 Oct 18:30:07 ntpdate[14100]: adjust time server 192.168.1.5 offset -0.001720 sec
+30 Oct 18:35:07 ntpdate[14177]: adjust time server 192.168.1.5 offset 0.010838 sec
+30 Oct 18:40:07 ntpdate[14263]: adjust time server 192.168.1.5 offset -0.009530 sec
+30 Oct 18:45:08 ntpdate[14318]: adjust time server 192.168.1.5 offset 0.014969 sec
+30 Oct 18:50:07 ntpdate[14395]: adjust time server 192.168.1.5 offset -0.005182 sec
+30 Oct 18:55:08 ntpdate[14481]: adjust time server 192.168.1.5 offset -0.001784 sec
+30 Oct 19:00:07 ntpdate[14622]: adjust time server 192.168.1.5 offset 0.010073 sec
+30 Oct 19:05:07 ntpdate[14702]: adjust time server 192.168.1.5 offset -0.005694 sec
+30 Oct 19:10:07 ntpdate[14787]: adjust time server 192.168.1.5 offset 0.001088 sec
+30 Oct 19:15:07 ntpdate[14840]: adjust time server 192.168.1.5 offset 0.004478 sec
+30 Oct 19:20:07 ntpdate[14923]: adjust time server 192.168.1.5 offset 0.003267 sec
+30 Oct 19:25:08 ntpdate[15008]: adjust time server 192.168.1.5 offset -0.002187 sec
+30 Oct 19:30:07 ntpdate[15063]: adjust time server 192.168.1.5 offset 0.010051 sec
+30 Oct 19:35:07 ntpdate[15141]: adjust time server 192.168.1.5 offset -0.009630 sec
+30 Oct 19:40:07 ntpdate[15226]: adjust time server 192.168.1.5 offset 0.008925 sec
+30 Oct 19:45:08 ntpdate[15282]: adjust time server 192.168.1.5 offset 0.004207 sec
+30 Oct 19:50:07 ntpdate[15359]: adjust time server 192.168.1.5 offset -0.004734 sec
+30 Oct 19:55:08 ntpdate[15444]: adjust time server 192.168.1.5 offset 0.014003 sec
+30 Oct 20:00:07 ntpdate[15499]: adjust time server 192.168.1.5 offset -0.008314 sec
+30 Oct 20:05:07 ntpdate[15577]: adjust time server 192.168.1.5 offset 0.000364 sec
+30 Oct 20:10:07 ntpdate[15663]: adjust time server 192.168.1.5 offset 0.008803 sec
+30 Oct 20:15:08 ntpdate[15718]: adjust time server 192.168.1.5 offset -0.000036 sec
+30 Oct 20:20:07 ntpdate[15799]: adjust time server 192.168.1.5 offset 0.001491 sec
+30 Oct 20:25:07 ntpdate[15884]: adjust time server 192.168.1.5 offset 0.001996 sec
+30 Oct 20:30:07 ntpdate[15939]: adjust time server 192.168.1.5 offset -0.001847 sec
+30 Oct 20:35:07 ntpdate[16018]: adjust time server 192.168.1.5 offset 0.011737 sec
+30 Oct 20:40:07 ntpdate[16103]: adjust time server 192.168.1.5 offset -0.012706 sec
+30 Oct 20:45:08 ntpdate[16157]: adjust time server 192.168.1.5 offset 0.021962 sec
+30 Oct 20:50:07 ntpdate[16237]: adjust time server 192.168.1.5 offset -0.015669 sec
+30 Oct 20:55:07 ntpdate[16323]: adjust time server 192.168.1.5 offset 0.005380 sec
+30 Oct 21:00:07 ntpdate[16378]: adjust time server 192.168.1.5 offset 0.010037 sec
+30 Oct 21:05:07 ntpdate[16456]: adjust time server 192.168.1.5 offset -0.011025 sec
+30 Oct 21:10:07 ntpdate[16628]: adjust time server 192.168.1.5 offset 0.008220 sec
+30 Oct 21:15:08 ntpdate[16684]: adjust time server 192.168.1.5 offset 0.000677 sec
+30 Oct 21:20:07 ntpdate[16764]: adjust time server 192.168.1.5 offset 0.004465 sec
+30 Oct 21:25:07 ntpdate[16849]: adjust time server 192.168.1.5 offset 0.008738 sec
+30 Oct 21:30:07 ntpdate[16911]: adjust time server 192.168.1.5 offset -0.005505 sec
+30 Oct 21:35:07 ntpdate[16982]: adjust time server 192.168.1.5 offset 0.007650 sec
+30 Oct 21:40:07 ntpdate[17067]: adjust time server 192.168.1.5 offset -0.007102 sec
+30 Oct 21:45:08 ntpdate[17124]: adjust time server 192.168.1.5 offset 0.007207 sec
+30 Oct 21:50:07 ntpdate[17200]: adjust time server 192.168.1.5 offset -0.004872 sec
+30 Oct 21:55:07 ntpdate[17286]: adjust time server 192.168.1.5 offset 0.009802 sec
+30 Oct 22:00:07 ntpdate[17340]: adjust time server 192.168.1.5 offset -0.004059 sec
+30 Oct 22:05:07 ntpdate[17418]: adjust time server 192.168.1.5 offset 0.002927 sec
+30 Oct 22:10:07 ntpdate[17504]: adjust time server 192.168.1.5 offset 0.001835 sec
+30 Oct 22:15:08 ntpdate[17554]: adjust time server 192.168.1.5 offset 0.000891 sec
+30 Oct 22:20:07 ntpdate[17641]: adjust time server 192.168.1.5 offset 0.013072 sec
+30 Oct 22:25:07 ntpdate[17726]: adjust time server 192.168.1.5 offset -0.012085 sec
+30 Oct 22:30:07 ntpdate[17783]: adjust time server 192.168.1.5 offset 0.019235 sec
+30 Oct 22:35:07 ntpdate[17860]: adjust time server 192.168.1.5 offset -0.013733 sec
+30 Oct 22:40:07 ntpdate[17945]: adjust time server 192.168.1.5 offset 0.001948 sec
+30 Oct 22:45:08 ntpdate[18000]: adjust time server 192.168.1.5 offset 0.009496 sec
+30 Oct 22:50:07 ntpdate[18078]: adjust time server 192.168.1.5 offset -0.005996 sec
+30 Oct 22:55:07 ntpdate[18163]: adjust time server 192.168.1.5 offset 0.017117 sec
+30 Oct 23:00:07 ntpdate[18218]: adjust time server 192.168.1.5 offset -0.007590 sec
+30 Oct 23:05:07 ntpdate[18296]: adjust time server 192.168.1.5 offset 0.000770 sec
+30 Oct 23:10:07 ntpdate[18381]: adjust time server 192.168.1.5 offset 0.003731 sec
+30 Oct 23:15:08 ntpdate[18436]: adjust time server 192.168.1.5 offset 0.000294 sec
+30 Oct 23:20:07 ntpdate[18517]: adjust time server 192.168.1.5 offset 0.001766 sec
+30 Oct 23:25:07 ntpdate[18603]: adjust time server 192.168.1.5 offset 0.002508 sec
+30 Oct 23:30:07 ntpdate[18656]: adjust time server 192.168.1.5 offset -0.001132 sec
+30 Oct 23:35:08 ntpdate[18735]: adjust time server 192.168.1.5 offset 0.010585 sec
+30 Oct 23:40:07 ntpdate[18822]: adjust time server 192.168.1.5 offset -0.007468 sec
+30 Oct 23:45:08 ntpdate[18877]: adjust time server 192.168.1.5 offset 0.003765 sec
+30 Oct 23:50:07 ntpdate[18954]: adjust time server 192.168.1.5 offset 0.012962 sec
+30 Oct 23:55:07 ntpdate[19040]: adjust time server 192.168.1.5 offset -0.015947 sec
+31 Oct 00:00:07 ntpdate[19116]: adjust time server 192.168.1.5 offset 0.020433 sec
+31 Oct 00:05:08 ntpdate[19905]: adjust time server 192.168.1.5 offset -0.014977 sec
+31 Oct 00:10:07 ntpdate[19990]: adjust time server 192.168.1.5 offset 0.012024 sec
+31 Oct 00:15:07 ntpdate[20043]: adjust time server 192.168.1.5 offset 0.001808 sec
+31 Oct 00:20:07 ntpdate[20126]: adjust time server 192.168.1.5 offset 0.001587 sec
+31 Oct 00:25:07 ntpdate[20211]: adjust time server 192.168.1.5 offset -0.006554 sec
+31 Oct 00:30:07 ntpdate[20266]: adjust time server 192.168.1.5 offset 0.019788 sec
+31 Oct 00:35:08 ntpdate[20344]: adjust time server 192.168.1.5 offset -0.008109 sec
+31 Oct 00:40:07 ntpdate[20429]: adjust time server 192.168.1.5 offset 0.008159 sec
+31 Oct 00:45:08 ntpdate[20484]: adjust time server 192.168.1.5 offset -0.003637 sec
+31 Oct 00:50:07 ntpdate[20562]: adjust time server 192.168.1.5 offset 0.001504 sec
+31 Oct 00:55:07 ntpdate[20647]: adjust time server 192.168.1.5 offset -0.006951 sec
+31 Oct 01:00:07 ntpdate[20703]: adjust time server 192.168.1.5 offset 0.018089 sec
+31 Oct 01:05:07 ntpdate[20780]: adjust time server 192.168.1.5 offset -0.012580 sec
+31 Oct 01:10:07 ntpdate[20866]: adjust time server 192.168.1.5 offset 0.012787 sec
+31 Oct 01:15:08 ntpdate[20922]: adjust time server 192.168.1.5 offset -0.007626 sec
+31 Oct 01:20:07 ntpdate[21001]: adjust time server 192.168.1.5 offset 0.009668 sec
+31 Oct 01:25:07 ntpdate[21088]: adjust time server 192.168.1.5 offset -0.004604 sec
+31 Oct 01:30:07 ntpdate[21138]: adjust time server 192.168.1.5 offset 0.004979 sec
+31 Oct 01:35:07 ntpdate[21221]: adjust time server 192.168.1.5 offset 0.003090 sec
+31 Oct 01:40:07 ntpdate[21307]: adjust time server 192.168.1.5 offset 0.005889 sec
+31 Oct 01:45:08 ntpdate[21369]: adjust time server 192.168.1.5 offset -0.004146 sec
+31 Oct 01:50:07 ntpdate[21441]: adjust time server 192.168.1.5 offset 0.003564 sec
+31 Oct 01:55:07 ntpdate[21526]: adjust time server 192.168.1.5 offset -0.002553 sec
+31 Oct 02:00:07 ntpdate[21577]: adjust time server 192.168.1.5 offset 0.013433 sec
+31 Oct 02:05:07 ntpdate[21659]: adjust time server 192.168.1.5 offset -0.002623 sec
+31 Oct 02:10:07 ntpdate[21744]: adjust time server 192.168.1.5 offset -0.003891 sec
+31 Oct 02:15:08 ntpdate[21800]: adjust time server 192.168.1.5 offset 0.009010 sec
+31 Oct 02:20:07 ntpdate[21880]: adjust time server 192.168.1.5 offset -0.001602 sec
+31 Oct 02:25:07 ntpdate[21965]: adjust time server 192.168.1.5 offset 0.000590 sec
+31 Oct 02:30:07 ntpdate[22020]: adjust time server 192.168.1.5 offset 0.006848 sec
+31 Oct 02:35:08 ntpdate[22098]: adjust time server 192.168.1.5 offset 0.004173 sec
+31 Oct 02:40:07 ntpdate[22184]: adjust time server 192.168.1.5 offset -0.009125 sec
+31 Oct 02:45:08 ntpdate[22233]: adjust time server 192.168.1.5 offset 0.011763 sec
+31 Oct 02:50:07 ntpdate[22316]: adjust time server 192.168.1.5 offset -0.008057 sec
+31 Oct 02:55:07 ntpdate[22403]: adjust time server 192.168.1.5 offset 0.013156 sec
+31 Oct 03:00:07 ntpdate[22459]: adjust time server 192.168.1.5 offset -0.007069 sec
+31 Oct 03:05:07 ntpdate[22536]: adjust time server 192.168.1.5 offset -0.000482 sec
+31 Oct 03:10:07 ntpdate[22622]: adjust time server 192.168.1.5 offset 0.008528 sec
+31 Oct 03:15:08 ntpdate[22672]: adjust time server 192.168.1.5 offset -0.004088 sec
+31 Oct 03:20:07 ntpdate[22758]: adjust time server 192.168.1.5 offset 0.013363 sec
+31 Oct 03:25:07 ntpdate[22844]: adjust time server 192.168.1.5 offset -0.008040 sec
+31 Oct 03:30:07 ntpdate[22899]: adjust time server 192.168.1.5 offset 0.004788 sec
+31 Oct 03:35:07 ntpdate[22977]: adjust time server 192.168.1.5 offset 0.004272 sec
+31 Oct 03:40:07 ntpdate[23062]: adjust time server 192.168.1.5 offset -0.003782 sec
+31 Oct 03:45:08 ntpdate[23118]: adjust time server 192.168.1.5 offset 0.009007 sec
+31 Oct 03:50:07 ntpdate[23195]: adjust time server 192.168.1.5 offset -0.003102 sec
+31 Oct 03:55:07 ntpdate[23280]: adjust time server 192.168.1.5 offset -0.000464 sec
+31 Oct 04:00:07 ntpdate[23342]: adjust time server 192.168.1.5 offset 0.011665 sec
+31 Oct 04:05:07 ntpdate[23413]: adjust time server 192.168.1.5 offset -0.001510 sec
+31 Oct 04:10:07 ntpdate[23498]: adjust time server 192.168.1.5 offset 0.007553 sec
+31 Oct 04:15:08 ntpdate[23558]: adjust time server 192.168.1.5 offset -0.003055 sec
+31 Oct 04:20:07 ntpdate[23634]: adjust time server 192.168.1.5 offset -0.002927 sec
+31 Oct 04:25:07 ntpdate[23720]: adjust time server 192.168.1.5 offset -0.000044 sec
+31 Oct 04:30:07 ntpdate[23774]: adjust time server 192.168.1.5 offset 0.013302 sec
+31 Oct 04:35:08 ntpdate[23852]: adjust time server 192.168.1.5 offset -0.004178 sec
+31 Oct 04:40:07 ntpdate[23938]: adjust time server 192.168.1.5 offset 0.008016 sec
+31 Oct 04:45:08 ntpdate[23993]: adjust time server 192.168.1.5 offset -0.006533 sec
+31 Oct 04:50:07 ntpdate[24072]: adjust time server 192.168.1.5 offset -0.000917 sec
+31 Oct 04:55:07 ntpdate[24157]: adjust time server 192.168.1.5 offset 0.007822 sec
+31 Oct 05:00:07 ntpdate[24211]: adjust time server 192.168.1.5 offset -0.004023 sec
+31 Oct 05:05:07 ntpdate[24291]: adjust time server 192.168.1.5 offset 0.004155 sec
+31 Oct 05:10:07 ntpdate[24376]: adjust time server 192.168.1.5 offset 0.004243 sec
+31 Oct 05:15:08 ntpdate[24431]: adjust time server 192.168.1.5 offset 0.000603 sec
+31 Oct 05:20:07 ntpdate[24512]: adjust time server 192.168.1.5 offset 0.006945 sec
+31 Oct 05:25:07 ntpdate[24597]: adjust time server 192.168.1.5 offset -0.004254 sec
+31 Oct 05:30:07 ntpdate[24652]: adjust time server 192.168.1.5 offset 0.005388 sec
+31 Oct 05:35:07 ntpdate[24730]: adjust time server 192.168.1.5 offset 0.004152 sec
+31 Oct 05:40:07 ntpdate[24815]: adjust time server 192.168.1.5 offset -0.006435 sec
+31 Oct 05:45:08 ntpdate[24877]: adjust time server 192.168.1.5 offset 0.016260 sec
+31 Oct 05:50:07 ntpdate[24948]: adjust time server 192.168.1.5 offset -0.007535 sec
+31 Oct 05:55:07 ntpdate[25034]: adjust time server 192.168.1.5 offset 0.003615 sec
+31 Oct 06:00:07 ntpdate[25089]: adjust time server 192.168.1.5 offset 0.000571 sec
+31 Oct 06:05:07 ntpdate[25166]: adjust time server 192.168.1.5 offset 0.006579 sec
+31 Oct 06:10:07 ntpdate[25252]: adjust time server 192.168.1.5 offset 0.002645 sec
+31 Oct 06:15:08 ntpdate[25308]: adjust time server 192.168.1.5 offset -0.008615 sec
+31 Oct 06:20:07 ntpdate[25387]: adjust time server 192.168.1.5 offset 0.011163 sec
+31 Oct 06:25:07 ntpdate[25475]: adjust time server 192.168.1.5 offset 0.004747 sec
+31 Oct 06:30:07 ntpdate[25531]: adjust time server 192.168.1.5 offset -0.009304 sec
+31 Oct 06:35:07 ntpdate[25608]: adjust time server 192.168.1.5 offset 0.011827 sec
+31 Oct 06:40:07 ntpdate[25693]: adjust time server 192.168.1.5 offset -0.006328 sec
+31 Oct 06:45:08 ntpdate[25746]: adjust time server 192.168.1.5 offset 0.007520 sec
+31 Oct 06:50:07 ntpdate[25827]: adjust time server 192.168.1.5 offset 0.003752 sec
+31 Oct 06:55:07 ntpdate[25912]: adjust time server 192.168.1.5 offset -0.001277 sec
+31 Oct 07:00:07 ntpdate[25967]: adjust time server 192.168.1.5 offset 0.004088 sec
+31 Oct 07:05:07 ntpdate[26045]: adjust time server 192.168.1.5 offset 0.006340 sec
+31 Oct 07:10:07 ntpdate[26130]: adjust time server 192.168.1.5 offset -0.011664 sec
+31 Oct 07:15:08 ntpdate[26186]: adjust time server 192.168.1.5 offset 0.005113 sec
+31 Oct 07:20:07 ntpdate[26266]: adjust time server 192.168.1.5 offset 0.014287 sec
+31 Oct 07:25:07 ntpdate[26351]: adjust time server 192.168.1.5 offset -0.013854 sec
+31 Oct 07:30:07 ntpdate[26413]: adjust time server 192.168.1.5 offset 0.010717 sec
+31 Oct 07:35:08 ntpdate[26533]: adjust time server 192.168.1.5 offset 0.004399 sec
+31 Oct 07:40:07 ntpdate[26639]: adjust time server 192.168.1.5 offset -0.005908 sec
+31 Oct 07:45:08 ntpdate[26692]: adjust time server 192.168.1.5 offset 0.012911 sec
+31 Oct 07:50:07 ntpdate[26771]: adjust time server 192.168.1.5 offset -0.009047 sec
+31 Oct 07:55:07 ntpdate[27202]: adjust time server 192.168.1.5 offset 0.016338 sec
+31 Oct 08:00:07 ntpdate[27269]: adjust time server 192.168.1.5 offset -0.011576 sec
+31 Oct 08:05:07 ntpdate[27347]: adjust time server 192.168.1.5 offset 0.005612 sec
+31 Oct 08:10:07 ntpdate[27432]: adjust time server 192.168.1.5 offset 0.002187 sec
+31 Oct 08:15:08 ntpdate[27488]: adjust time server 192.168.1.5 offset 0.004206 sec
+31 Oct 08:20:07 ntpdate[27568]: adjust time server 192.168.1.5 offset -0.006098 sec
+31 Oct 08:25:07 ntpdate[27655]: adjust time server 192.168.1.5 offset 0.011775 sec
+31 Oct 08:30:07 ntpdate[27709]: adjust time server 192.168.1.5 offset -0.005338 sec
+31 Oct 08:35:08 ntpdate[27789]: adjust time server 192.168.1.5 offset 0.001839 sec
+31 Oct 08:40:07 ntpdate[27874]: adjust time server 192.168.1.5 offset 0.004762 sec
+31 Oct 08:45:08 ntpdate[27930]: adjust time server 192.168.1.5 offset -0.004723 sec
+31 Oct 08:50:07 ntpdate[28007]: adjust time server 192.168.1.5 offset 0.019987 sec
+31 Oct 08:55:07 ntpdate[28092]: adjust time server 192.168.1.5 offset -0.020850 sec
+31 Oct 09:00:07 ntpdate[28148]: adjust time server 192.168.1.5 offset 0.016587 sec
+31 Oct 09:05:08 ntpdate[28225]: adjust time server 192.168.1.5 offset 0.002596 sec
+31 Oct 09:10:07 ntpdate[28311]: adjust time server 192.168.1.5 offset -0.001399 sec
+31 Oct 09:15:08 ntpdate[28366]: adjust time server 192.168.1.5 offset 0.006628 sec
+31 Oct 09:20:07 ntpdate[28446]: adjust time server 192.168.1.5 offset -0.005549 sec
+31 Oct 09:25:07 ntpdate[28532]: adjust time server 192.168.1.5 offset 0.000493 sec
+31 Oct 09:30:07 ntpdate[28587]: adjust time server 192.168.1.5 offset 0.011398 sec
+31 Oct 09:35:07 ntpdate[28664]: adjust time server 192.168.1.5 offset -0.006684 sec
+31 Oct 09:40:07 ntpdate[28750]: adjust time server 192.168.1.5 offset 0.010188 sec
+31 Oct 09:45:08 ntpdate[28805]: adjust time server 192.168.1.5 offset -0.002581 sec
+31 Oct 09:50:07 ntpdate[28883]: adjust time server 192.168.1.5 offset 0.002524 sec
+31 Oct 09:55:07 ntpdate[28968]: adjust time server 192.168.1.5 offset -0.001028 sec
+31 Oct 10:00:07 ntpdate[29022]: adjust time server 192.168.1.5 offset 0.007418 sec
+31 Oct 10:05:07 ntpdate[29102]: adjust time server 192.168.1.5 offset -0.006229 sec
+31 Oct 10:10:07 ntpdate[29187]: adjust time server 192.168.1.5 offset 0.009995 sec
+31 Oct 10:15:08 ntpdate[29244]: adjust time server 192.168.1.5 offset -0.007288 sec
+31 Oct 10:20:07 ntpdate[29323]: adjust time server 192.168.1.5 offset 0.013985 sec
+31 Oct 10:25:07 ntpdate[29408]: adjust time server 192.168.1.5 offset -0.009671 sec
+31 Oct 10:30:07 ntpdate[29463]: adjust time server 192.168.1.5 offset 0.003190 sec
+31 Oct 10:35:07 ntpdate[29541]: adjust time server 192.168.1.5 offset 0.010558 sec
+31 Oct 10:40:07 ntpdate[29626]: adjust time server 192.168.1.5 offset -0.007418 sec
+31 Oct 10:45:08 ntpdate[29682]: adjust time server 192.168.1.5 offset 0.015085 sec
+31 Oct 10:50:07 ntpdate[29759]: adjust time server 192.168.1.5 offset -0.009058 sec
+31 Oct 10:55:07 ntpdate[29845]: adjust time server 192.168.1.5 offset 0.000586 sec
+31 Oct 11:00:07 ntpdate[29899]: adjust time server 192.168.1.5 offset 0.011662 sec
+31 Oct 11:05:07 ntpdate[29977]: adjust time server 192.168.1.5 offset -0.009086 sec
+31 Oct 11:10:07 ntpdate[30063]: adjust time server 192.168.1.5 offset 0.007792 sec
+31 Oct 11:15:08 ntpdate[30118]: adjust time server 192.168.1.5 offset 0.002617 sec
+31 Oct 11:20:07 ntpdate[30199]: adjust time server 192.168.1.5 offset -0.004996 sec
+31 Oct 11:25:07 ntpdate[30284]: adjust time server 192.168.1.5 offset 0.011300 sec
+31 Oct 11:30:07 ntpdate[30340]: adjust time server 192.168.1.5 offset -0.003702 sec
+31 Oct 11:35:07 ntpdate[30417]: adjust time server 192.168.1.5 offset 0.000237 sec
+31 Oct 11:40:07 ntpdate[30503]: adjust time server 192.168.1.5 offset 0.015000 sec
+31 Oct 11:45:08 ntpdate[30558]: adjust time server 192.168.1.5 offset -0.008983 sec
+31 Oct 11:50:07 ntpdate[30637]: adjust time server 192.168.1.5 offset 0.006446 sec
+31 Oct 11:55:07 ntpdate[30722]: adjust time server 192.168.1.5 offset -0.002017 sec
+31 Oct 12:00:07 ntpdate[30777]: adjust time server 192.168.1.5 offset 0.002283 sec
+31 Oct 12:05:07 ntpdate[31046]: adjust time server 192.168.1.5 offset 0.006456 sec
+31 Oct 12:10:07 ntpdate[31240]: adjust time server 192.168.1.5 offset -0.002348 sec
+31 Oct 12:15:08 ntpdate[31297]: adjust time server 192.168.1.5 offset -0.001570 sec
+31 Oct 12:20:07 ntpdate[31376]: adjust time server 192.168.1.5 offset 0.010648 sec
+31 Oct 12:25:07 ntpdate[31462]: adjust time server 192.168.1.5 offset -0.003725 sec
+31 Oct 12:30:07 ntpdate[31665]: adjust time server 192.168.1.5 offset 0.009140 sec
+31 Oct 12:35:08 ntpdate[31741]: adjust time server 192.168.1.5 offset -0.007029 sec
+31 Oct 12:40:07 ntpdate[31913]: adjust time server 192.168.1.5 offset 0.000647 sec
+31 Oct 12:45:08 ntpdate[31967]: adjust time server 192.168.1.5 offset 0.008807 sec
+31 Oct 12:50:07 ntpdate[32045]: adjust time server 192.168.1.5 offset 0.001195 sec
+31 Oct 12:55:07 ntpdate[32131]: adjust time server 192.168.1.5 offset -0.000561 sec
+31 Oct 13:00:07 ntpdate[32186]: adjust time server 192.168.1.5 offset 0.007303 sec
+31 Oct 13:05:07 ntpdate[32264]: adjust time server 192.168.1.5 offset -0.013820 sec
+31 Oct 13:10:07 ntpdate[32349]: adjust time server 192.168.1.5 offset 0.019399 sec
+31 Oct 13:15:08 ntpdate[32404]: adjust time server 192.168.1.5 offset -0.006800 sec
+31 Oct 13:20:07 ntpdate[32485]: adjust time server 192.168.1.5 offset 0.007069 sec
+31 Oct 13:25:07 ntpdate[32571]: adjust time server 192.168.1.5 offset 0.001331 sec
+31 Oct 13:30:07 ntpdate[32631]: adjust time server 192.168.1.5 offset 0.002102 sec
+31 Oct 13:35:07 ntpdate[32704]: adjust time server 192.168.1.5 offset -0.005498 sec
+31 Oct 13:40:07 ntpdate[323]: adjust time server 192.168.1.5 offset 0.010073 sec
+31 Oct 13:45:08 ntpdate[381]: adjust time server 192.168.1.5 offset 0.002545 sec
+31 Oct 13:50:07 ntpdate[464]: adjust time server 192.168.1.5 offset -0.006540 sec
+31 Oct 13:55:07 ntpdate[555]: adjust time server 192.168.1.5 offset 0.009320 sec
+31 Oct 14:00:07 ntpdate[610]: adjust time server 192.168.1.5 offset -0.000795 sec
+31 Oct 14:05:07 ntpdate[696]: adjust time server 192.168.1.5 offset 0.006476 sec
+31 Oct 14:10:07 ntpdate[795]: adjust time server 192.168.1.5 offset -0.007571 sec
+31 Oct 14:15:08 ntpdate[850]: adjust time server 192.168.1.5 offset 0.007044 sec
+31 Oct 14:20:07 ntpdate[932]: adjust time server 192.168.1.5 offset 0.000559 sec
+31 Oct 14:25:07 ntpdate[1023]: adjust time server 192.168.1.5 offset 0.000431 sec
+31 Oct 14:30:07 ntpdate[1079]: adjust time server 192.168.1.5 offset 0.005417 sec
+31 Oct 14:35:08 ntpdate[1161]: adjust time server 192.168.1.5 offset 0.006228 sec
+31 Oct 14:40:07 ntpdate[1250]: adjust time server 192.168.1.5 offset -0.003944 sec
+31 Oct 14:45:08 ntpdate[1306]: adjust time server 192.168.1.5 offset 0.003159 sec
+31 Oct 14:50:07 ntpdate[1385]: adjust time server 192.168.1.5 offset 0.000610 sec
+31 Oct 14:55:07 ntpdate[1471]: adjust time server 192.168.1.5 offset 0.012144 sec
+31 Oct 15:00:07 ntpdate[1535]: adjust time server 192.168.1.5 offset -0.009726 sec
+31 Oct 15:05:08 ntpdate[1617]: adjust time server 192.168.1.5 offset 0.014808 sec
+31 Oct 15:10:07 ntpdate[1705]: adjust time server 192.168.1.5 offset -0.011610 sec
+31 Oct 15:15:08 ntpdate[1794]: adjust time server 192.168.1.5 offset 0.005786 sec
+31 Oct 15:20:07 ntpdate[1910]: adjust time server 192.168.1.5 offset -0.002592 sec
+31 Oct 15:25:07 ntpdate[2004]: adjust time server 192.168.1.5 offset 0.011770 sec
+31 Oct 15:30:07 ntpdate[2060]: adjust time server 192.168.1.5 offset -0.004107 sec
+31 Oct 15:35:08 ntpdate[2144]: adjust time server 192.168.1.5 offset 0.016680 sec
+31 Oct 15:40:07 ntpdate[2230]: adjust time server 192.168.1.5 offset -0.021817 sec
+31 Oct 15:45:08 ntpdate[2284]: adjust time server 192.168.1.5 offset 0.016290 sec
+31 Oct 15:50:07 ntpdate[2362]: adjust time server 192.168.1.5 offset -0.000440 sec
+31 Oct 15:55:07 ntpdate[2448]: adjust time server 192.168.1.5 offset -0.003073 sec
+31 Oct 16:00:07 ntpdate[2503]: adjust time server 192.168.1.5 offset 0.003170 sec
+31 Oct 16:05:07 ntpdate[2580]: adjust time server 192.168.1.5 offset 0.010017 sec
+31 Oct 16:10:07 ntpdate[2666]: adjust time server 192.168.1.5 offset -0.008019 sec
+31 Oct 16:15:08 ntpdate[2721]: adjust time server 192.168.1.5 offset 0.005985 sec
+31 Oct 16:20:07 ntpdate[2802]: adjust time server 192.168.1.5 offset -0.000540 sec
+31 Oct 16:25:07 ntpdate[2887]: adjust time server 192.168.1.5 offset 0.004492 sec
+31 Oct 16:30:07 ntpdate[2941]: adjust time server 192.168.1.5 offset 0.004117 sec
+31 Oct 16:35:07 ntpdate[3020]: adjust time server 192.168.1.5 offset -0.000521 sec
+31 Oct 16:40:07 ntpdate[3105]: adjust time server 192.168.1.5 offset 0.003630 sec
+31 Oct 16:45:08 ntpdate[3161]: adjust time server 192.168.1.5 offset 0.004921 sec
+31 Oct 16:50:07 ntpdate[3239]: adjust time server 192.168.1.5 offset -0.007925 sec
+31 Oct 16:55:07 ntpdate[3324]: adjust time server 192.168.1.5 offset 0.008765 sec
+31 Oct 17:00:07 ntpdate[3379]: adjust time server 192.168.1.5 offset 0.001963 sec
+31 Oct 17:05:07 ntpdate[3458]: adjust time server 192.168.1.5 offset -0.001146 sec
+31 Oct 17:10:07 ntpdate[3543]: adjust time server 192.168.1.5 offset 0.000703 sec
+31 Oct 17:15:08 ntpdate[3599]: adjust time server 192.168.1.5 offset -0.000083 sec
+31 Oct 17:20:07 ntpdate[3679]: adjust time server 192.168.1.5 offset 0.010320 sec
+31 Oct 17:25:07 ntpdate[3765]: adjust time server 192.168.1.5 offset -0.007376 sec
+31 Oct 17:30:07 ntpdate[3820]: adjust time server 192.168.1.5 offset 0.016675 sec
+31 Oct 17:35:07 ntpdate[3897]: adjust time server 192.168.1.5 offset -0.014692 sec
+31 Oct 17:40:07 ntpdate[3984]: adjust time server 192.168.1.5 offset 0.016425 sec
+31 Oct 17:45:08 ntpdate[4034]: adjust time server 192.168.1.5 offset -0.002118 sec
+31 Oct 17:50:07 ntpdate[4116]: adjust time server 192.168.1.5 offset -0.000929 sec
+31 Oct 17:55:07 ntpdate[4201]: adjust time server 192.168.1.5 offset 0.001062 sec
+31 Oct 18:00:07 ntpdate[4256]: adjust time server 192.168.1.5 offset 0.011223 sec
+31 Oct 18:05:07 ntpdate[4334]: adjust time server 192.168.1.5 offset -0.006756 sec
+31 Oct 18:10:07 ntpdate[4419]: adjust time server 192.168.1.5 offset 0.008291 sec
+31 Oct 18:15:08 ntpdate[4475]: adjust time server 192.168.1.5 offset -0.001710 sec
+31 Oct 18:20:07 ntpdate[4555]: adjust time server 192.168.1.5 offset -0.002918 sec
+31 Oct 18:25:07 ntpdate[4642]: adjust time server 192.168.1.5 offset 0.008802 sec
+31 Oct 18:30:07 ntpdate[4908]: adjust time server 192.168.1.5 offset -0.009469 sec
+31 Oct 18:35:07 ntpdate[5009]: adjust time server 192.168.1.5 offset 0.013288 sec
+31 Oct 18:40:07 ntpdate[5180]: adjust time server 192.168.1.5 offset -0.005727 sec
+31 Oct 18:45:08 ntpdate[5234]: adjust time server 192.168.1.5 offset 0.007501 sec
+31 Oct 18:50:07 ntpdate[5313]: adjust time server 192.168.1.5 offset -0.007033 sec
+31 Oct 18:55:07 ntpdate[5398]: adjust time server 192.168.1.5 offset 0.012653 sec
+31 Oct 19:00:07 ntpdate[5453]: adjust time server 192.168.1.5 offset -0.003949 sec
+31 Oct 19:05:07 ntpdate[5531]: adjust time server 192.168.1.5 offset 0.009699 sec
+31 Oct 19:10:07 ntpdate[5617]: adjust time server 192.168.1.5 offset -0.007079 sec
+31 Oct 19:15:08 ntpdate[5672]: adjust time server 192.168.1.5 offset 0.005592 sec
+31 Oct 19:20:07 ntpdate[5753]: adjust time server 192.168.1.5 offset 0.005407 sec
+31 Oct 19:25:07 ntpdate[5839]: adjust time server 192.168.1.5 offset -0.010346 sec
+31 Oct 19:30:07 ntpdate[5894]: adjust time server 192.168.1.5 offset 0.020406 sec
+31 Oct 19:35:07 ntpdate[5972]: adjust time server 192.168.1.5 offset -0.015972 sec
+31 Oct 19:40:07 ntpdate[6057]: adjust time server 192.168.1.5 offset 0.012264 sec
+31 Oct 19:45:08 ntpdate[6111]: adjust time server 192.168.1.5 offset 0.001912 sec
+31 Oct 19:50:07 ntpdate[6190]: adjust time server 192.168.1.5 offset -0.001763 sec
+31 Oct 19:55:07 ntpdate[6275]: adjust time server 192.168.1.5 offset 0.011301 sec
+31 Oct 20:00:07 ntpdate[6326]: adjust time server 192.168.1.5 offset -0.005749 sec
+31 Oct 20:05:07 ntpdate[6408]: adjust time server 192.168.1.5 offset 0.004940 sec
+31 Oct 20:10:07 ntpdate[6494]: adjust time server 192.168.1.5 offset 0.007192 sec
+31 Oct 20:15:08 ntpdate[6551]: adjust time server 192.168.1.5 offset -0.013083 sec
+31 Oct 20:20:07 ntpdate[6630]: adjust time server 192.168.1.5 offset 0.010189 sec
+31 Oct 20:25:07 ntpdate[6715]: adjust time server 192.168.1.5 offset -0.003006 sec
+31 Oct 20:30:07 ntpdate[6771]: adjust time server 192.168.1.5 offset 0.002555 sec
+31 Oct 20:35:08 ntpdate[6848]: adjust time server 192.168.1.5 offset 0.007335 sec
+31 Oct 20:40:07 ntpdate[6934]: adjust time server 192.168.1.5 offset -0.003617 sec
+31 Oct 20:45:08 ntpdate[6989]: adjust time server 192.168.1.5 offset 0.003825 sec
+31 Oct 20:50:07 ntpdate[7066]: adjust time server 192.168.1.5 offset 0.008252 sec
+31 Oct 20:55:07 ntpdate[7152]: adjust time server 192.168.1.5 offset 0.003678 sec
+31 Oct 21:00:07 ntpdate[7208]: adjust time server 192.168.1.5 offset 0.000326 sec
+31 Oct 21:05:07 ntpdate[7284]: adjust time server 192.168.1.5 offset -0.010110 sec
+31 Oct 21:10:07 ntpdate[7371]: adjust time server 192.168.1.5 offset 0.011797 sec
+31 Oct 21:15:08 ntpdate[7425]: adjust time server 192.168.1.5 offset 0.000335 sec
+31 Oct 21:20:07 ntpdate[7507]: adjust time server 192.168.1.5 offset 0.002192 sec
+31 Oct 21:25:07 ntpdate[7592]: adjust time server 192.168.1.5 offset 0.000021 sec
+31 Oct 21:30:07 ntpdate[7647]: adjust time server 192.168.1.5 offset 0.006247 sec
+31 Oct 21:35:07 ntpdate[7725]: adjust time server 192.168.1.5 offset -0.007343 sec
+31 Oct 21:40:07 ntpdate[7810]: adjust time server 192.168.1.5 offset 0.012367 sec
+31 Oct 21:45:08 ntpdate[7866]: adjust time server 192.168.1.5 offset -0.006071 sec
+31 Oct 21:50:07 ntpdate[7944]: adjust time server 192.168.1.5 offset 0.004522 sec
+31 Oct 21:55:07 ntpdate[8029]: adjust time server 192.168.1.5 offset 0.005709 sec
+31 Oct 22:00:07 ntpdate[8083]: adjust time server 192.168.1.5 offset 0.000685 sec
+31 Oct 22:05:07 ntpdate[8162]: adjust time server 192.168.1.5 offset -0.003005 sec
+31 Oct 22:10:07 ntpdate[8248]: adjust time server 192.168.1.5 offset 0.008779 sec
+31 Oct 22:15:08 ntpdate[8305]: adjust time server 192.168.1.5 offset -0.005794 sec
+31 Oct 22:20:07 ntpdate[8384]: adjust time server 192.168.1.5 offset 0.011847 sec
+31 Oct 22:25:07 ntpdate[8470]: adjust time server 192.168.1.5 offset -0.001516 sec
+31 Oct 22:30:07 ntpdate[8524]: adjust time server 192.168.1.5 offset -0.006323 sec
+31 Oct 22:35:07 ntpdate[8602]: adjust time server 192.168.1.5 offset 0.010906 sec
+31 Oct 22:40:07 ntpdate[8688]: adjust time server 192.168.1.5 offset -0.003085 sec
+31 Oct 22:45:08 ntpdate[8747]: adjust time server 192.168.1.5 offset 0.002994 sec
+31 Oct 22:50:07 ntpdate[8821]: adjust time server 192.168.1.5 offset 0.006182 sec
+31 Oct 22:55:07 ntpdate[8906]: adjust time server 192.168.1.5 offset -0.000610 sec
+31 Oct 23:00:07 ntpdate[8961]: adjust time server 192.168.1.5 offset 0.002198 sec
+31 Oct 23:05:07 ntpdate[9039]: adjust time server 192.168.1.5 offset -0.000466 sec
+31 Oct 23:10:07 ntpdate[9124]: adjust time server 192.168.1.5 offset -0.002756 sec
+31 Oct 23:15:08 ntpdate[9178]: adjust time server 192.168.1.5 offset 0.018495 sec
+31 Oct 23:20:07 ntpdate[9260]: adjust time server 192.168.1.5 offset -0.015425 sec
+31 Oct 23:25:07 ntpdate[9345]: adjust time server 192.168.1.5 offset 0.022365 sec
+31 Oct 23:30:07 ntpdate[9403]: adjust time server 192.168.1.5 offset -0.018687 sec
+31 Oct 23:35:07 ntpdate[9479]: adjust time server 192.168.1.5 offset 0.012638 sec
+31 Oct 23:40:07 ntpdate[9564]: adjust time server 192.168.1.5 offset 0.001300 sec
+31 Oct 23:45:08 ntpdate[9620]: adjust time server 192.168.1.5 offset 0.001608 sec
+31 Oct 23:50:07 ntpdate[9697]: adjust time server 192.168.1.5 offset -0.003254 sec
+31 Oct 23:55:07 ntpdate[9783]: adjust time server 192.168.1.5 offset 0.004398 sec
+ 1 Nov 00:00:07 ntpdate[9850]: adjust time server 192.168.1.5 offset 0.001448 sec
+ 1 Nov 00:05:07 ntpdate[10000]: adjust time server 192.168.1.5 offset 0.005415 sec
+ 1 Nov 00:10:07 ntpdate[10086]: adjust time server 192.168.1.5 offset 0.000470 sec
+ 1 Nov 00:15:07 ntpdate[10140]: adjust time server 192.168.1.5 offset -0.005053 sec
+ 1 Nov 00:20:07 ntpdate[10221]: adjust time server 192.168.1.5 offset 0.018609 sec
+ 1 Nov 00:25:07 ntpdate[10307]: adjust time server 192.168.1.5 offset -0.017225 sec
+ 1 Nov 00:30:08 ntpdate[10361]: adjust time server 192.168.1.5 offset 0.022067 sec
+ 1 Nov 00:35:07 ntpdate[10440]: adjust time server 192.168.1.5 offset -0.016758 sec
+ 1 Nov 00:40:07 ntpdate[10526]: adjust time server 192.168.1.5 offset 0.010012 sec
+ 1 Nov 00:45:07 ntpdate[10582]: adjust time server 192.168.1.5 offset 0.007883 sec
+ 1 Nov 00:50:07 ntpdate[10659]: adjust time server 192.168.1.5 offset -0.007609 sec
+ 1 Nov 00:55:07 ntpdate[10744]: adjust time server 192.168.1.5 offset 0.012385 sec
+ 1 Nov 01:00:08 ntpdate[10795]: adjust time server 192.168.1.5 offset -0.004249 sec
+ 1 Nov 01:05:07 ntpdate[10878]: adjust time server 192.168.1.5 offset -0.001767 sec
+ 1 Nov 01:10:07 ntpdate[10963]: adjust time server 192.168.1.5 offset 0.009099 sec
+ 1 Nov 01:15:07 ntpdate[11019]: adjust time server 192.168.1.5 offset -0.004025 sec
+ 1 Nov 01:20:07 ntpdate[11099]: adjust time server 192.168.1.5 offset 0.003519 sec
+ 1 Nov 01:25:07 ntpdate[11184]: adjust time server 192.168.1.5 offset -0.000788 sec
+ 1 Nov 01:30:08 ntpdate[11240]: adjust time server 192.168.1.5 offset 0.002816 sec
+ 1 Nov 01:35:07 ntpdate[11317]: adjust time server 192.168.1.5 offset 0.008617 sec
+ 1 Nov 01:40:07 ntpdate[11403]: adjust time server 192.168.1.5 offset -0.004128 sec
+ 1 Nov 01:45:07 ntpdate[11457]: adjust time server 192.168.1.5 offset 0.003510 sec
+ 1 Nov 01:50:07 ntpdate[11535]: adjust time server 192.168.1.5 offset 0.008983 sec
+ 1 Nov 01:55:07 ntpdate[11621]: adjust time server 192.168.1.5 offset -0.008100 sec
+ 1 Nov 02:00:08 ntpdate[11675]: adjust time server 192.168.1.5 offset 0.005522 sec
+ 1 Nov 02:05:07 ntpdate[11754]: adjust time server 192.168.1.5 offset -0.000146 sec
+ 1 Nov 02:10:07 ntpdate[11839]: adjust time server 192.168.1.5 offset 0.000529 sec
+ 1 Nov 02:15:07 ntpdate[11894]: adjust time server 192.168.1.5 offset 0.011610 sec
+ 1 Nov 02:20:07 ntpdate[11975]: adjust time server 192.168.1.5 offset -0.010384 sec
+ 1 Nov 02:25:07 ntpdate[12060]: adjust time server 192.168.1.5 offset 0.008453 sec
+ 1 Nov 02:30:08 ntpdate[12110]: adjust time server 192.168.1.5 offset -0.001236 sec
+ 1 Nov 02:35:07 ntpdate[12193]: adjust time server 192.168.1.5 offset 0.004474 sec
+ 1 Nov 02:40:07 ntpdate[12278]: adjust time server 192.168.1.5 offset 0.002870 sec
+ 1 Nov 02:45:07 ntpdate[12335]: adjust time server 192.168.1.5 offset 0.004907 sec
+ 1 Nov 02:50:07 ntpdate[12412]: adjust time server 192.168.1.5 offset 0.000709 sec
+ 1 Nov 02:55:07 ntpdate[12497]: adjust time server 192.168.1.5 offset -0.000645 sec
+ 1 Nov 03:00:08 ntpdate[12552]: adjust time server 192.168.1.5 offset 0.003372 sec
+ 1 Nov 03:05:07 ntpdate[12630]: adjust time server 192.168.1.5 offset -0.006477 sec
+ 1 Nov 03:10:07 ntpdate[12716]: adjust time server 192.168.1.5 offset 0.015922 sec
+ 1 Nov 03:15:07 ntpdate[12770]: adjust time server 192.168.1.5 offset -0.012777 sec
+ 1 Nov 03:20:07 ntpdate[12851]: adjust time server 192.168.1.5 offset 0.017429 sec
+ 1 Nov 03:25:07 ntpdate[12937]: adjust time server 192.168.1.5 offset -0.008424 sec
+ 1 Nov 03:30:07 ntpdate[12987]: adjust time server 192.168.1.5 offset 0.002018 sec
+ 1 Nov 03:35:07 ntpdate[13069]: adjust time server 192.168.1.5 offset 0.005331 sec
+ 1 Nov 03:40:08 ntpdate[13155]: adjust time server 192.168.1.5 offset 0.003406 sec
+ 1 Nov 03:45:07 ntpdate[13209]: adjust time server 192.168.1.5 offset -0.006838 sec
+ 1 Nov 03:50:07 ntpdate[13288]: adjust time server 192.168.1.5 offset 0.013636 sec
+ 1 Nov 03:55:07 ntpdate[13373]: adjust time server 192.168.1.5 offset -0.005469 sec
+ 1 Nov 04:00:07 ntpdate[13428]: adjust time server 192.168.1.5 offset 0.010760 sec
+ 1 Nov 04:05:07 ntpdate[13506]: adjust time server 192.168.1.5 offset -0.005635 sec
+ 1 Nov 04:10:08 ntpdate[13591]: adjust time server 192.168.1.5 offset -0.002911 sec
+ 1 Nov 04:15:07 ntpdate[13647]: adjust time server 192.168.1.5 offset 0.015596 sec
+ 1 Nov 04:20:07 ntpdate[13727]: adjust time server 192.168.1.5 offset -0.010243 sec
+ 1 Nov 04:25:07 ntpdate[13814]: adjust time server 192.168.1.5 offset 0.014076 sec
+ 1 Nov 04:30:07 ntpdate[13869]: adjust time server 192.168.1.5 offset -0.005939 sec
+ 1 Nov 04:35:07 ntpdate[13947]: adjust time server 192.168.1.5 offset 0.002273 sec
+ 1 Nov 04:40:08 ntpdate[14032]: adjust time server 192.168.1.5 offset 0.004183 sec
+ 1 Nov 04:45:07 ntpdate[14087]: adjust time server 192.168.1.5 offset -0.005503 sec
+ 1 Nov 04:50:07 ntpdate[14165]: adjust time server 192.168.1.5 offset 0.012762 sec
+ 1 Nov 04:55:07 ntpdate[14251]: adjust time server 192.168.1.5 offset -0.005604 sec
+ 1 Nov 05:00:07 ntpdate[14305]: adjust time server 192.168.1.5 offset 0.008620 sec
+ 1 Nov 05:05:07 ntpdate[14384]: adjust time server 192.168.1.5 offset -0.001905 sec
+ 1 Nov 05:10:08 ntpdate[14470]: adjust time server 192.168.1.5 offset -0.001687 sec
+ 1 Nov 05:15:07 ntpdate[14525]: adjust time server 192.168.1.5 offset 0.001762 sec
+ 1 Nov 05:20:07 ntpdate[14607]: adjust time server 192.168.1.5 offset 0.006323 sec
+ 1 Nov 05:25:07 ntpdate[14692]: adjust time server 192.168.1.5 offset -0.003509 sec
+ 1 Nov 05:30:07 ntpdate[14752]: adjust time server 192.168.1.5 offset 0.008472 sec
+ 1 Nov 05:35:07 ntpdate[14825]: adjust time server 192.168.1.5 offset -0.004394 sec
+ 1 Nov 05:40:08 ntpdate[14910]: adjust time server 192.168.1.5 offset 0.005007 sec
+ 1 Nov 05:45:07 ntpdate[14965]: adjust time server 192.168.1.5 offset 0.009076 sec
+ 1 Nov 05:50:07 ntpdate[15043]: adjust time server 192.168.1.5 offset -0.007304 sec
+ 1 Nov 05:55:07 ntpdate[15128]: adjust time server 192.168.1.5 offset 0.009418 sec
+ 1 Nov 06:00:07 ntpdate[15183]: adjust time server 192.168.1.5 offset 0.000945 sec
+ 1 Nov 06:05:07 ntpdate[15262]: adjust time server 192.168.1.5 offset -0.009254 sec
+ 1 Nov 06:10:08 ntpdate[15347]: adjust time server 192.168.1.5 offset 0.019577 sec
+ 1 Nov 06:15:07 ntpdate[15399]: adjust time server 192.168.1.5 offset -0.008778 sec
+ 1 Nov 06:20:07 ntpdate[15484]: adjust time server 192.168.1.5 offset 0.009417 sec
+ 1 Nov 06:25:07 ntpdate[15572]: adjust time server 192.168.1.5 offset -0.009882 sec
+ 1 Nov 06:30:07 ntpdate[15626]: adjust time server 192.168.1.5 offset 0.016630 sec
+ 1 Nov 06:35:07 ntpdate[15704]: adjust time server 192.168.1.5 offset -0.003532 sec
+ 1 Nov 06:40:08 ntpdate[15790]: adjust time server 192.168.1.5 offset -0.004382 sec
+ 1 Nov 06:45:07 ntpdate[15850]: adjust time server 192.168.1.5 offset 0.001571 sec
+ 1 Nov 06:50:07 ntpdate[15923]: adjust time server 192.168.1.5 offset 0.006824 sec
+ 1 Nov 06:55:07 ntpdate[16011]: adjust time server 192.168.1.5 offset 0.000301 sec
+ 1 Nov 07:00:07 ntpdate[16067]: adjust time server 192.168.1.5 offset 0.002932 sec
+ 1 Nov 07:05:07 ntpdate[16144]: adjust time server 192.168.1.5 offset 0.002095 sec
+ 1 Nov 07:10:08 ntpdate[16229]: adjust time server 192.168.1.5 offset -0.000971 sec
+ 1 Nov 07:15:07 ntpdate[16279]: adjust time server 192.168.1.5 offset 0.010089 sec
+ 1 Nov 07:20:07 ntpdate[16365]: adjust time server 192.168.1.5 offset -0.004997 sec
+ 1 Nov 07:25:07 ntpdate[16451]: adjust time server 192.168.1.5 offset 0.003068 sec
+ 1 Nov 07:30:08 ntpdate[16512]: adjust time server 192.168.1.5 offset 0.004612 sec
+ 1 Nov 07:35:07 ntpdate[16590]: adjust time server 192.168.1.5 offset -0.005737 sec
+ 1 Nov 07:40:08 ntpdate[16719]: adjust time server 192.168.1.5 offset 0.009041 sec
+ 1 Nov 07:45:07 ntpdate[16776]: adjust time server 192.168.1.5 offset 0.004162 sec
+ 1 Nov 07:50:07 ntpdate[17093]: adjust time server 192.168.1.5 offset -0.010714 sec
+ 1 Nov 07:55:07 ntpdate[17179]: adjust time server 192.168.1.5 offset 0.017139 sec
+ 1 Nov 08:00:07 ntpdate[17232]: adjust time server 192.168.1.5 offset -0.011780 sec
+ 1 Nov 08:05:07 ntpdate[17312]: adjust time server 192.168.1.5 offset 0.004157 sec
+ 1 Nov 08:10:08 ntpdate[17398]: adjust time server 192.168.1.5 offset 0.006970 sec
+ 1 Nov 08:15:07 ntpdate[17455]: adjust time server 192.168.1.5 offset -0.000861 sec
+ 1 Nov 08:20:07 ntpdate[17533]: adjust time server 192.168.1.5 offset 0.009236 sec
+ 1 Nov 08:25:07 ntpdate[17619]: adjust time server 192.168.1.5 offset -0.006266 sec
+ 1 Nov 08:30:08 ntpdate[17681]: adjust time server 192.168.1.5 offset 0.013092 sec
+ 1 Nov 08:35:07 ntpdate[17753]: adjust time server 192.168.1.5 offset -0.004906 sec
+ 1 Nov 08:40:08 ntpdate[17838]: adjust time server 192.168.1.5 offset -0.000266 sec
+ 1 Nov 08:45:07 ntpdate[17893]: adjust time server 192.168.1.5 offset 0.008267 sec
+ 1 Nov 08:50:07 ntpdate[17971]: adjust time server 192.168.1.5 offset -0.008300 sec
+ 1 Nov 08:55:07 ntpdate[18056]: adjust time server 192.168.1.5 offset 0.009712 sec
+ 1 Nov 09:00:07 ntpdate[18117]: adjust time server 192.168.1.5 offset -0.002068 sec
+ 1 Nov 09:05:07 ntpdate[18189]: adjust time server 192.168.1.5 offset 0.004050 sec
+ 1 Nov 09:10:08 ntpdate[18274]: adjust time server 192.168.1.5 offset -0.000807 sec
+ 1 Nov 09:15:07 ntpdate[18337]: adjust time server 192.168.1.5 offset 0.008143 sec
+ 1 Nov 09:20:07 ntpdate[18411]: adjust time server 192.168.1.5 offset -0.005750 sec
+ 1 Nov 09:25:07 ntpdate[18497]: adjust time server 192.168.1.5 offset 0.013191 sec
+ 1 Nov 09:30:07 ntpdate[18552]: adjust time server 192.168.1.5 offset -0.008260 sec
+ 1 Nov 09:35:07 ntpdate[18631]: adjust time server 192.168.1.5 offset 0.003576 sec
+ 1 Nov 09:40:08 ntpdate[18717]: adjust time server 192.168.1.5 offset 0.007151 sec
+ 1 Nov 09:45:07 ntpdate[18771]: adjust time server 192.168.1.5 offset -0.007468 sec
+ 1 Nov 09:50:07 ntpdate[18849]: adjust time server 192.168.1.5 offset 0.014166 sec
+ 1 Nov 09:55:07 ntpdate[18935]: adjust time server 192.168.1.5 offset -0.007670 sec
+ 1 Nov 10:00:08 ntpdate[18989]: adjust time server 192.168.1.5 offset 0.003882 sec
+ 1 Nov 10:05:07 ntpdate[19067]: adjust time server 192.168.1.5 offset 0.006968 sec
+ 1 Nov 10:10:08 ntpdate[19154]: adjust time server 192.168.1.5 offset -0.002926 sec
+ 1 Nov 10:15:07 ntpdate[19208]: adjust time server 192.168.1.5 offset -0.004577 sec
+ 1 Nov 10:20:07 ntpdate[19290]: adjust time server 192.168.1.5 offset 0.018732 sec
+ 1 Nov 10:25:07 ntpdate[19375]: adjust time server 192.168.1.5 offset -0.013663 sec
+ 1 Nov 10:30:08 ntpdate[19431]: adjust time server 192.168.1.5 offset 0.017934 sec
+ 1 Nov 10:35:07 ntpdate[19508]: adjust time server 192.168.1.5 offset -0.009630 sec
+ 1 Nov 10:40:08 ntpdate[19593]: adjust time server 192.168.1.5 offset 0.001853 sec
+ 1 Nov 10:45:07 ntpdate[19650]: adjust time server 192.168.1.5 offset 0.008851 sec
+ 1 Nov 10:50:07 ntpdate[19726]: adjust time server 192.168.1.5 offset -0.002669 sec
+ 1 Nov 10:55:07 ntpdate[19811]: adjust time server 192.168.1.5 offset -0.002258 sec
+ 1 Nov 11:00:07 ntpdate[19866]: adjust time server 192.168.1.5 offset 0.001874 sec
+ 1 Nov 11:05:07 ntpdate[19945]: adjust time server 192.168.1.5 offset 0.009826 sec
+ 1 Nov 11:10:08 ntpdate[20030]: adjust time server 192.168.1.5 offset 0.001494 sec
+ 1 Nov 11:15:07 ntpdate[20085]: adjust time server 192.168.1.5 offset 0.002028 sec
+ 1 Nov 11:20:07 ntpdate[20166]: adjust time server 192.168.1.5 offset -0.009233 sec
+ 1 Nov 11:25:07 ntpdate[20252]: adjust time server 192.168.1.5 offset 0.016201 sec
+ 1 Nov 11:30:08 ntpdate[20306]: adjust time server 192.168.1.5 offset -0.006213 sec
+ 1 Nov 11:35:07 ntpdate[20384]: adjust time server 192.168.1.5 offset 0.013665 sec
+ 1 Nov 11:40:08 ntpdate[20470]: adjust time server 192.168.1.5 offset -0.014007 sec
+ 1 Nov 11:45:07 ntpdate[20531]: adjust time server 192.168.1.5 offset 0.005657 sec
+ 1 Nov 11:50:07 ntpdate[20603]: adjust time server 192.168.1.5 offset 0.001556 sec
+ 1 Nov 11:55:07 ntpdate[20688]: adjust time server 192.168.1.5 offset 0.003415 sec
+ 1 Nov 12:00:07 ntpdate[20741]: adjust time server 192.168.1.5 offset -0.001923 sec
+ 1 Nov 12:05:07 ntpdate[20821]: adjust time server 192.168.1.5 offset 0.013314 sec
+ 1 Nov 12:10:08 ntpdate[20906]: adjust time server 192.168.1.5 offset -0.005599 sec
+ 1 Nov 12:15:07 ntpdate[20962]: adjust time server 192.168.1.5 offset 0.012465 sec
+ 1 Nov 12:20:07 ntpdate[21042]: adjust time server 192.168.1.5 offset -0.008797 sec
+ 1 Nov 12:25:07 ntpdate[21127]: adjust time server 192.168.1.5 offset -0.001163 sec
+ 1 Nov 12:30:08 ntpdate[21182]: adjust time server 192.168.1.5 offset 0.020353 sec
+ 1 Nov 12:35:07 ntpdate[21260]: adjust time server 192.168.1.5 offset -0.020291 sec
+ 1 Nov 12:40:08 ntpdate[21345]: adjust time server 192.168.1.5 offset 0.016594 sec
+ 1 Nov 12:45:07 ntpdate[21402]: adjust time server 192.168.1.5 offset -0.002319 sec
+ 1 Nov 12:50:07 ntpdate[21479]: adjust time server 192.168.1.5 offset -0.003956 sec
+ 1 Nov 12:55:07 ntpdate[21565]: adjust time server 192.168.1.5 offset 0.012603 sec
+ 1 Nov 13:00:07 ntpdate[21620]: adjust time server 192.168.1.5 offset -0.010396 sec
+ 1 Nov 13:05:07 ntpdate[21697]: adjust time server 192.168.1.5 offset 0.004396 sec
+ 1 Nov 13:10:08 ntpdate[21783]: adjust time server 192.168.1.5 offset 0.006259 sec
+ 1 Nov 13:15:07 ntpdate[21839]: adjust time server 192.168.1.5 offset -0.000635 sec
+ 1 Nov 13:20:07 ntpdate[21918]: adjust time server 192.168.1.5 offset 0.003348 sec
+ 1 Nov 13:25:07 ntpdate[22004]: adjust time server 192.168.1.5 offset 0.008078 sec
+ 1 Nov 13:30:07 ntpdate[22058]: adjust time server 192.168.1.5 offset -0.005693 sec
+ 1 Nov 13:35:07 ntpdate[22138]: adjust time server 192.168.1.5 offset 0.004594 sec
+ 1 Nov 13:40:08 ntpdate[22223]: adjust time server 192.168.1.5 offset 0.000710 sec
+ 1 Nov 13:45:07 ntpdate[22278]: adjust time server 192.168.1.5 offset 0.006255 sec
+ 1 Nov 13:50:07 ntpdate[22356]: adjust time server 192.168.1.5 offset -0.005116 sec
+ 1 Nov 13:55:07 ntpdate[22442]: adjust time server 192.168.1.5 offset 0.014597 sec
+ 1 Nov 14:00:07 ntpdate[22500]: adjust time server 192.168.1.5 offset -0.010650 sec
+ 1 Nov 14:05:07 ntpdate[22575]: adjust time server 192.168.1.5 offset 0.007570 sec
+ 1 Nov 14:10:08 ntpdate[22660]: adjust time server 192.168.1.5 offset 0.005122 sec
+ 1 Nov 14:15:07 ntpdate[22717]: adjust time server 192.168.1.5 offset -0.002386 sec
+ 1 Nov 14:20:07 ntpdate[22796]: adjust time server 192.168.1.5 offset 0.002746 sec
+ 1 Nov 14:25:07 ntpdate[22882]: adjust time server 192.168.1.5 offset 0.002270 sec
+ 1 Nov 14:30:07 ntpdate[22933]: adjust time server 192.168.1.5 offset -0.002363 sec
+ 1 Nov 14:35:07 ntpdate[23015]: adjust time server 192.168.1.5 offset -0.001292 sec
+ 1 Nov 14:40:08 ntpdate[23101]: adjust time server 192.168.1.5 offset 0.012516 sec
+ 1 Nov 14:45:07 ntpdate[23155]: adjust time server 192.168.1.5 offset -0.009417 sec
+ 1 Nov 14:50:07 ntpdate[23233]: adjust time server 192.168.1.5 offset 0.011342 sec
+ 1 Nov 14:55:07 ntpdate[23319]: adjust time server 192.168.1.5 offset -0.002475 sec
+ 1 Nov 15:00:08 ntpdate[23375]: adjust time server 192.168.1.5 offset 0.020283 sec
+ 1 Nov 15:05:07 ntpdate[23453]: adjust time server 192.168.1.5 offset -0.018635 sec
+ 1 Nov 15:10:08 ntpdate[23538]: adjust time server 192.168.1.5 offset 0.005966 sec
+ 1 Nov 15:15:07 ntpdate[23592]: adjust time server 192.168.1.5 offset 0.006624 sec
+ 1 Nov 15:20:07 ntpdate[23674]: adjust time server 192.168.1.5 offset -0.005581 sec
+ 1 Nov 15:25:07 ntpdate[23759]: adjust time server 192.168.1.5 offset 0.005296 sec
+ 1 Nov 15:30:08 ntpdate[23815]: adjust time server 192.168.1.5 offset 0.001489 sec
+ 1 Nov 15:35:07 ntpdate[23891]: adjust time server 192.168.1.5 offset 0.000050 sec
+ 1 Nov 15:40:07 ntpdate[23976]: adjust time server 192.168.1.5 offset 0.004809 sec
+ 1 Nov 15:45:07 ntpdate[24031]: adjust time server 192.168.1.5 offset 0.002227 sec
+ 1 Nov 15:50:07 ntpdate[24109]: adjust time server 192.168.1.5 offset 0.001124 sec
+ 1 Nov 15:55:07 ntpdate[24194]: adjust time server 192.168.1.5 offset 0.000066 sec
+ 1 Nov 16:00:08 ntpdate[24254]: adjust time server 192.168.1.5 offset 0.002049 sec
+ 1 Nov 16:05:07 ntpdate[24328]: adjust time server 192.168.1.5 offset -0.000040 sec
+ 1 Nov 16:10:07 ntpdate[24413]: adjust time server 192.168.1.5 offset 0.010288 sec
+ 1 Nov 16:15:07 ntpdate[24468]: adjust time server 192.168.1.5 offset -0.006999 sec
+ 1 Nov 16:20:07 ntpdate[24549]: adjust time server 192.168.1.5 offset 0.011906 sec
+ 1 Nov 16:25:07 ntpdate[24636]: adjust time server 192.168.1.5 offset -0.008156 sec
+ 1 Nov 16:30:08 ntpdate[24684]: adjust time server 192.168.1.5 offset 0.006187 sec
+ 1 Nov 16:35:07 ntpdate[24768]: adjust time server 192.168.1.5 offset 0.004043 sec
+ 1 Nov 16:40:07 ntpdate[24854]: adjust time server 192.168.1.5 offset -0.006225 sec
+ 1 Nov 16:45:07 ntpdate[24915]: adjust time server 192.168.1.5 offset 0.018495 sec
+ 1 Nov 16:50:07 ntpdate[24987]: adjust time server 192.168.1.5 offset -0.011653 sec
+ 1 Nov 16:55:07 ntpdate[25072]: adjust time server 192.168.1.5 offset 0.005412 sec
+ 1 Nov 17:00:08 ntpdate[25129]: adjust time server 192.168.1.5 offset 0.009210 sec
+ 1 Nov 17:05:07 ntpdate[25205]: adjust time server 192.168.1.5 offset -0.015731 sec
+ 1 Nov 17:10:07 ntpdate[25290]: adjust time server 192.168.1.5 offset 0.012175 sec
+ 1 Nov 17:15:07 ntpdate[25340]: adjust time server 192.168.1.5 offset 0.005317 sec
+ 1 Nov 17:20:07 ntpdate[25426]: adjust time server 192.168.1.5 offset -0.010809 sec
+ 1 Nov 17:25:07 ntpdate[25511]: adjust time server 192.168.1.5 offset 0.016958 sec
+ 1 Nov 17:30:08 ntpdate[25562]: adjust time server 192.168.1.5 offset -0.010846 sec
+ 1 Nov 17:35:07 ntpdate[25644]: adjust time server 192.168.1.5 offset 0.016581 sec
+ 1 Nov 17:40:07 ntpdate[25729]: adjust time server 192.168.1.5 offset -0.009852 sec
+ 1 Nov 17:45:07 ntpdate[25786]: adjust time server 192.168.1.5 offset 0.005864 sec
+ 1 Nov 17:50:07 ntpdate[25863]: adjust time server 192.168.1.5 offset 0.009073 sec
+ 1 Nov 17:55:07 ntpdate[25949]: adjust time server 192.168.1.5 offset -0.010340 sec
+ 1 Nov 18:00:08 ntpdate[26003]: adjust time server 192.168.1.5 offset 0.004683 sec
+ 1 Nov 18:05:07 ntpdate[26081]: adjust time server 192.168.1.5 offset 0.009898 sec
+ 1 Nov 18:10:07 ntpdate[26167]: adjust time server 192.168.1.5 offset -0.008354 sec
+ 1 Nov 18:15:07 ntpdate[26219]: adjust time server 192.168.1.5 offset 0.014790 sec
+ 1 Nov 18:20:07 ntpdate[26302]: adjust time server 192.168.1.5 offset -0.011650 sec
+ 1 Nov 18:25:07 ntpdate[26388]: adjust time server 192.168.1.5 offset 0.011371 sec
+ 1 Nov 18:30:08 ntpdate[26443]: adjust time server 192.168.1.5 offset 0.001740 sec
+ 1 Nov 18:35:07 ntpdate[26521]: adjust time server 192.168.1.5 offset 0.000634 sec
+ 1 Nov 18:40:08 ntpdate[26606]: adjust time server 192.168.1.5 offset 0.000601 sec
+ 1 Nov 18:45:07 ntpdate[26661]: adjust time server 192.168.1.5 offset 0.006893 sec
+ 1 Nov 18:50:07 ntpdate[26739]: adjust time server 192.168.1.5 offset -0.011511 sec
+ 1 Nov 18:55:07 ntpdate[26824]: adjust time server 192.168.1.5 offset 0.016818 sec
+ 1 Nov 19:00:08 ntpdate[26881]: adjust time server 192.168.1.5 offset -0.004296 sec
+ 1 Nov 19:05:07 ntpdate[26957]: adjust time server 192.168.1.5 offset -0.003229 sec
+ 1 Nov 19:10:08 ntpdate[27042]: adjust time server 192.168.1.5 offset 0.009597 sec
+ 1 Nov 19:15:07 ntpdate[27097]: adjust time server 192.168.1.5 offset -0.006537 sec
+ 1 Nov 19:20:07 ntpdate[27179]: adjust time server 192.168.1.5 offset 0.004940 sec
+ 1 Nov 19:25:07 ntpdate[27264]: adjust time server 192.168.1.5 offset 0.011217 sec
+ 1 Nov 19:30:07 ntpdate[27320]: adjust time server 192.168.1.5 offset -0.010165 sec
+ 1 Nov 19:35:07 ntpdate[27398]: adjust time server 192.168.1.5 offset 0.014323 sec
+ 1 Nov 19:40:08 ntpdate[27484]: adjust time server 192.168.1.5 offset -0.013252 sec
+ 1 Nov 19:45:07 ntpdate[27539]: adjust time server 192.168.1.5 offset 0.016230 sec
+ 1 Nov 19:50:07 ntpdate[27616]: adjust time server 192.168.1.5 offset -0.005672 sec
+ 1 Nov 19:55:07 ntpdate[27702]: adjust time server 192.168.1.5 offset -0.001130 sec
+ 1 Nov 20:00:07 ntpdate[27756]: adjust time server 192.168.1.5 offset 0.010504 sec
+ 1 Nov 20:05:07 ntpdate[27835]: adjust time server 192.168.1.5 offset -0.006844 sec
+ 1 Nov 20:10:08 ntpdate[27921]: adjust time server 192.168.1.5 offset 0.007212 sec
+ 1 Nov 20:15:07 ntpdate[27976]: adjust time server 192.168.1.5 offset 0.003406 sec
+ 1 Nov 20:20:07 ntpdate[28057]: adjust time server 192.168.1.5 offset 0.002200 sec
+ 1 Nov 20:25:07 ntpdate[28142]: adjust time server 192.168.1.5 offset -0.000122 sec
+ 1 Nov 20:30:08 ntpdate[28196]: adjust time server 192.168.1.5 offset 0.007636 sec
+ 1 Nov 20:35:07 ntpdate[28275]: adjust time server 192.168.1.5 offset -0.009148 sec
+ 1 Nov 20:40:08 ntpdate[28360]: adjust time server 192.168.1.5 offset 0.010816 sec
+ 1 Nov 20:45:07 ntpdate[28416]: adjust time server 192.168.1.5 offset -0.001732 sec
+ 1 Nov 20:50:07 ntpdate[28493]: adjust time server 192.168.1.5 offset 0.011317 sec
+ 1 Nov 20:55:07 ntpdate[28578]: adjust time server 192.168.1.5 offset -0.009999 sec
+ 1 Nov 21:00:07 ntpdate[28633]: adjust time server 192.168.1.5 offset 0.006181 sec
+ 1 Nov 21:05:07 ntpdate[28711]: adjust time server 192.168.1.5 offset 0.000788 sec
+ 1 Nov 21:10:08 ntpdate[28798]: adjust time server 192.168.1.5 offset -0.003464 sec
+ 1 Nov 21:15:07 ntpdate[28853]: adjust time server 192.168.1.5 offset 0.012219 sec
+ 1 Nov 21:20:07 ntpdate[28933]: adjust time server 192.168.1.5 offset -0.004226 sec
+ 1 Nov 21:25:07 ntpdate[29019]: adjust time server 192.168.1.5 offset -0.001678 sec
+ 1 Nov 21:30:08 ntpdate[29073]: adjust time server 192.168.1.5 offset 0.011151 sec
+ 1 Nov 21:35:07 ntpdate[29151]: adjust time server 192.168.1.5 offset -0.004963 sec
+ 1 Nov 21:40:08 ntpdate[29237]: adjust time server 192.168.1.5 offset -0.000727 sec
+ 1 Nov 21:45:07 ntpdate[29291]: adjust time server 192.168.1.5 offset 0.013380 sec
+ 1 Nov 21:50:07 ntpdate[29370]: adjust time server 192.168.1.5 offset -0.008235 sec
+ 1 Nov 21:55:07 ntpdate[29455]: adjust time server 192.168.1.5 offset 0.013608 sec
+ 1 Nov 22:00:07 ntpdate[29510]: adjust time server 192.168.1.5 offset -0.011488 sec
+ 1 Nov 22:05:07 ntpdate[29588]: adjust time server 192.168.1.5 offset 0.006646 sec
+ 1 Nov 22:10:08 ntpdate[29673]: adjust time server 192.168.1.5 offset 0.012440 sec
+ 1 Nov 22:15:07 ntpdate[29735]: adjust time server 192.168.1.5 offset -0.011607 sec
+ 1 Nov 22:20:07 ntpdate[29809]: adjust time server 192.168.1.5 offset 0.007236 sec
+ 1 Nov 22:25:07 ntpdate[29894]: adjust time server 192.168.1.5 offset 0.000225 sec
+ 1 Nov 22:30:07 ntpdate[29950]: adjust time server 192.168.1.5 offset 0.003791 sec
+ 1 Nov 22:35:07 ntpdate[30028]: adjust time server 192.168.1.5 offset -0.000823 sec
+ 1 Nov 22:40:08 ntpdate[30113]: adjust time server 192.168.1.5 offset 0.004427 sec
+ 1 Nov 22:45:07 ntpdate[30169]: adjust time server 192.168.1.5 offset 0.005340 sec
+ 1 Nov 22:50:07 ntpdate[30247]: adjust time server 192.168.1.5 offset -0.001728 sec
+ 1 Nov 22:55:07 ntpdate[30333]: adjust time server 192.168.1.5 offset -0.000014 sec
+ 1 Nov 23:00:07 ntpdate[30385]: adjust time server 192.168.1.5 offset 0.010634 sec
+ 1 Nov 23:05:07 ntpdate[30465]: adjust time server 192.168.1.5 offset -0.008396 sec
+ 1 Nov 23:10:08 ntpdate[30551]: adjust time server 192.168.1.5 offset 0.007282 sec
+ 1 Nov 23:15:07 ntpdate[30606]: adjust time server 192.168.1.5 offset 0.007852 sec
+ 1 Nov 23:20:07 ntpdate[30687]: adjust time server 192.168.1.5 offset -0.012275 sec
+ 1 Nov 23:25:07 ntpdate[30772]: adjust time server 192.168.1.5 offset 0.013384 sec
+ 1 Nov 23:30:07 ntpdate[30827]: adjust time server 192.168.1.5 offset -0.006571 sec
+ 1 Nov 23:35:07 ntpdate[30905]: adjust time server 192.168.1.5 offset 0.008736 sec
+ 1 Nov 23:40:08 ntpdate[30990]: adjust time server 192.168.1.5 offset 0.005378 sec
+ 1 Nov 23:45:07 ntpdate[31044]: adjust time server 192.168.1.5 offset -0.006769 sec
+ 1 Nov 23:50:07 ntpdate[31123]: adjust time server 192.168.1.5 offset 0.000271 sec
+ 1 Nov 23:55:07 ntpdate[31209]: adjust time server 192.168.1.5 offset 0.014948 sec
+ 2 Nov 00:00:07 ntpdate[31283]: adjust time server 192.168.1.5 offset -0.018687 sec
+ 2 Nov 00:05:07 ntpdate[31427]: adjust time server 192.168.1.5 offset 0.018469 sec
+ 2 Nov 00:10:07 ntpdate[31512]: adjust time server 192.168.1.5 offset -0.009154 sec
+ 2 Nov 00:15:07 ntpdate[31568]: adjust time server 192.168.1.5 offset 0.006546 sec
+ 2 Nov 00:20:07 ntpdate[31649]: adjust time server 192.168.1.5 offset 0.003620 sec
+ 2 Nov 00:25:07 ntpdate[31736]: adjust time server 192.168.1.5 offset 0.003816 sec
+ 2 Nov 00:30:07 ntpdate[31791]: adjust time server 192.168.1.5 offset 0.006817 sec
+ 2 Nov 00:35:07 ntpdate[31869]: adjust time server 192.168.1.5 offset -0.009988 sec
+ 2 Nov 00:40:07 ntpdate[31955]: adjust time server 192.168.1.5 offset 0.009670 sec
+ 2 Nov 00:45:07 ntpdate[32010]: adjust time server 192.168.1.5 offset -0.000398 sec
+ 2 Nov 00:50:07 ntpdate[32087]: adjust time server 192.168.1.5 offset 0.001800 sec
+ 2 Nov 00:55:07 ntpdate[32173]: adjust time server 192.168.1.5 offset 0.011661 sec
+ 2 Nov 01:00:07 ntpdate[32226]: adjust time server 192.168.1.5 offset -0.008921 sec
+ 2 Nov 01:05:07 ntpdate[32306]: adjust time server 192.168.1.5 offset 0.001291 sec
+ 2 Nov 01:10:07 ntpdate[32391]: adjust time server 192.168.1.5 offset 0.011759 sec
+ 2 Nov 01:15:07 ntpdate[32446]: adjust time server 192.168.1.5 offset -0.010258 sec
+ 2 Nov 01:20:07 ntpdate[32527]: adjust time server 192.168.1.5 offset 0.013735 sec
+ 2 Nov 01:25:07 ntpdate[32612]: adjust time server 192.168.1.5 offset -0.005493 sec
+ 2 Nov 01:30:07 ntpdate[32668]: adjust time server 192.168.1.5 offset 0.005344 sec
+ 2 Nov 01:35:07 ntpdate[32745]: adjust time server 192.168.1.5 offset -0.000587 sec
+ 2 Nov 01:40:07 ntpdate[366]: adjust time server 192.168.1.5 offset 0.002170 sec
+ 2 Nov 01:45:07 ntpdate[423]: adjust time server 192.168.1.5 offset -0.001682 sec
+ 2 Nov 01:50:07 ntpdate[507]: adjust time server 192.168.1.5 offset 0.006116 sec
+ 2 Nov 01:55:07 ntpdate[600]: adjust time server 192.168.1.5 offset -0.001291 sec
+ 2 Nov 02:00:07 ntpdate[661]: adjust time server 192.168.1.5 offset 0.012095 sec
+ 2 Nov 02:05:07 ntpdate[741]: adjust time server 192.168.1.5 offset -0.008978 sec
+ 2 Nov 02:10:08 ntpdate[838]: adjust time server 192.168.1.5 offset 0.014096 sec
+ 2 Nov 02:15:07 ntpdate[895]: adjust time server 192.168.1.5 offset -0.005586 sec
+ 2 Nov 02:20:07 ntpdate[976]: adjust time server 192.168.1.5 offset 0.002182 sec
+ 2 Nov 02:25:07 ntpdate[1067]: adjust time server 192.168.1.5 offset -0.001349 sec
+ 2 Nov 02:30:07 ntpdate[1125]: adjust time server 192.168.1.5 offset 0.004711 sec
+ 2 Nov 02:35:07 ntpdate[1208]: adjust time server 192.168.1.5 offset -0.000116 sec
+ 2 Nov 02:40:08 ntpdate[1294]: adjust time server 192.168.1.5 offset 0.009181 sec
+ 2 Nov 02:45:07 ntpdate[1350]: adjust time server 192.168.1.5 offset -0.007004 sec
+ 2 Nov 02:50:07 ntpdate[1427]: adjust time server 192.168.1.5 offset 0.008289 sec
+ 2 Nov 02:55:07 ntpdate[1520]: adjust time server 192.168.1.5 offset 0.002858 sec
+ 2 Nov 03:00:07 ntpdate[1576]: adjust time server 192.168.1.5 offset -0.004536 sec
+ 2 Nov 03:05:07 ntpdate[1658]: adjust time server 192.168.1.5 offset 0.009770 sec
+ 2 Nov 03:10:08 ntpdate[1749]: adjust time server 192.168.1.5 offset -0.003255 sec
+ 2 Nov 03:15:07 ntpdate[1843]: adjust time server 192.168.1.5 offset -0.004044 sec
+ 2 Nov 03:20:07 ntpdate[1952]: adjust time server 192.168.1.5 offset 0.013201 sec
+ 2 Nov 03:25:07 ntpdate[2042]: adjust time server 192.168.1.5 offset -0.008172 sec
+ 2 Nov 03:30:07 ntpdate[2100]: adjust time server 192.168.1.5 offset 0.011739 sec
+ 2 Nov 03:35:07 ntpdate[2182]: adjust time server 192.168.1.5 offset -0.008682 sec
+ 2 Nov 03:40:08 ntpdate[2268]: adjust time server 192.168.1.5 offset 0.006323 sec
+ 2 Nov 03:45:07 ntpdate[2321]: adjust time server 192.168.1.5 offset 0.006323 sec
+ 2 Nov 03:50:07 ntpdate[2401]: adjust time server 192.168.1.5 offset 0.000513 sec
+ 2 Nov 03:55:07 ntpdate[2488]: adjust time server 192.168.1.5 offset -0.007318 sec
+ 2 Nov 04:00:07 ntpdate[2538]: adjust time server 192.168.1.5 offset 0.017398 sec
+ 2 Nov 04:05:07 ntpdate[2620]: adjust time server 192.168.1.5 offset -0.009143 sec
+ 2 Nov 04:10:08 ntpdate[2707]: adjust time server 192.168.1.5 offset 0.006469 sec
+ 2 Nov 04:15:07 ntpdate[2761]: adjust time server 192.168.1.5 offset 0.004215 sec
+ 2 Nov 04:20:07 ntpdate[2843]: adjust time server 192.168.1.5 offset -0.008100 sec
+ 2 Nov 04:25:07 ntpdate[2928]: adjust time server 192.168.1.5 offset 0.007942 sec
+ 2 Nov 04:30:07 ntpdate[2983]: adjust time server 192.168.1.5 offset 0.000711 sec
+ 2 Nov 04:35:07 ntpdate[3061]: adjust time server 192.168.1.5 offset 0.005150 sec
+ 2 Nov 04:40:08 ntpdate[3146]: adjust time server 192.168.1.5 offset 0.005531 sec
+ 2 Nov 04:45:07 ntpdate[3201]: adjust time server 192.168.1.5 offset -0.009660 sec
+ 2 Nov 04:50:07 ntpdate[3279]: adjust time server 192.168.1.5 offset 0.013858 sec
+ 2 Nov 04:55:07 ntpdate[3364]: adjust time server 192.168.1.5 offset -0.005389 sec
+ 2 Nov 05:00:07 ntpdate[3421]: adjust time server 192.168.1.5 offset 0.000047 sec
+ 2 Nov 05:05:07 ntpdate[3498]: adjust time server 192.168.1.5 offset 0.010389 sec
+ 2 Nov 05:10:08 ntpdate[3583]: adjust time server 192.168.1.5 offset -0.009419 sec
+ 2 Nov 05:15:07 ntpdate[3638]: adjust time server 192.168.1.5 offset 0.020376 sec
+ 2 Nov 05:20:07 ntpdate[3719]: adjust time server 192.168.1.5 offset -0.015824 sec
+ 2 Nov 05:25:07 ntpdate[3806]: adjust time server 192.168.1.5 offset 0.015159 sec
+ 2 Nov 05:30:07 ntpdate[3860]: adjust time server 192.168.1.5 offset -0.003055 sec
+ 2 Nov 05:35:07 ntpdate[3938]: adjust time server 192.168.1.5 offset -0.004316 sec
+ 2 Nov 05:40:08 ntpdate[4025]: adjust time server 192.168.1.5 offset 0.011738 sec
+ 2 Nov 05:45:07 ntpdate[4081]: adjust time server 192.168.1.5 offset -0.005045 sec
+ 2 Nov 05:50:07 ntpdate[4158]: adjust time server 192.168.1.5 offset 0.007496 sec
+ 2 Nov 05:55:07 ntpdate[4243]: adjust time server 192.168.1.5 offset -0.006624 sec
+ 2 Nov 06:00:07 ntpdate[4298]: adjust time server 192.168.1.5 offset 0.010891 sec
+ 2 Nov 06:05:07 ntpdate[4376]: adjust time server 192.168.1.5 offset 0.001431 sec
+ 2 Nov 06:10:08 ntpdate[4461]: adjust time server 192.168.1.5 offset 0.001780 sec
+ 2 Nov 06:15:07 ntpdate[4512]: adjust time server 192.168.1.5 offset 0.001822 sec
+ 2 Nov 06:20:07 ntpdate[4598]: adjust time server 192.168.1.5 offset -0.001004 sec
+ 2 Nov 06:25:07 ntpdate[4685]: adjust time server 192.168.1.5 offset 0.005575 sec
+ 2 Nov 06:30:07 ntpdate[4742]: adjust time server 192.168.1.5 offset -0.005453 sec
+ 2 Nov 06:35:07 ntpdate[4818]: adjust time server 192.168.1.5 offset 0.008605 sec
+ 2 Nov 06:40:08 ntpdate[4903]: adjust time server 192.168.1.5 offset -0.004071 sec
+ 2 Nov 06:45:07 ntpdate[4959]: adjust time server 192.168.1.5 offset 0.002311 sec
+ 2 Nov 06:50:07 ntpdate[5038]: adjust time server 192.168.1.5 offset -0.000183 sec
+ 2 Nov 06:55:07 ntpdate[5125]: adjust time server 192.168.1.5 offset 0.005087 sec
+ 2 Nov 07:00:07 ntpdate[5180]: adjust time server 192.168.1.5 offset 0.005656 sec
+ 2 Nov 07:05:07 ntpdate[5258]: adjust time server 192.168.1.5 offset -0.002090 sec
+ 2 Nov 07:10:08 ntpdate[5344]: adjust time server 192.168.1.5 offset 0.000450 sec
+ 2 Nov 07:15:07 ntpdate[5398]: adjust time server 192.168.1.5 offset 0.010807 sec
+ 2 Nov 07:20:07 ntpdate[5479]: adjust time server 192.168.1.5 offset -0.010390 sec
+ 2 Nov 07:25:07 ntpdate[5565]: adjust time server 192.168.1.5 offset 0.016907 sec
+ 2 Nov 07:30:08 ntpdate[5628]: adjust time server 192.168.1.5 offset -0.004795 sec
+ 2 Nov 07:35:07 ntpdate[5705]: adjust time server 192.168.1.5 offset -0.007550 sec
+ 2 Nov 07:40:08 ntpdate[5834]: adjust time server 192.168.1.5 offset 0.018813 sec
+ 2 Nov 07:45:07 ntpdate[5889]: adjust time server 192.168.1.5 offset -0.009188 sec
+ 2 Nov 07:50:07 ntpdate[5967]: adjust time server 192.168.1.5 offset 0.011774 sec
+ 2 Nov 07:55:07 ntpdate[6052]: adjust time server 192.168.1.5 offset -0.003538 sec
+ 2 Nov 08:00:07 ntpdate[7896]: adjust time server 192.168.1.5 offset -0.004560 sec
+ 2 Nov 08:05:07 ntpdate[7978]: adjust time server 192.168.1.5 offset 0.013109 sec
+ 2 Nov 08:10:08 ntpdate[8063]: adjust time server 192.168.1.5 offset -0.010096 sec
+ 2 Nov 08:15:07 ntpdate[8118]: adjust time server 192.168.1.5 offset 0.009312 sec
+ 2 Nov 08:20:07 ntpdate[8199]: adjust time server 192.168.1.5 offset -0.001364 sec
+ 2 Nov 08:25:07 ntpdate[8285]: adjust time server 192.168.1.5 offset 0.008638 sec
+ 2 Nov 08:30:08 ntpdate[8342]: adjust time server 192.168.1.5 offset -0.002663 sec
+ 2 Nov 08:35:07 ntpdate[8418]: adjust time server 192.168.1.5 offset 0.002299 sec
+ 2 Nov 08:40:08 ntpdate[8504]: adjust time server 192.168.1.5 offset -0.000318 sec
+ 2 Nov 08:45:07 ntpdate[8555]: adjust time server 192.168.1.5 offset 0.008670 sec
+ 2 Nov 08:50:07 ntpdate[8637]: adjust time server 192.168.1.5 offset -0.011661 sec
+ 2 Nov 08:55:07 ntpdate[8723]: adjust time server 192.168.1.5 offset 0.018764 sec
+ 2 Nov 09:00:07 ntpdate[8777]: adjust time server 192.168.1.5 offset -0.003804 sec
+ 2 Nov 09:05:07 ntpdate[8856]: adjust time server 192.168.1.5 offset -0.007227 sec
+ 2 Nov 09:10:08 ntpdate[8941]: adjust time server 192.168.1.5 offset 0.012550 sec
+ 2 Nov 09:15:07 ntpdate[8996]: adjust time server 192.168.1.5 offset -0.000736 sec
+ 2 Nov 09:20:07 ntpdate[9077]: adjust time server 192.168.1.5 offset -0.005553 sec
+ 2 Nov 09:25:07 ntpdate[9162]: adjust time server 192.168.1.5 offset 0.012917 sec
+ 2 Nov 09:30:08 ntpdate[9217]: adjust time server 192.168.1.5 offset 0.005411 sec
+ 2 Nov 09:35:07 ntpdate[9295]: adjust time server 192.168.1.5 offset -0.016075 sec
+ 2 Nov 09:40:08 ntpdate[9380]: adjust time server 192.168.1.5 offset 0.018124 sec
+ 2 Nov 09:45:07 ntpdate[9436]: adjust time server 192.168.1.5 offset -0.010707 sec
+ 2 Nov 09:50:07 ntpdate[9513]: adjust time server 192.168.1.5 offset 0.010656 sec
+ 2 Nov 09:55:07 ntpdate[9598]: adjust time server 192.168.1.5 offset -0.005080 sec
+ 2 Nov 10:00:08 ntpdate[9654]: adjust time server 192.168.1.5 offset 0.014712 sec
+ 2 Nov 10:05:07 ntpdate[9732]: adjust time server 192.168.1.5 offset -0.009104 sec
+ 2 Nov 10:10:08 ntpdate[9818]: adjust time server 192.168.1.5 offset 0.004104 sec
+ 2 Nov 10:15:07 ntpdate[9872]: adjust time server 192.168.1.5 offset 0.007078 sec
+ 2 Nov 10:20:07 ntpdate[9954]: adjust time server 192.168.1.5 offset -0.004719 sec
+ 2 Nov 10:25:07 ntpdate[10041]: adjust time server 192.168.1.5 offset 0.011131 sec
+ 2 Nov 10:30:08 ntpdate[10094]: adjust time server 192.168.1.5 offset -0.001319 sec
+ 2 Nov 10:35:07 ntpdate[10173]: adjust time server 192.168.1.5 offset -0.008885 sec
+ 2 Nov 10:40:08 ntpdate[10259]: adjust time server 192.168.1.5 offset 0.016827 sec
+ 2 Nov 10:45:07 ntpdate[10315]: adjust time server 192.168.1.5 offset -0.006630 sec
+ 2 Nov 10:50:07 ntpdate[10392]: adjust time server 192.168.1.5 offset 0.008653 sec
+ 2 Nov 10:55:07 ntpdate[10477]: adjust time server 192.168.1.5 offset -0.002214 sec
+ 2 Nov 11:00:08 ntpdate[10532]: adjust time server 192.168.1.5 offset 0.003655 sec
+ 2 Nov 11:05:07 ntpdate[10610]: adjust time server 192.168.1.5 offset 0.002178 sec
+ 2 Nov 11:10:08 ntpdate[10695]: adjust time server 192.168.1.5 offset -0.002190 sec
+ 2 Nov 11:15:07 ntpdate[10752]: adjust time server 192.168.1.5 offset 0.000026 sec
+ 2 Nov 11:20:07 ntpdate[10831]: adjust time server 192.168.1.5 offset 0.002039 sec
+ 2 Nov 11:25:07 ntpdate[10916]: adjust time server 192.168.1.5 offset 0.002908 sec
+ 2 Nov 11:30:08 ntpdate[10970]: adjust time server 192.168.1.5 offset 0.009915 sec
+ 2 Nov 11:35:07 ntpdate[11049]: adjust time server 192.168.1.5 offset 0.000046 sec
+ 2 Nov 11:40:07 ntpdate[11134]: adjust time server 192.168.1.5 offset -0.005783 sec
+ 2 Nov 11:45:07 ntpdate[11189]: adjust time server 192.168.1.5 offset 0.008161 sec
+ 2 Nov 11:50:07 ntpdate[11267]: adjust time server 192.168.1.5 offset -0.004723 sec
+ 2 Nov 11:55:07 ntpdate[11353]: adjust time server 192.168.1.5 offset 0.005912 sec
+ 2 Nov 12:00:08 ntpdate[11409]: adjust time server 192.168.1.5 offset 0.009252 sec
+ 2 Nov 12:05:07 ntpdate[11487]: adjust time server 192.168.1.5 offset -0.011545 sec
+ 2 Nov 12:10:07 ntpdate[11573]: adjust time server 192.168.1.5 offset 0.007763 sec
+ 2 Nov 12:15:07 ntpdate[11628]: adjust time server 192.168.1.5 offset 0.000582 sec
+ 2 Nov 12:20:07 ntpdate[11709]: adjust time server 192.168.1.5 offset 0.000762 sec
+ 2 Nov 12:25:07 ntpdate[11794]: adjust time server 192.168.1.5 offset 0.008004 sec
+ 2 Nov 12:30:08 ntpdate[11850]: adjust time server 192.168.1.5 offset 0.000095 sec
+ 2 Nov 12:35:07 ntpdate[11928]: adjust time server 192.168.1.5 offset 0.006906 sec
+ 2 Nov 12:40:07 ntpdate[12013]: adjust time server 192.168.1.5 offset 0.002136 sec
+ 2 Nov 12:45:07 ntpdate[12068]: adjust time server 192.168.1.5 offset -0.005980 sec
+ 2 Nov 12:50:07 ntpdate[12146]: adjust time server 192.168.1.5 offset 0.006177 sec
+ 2 Nov 12:55:07 ntpdate[12231]: adjust time server 192.168.1.5 offset -0.006763 sec
+ 2 Nov 13:00:08 ntpdate[12283]: adjust time server 192.168.1.5 offset 0.012222 sec
+ 2 Nov 13:05:07 ntpdate[12363]: adjust time server 192.168.1.5 offset 0.001818 sec
+ 2 Nov 13:10:07 ntpdate[12448]: adjust time server 192.168.1.5 offset -0.007093 sec
+ 2 Nov 13:15:07 ntpdate[12505]: adjust time server 192.168.1.5 offset 0.008145 sec
+ 2 Nov 13:20:08 ntpdate[12584]: adjust time server 192.168.1.5 offset 0.009818 sec
+ 2 Nov 13:25:07 ntpdate[12669]: adjust time server 192.168.1.5 offset -0.014358 sec
+ 2 Nov 13:30:08 ntpdate[12725]: adjust time server 192.168.1.5 offset 0.020302 sec
+ 2 Nov 13:35:07 ntpdate[12802]: adjust time server 192.168.1.5 offset -0.015279 sec
+ 2 Nov 13:40:07 ntpdate[12888]: adjust time server 192.168.1.5 offset 0.005674 sec
+ 2 Nov 13:45:07 ntpdate[12942]: adjust time server 192.168.1.5 offset 0.005879 sec
+ 2 Nov 13:50:07 ntpdate[13021]: adjust time server 192.168.1.5 offset 0.005298 sec
+ 2 Nov 13:55:07 ntpdate[13107]: adjust time server 192.168.1.5 offset -0.004702 sec
+ 2 Nov 14:00:08 ntpdate[13162]: adjust time server 192.168.1.5 offset 0.007708 sec
+ 2 Nov 14:05:07 ntpdate[13240]: adjust time server 192.168.1.5 offset -0.007763 sec
+ 2 Nov 14:10:07 ntpdate[13325]: adjust time server 192.168.1.5 offset 0.014798 sec
+ 2 Nov 14:15:07 ntpdate[13380]: adjust time server 192.168.1.5 offset -0.010859 sec
+ 2 Nov 14:20:07 ntpdate[13461]: adjust time server 192.168.1.5 offset 0.011253 sec
+ 2 Nov 14:25:07 ntpdate[13546]: adjust time server 192.168.1.5 offset -0.002490 sec
+ 2 Nov 14:30:08 ntpdate[13601]: adjust time server 192.168.1.5 offset 0.001053 sec
+ 2 Nov 14:35:07 ntpdate[13679]: adjust time server 192.168.1.5 offset 0.007405 sec
+ 2 Nov 14:40:07 ntpdate[13765]: adjust time server 192.168.1.5 offset -0.006241 sec
+ 2 Nov 14:45:07 ntpdate[13820]: adjust time server 192.168.1.5 offset 0.012908 sec
+ 2 Nov 14:50:07 ntpdate[13898]: adjust time server 192.168.1.5 offset -0.005695 sec
+ 2 Nov 14:55:07 ntpdate[13983]: adjust time server 192.168.1.5 offset 0.001820 sec
+ 2 Nov 15:00:08 ntpdate[14045]: adjust time server 192.168.1.5 offset 0.004972 sec
+ 2 Nov 15:05:07 ntpdate[14116]: adjust time server 192.168.1.5 offset -0.003248 sec
+ 2 Nov 15:10:08 ntpdate[14202]: adjust time server 192.168.1.5 offset 0.017166 sec
+ 2 Nov 15:15:07 ntpdate[14258]: adjust time server 192.168.1.5 offset -0.012945 sec
+ 2 Nov 15:20:07 ntpdate[14337]: adjust time server 192.168.1.5 offset 0.007158 sec
+ 2 Nov 15:25:07 ntpdate[14424]: adjust time server 192.168.1.5 offset -0.002428 sec
+ 2 Nov 15:30:07 ntpdate[14478]: adjust time server 192.168.1.5 offset 0.003984 sec
+ 2 Nov 15:35:07 ntpdate[14556]: adjust time server 192.168.1.5 offset 0.001030 sec
+ 2 Nov 15:40:08 ntpdate[14642]: adjust time server 192.168.1.5 offset 0.008707 sec
+ 2 Nov 15:45:07 ntpdate[14696]: adjust time server 192.168.1.5 offset -0.006980 sec
+ 2 Nov 15:50:07 ntpdate[14775]: adjust time server 192.168.1.5 offset 0.008990 sec
+ 2 Nov 15:55:07 ntpdate[14860]: adjust time server 192.168.1.5 offset -0.002570 sec
+ 2 Nov 16:00:07 ntpdate[14910]: adjust time server 192.168.1.5 offset 0.003289 sec
+ 2 Nov 16:05:07 ntpdate[14993]: adjust time server 192.168.1.5 offset 0.001942 sec
+ 2 Nov 16:10:08 ntpdate[15079]: adjust time server 192.168.1.5 offset 0.005760 sec
+ 2 Nov 16:15:07 ntpdate[15134]: adjust time server 192.168.1.5 offset -0.000129 sec
+ 2 Nov 16:20:07 ntpdate[15215]: adjust time server 192.168.1.5 offset 0.001627 sec
+ 2 Nov 16:25:07 ntpdate[15300]: adjust time server 192.168.1.5 offset 0.001375 sec
+ 2 Nov 16:30:07 ntpdate[15357]: adjust time server 192.168.1.5 offset -0.000310 sec
+ 2 Nov 16:35:07 ntpdate[15434]: adjust time server 192.168.1.5 offset 0.002804 sec
+ 2 Nov 16:40:08 ntpdate[15519]: adjust time server 192.168.1.5 offset 0.008722 sec
+ 2 Nov 16:45:07 ntpdate[15575]: adjust time server 192.168.1.5 offset -0.007414 sec
+ 2 Nov 16:50:07 ntpdate[15652]: adjust time server 192.168.1.5 offset 0.011498 sec
+ 2 Nov 16:55:07 ntpdate[15738]: adjust time server 192.168.1.5 offset -0.005942 sec
+ 2 Nov 17:00:07 ntpdate[15794]: adjust time server 192.168.1.5 offset 0.007319 sec
+ 2 Nov 17:05:07 ntpdate[15871]: adjust time server 192.168.1.5 offset -0.004547 sec
+ 2 Nov 17:10:08 ntpdate[15957]: adjust time server 192.168.1.5 offset 0.008028 sec
+ 2 Nov 17:15:07 ntpdate[16014]: adjust time server 192.168.1.5 offset -0.003484 sec
+ 2 Nov 17:20:07 ntpdate[16094]: adjust time server 192.168.1.5 offset 0.008433 sec
+ 2 Nov 17:25:07 ntpdate[16179]: adjust time server 192.168.1.5 offset -0.001831 sec
+ 2 Nov 17:30:07 ntpdate[16233]: adjust time server 192.168.1.5 offset 0.004967 sec
+ 2 Nov 17:35:07 ntpdate[16313]: adjust time server 192.168.1.5 offset 0.001309 sec
+ 2 Nov 17:40:08 ntpdate[16398]: adjust time server 192.168.1.5 offset -0.006029 sec
+ 2 Nov 17:45:07 ntpdate[16459]: adjust time server 192.168.1.5 offset 0.016976 sec
+ 2 Nov 17:50:07 ntpdate[16531]: adjust time server 192.168.1.5 offset -0.006217 sec
+ 2 Nov 17:55:07 ntpdate[16616]: adjust time server 192.168.1.5 offset -0.006537 sec
+ 2 Nov 18:00:07 ntpdate[16672]: adjust time server 192.168.1.5 offset 0.008051 sec
+ 2 Nov 18:05:07 ntpdate[16749]: adjust time server 192.168.1.5 offset 0.003003 sec
+ 2 Nov 18:10:08 ntpdate[16834]: adjust time server 192.168.1.5 offset -0.000558 sec
+ 2 Nov 18:15:07 ntpdate[16889]: adjust time server 192.168.1.5 offset 0.007623 sec
+ 2 Nov 18:20:07 ntpdate[16970]: adjust time server 192.168.1.5 offset -0.010992 sec
+ 2 Nov 18:25:07 ntpdate[17056]: adjust time server 192.168.1.5 offset 0.024641 sec
+ 2 Nov 18:30:08 ntpdate[17106]: adjust time server 192.168.1.5 offset -0.011374 sec
+ 2 Nov 18:35:07 ntpdate[17188]: adjust time server 192.168.1.5 offset 0.000583 sec
+ 2 Nov 18:40:07 ntpdate[17274]: adjust time server 192.168.1.5 offset 0.009105 sec
+ 2 Nov 18:45:07 ntpdate[17333]: adjust time server 192.168.1.5 offset -0.007099 sec
+ 2 Nov 18:50:07 ntpdate[17407]: adjust time server 192.168.1.5 offset 0.003298 sec
+ 2 Nov 18:55:07 ntpdate[17493]: adjust time server 192.168.1.5 offset 0.007779 sec
+ 2 Nov 19:00:08 ntpdate[17547]: adjust time server 192.168.1.5 offset -0.002906 sec
+ 2 Nov 19:05:07 ntpdate[17626]: adjust time server 192.168.1.5 offset 0.007582 sec
+ 2 Nov 19:10:07 ntpdate[17711]: adjust time server 192.168.1.5 offset -0.010306 sec
+ 2 Nov 19:15:07 ntpdate[17772]: adjust time server 192.168.1.5 offset 0.021278 sec
+ 2 Nov 19:20:07 ntpdate[17847]: adjust time server 192.168.1.5 offset -0.013156 sec
+ 2 Nov 19:25:07 ntpdate[17932]: adjust time server 192.168.1.5 offset 0.004068 sec
+ 2 Nov 19:30:08 ntpdate[17990]: adjust time server 192.168.1.5 offset 0.011351 sec
+ 2 Nov 19:35:07 ntpdate[18065]: adjust time server 192.168.1.5 offset -0.006061 sec
+ 2 Nov 19:40:07 ntpdate[18150]: adjust time server 192.168.1.5 offset 0.000414 sec
+ 2 Nov 19:45:07 ntpdate[18205]: adjust time server 192.168.1.5 offset 0.012403 sec
+ 2 Nov 19:50:07 ntpdate[18283]: adjust time server 192.168.1.5 offset -0.012084 sec
+ 2 Nov 19:55:07 ntpdate[18368]: adjust time server 192.168.1.5 offset 0.015795 sec
+ 2 Nov 20:00:08 ntpdate[18424]: adjust time server 192.168.1.5 offset -0.005012 sec
+ 2 Nov 20:05:07 ntpdate[18501]: adjust time server 192.168.1.5 offset -0.000704 sec
+ 2 Nov 20:10:07 ntpdate[18587]: adjust time server 192.168.1.5 offset 0.004708 sec
+ 2 Nov 20:15:07 ntpdate[18643]: adjust time server 192.168.1.5 offset -0.002414 sec
+ 2 Nov 20:20:07 ntpdate[18722]: adjust time server 192.168.1.5 offset 0.000215 sec
+ 2 Nov 20:25:07 ntpdate[18808]: adjust time server 192.168.1.5 offset 0.007631 sec
+ 2 Nov 20:30:08 ntpdate[18858]: adjust time server 192.168.1.5 offset 0.009117 sec
+ 2 Nov 20:35:07 ntpdate[18942]: adjust time server 192.168.1.5 offset -0.004515 sec
+ 2 Nov 20:40:07 ntpdate[19027]: adjust time server 192.168.1.5 offset 0.001575 sec
+ 2 Nov 20:45:07 ntpdate[19082]: adjust time server 192.168.1.5 offset -0.003162 sec
+ 2 Nov 20:50:07 ntpdate[19160]: adjust time server 192.168.1.5 offset 0.010697 sec
+ 2 Nov 20:55:07 ntpdate[19245]: adjust time server 192.168.1.5 offset -0.004696 sec
+ 2 Nov 21:00:08 ntpdate[19299]: adjust time server 192.168.1.5 offset 0.010992 sec
+ 2 Nov 21:05:07 ntpdate[19378]: adjust time server 192.168.1.5 offset -0.008531 sec
+ 2 Nov 21:10:07 ntpdate[19463]: adjust time server 192.168.1.5 offset 0.003577 sec
+ 2 Nov 21:15:07 ntpdate[19520]: adjust time server 192.168.1.5 offset 0.005812 sec
+ 2 Nov 21:20:07 ntpdate[19599]: adjust time server 192.168.1.5 offset 0.003400 sec
+ 2 Nov 21:25:07 ntpdate[19684]: adjust time server 192.168.1.5 offset -0.004302 sec
+ 2 Nov 21:30:08 ntpdate[19747]: adjust time server 192.168.1.5 offset 0.006200 sec
+ 2 Nov 21:35:07 ntpdate[19818]: adjust time server 192.168.1.5 offset -0.005566 sec
+ 2 Nov 21:40:07 ntpdate[19904]: adjust time server 192.168.1.5 offset 0.009630 sec
+ 2 Nov 21:45:07 ntpdate[19956]: adjust time server 192.168.1.5 offset -0.001321 sec
+ 2 Nov 21:50:07 ntpdate[20036]: adjust time server 192.168.1.5 offset 0.003294 sec
+ 2 Nov 21:55:07 ntpdate[20122]: adjust time server 192.168.1.5 offset 0.001446 sec
+ 2 Nov 22:00:08 ntpdate[20177]: adjust time server 192.168.1.5 offset 0.005123 sec
+ 2 Nov 22:05:07 ntpdate[20254]: adjust time server 192.168.1.5 offset -0.003363 sec
+ 2 Nov 22:10:07 ntpdate[20341]: adjust time server 192.168.1.5 offset 0.009152 sec
+ 2 Nov 22:15:07 ntpdate[20391]: adjust time server 192.168.1.5 offset -0.002073 sec
+ 2 Nov 22:20:07 ntpdate[20477]: adjust time server 192.168.1.5 offset 0.006888 sec
+ 2 Nov 22:25:07 ntpdate[20562]: adjust time server 192.168.1.5 offset -0.009576 sec
+ 2 Nov 22:30:08 ntpdate[20624]: adjust time server 192.168.1.5 offset 0.019658 sec
+ 2 Nov 22:35:07 ntpdate[20695]: adjust time server 192.168.1.5 offset -0.012065 sec
+ 2 Nov 22:40:07 ntpdate[20780]: adjust time server 192.168.1.5 offset 0.000739 sec
+ 2 Nov 22:45:07 ntpdate[20834]: adjust time server 192.168.1.5 offset 0.013415 sec
+ 2 Nov 22:50:08 ntpdate[20913]: adjust time server 192.168.1.5 offset -0.005560 sec
+ 2 Nov 22:55:07 ntpdate[20998]: adjust time server 192.168.1.5 offset -0.000299 sec
+ 2 Nov 23:00:08 ntpdate[21053]: adjust time server 192.168.1.5 offset 0.010210 sec
+ 2 Nov 23:05:07 ntpdate[21131]: adjust time server 192.168.1.5 offset -0.010387 sec
+ 2 Nov 23:10:07 ntpdate[21216]: adjust time server 192.168.1.5 offset 0.013543 sec
+ 2 Nov 23:15:07 ntpdate[21273]: adjust time server 192.168.1.5 offset -0.009964 sec
+ 2 Nov 23:20:08 ntpdate[21352]: adjust time server 192.168.1.5 offset 0.012931 sec
+ 2 Nov 23:25:07 ntpdate[21438]: adjust time server 192.168.1.5 offset -0.000148 sec
+ 2 Nov 23:30:08 ntpdate[21500]: adjust time server 192.168.1.5 offset -0.006561 sec
+ 2 Nov 23:35:07 ntpdate[21570]: adjust time server 192.168.1.5 offset 0.009189 sec
+ 2 Nov 23:40:07 ntpdate[21657]: adjust time server 192.168.1.5 offset 0.005327 sec
+ 2 Nov 23:45:07 ntpdate[21711]: adjust time server 192.168.1.5 offset 0.000456 sec
+ 2 Nov 23:50:08 ntpdate[21791]: adjust time server 192.168.1.5 offset 0.009331 sec
+ 2 Nov 23:55:07 ntpdate[21876]: adjust time server 192.168.1.5 offset -0.004054 sec
+ 3 Nov 00:00:08 ntpdate[21948]: adjust time server 192.168.1.5 offset -0.000838 sec
+ 3 Nov 00:05:07 ntpdate[22094]: adjust time server 192.168.1.5 offset -0.000648 sec
+ 3 Nov 00:10:07 ntpdate[22179]: adjust time server 192.168.1.5 offset 0.004875 sec
+ 3 Nov 00:15:07 ntpdate[22233]: adjust time server 192.168.1.5 offset 0.002399 sec
+ 3 Nov 00:20:07 ntpdate[22315]: adjust time server 192.168.1.5 offset -0.006503 sec
+ 3 Nov 00:25:07 ntpdate[22400]: adjust time server 192.168.1.5 offset 0.007050 sec
+ 3 Nov 00:30:07 ntpdate[22456]: adjust time server 192.168.1.5 offset 0.007812 sec
+ 3 Nov 00:35:07 ntpdate[22533]: adjust time server 192.168.1.5 offset -0.006933 sec
+ 3 Nov 00:40:07 ntpdate[22618]: adjust time server 192.168.1.5 offset 0.008327 sec
+ 3 Nov 00:45:07 ntpdate[22673]: adjust time server 192.168.1.5 offset -0.000120 sec
+ 3 Nov 00:50:07 ntpdate[22751]: adjust time server 192.168.1.5 offset -0.000362 sec
+ 3 Nov 00:55:07 ntpdate[22837]: adjust time server 192.168.1.5 offset 0.004815 sec
+ 3 Nov 01:00:07 ntpdate[22892]: adjust time server 192.168.1.5 offset 0.003426 sec
+ 3 Nov 01:05:07 ntpdate[22969]: adjust time server 192.168.1.5 offset 0.003502 sec
+ 3 Nov 01:10:07 ntpdate[23055]: adjust time server 192.168.1.5 offset 0.001471 sec
+ 3 Nov 01:15:07 ntpdate[23110]: adjust time server 192.168.1.5 offset -0.007203 sec
+ 3 Nov 01:20:07 ntpdate[23191]: adjust time server 192.168.1.5 offset 0.019437 sec
+ 3 Nov 01:25:07 ntpdate[23278]: adjust time server 192.168.1.5 offset -0.019232 sec
+ 3 Nov 01:30:07 ntpdate[23333]: adjust time server 192.168.1.5 offset 0.012532 sec
+ 3 Nov 01:35:07 ntpdate[23411]: adjust time server 192.168.1.5 offset 0.001445 sec
+ 3 Nov 01:40:07 ntpdate[23496]: adjust time server 192.168.1.5 offset -0.002462 sec
+ 3 Nov 01:45:07 ntpdate[23550]: adjust time server 192.168.1.5 offset 0.009021 sec
+ 3 Nov 01:50:07 ntpdate[23629]: adjust time server 192.168.1.5 offset -0.007250 sec
+ 3 Nov 01:55:07 ntpdate[23714]: adjust time server 192.168.1.5 offset 0.014255 sec
+ 3 Nov 02:00:07 ntpdate[23765]: adjust time server 192.168.1.5 offset -0.000655 sec
+ 3 Nov 02:05:07 ntpdate[23847]: adjust time server 192.168.1.5 offset -0.003300 sec
+ 3 Nov 02:10:07 ntpdate[23932]: adjust time server 192.168.1.5 offset 0.006097 sec
+ 3 Nov 02:15:07 ntpdate[23987]: adjust time server 192.168.1.5 offset -0.006629 sec
+ 3 Nov 02:20:07 ntpdate[24068]: adjust time server 192.168.1.5 offset 0.007561 sec
+ 3 Nov 02:25:08 ntpdate[24153]: adjust time server 192.168.1.5 offset 0.003371 sec
+ 3 Nov 02:30:07 ntpdate[24208]: adjust time server 192.168.1.5 offset 0.002232 sec
+ 3 Nov 02:35:07 ntpdate[24286]: adjust time server 192.168.1.5 offset -0.001609 sec
+ 3 Nov 02:40:07 ntpdate[24372]: adjust time server 192.168.1.5 offset 0.009802 sec
+ 3 Nov 02:45:08 ntpdate[24426]: adjust time server 192.168.1.5 offset -0.000341 sec
+ 3 Nov 02:50:07 ntpdate[24504]: adjust time server 192.168.1.5 offset -0.002751 sec
+ 3 Nov 02:55:08 ntpdate[24590]: adjust time server 192.168.1.5 offset 0.006740 sec
+ 3 Nov 03:00:07 ntpdate[24644]: adjust time server 192.168.1.5 offset -0.006271 sec
+ 3 Nov 03:05:07 ntpdate[24724]: adjust time server 192.168.1.5 offset 0.015086 sec
+ 3 Nov 03:10:07 ntpdate[24809]: adjust time server 192.168.1.5 offset -0.012550 sec
+ 3 Nov 03:15:07 ntpdate[24864]: adjust time server 192.168.1.5 offset 0.016738 sec
+ 3 Nov 03:20:07 ntpdate[24945]: adjust time server 192.168.1.5 offset -0.009438 sec
+ 3 Nov 03:25:08 ntpdate[25031]: adjust time server 192.168.1.5 offset 0.005316 sec
+ 3 Nov 03:30:07 ntpdate[25086]: adjust time server 192.168.1.5 offset 0.004579 sec
+ 3 Nov 03:35:07 ntpdate[25164]: adjust time server 192.168.1.5 offset -0.009069 sec
+ 3 Nov 03:40:07 ntpdate[25249]: adjust time server 192.168.1.5 offset 0.014983 sec
+ 3 Nov 03:45:08 ntpdate[25305]: adjust time server 192.168.1.5 offset -0.005046 sec
+ 3 Nov 03:50:07 ntpdate[25382]: adjust time server 192.168.1.5 offset 0.003537 sec
+ 3 Nov 03:55:08 ntpdate[25467]: adjust time server 192.168.1.5 offset 0.004463 sec
+ 3 Nov 04:00:07 ntpdate[25524]: adjust time server 192.168.1.5 offset 0.004767 sec
+ 3 Nov 04:05:07 ntpdate[25600]: adjust time server 192.168.1.5 offset -0.011296 sec
+ 3 Nov 04:10:07 ntpdate[25687]: adjust time server 192.168.1.5 offset 0.017449 sec
+ 3 Nov 04:15:07 ntpdate[25742]: adjust time server 192.168.1.5 offset -0.005186 sec
+ 3 Nov 04:20:07 ntpdate[25822]: adjust time server 192.168.1.5 offset 0.002665 sec
+ 3 Nov 04:25:08 ntpdate[25908]: adjust time server 192.168.1.5 offset 0.003848 sec
+ 3 Nov 04:30:07 ntpdate[25965]: adjust time server 192.168.1.5 offset -0.002300 sec
+ 3 Nov 04:35:07 ntpdate[26041]: adjust time server 192.168.1.5 offset 0.004413 sec
+ 3 Nov 04:40:07 ntpdate[26127]: adjust time server 192.168.1.5 offset 0.002549 sec
+ 3 Nov 04:45:08 ntpdate[26181]: adjust time server 192.168.1.5 offset -0.002668 sec
+ 3 Nov 04:50:07 ntpdate[26261]: adjust time server 192.168.1.5 offset 0.003759 sec
+ 3 Nov 04:55:08 ntpdate[26346]: adjust time server 192.168.1.5 offset 0.007570 sec
+ 3 Nov 05:00:07 ntpdate[26406]: adjust time server 192.168.1.5 offset 0.004241 sec
+ 3 Nov 05:05:07 ntpdate[26479]: adjust time server 192.168.1.5 offset -0.007449 sec
+ 3 Nov 05:10:07 ntpdate[26564]: adjust time server 192.168.1.5 offset 0.008919 sec
+ 3 Nov 05:15:07 ntpdate[26620]: adjust time server 192.168.1.5 offset 0.004475 sec
+ 3 Nov 05:20:07 ntpdate[26700]: adjust time server 192.168.1.5 offset -0.011468 sec
+ 3 Nov 05:25:08 ntpdate[26785]: adjust time server 192.168.1.5 offset 0.005639 sec
+ 3 Nov 05:30:07 ntpdate[26847]: adjust time server 192.168.1.5 offset 0.008372 sec
+ 3 Nov 05:35:07 ntpdate[26918]: adjust time server 192.168.1.5 offset 0.006342 sec
+ 3 Nov 05:40:07 ntpdate[27003]: adjust time server 192.168.1.5 offset -0.001783 sec
+ 3 Nov 05:45:07 ntpdate[27058]: adjust time server 192.168.1.5 offset -0.006541 sec
+ 3 Nov 05:50:07 ntpdate[27137]: adjust time server 192.168.1.5 offset 0.003215 sec
+ 3 Nov 05:55:08 ntpdate[27223]: adjust time server 192.168.1.5 offset 0.009442 sec
+ 3 Nov 06:00:07 ntpdate[27279]: adjust time server 192.168.1.5 offset -0.006752 sec
+ 3 Nov 06:05:07 ntpdate[27355]: adjust time server 192.168.1.5 offset 0.014781 sec
+ 3 Nov 06:10:07 ntpdate[27441]: adjust time server 192.168.1.5 offset -0.012974 sec
+ 3 Nov 06:15:07 ntpdate[27495]: adjust time server 192.168.1.5 offset 0.007953 sec
+ 3 Nov 06:20:07 ntpdate[27578]: adjust time server 192.168.1.5 offset 0.010708 sec
+ 3 Nov 06:25:08 ntpdate[27666]: adjust time server 192.168.1.5 offset -0.009742 sec
+ 3 Nov 06:30:07 ntpdate[27721]: adjust time server 192.168.1.5 offset 0.008181 sec
+ 3 Nov 06:35:07 ntpdate[27799]: adjust time server 192.168.1.5 offset 0.001253 sec
+ 3 Nov 06:40:07 ntpdate[27884]: adjust time server 192.168.1.5 offset -0.003044 sec
+ 3 Nov 06:45:08 ntpdate[27939]: adjust time server 192.168.1.5 offset 0.007805 sec
+ 3 Nov 06:50:07 ntpdate[28017]: adjust time server 192.168.1.5 offset 0.003613 sec
+ 3 Nov 06:55:08 ntpdate[28102]: adjust time server 192.168.1.5 offset -0.008085 sec
+ 3 Nov 07:00:07 ntpdate[28159]: adjust time server 192.168.1.5 offset 0.011079 sec
+ 3 Nov 07:05:07 ntpdate[28235]: adjust time server 192.168.1.5 offset -0.006180 sec
+ 3 Nov 07:10:07 ntpdate[28320]: adjust time server 192.168.1.5 offset 0.008195 sec
+ 3 Nov 07:15:07 ntpdate[28376]: adjust time server 192.168.1.5 offset 0.005738 sec
+ 3 Nov 07:20:07 ntpdate[28456]: adjust time server 192.168.1.5 offset -0.004769 sec
+ 3 Nov 07:25:08 ntpdate[28542]: adjust time server 192.168.1.5 offset 0.013283 sec
+ 3 Nov 07:30:07 ntpdate[28610]: adjust time server 192.168.1.5 offset -0.010480 sec
+ 3 Nov 07:35:07 ntpdate[28703]: adjust time server 192.168.1.5 offset -0.001978 sec
+ 3 Nov 07:40:07 ntpdate[28809]: adjust time server 192.168.1.5 offset 0.010250 sec
+ 3 Nov 07:45:07 ntpdate[28861]: adjust time server 192.168.1.5 offset -0.003964 sec
+ 3 Nov 07:50:07 ntpdate[29179]: adjust time server 192.168.1.5 offset 0.010810 sec
+ 3 Nov 07:55:08 ntpdate[29265]: adjust time server 192.168.1.5 offset -0.000736 sec
+ 3 Nov 08:00:07 ntpdate[29318]: adjust time server 192.168.1.5 offset -0.001721 sec
+ 3 Nov 08:05:07 ntpdate[29399]: adjust time server 192.168.1.5 offset 0.007794 sec
+ 3 Nov 08:10:07 ntpdate[29484]: adjust time server 192.168.1.5 offset -0.008344 sec
+ 3 Nov 08:15:07 ntpdate[29538]: adjust time server 192.168.1.5 offset 0.013778 sec
+ 3 Nov 08:20:07 ntpdate[29620]: adjust time server 192.168.1.5 offset -0.008040 sec
+ 3 Nov 08:25:08 ntpdate[29705]: adjust time server 192.168.1.5 offset 0.008414 sec
+ 3 Nov 08:30:07 ntpdate[29760]: adjust time server 192.168.1.5 offset 0.004730 sec
+ 3 Nov 08:35:07 ntpdate[29838]: adjust time server 192.168.1.5 offset -0.008672 sec
+ 3 Nov 08:40:07 ntpdate[29923]: adjust time server 192.168.1.5 offset 0.006366 sec
+ 3 Nov 08:45:07 ntpdate[29980]: adjust time server 192.168.1.5 offset 0.008714 sec
+ 3 Nov 08:50:07 ntpdate[30056]: adjust time server 192.168.1.5 offset -0.001871 sec
+ 3 Nov 08:55:08 ntpdate[30141]: adjust time server 192.168.1.5 offset 0.007118 sec
+ 3 Nov 09:00:07 ntpdate[30199]: adjust time server 192.168.1.5 offset -0.005203 sec
+ 3 Nov 09:05:07 ntpdate[30275]: adjust time server 192.168.1.5 offset -0.001919 sec
+ 3 Nov 09:10:07 ntpdate[30361]: adjust time server 192.168.1.5 offset 0.005378 sec
+ 3 Nov 09:15:08 ntpdate[30411]: adjust time server 192.168.1.5 offset 0.001490 sec
+ 3 Nov 09:20:07 ntpdate[30497]: adjust time server 192.168.1.5 offset 0.006353 sec
+ 3 Nov 09:25:08 ntpdate[30583]: adjust time server 192.168.1.5 offset -0.000239 sec
+ 3 Nov 09:30:07 ntpdate[30643]: adjust time server 192.168.1.5 offset -0.003069 sec
+ 3 Nov 09:35:07 ntpdate[30716]: adjust time server 192.168.1.5 offset 0.012463 sec
+ 3 Nov 09:40:07 ntpdate[30801]: adjust time server 192.168.1.5 offset -0.002792 sec
+ 3 Nov 09:45:07 ntpdate[30856]: adjust time server 192.168.1.5 offset -0.003950 sec
+ 3 Nov 09:50:07 ntpdate[30935]: adjust time server 192.168.1.5 offset 0.007365 sec
+ 3 Nov 09:55:08 ntpdate[31020]: adjust time server 192.168.1.5 offset -0.000602 sec
+ 3 Nov 10:00:07 ntpdate[31075]: adjust time server 192.168.1.5 offset 0.009051 sec
+ 3 Nov 10:05:07 ntpdate[31153]: adjust time server 192.168.1.5 offset -0.001912 sec
+ 3 Nov 10:10:07 ntpdate[31238]: adjust time server 192.168.1.5 offset 0.000666 sec
+ 3 Nov 10:15:08 ntpdate[31300]: adjust time server 192.168.1.5 offset 0.010763 sec
+ 3 Nov 10:20:07 ntpdate[31374]: adjust time server 192.168.1.5 offset -0.014963 sec
+ 3 Nov 10:25:08 ntpdate[31459]: adjust time server 192.168.1.5 offset 0.016352 sec
+ 3 Nov 10:30:07 ntpdate[31516]: adjust time server 192.168.1.5 offset -0.003320 sec
+ 3 Nov 10:35:07 ntpdate[31592]: adjust time server 192.168.1.5 offset -0.005355 sec
+ 3 Nov 10:40:07 ntpdate[31679]: adjust time server 192.168.1.5 offset 0.010087 sec
+ 3 Nov 10:45:07 ntpdate[31734]: adjust time server 192.168.1.5 offset -0.000217 sec
+ 3 Nov 10:50:07 ntpdate[31811]: adjust time server 192.168.1.5 offset 0.002387 sec
+ 3 Nov 10:55:08 ntpdate[31898]: adjust time server 192.168.1.5 offset -0.000992 sec
+ 3 Nov 11:00:07 ntpdate[31947]: adjust time server 192.168.1.5 offset 0.006328 sec
+ 3 Nov 11:05:07 ntpdate[32029]: adjust time server 192.168.1.5 offset 0.007025 sec
+ 3 Nov 11:10:07 ntpdate[32116]: adjust time server 192.168.1.5 offset -0.011415 sec
+ 3 Nov 11:15:08 ntpdate[32170]: adjust time server 192.168.1.5 offset 0.012460 sec
+ 3 Nov 11:20:07 ntpdate[32253]: adjust time server 192.168.1.5 offset -0.007206 sec
+ 3 Nov 11:25:08 ntpdate[32339]: adjust time server 192.168.1.5 offset 0.007024 sec
+ 3 Nov 11:30:07 ntpdate[32395]: adjust time server 192.168.1.5 offset 0.003775 sec
+ 3 Nov 11:35:07 ntpdate[32472]: adjust time server 192.168.1.5 offset -0.006055 sec
+ 3 Nov 11:40:07 ntpdate[32557]: adjust time server 192.168.1.5 offset 0.012529 sec
+ 3 Nov 11:45:07 ntpdate[32612]: adjust time server 192.168.1.5 offset -0.005624 sec
+ 3 Nov 11:50:07 ntpdate[32690]: adjust time server 192.168.1.5 offset 0.004234 sec
+ 3 Nov 11:55:08 ntpdate[308]: adjust time server 192.168.1.5 offset 0.000343 sec
+ 3 Nov 12:00:07 ntpdate[367]: adjust time server 192.168.1.5 offset 0.008674 sec
+ 3 Nov 12:05:07 ntpdate[446]: adjust time server 192.168.1.5 offset -0.002720 sec
+ 3 Nov 12:10:07 ntpdate[539]: adjust time server 192.168.1.5 offset 0.007348 sec
+ 3 Nov 12:15:08 ntpdate[601]: adjust time server 192.168.1.5 offset 0.002684 sec
+ 3 Nov 12:20:07 ntpdate[684]: adjust time server 192.168.1.5 offset -0.011725 sec
+ 3 Nov 12:25:08 ntpdate[783]: adjust time server 192.168.1.5 offset 0.020063 sec
+ 3 Nov 12:30:07 ntpdate[834]: adjust time server 192.168.1.5 offset -0.013101 sec
+ 3 Nov 12:35:07 ntpdate[918]: adjust time server 192.168.1.5 offset 0.007154 sec
+ 3 Nov 12:40:07 ntpdate[1008]: adjust time server 192.168.1.5 offset -0.000540 sec
+ 3 Nov 12:45:07 ntpdate[1063]: adjust time server 192.168.1.5 offset 0.003002 sec
+ 3 Nov 12:50:07 ntpdate[1144]: adjust time server 192.168.1.5 offset 0.004306 sec
+ 3 Nov 12:55:08 ntpdate[1236]: adjust time server 192.168.1.5 offset -0.001939 sec
+ 3 Nov 13:00:07 ntpdate[1293]: adjust time server 192.168.1.5 offset 0.002759 sec
+ 3 Nov 13:05:07 ntpdate[1371]: adjust time server 192.168.1.5 offset 0.006074 sec
+ 3 Nov 13:10:07 ntpdate[1456]: adjust time server 192.168.1.5 offset -0.006341 sec
+ 3 Nov 13:15:08 ntpdate[1518]: adjust time server 192.168.1.5 offset 0.012329 sec
+ 3 Nov 13:20:07 ntpdate[1603]: adjust time server 192.168.1.5 offset -0.006296 sec
+ 3 Nov 13:25:07 ntpdate[1690]: adjust time server 192.168.1.5 offset 0.003761 sec
+ 3 Nov 13:30:07 ntpdate[1746]: adjust time server 192.168.1.5 offset 0.012018 sec
+ 3 Nov 13:35:07 ntpdate[1889]: adjust time server 192.168.1.5 offset -0.007092 sec
+ 3 Nov 13:40:07 ntpdate[1984]: adjust time server 192.168.1.5 offset -0.001519 sec
+ 3 Nov 13:45:08 ntpdate[2037]: adjust time server 192.168.1.5 offset 0.013333 sec
+ 3 Nov 13:50:07 ntpdate[2124]: adjust time server 192.168.1.5 offset -0.007697 sec
+ 3 Nov 13:55:07 ntpdate[2212]: adjust time server 192.168.1.5 offset 0.012556 sec
+ 3 Nov 14:00:07 ntpdate[2268]: adjust time server 192.168.1.5 offset -0.007599 sec
+ 3 Nov 14:05:07 ntpdate[2345]: adjust time server 192.168.1.5 offset -0.002736 sec
+ 3 Nov 14:10:07 ntpdate[2431]: adjust time server 192.168.1.5 offset 0.013034 sec
+ 3 Nov 14:15:08 ntpdate[2487]: adjust time server 192.168.1.5 offset -0.008138 sec
+ 3 Nov 14:20:07 ntpdate[2566]: adjust time server 192.168.1.5 offset 0.003411 sec
+ 3 Nov 14:25:07 ntpdate[2652]: adjust time server 192.168.1.5 offset 0.012230 sec
+ 3 Nov 14:30:07 ntpdate[2702]: adjust time server 192.168.1.5 offset -0.012557 sec
+ 3 Nov 14:35:07 ntpdate[2785]: adjust time server 192.168.1.5 offset 0.017156 sec
+ 3 Nov 14:40:07 ntpdate[2870]: adjust time server 192.168.1.5 offset -0.015853 sec
+ 3 Nov 14:45:08 ntpdate[2925]: adjust time server 192.168.1.5 offset 0.014641 sec
+ 3 Nov 14:50:07 ntpdate[3004]: adjust time server 192.168.1.5 offset 0.001885 sec
+ 3 Nov 14:55:07 ntpdate[3090]: adjust time server 192.168.1.5 offset -0.001980 sec
+ 3 Nov 15:00:07 ntpdate[3144]: adjust time server 192.168.1.5 offset 0.009434 sec
+ 3 Nov 15:05:07 ntpdate[3223]: adjust time server 192.168.1.5 offset -0.001988 sec
+ 3 Nov 15:10:07 ntpdate[3308]: adjust time server 192.168.1.5 offset -0.006085 sec
+ 3 Nov 15:15:08 ntpdate[3363]: adjust time server 192.168.1.5 offset 0.010524 sec
+ 3 Nov 15:20:07 ntpdate[3445]: adjust time server 192.168.1.5 offset 0.001332 sec
+ 3 Nov 15:25:07 ntpdate[3530]: adjust time server 192.168.1.5 offset -0.003169 sec
+ 3 Nov 15:30:07 ntpdate[3587]: adjust time server 192.168.1.5 offset 0.009699 sec
+ 3 Nov 15:35:07 ntpdate[3663]: adjust time server 192.168.1.5 offset -0.005974 sec
+ 3 Nov 15:40:07 ntpdate[3749]: adjust time server 192.168.1.5 offset 0.009108 sec
+ 3 Nov 15:45:08 ntpdate[3803]: adjust time server 192.168.1.5 offset -0.002801 sec
+ 3 Nov 15:50:07 ntpdate[3881]: adjust time server 192.168.1.5 offset -0.000707 sec
+ 3 Nov 15:55:07 ntpdate[3967]: adjust time server 192.168.1.5 offset 0.012515 sec
+ 3 Nov 16:00:07 ntpdate[4021]: adjust time server 192.168.1.5 offset -0.007301 sec
+ 3 Nov 16:05:07 ntpdate[4099]: adjust time server 192.168.1.5 offset 0.011214 sec
+ 3 Nov 16:10:07 ntpdate[4185]: adjust time server 192.168.1.5 offset -0.012821 sec
+ 3 Nov 16:15:08 ntpdate[4235]: adjust time server 192.168.1.5 offset 0.008323 sec
+ 3 Nov 16:20:07 ntpdate[4321]: adjust time server 192.168.1.5 offset 0.011190 sec
+ 3 Nov 16:25:07 ntpdate[4407]: adjust time server 192.168.1.5 offset -0.011228 sec
+ 3 Nov 16:30:07 ntpdate[4461]: adjust time server 192.168.1.5 offset 0.009981 sec
+ 3 Nov 16:35:07 ntpdate[4540]: adjust time server 192.168.1.5 offset -0.001664 sec
+ 3 Nov 16:40:07 ntpdate[4625]: adjust time server 192.168.1.5 offset 0.007537 sec
+ 3 Nov 16:45:08 ntpdate[4680]: adjust time server 192.168.1.5 offset 0.004459 sec
+ 3 Nov 16:50:07 ntpdate[4758]: adjust time server 192.168.1.5 offset -0.011956 sec
+ 3 Nov 16:55:07 ntpdate[4843]: adjust time server 192.168.1.5 offset 0.009466 sec
+ 3 Nov 17:00:07 ntpdate[4894]: adjust time server 192.168.1.5 offset 0.000325 sec
+ 3 Nov 17:05:07 ntpdate[4976]: adjust time server 192.168.1.5 offset 0.011073 sec
+ 3 Nov 17:10:07 ntpdate[5062]: adjust time server 192.168.1.5 offset -0.008814 sec
+ 3 Nov 17:15:08 ntpdate[5113]: adjust time server 192.168.1.5 offset 0.003515 sec
+ 3 Nov 17:20:07 ntpdate[5198]: adjust time server 192.168.1.5 offset 0.004625 sec
+ 3 Nov 17:25:07 ntpdate[5284]: adjust time server 192.168.1.5 offset 0.004414 sec
+ 3 Nov 17:30:07 ntpdate[5339]: adjust time server 192.168.1.5 offset -0.001152 sec
+ 3 Nov 17:35:08 ntpdate[5416]: adjust time server 192.168.1.5 offset -0.003319 sec
+ 3 Nov 17:40:07 ntpdate[5502]: adjust time server 192.168.1.5 offset 0.012442 sec
+ 3 Nov 17:45:08 ntpdate[5552]: adjust time server 192.168.1.5 offset -0.009209 sec
+ 3 Nov 17:50:07 ntpdate[5635]: adjust time server 192.168.1.5 offset 0.013461 sec
+ 3 Nov 17:55:07 ntpdate[5721]: adjust time server 192.168.1.5 offset -0.012808 sec
+ 3 Nov 18:00:07 ntpdate[5775]: adjust time server 192.168.1.5 offset 0.008898 sec
+ 3 Nov 18:05:07 ntpdate[5855]: adjust time server 192.168.1.5 offset 0.009217 sec
+ 3 Nov 18:10:07 ntpdate[5940]: adjust time server 192.168.1.5 offset -0.009142 sec
+ 3 Nov 18:15:08 ntpdate[6001]: adjust time server 192.168.1.5 offset 0.014784 sec
+ 3 Nov 18:20:07 ntpdate[6076]: adjust time server 192.168.1.5 offset -0.008889 sec
+ 3 Nov 18:25:07 ntpdate[6161]: adjust time server 192.168.1.5 offset 0.006420 sec
+ 3 Nov 18:30:07 ntpdate[6217]: adjust time server 192.168.1.5 offset 0.006819 sec
+ 3 Nov 18:35:08 ntpdate[6294]: adjust time server 192.168.1.5 offset 0.002106 sec
+ 3 Nov 18:40:07 ntpdate[6380]: adjust time server 192.168.1.5 offset -0.006405 sec
+ 3 Nov 18:45:08 ntpdate[6437]: adjust time server 192.168.1.5 offset 0.004965 sec
+ 3 Nov 18:50:07 ntpdate[6514]: adjust time server 192.168.1.5 offset -0.000142 sec
+ 3 Nov 18:55:07 ntpdate[6600]: adjust time server 192.168.1.5 offset 0.000813 sec
+ 3 Nov 19:00:07 ntpdate[6654]: adjust time server 192.168.1.5 offset 0.007629 sec
+ 3 Nov 19:05:07 ntpdate[6732]: adjust time server 192.168.1.5 offset -0.000986 sec
+ 3 Nov 19:10:07 ntpdate[6818]: adjust time server 192.168.1.5 offset 0.003330 sec
+ 3 Nov 19:15:08 ntpdate[6873]: adjust time server 192.168.1.5 offset -0.000659 sec
+ 3 Nov 19:20:07 ntpdate[6953]: adjust time server 192.168.1.5 offset 0.006174 sec
+ 3 Nov 19:25:07 ntpdate[7039]: adjust time server 192.168.1.5 offset -0.000531 sec
+ 3 Nov 19:30:07 ntpdate[7094]: adjust time server 192.168.1.5 offset 0.000712 sec
+ 3 Nov 19:35:07 ntpdate[7172]: adjust time server 192.168.1.5 offset 0.007177 sec
+ 3 Nov 19:40:07 ntpdate[7258]: adjust time server 192.168.1.5 offset -0.007488 sec
+ 3 Nov 19:45:08 ntpdate[7314]: adjust time server 192.168.1.5 offset 0.009690 sec
+ 3 Nov 19:50:07 ntpdate[7392]: adjust time server 192.168.1.5 offset 0.003980 sec
+ 3 Nov 19:55:07 ntpdate[7477]: adjust time server 192.168.1.5 offset -0.009488 sec
+ 3 Nov 20:00:07 ntpdate[7528]: adjust time server 192.168.1.5 offset 0.018567 sec
+ 3 Nov 20:05:07 ntpdate[7610]: adjust time server 192.168.1.5 offset -0.014786 sec
+ 3 Nov 20:10:07 ntpdate[7695]: adjust time server 192.168.1.5 offset 0.008330 sec
+ 3 Nov 20:15:08 ntpdate[7751]: adjust time server 192.168.1.5 offset 0.001721 sec
+ 3 Nov 20:20:07 ntpdate[7832]: adjust time server 192.168.1.5 offset 0.003941 sec
+ 3 Nov 20:25:07 ntpdate[7917]: adjust time server 192.168.1.5 offset -0.006686 sec
+ 3 Nov 20:30:07 ntpdate[7973]: adjust time server 192.168.1.5 offset 0.014031 sec
+ 3 Nov 20:35:07 ntpdate[8050]: adjust time server 192.168.1.5 offset -0.012139 sec
+ 3 Nov 20:40:07 ntpdate[8136]: adjust time server 192.168.1.5 offset 0.013487 sec
+ 3 Nov 20:45:08 ntpdate[8186]: adjust time server 192.168.1.5 offset -0.003918 sec
+ 3 Nov 20:50:07 ntpdate[8268]: adjust time server 192.168.1.5 offset 0.007863 sec
+ 3 Nov 20:55:07 ntpdate[8354]: adjust time server 192.168.1.5 offset -0.002800 sec
+ 3 Nov 21:00:07 ntpdate[8408]: adjust time server 192.168.1.5 offset 0.008666 sec
+ 3 Nov 21:05:07 ntpdate[8487]: adjust time server 192.168.1.5 offset -0.001101 sec
+ 3 Nov 21:10:07 ntpdate[8572]: adjust time server 192.168.1.5 offset 0.000919 sec
+ 3 Nov 21:15:08 ntpdate[8627]: adjust time server 192.168.1.5 offset -0.001549 sec
+ 3 Nov 21:20:07 ntpdate[8708]: adjust time server 192.168.1.5 offset 0.009631 sec
+ 3 Nov 21:25:07 ntpdate[8794]: adjust time server 192.168.1.5 offset -0.008848 sec
+ 3 Nov 21:30:07 ntpdate[8849]: adjust time server 192.168.1.5 offset 0.004058 sec
+ 3 Nov 21:35:07 ntpdate[8927]: adjust time server 192.168.1.5 offset 0.005478 sec
+ 3 Nov 21:40:07 ntpdate[9012]: adjust time server 192.168.1.5 offset 0.000546 sec
+ 3 Nov 21:45:08 ntpdate[9066]: adjust time server 192.168.1.5 offset 0.007786 sec
+ 3 Nov 21:50:07 ntpdate[9145]: adjust time server 192.168.1.5 offset 0.001204 sec
+ 3 Nov 21:55:07 ntpdate[9230]: adjust time server 192.168.1.5 offset -0.010498 sec
+ 3 Nov 22:00:07 ntpdate[9281]: adjust time server 192.168.1.5 offset 0.018560 sec
+ 3 Nov 22:05:07 ntpdate[9363]: adjust time server 192.168.1.5 offset -0.012197 sec
+ 3 Nov 22:10:07 ntpdate[9449]: adjust time server 192.168.1.5 offset 0.018420 sec
+ 3 Nov 22:15:08 ntpdate[9503]: adjust time server 192.168.1.5 offset -0.013771 sec
+ 3 Nov 22:20:07 ntpdate[9584]: adjust time server 192.168.1.5 offset 0.008165 sec
+ 3 Nov 22:25:07 ntpdate[9670]: adjust time server 192.168.1.5 offset 0.004577 sec
+ 3 Nov 22:30:07 ntpdate[9724]: adjust time server 192.168.1.5 offset 0.000116 sec
+ 3 Nov 22:35:07 ntpdate[9802]: adjust time server 192.168.1.5 offset -0.001095 sec
+ 3 Nov 22:40:07 ntpdate[9888]: adjust time server 192.168.1.5 offset 0.004174 sec
+ 3 Nov 22:45:08 ntpdate[9942]: adjust time server 192.168.1.5 offset 0.000904 sec
+ 3 Nov 22:50:07 ntpdate[10021]: adjust time server 192.168.1.5 offset -0.003452 sec
+ 3 Nov 22:55:07 ntpdate[10107]: adjust time server 192.168.1.5 offset 0.009741 sec
+ 3 Nov 23:00:07 ntpdate[10161]: adjust time server 192.168.1.5 offset -0.001778 sec
+ 3 Nov 23:05:07 ntpdate[10241]: adjust time server 192.168.1.5 offset 0.007064 sec
+ 3 Nov 23:10:07 ntpdate[10326]: adjust time server 192.168.1.5 offset -0.002786 sec
+ 3 Nov 23:15:08 ntpdate[10381]: adjust time server 192.168.1.5 offset 0.000066 sec
+ 3 Nov 23:20:07 ntpdate[10462]: adjust time server 192.168.1.5 offset 0.010767 sec
+ 3 Nov 23:25:07 ntpdate[10547]: adjust time server 192.168.1.5 offset -0.010375 sec
+ 3 Nov 23:30:07 ntpdate[10604]: adjust time server 192.168.1.5 offset 0.008172 sec
+ 3 Nov 23:35:07 ntpdate[10680]: adjust time server 192.168.1.5 offset -0.001695 sec
+ 3 Nov 23:40:07 ntpdate[10765]: adjust time server 192.168.1.5 offset 0.010387 sec
+ 3 Nov 23:45:08 ntpdate[10821]: adjust time server 192.168.1.5 offset -0.000764 sec
+ 3 Nov 23:50:07 ntpdate[10898]: adjust time server 192.168.1.5 offset 0.001614 sec
+ 3 Nov 23:55:07 ntpdate[10984]: adjust time server 192.168.1.5 offset -0.003038 sec
+ 4 Nov 00:00:07 ntpdate[11045]: adjust time server 192.168.1.5 offset 0.011961 sec
+ 4 Nov 00:05:07 ntpdate[11182]: adjust time server 192.168.1.5 offset -0.005981 sec
+ 4 Nov 00:10:07 ntpdate[11268]: adjust time server 192.168.1.5 offset 0.007461 sec
+ 4 Nov 00:15:08 ntpdate[11318]: adjust time server 192.168.1.5 offset 0.000642 sec
+ 4 Nov 00:20:07 ntpdate[11404]: adjust time server 192.168.1.5 offset -0.008735 sec
+ 4 Nov 00:25:07 ntpdate[11489]: adjust time server 192.168.1.5 offset 0.014269 sec
+ 4 Nov 00:30:07 ntpdate[11543]: adjust time server 192.168.1.5 offset -0.002197 sec
+ 4 Nov 00:35:07 ntpdate[11622]: adjust time server 192.168.1.5 offset 0.001935 sec
+ 4 Nov 00:40:07 ntpdate[11707]: adjust time server 192.168.1.5 offset 0.006148 sec
+ 4 Nov 00:45:08 ntpdate[11765]: adjust time server 192.168.1.5 offset -0.006243 sec
+ 4 Nov 00:50:07 ntpdate[11842]: adjust time server 192.168.1.5 offset 0.012735 sec
+ 4 Nov 00:55:07 ntpdate[11927]: adjust time server 192.168.1.5 offset -0.007410 sec
+ 4 Nov 01:00:07 ntpdate[11982]: adjust time server 192.168.1.5 offset 0.011342 sec
+ 4 Nov 01:05:07 ntpdate[12060]: adjust time server 192.168.1.5 offset -0.011815 sec
+ 4 Nov 01:10:07 ntpdate[12145]: adjust time server 192.168.1.5 offset 0.011897 sec
+ 4 Nov 01:15:08 ntpdate[12201]: adjust time server 192.168.1.5 offset 0.001924 sec
+ 4 Nov 01:20:07 ntpdate[12281]: adjust time server 192.168.1.5 offset -0.002279 sec
+ 4 Nov 01:25:07 ntpdate[12367]: adjust time server 192.168.1.5 offset -0.002678 sec
+ 4 Nov 01:30:07 ntpdate[12422]: adjust time server 192.168.1.5 offset 0.014015 sec
+ 4 Nov 01:35:07 ntpdate[12499]: adjust time server 192.168.1.5 offset -0.012819 sec
+ 4 Nov 01:40:07 ntpdate[12585]: adjust time server 192.168.1.5 offset 0.006004 sec
+ 4 Nov 01:45:08 ntpdate[12640]: adjust time server 192.168.1.5 offset 0.007158 sec
+ 4 Nov 01:50:07 ntpdate[12717]: adjust time server 192.168.1.5 offset -0.005335 sec
+ 4 Nov 01:55:07 ntpdate[12803]: adjust time server 192.168.1.5 offset 0.010648 sec
+ 4 Nov 02:00:07 ntpdate[12857]: adjust time server 192.168.1.5 offset -0.002057 sec
+ 4 Nov 02:05:07 ntpdate[12937]: adjust time server 192.168.1.5 offset 0.004455 sec
+ 4 Nov 02:10:07 ntpdate[13022]: adjust time server 192.168.1.5 offset 0.000834 sec
+ 4 Nov 02:15:08 ntpdate[13072]: adjust time server 192.168.1.5 offset 0.001397 sec
+ 4 Nov 02:20:07 ntpdate[13158]: adjust time server 192.168.1.5 offset 0.007062 sec
+ 4 Nov 02:25:07 ntpdate[13244]: adjust time server 192.168.1.5 offset -0.007957 sec
+ 4 Nov 02:30:07 ntpdate[13300]: adjust time server 192.168.1.5 offset 0.008332 sec
+ 4 Nov 02:35:07 ntpdate[13377]: adjust time server 192.168.1.5 offset 0.000566 sec
+ 4 Nov 02:40:07 ntpdate[13462]: adjust time server 192.168.1.5 offset 0.001759 sec
+ 4 Nov 02:45:08 ntpdate[13513]: adjust time server 192.168.1.5 offset 0.004860 sec
+ 4 Nov 02:50:07 ntpdate[13595]: adjust time server 192.168.1.5 offset -0.001727 sec
+ 4 Nov 02:55:07 ntpdate[13680]: adjust time server 192.168.1.5 offset 0.001325 sec
+ 4 Nov 03:00:07 ntpdate[13736]: adjust time server 192.168.1.5 offset 0.005684 sec
+ 4 Nov 03:05:07 ntpdate[13814]: adjust time server 192.168.1.5 offset -0.003397 sec
+ 4 Nov 03:10:07 ntpdate[13900]: adjust time server 192.168.1.5 offset 0.013992 sec
+ 4 Nov 03:15:08 ntpdate[13954]: adjust time server 192.168.1.5 offset -0.011745 sec
+ 4 Nov 03:20:07 ntpdate[14035]: adjust time server 192.168.1.5 offset 0.009231 sec
+ 4 Nov 03:25:07 ntpdate[14121]: adjust time server 192.168.1.5 offset 0.000885 sec
+ 4 Nov 03:30:07 ntpdate[14176]: adjust time server 192.168.1.5 offset 0.001493 sec
+ 4 Nov 03:35:07 ntpdate[14254]: adjust time server 192.168.1.5 offset -0.004055 sec
+ 4 Nov 03:40:07 ntpdate[14339]: adjust time server 192.168.1.5 offset 0.015147 sec
+ 4 Nov 03:45:08 ntpdate[14393]: adjust time server 192.168.1.5 offset -0.011956 sec
+ 4 Nov 03:50:07 ntpdate[14472]: adjust time server 192.168.1.5 offset 0.005036 sec
+ 4 Nov 03:55:07 ntpdate[14557]: adjust time server 192.168.1.5 offset 0.012062 sec
+ 4 Nov 04:00:07 ntpdate[14612]: adjust time server 192.168.1.5 offset -0.007587 sec
+ 4 Nov 04:05:07 ntpdate[14691]: adjust time server 192.168.1.5 offset 0.008013 sec
+ 4 Nov 04:10:07 ntpdate[14776]: adjust time server 192.168.1.5 offset -0.005892 sec
+ 4 Nov 04:15:08 ntpdate[14828]: adjust time server 192.168.1.5 offset 0.006810 sec
+ 4 Nov 04:20:07 ntpdate[14912]: adjust time server 192.168.1.5 offset 0.008434 sec
+ 4 Nov 04:25:07 ntpdate[14998]: adjust time server 192.168.1.5 offset -0.012462 sec
+ 4 Nov 04:30:07 ntpdate[15054]: adjust time server 192.168.1.5 offset 0.010984 sec
+ 4 Nov 04:35:07 ntpdate[15131]: adjust time server 192.168.1.5 offset 0.006459 sec
+ 4 Nov 04:40:07 ntpdate[15217]: adjust time server 192.168.1.5 offset -0.011411 sec
+ 4 Nov 04:45:08 ntpdate[15271]: adjust time server 192.168.1.5 offset 0.015694 sec
+ 4 Nov 04:50:07 ntpdate[15350]: adjust time server 192.168.1.5 offset -0.009401 sec
+ 4 Nov 04:55:07 ntpdate[15436]: adjust time server 192.168.1.5 offset 0.010012 sec
+ 4 Nov 05:00:07 ntpdate[15490]: adjust time server 192.168.1.5 offset -0.002208 sec
+ 4 Nov 05:05:07 ntpdate[15568]: adjust time server 192.168.1.5 offset 0.003011 sec
+ 4 Nov 05:10:07 ntpdate[15654]: adjust time server 192.168.1.5 offset 0.003259 sec
+ 4 Nov 05:15:08 ntpdate[15704]: adjust time server 192.168.1.5 offset 0.003791 sec
+ 4 Nov 05:20:07 ntpdate[15790]: adjust time server 192.168.1.5 offset -0.003320 sec
+ 4 Nov 05:25:07 ntpdate[15875]: adjust time server 192.168.1.5 offset 0.012039 sec
+ 4 Nov 05:30:07 ntpdate[15930]: adjust time server 192.168.1.5 offset -0.007730 sec
+ 4 Nov 05:35:07 ntpdate[16008]: adjust time server 192.168.1.5 offset -0.002273 sec
+ 4 Nov 05:40:07 ntpdate[16093]: adjust time server 192.168.1.5 offset 0.016119 sec
+ 4 Nov 05:45:08 ntpdate[16149]: adjust time server 192.168.1.5 offset -0.007102 sec
+ 4 Nov 05:50:07 ntpdate[16227]: adjust time server 192.168.1.5 offset 0.009964 sec
+ 4 Nov 05:55:08 ntpdate[16312]: adjust time server 192.168.1.5 offset -0.004333 sec
+ 4 Nov 06:00:07 ntpdate[16366]: adjust time server 192.168.1.5 offset 0.004139 sec
+ 4 Nov 06:05:07 ntpdate[16445]: adjust time server 192.168.1.5 offset -0.002548 sec
+ 4 Nov 06:10:07 ntpdate[16530]: adjust time server 192.168.1.5 offset -0.000020 sec
+ 4 Nov 06:15:07 ntpdate[16586]: adjust time server 192.168.1.5 offset 0.007992 sec
+ 4 Nov 06:20:07 ntpdate[16666]: adjust time server 192.168.1.5 offset -0.004965 sec
+ 4 Nov 06:25:08 ntpdate[16754]: adjust time server 192.168.1.5 offset 0.003063 sec
+ 4 Nov 06:30:07 ntpdate[16809]: adjust time server 192.168.1.5 offset 0.004349 sec
+ 4 Nov 06:35:07 ntpdate[16887]: adjust time server 192.168.1.5 offset 0.000116 sec
+ 4 Nov 06:40:07 ntpdate[16973]: adjust time server 192.168.1.5 offset -0.000352 sec
+ 4 Nov 06:45:08 ntpdate[17031]: adjust time server 192.168.1.5 offset 0.022601 sec
+ 4 Nov 06:50:07 ntpdate[17107]: adjust time server 192.168.1.5 offset -0.021735 sec
+ 4 Nov 06:55:08 ntpdate[17193]: adjust time server 192.168.1.5 offset 0.007364 sec
+ 4 Nov 07:00:07 ntpdate[17243]: adjust time server 192.168.1.5 offset 0.002922 sec
+ 4 Nov 07:05:07 ntpdate[17326]: adjust time server 192.168.1.5 offset -0.001053 sec
+ 4 Nov 07:10:07 ntpdate[17411]: adjust time server 192.168.1.5 offset 0.009822 sec
+ 4 Nov 07:15:08 ntpdate[17466]: adjust time server 192.168.1.5 offset -0.003436 sec
+ 4 Nov 07:20:07 ntpdate[17547]: adjust time server 192.168.1.5 offset -0.000491 sec
+ 4 Nov 07:25:07 ntpdate[17634]: adjust time server 192.168.1.5 offset 0.007982 sec
+ 4 Nov 07:30:07 ntpdate[17688]: adjust time server 192.168.1.5 offset -0.004686 sec
+ 4 Nov 07:35:07 ntpdate[17796]: adjust time server 192.168.1.5 offset 0.012623 sec
+ 4 Nov 07:40:07 ntpdate[17901]: adjust time server 192.168.1.5 offset -0.005311 sec
+ 4 Nov 07:45:08 ntpdate[17959]: adjust time server 192.168.1.5 offset -0.002655 sec
+ 4 Nov 07:50:07 ntpdate[18334]: adjust time server 192.168.1.5 offset 0.017607 sec
+ 4 Nov 07:55:07 ntpdate[18420]: adjust time server 192.168.1.5 offset -0.015659 sec
+ 4 Nov 08:00:07 ntpdate[18476]: adjust time server 192.168.1.5 offset 0.008152 sec
+ 4 Nov 08:05:07 ntpdate[18552]: adjust time server 192.168.1.5 offset 0.001174 sec
+ 4 Nov 08:10:07 ntpdate[18638]: adjust time server 192.168.1.5 offset 0.004661 sec
+ 4 Nov 08:15:08 ntpdate[18693]: adjust time server 192.168.1.5 offset 0.002856 sec
+ 4 Nov 08:20:07 ntpdate[18773]: adjust time server 192.168.1.5 offset -0.003209 sec
+ 4 Nov 08:25:07 ntpdate[18859]: adjust time server 192.168.1.5 offset 0.002119 sec
+ 4 Nov 08:30:07 ntpdate[18913]: adjust time server 192.168.1.5 offset 0.015102 sec
+ 4 Nov 08:35:07 ntpdate[18992]: adjust time server 192.168.1.5 offset -0.012430 sec
+ 4 Nov 08:40:07 ntpdate[19076]: adjust time server 192.168.1.5 offset 0.010261 sec
+ 4 Nov 08:45:08 ntpdate[19132]: adjust time server 192.168.1.5 offset -0.000336 sec
+ 4 Nov 08:50:07 ntpdate[19209]: adjust time server 192.168.1.5 offset 0.001055 sec
+ 4 Nov 08:55:07 ntpdate[19294]: adjust time server 192.168.1.5 offset 0.004852 sec
+ 4 Nov 09:00:07 ntpdate[19350]: adjust time server 192.168.1.5 offset -0.005537 sec
+ 4 Nov 09:05:07 ntpdate[19428]: adjust time server 192.168.1.5 offset 0.002647 sec
+ 4 Nov 09:10:07 ntpdate[19514]: adjust time server 192.168.1.5 offset 0.008164 sec
+ 4 Nov 09:15:08 ntpdate[19569]: adjust time server 192.168.1.5 offset -0.008688 sec
+ 4 Nov 09:20:07 ntpdate[19650]: adjust time server 192.168.1.5 offset 0.012053 sec
+ 4 Nov 09:25:07 ntpdate[19735]: adjust time server 192.168.1.5 offset 0.000131 sec
+ 4 Nov 09:30:07 ntpdate[19792]: adjust time server 192.168.1.5 offset 0.009457 sec
+ 4 Nov 09:35:07 ntpdate[19869]: adjust time server 192.168.1.5 offset -0.005595 sec
+ 4 Nov 09:40:07 ntpdate[19955]: adjust time server 192.168.1.5 offset 0.003970 sec
+ 4 Nov 09:45:08 ntpdate[20011]: adjust time server 192.168.1.5 offset -0.005488 sec
+ 4 Nov 09:50:07 ntpdate[20087]: adjust time server 192.168.1.5 offset 0.011883 sec
+ 4 Nov 09:55:07 ntpdate[20173]: adjust time server 192.168.1.5 offset -0.009842 sec
+ 4 Nov 10:00:07 ntpdate[20227]: adjust time server 192.168.1.5 offset 0.011536 sec
+ 4 Nov 10:05:07 ntpdate[20305]: adjust time server 192.168.1.5 offset -0.005119 sec
+ 4 Nov 10:10:07 ntpdate[21500]: adjust time server 192.168.1.5 offset 0.008511 sec
+ 4 Nov 10:35:07 ntpdate[3875]: adjust time server 192.168.1.5 offset -0.282426 sec
+ 4 Nov 10:40:07 ntpdate[4003]: adjust time server 192.168.1.5 offset -0.128017 sec
+ 4 Nov 10:45:07 ntpdate[5316]: adjust time server 192.168.1.5 offset 0.025289 sec
+ 4 Nov 10:50:08 ntpdate[5473]: adjust time server 192.168.1.5 offset -0.014259 sec
+ 4 Nov 10:55:07 ntpdate[5912]: adjust time server 192.168.1.5 offset 0.021860 sec
+ 4 Nov 11:00:07 ntpdate[5968]: adjust time server 192.168.1.5 offset -0.016843 sec
+ 4 Nov 11:05:07 ntpdate[6047]: adjust time server 192.168.1.5 offset 0.013087 sec
+ 4 Nov 11:10:07 ntpdate[6133]: adjust time server 192.168.1.5 offset 0.000766 sec
+ 4 Nov 11:15:07 ntpdate[6184]: adjust time server 192.168.1.5 offset -0.004708 sec
+ 4 Nov 11:20:08 ntpdate[6272]: adjust time server 192.168.1.5 offset 0.010473 sec
+ 4 Nov 11:25:07 ntpdate[6357]: adjust time server 192.168.1.5 offset -0.008448 sec
+ 4 Nov 11:30:07 ntpdate[6417]: adjust time server 192.168.1.5 offset 0.006670 sec
+ 4 Nov 11:35:07 ntpdate[6492]: adjust time server 192.168.1.5 offset 0.002718 sec
+ 4 Nov 11:40:07 ntpdate[6578]: adjust time server 192.168.1.5 offset 0.003269 sec
+ 4 Nov 11:45:07 ntpdate[6630]: adjust time server 192.168.1.5 offset -0.007148 sec
+ 4 Nov 11:50:07 ntpdate[6712]: adjust time server 192.168.1.5 offset 0.012119 sec
+ 4 Nov 11:55:07 ntpdate[6798]: adjust time server 192.168.1.5 offset -0.003348 sec
+ 4 Nov 12:00:07 ntpdate[6854]: adjust time server 192.168.1.5 offset 0.000598 sec
+ 4 Nov 12:05:07 ntpdate[7011]: adjust time server 192.168.1.5 offset 0.000559 sec
+ 4 Nov 12:10:07 ntpdate[7099]: adjust time server 192.168.1.5 offset 0.006096 sec
+ 4 Nov 12:15:07 ntpdate[7155]: adjust time server 192.168.1.5 offset 0.003977 sec
+ 4 Nov 12:20:08 ntpdate[7237]: adjust time server 192.168.1.5 offset -0.000413 sec
+ 4 Nov 12:25:07 ntpdate[7323]: adjust time server 192.168.1.5 offset 0.001989 sec
+ 4 Nov 12:30:07 ntpdate[7380]: adjust time server 192.168.1.5 offset 0.006916 sec
+ 4 Nov 12:35:07 ntpdate[7458]: adjust time server 192.168.1.5 offset -0.001486 sec
+ 4 Nov 12:40:07 ntpdate[7544]: adjust time server 192.168.1.5 offset 0.008870 sec
+ 4 Nov 12:45:07 ntpdate[7602]: adjust time server 192.168.1.5 offset -0.014302 sec
+ 4 Nov 12:50:07 ntpdate[8130]: adjust time server 192.168.1.5 offset 0.011676 sec
+ 4 Nov 12:55:07 ntpdate[8233]: adjust time server 192.168.1.5 offset 0.003860 sec
+ 4 Nov 13:00:07 ntpdate[8288]: adjust time server 192.168.1.5 offset -0.003665 sec
+ 4 Nov 13:05:07 ntpdate[8368]: adjust time server 192.168.1.5 offset 0.011212 sec
