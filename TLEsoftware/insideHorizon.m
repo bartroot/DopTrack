@@ -59,11 +59,11 @@ xsat_ecf(:,3)= ro(:,3);
 %% Check if satellite is inview of tracking station
 
 % Define horizon
-meanH = mean(LLA(:,3)); % mean height of the orbit
+meanH = mean(LLA(:,3)) % mean height of the orbit
 cosgamma = Re/(Re+meanH);  % cos(gamma) of the horizon
 
 % Compute the cos(gamma) of every point in the orbit
-vstation = lla2ecef([station.lat station.lon 0]);
+vstation = lla2ecef([station.lat station.lon 0])
 
 satgamma = zeros(size(xsat_ecf(:,1)));
 for i = 1:length(satgamma)

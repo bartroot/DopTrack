@@ -102,13 +102,14 @@ while (~feof(infile))
 %       // includes initialization of sgp4
         [satrec, startmfe, stopmfe, deltamin] = twoline2rv( whichconst, ...
                    longstr1, longstr2, typerun, typeinput);
-
+               
 %       // For typeinput e5 do conversion.
         if strcmp(typeinput,'e5')
             startmfe = (juliandate(datenum(date)) - satrec.jdsatepoch) * 1440.0;
             stopmfe  = (juliandate(datenum(date))+5 - satrec.jdsatepoch) * 1440.0;
             deltamin = 15/60;
         end
+       
                
         %fprintf(outfile, 'Satellite ID: %d xx\n', satrec.satnum);      
 

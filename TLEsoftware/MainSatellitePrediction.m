@@ -9,12 +9,12 @@ clc;
 
 %% %%%%%%%%%%%%%%%%%%%%%%
 
-TLE_loc = '../../../../TLE/getTLE/TLE.txt';
+TLE_loc = '~/PhD/Side_projects/DopTrack/TLE/getTLE/TLE.txt';
 output_file = 'test_prediction.txt';
 time = datestr(now-2/24);
 
-station.lon = 4.373378;   % Longitude
-station.lat = 51.999142;  % Latitude
+station.lon = 4.36;%4.373378;   % Longitude
+station.lat = 52.01;%51.999142;  % Latitude
 station.h = 0;            % hieght [meters]
 
 % get 5 day prediction
@@ -22,7 +22,7 @@ tic;
 get5dayPrediction(TLE_loc,output_file,time);
 toc
 
-% check when the satellite is on teh horizon
+% check when the satellite is on the horizon
 tic;
 [check] = insideHorizon('test_prediction.txt',station);
 toc

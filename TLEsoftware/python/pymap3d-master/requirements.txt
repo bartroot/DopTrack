@@ -1,0 +1,4 @@
+astropy>=1.0
+numpy
+python-dateutil
+nose
