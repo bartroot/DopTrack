@@ -11,17 +11,19 @@
 
 # test if connection is present: TODO
 
-TIME=`./getTime.sh | awk '{print $4" "$5}' | cut -c 2- | sed 's/.$//'`
+DIR=$( cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"; pwd)
+
+TIME="`date` `$DIR/getTime.sh | awk '{print $4" "$5}' | cut -c 2- | sed 's/.$//'`"
 
 #echo $TIME
 
-LON=`./getLongitude.sh | awk '{print $4" "$5" "$6" "$7" "$8}' | cut -c 2- | sed 's/"//'`
-LAT=`./getLatitude.sh | awk '{print $4" "$5" "$6" "$7" "$8}' | cut -c 2- | sed 's/"//'`
-ALT=`./getAltitude.sh | awk '{print $4}' | cut -c 2-`
+LON=`$DIR/getLongitude.sh | awk '{print $4" "$5" "$6" "$7" "$8}' | cut -c 2- | sed 's/"//'`
+LAT=`$DIR/getLatitude.sh | awk '{print $4" "$5" "$6" "$7" "$8}' | cut -c 2- | sed 's/"//'`
+ALT=`$DIR/getAltitude.sh | awk '{print $4}' | cut -c 2-`
 
 #echo $LON $LAT $ALT
 
-NUM=`./getNumberSatLocked.sh | awk '{print $4}' | cut -c 2- | sed 's/"//'`
+NUM=`$DIR/getNumberSatLocked.sh | awk '{print $4}' | cut -c 2- | sed 's/"//'`
 
 #echo $NUM
 
