@@ -16,6 +16,9 @@ else
   MODE=$1
 fi
 
+#checking if bart messed up things again
+ls $MOUNT_DIR > /dev/null || sudo umount -l $MOUNT_DIR
+
 case $MODE in
   mount|m)
     if [ -z "$(ls $MOUNT_DIR)" ]
