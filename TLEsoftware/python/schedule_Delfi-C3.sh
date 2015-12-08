@@ -1,6 +1,8 @@
 #!/bin/bash
 #
 
+cd /home/bart/DopTrack/TLEsoftware/python
+
 # first retrieve the TLE file from spcaetrack.org website and construct new TLE.txt file
 
 ./getTLE.sh
