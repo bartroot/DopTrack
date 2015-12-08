@@ -1,0 +1,19 @@
+# to control the radio via scripted language, you need to be in group dialout
+# to do this:
+
+sudo gpasswd --add ${USER} dialout
+
+--- terminal control ----
+
+To control the radio use the same commands as in the screen. No feedback yet, but this must be looked at.
+
+set radio frequency
+
+echo CFXXXXXXXXXX > /dev/ttyUSB0
+echo CF0145870000 > /dev/ttyUSB0
+
+set radio antenna
+
+echo ANX > /dev/ttyUSB0
+echo AN1 > /dev/ttyUSB0  #for VHF antenna
+echo AN3 > /dev/ttyUSB0  #for UHF antenna

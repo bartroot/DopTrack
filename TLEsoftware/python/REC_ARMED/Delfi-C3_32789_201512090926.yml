@@ -1,0 +1,21 @@
+Sat:
+  Predict:
+    EAzimuth: 147
+    Elevation: 14
+    Length of pass: 780
+    SAzimuth: 30
+    time used: 2015-12-04 15:11:37.163118
+    used TLE: "1 32789U 08021G   15337.13444933  .00004098  00000-0  32095-3 0  9993\r\
+      \n2 32789  97.6277  34.7522 0011790 195.3756 164.7112 15.01505747412415"
+  Record:
+    Start of recording: '201512090926'
+    num_sample: 195000000
+    sample_rate: 250000
+    time1: ''
+    time2: ''
+    time3: ''
+  State:
+    Antenna: 1
+    NORADID: 32789
+    Name: Delfi-C3
+    Tuning Frequency: 145870000

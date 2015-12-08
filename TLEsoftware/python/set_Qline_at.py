@@ -1,3 +1,5 @@
+#!/usr/bin/python
+#
 # This function sets the at log que-line from the prediction logfile
 #
 # input is the prediction file made by predictDelfi-C3.py
@@ -27,7 +29,7 @@ for fline in fin.readlines():
 	elevation = int(fline[25:27])
 
 	# check if elevation is above a certain treshold
-	if elevation > 10 :
+	if elevation > 5 :
 		# do the calculations
 		if minute == 0 :
 			minute = 59
@@ -36,7 +38,7 @@ for fline in fin.readlines():
 			minute = minute - 1
 
 		# print 
-		fout.write('echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 DelfiC3_145.870M_%02i%02i%04i_%02i%02iLT.32fc" | at -t %04i%02i%02i%02i%02i\n' % (day,month,year,hour,minute,year,month,day,hour,minute) )
+		fout.write('echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_%04i%02i%02i_%02i%02iLT.32fc" | at -t %04i%02i%02i%02i%02i\n' % (year,month,day,hour,minute,year,month,day,hour,minute) )
 	else : 
 		# do nothing
 		elevation = elevation

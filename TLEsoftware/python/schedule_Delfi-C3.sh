@@ -11,11 +11,11 @@ python predictDelfi-C3.py
 
 # make a new atq run file
 
-python set_QLine_at.py
+python set_Qline_at.py
 
 # now remove all pending at jobs, such that the new jobs are refreshed
 
-for i in `atq | awk '{printf "$1"}'`; do atrm $1;done
+for i in `atq | awk '{print $1}'`; do atrm $i;done
 
 # run Qline file
 

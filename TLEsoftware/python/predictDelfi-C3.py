@@ -25,6 +25,7 @@ from sgp4.geo import WGS84
 from sgp4.sidereal import *
 from sgp4.earth_gravity import wgs84
 from sgp4.io import twoline2rv
+import time as gmttime
 
 # Set global variables
 
@@ -35,6 +36,7 @@ fullPeriod = 5*24*60*60/min_part # 5 day period of prediction
 
 # Get starttime and start date
 TT = datetime.datetime.utcnow()
+gmtoff = int(-gmttime.timezone)/3600
 
 # station coordinates [station: DopTrack]
 station_lat = 51.01#51+59/60+56.376/60/60
@@ -177,7 +179,7 @@ for it in range(1,fullPeriod):
 			# satellite is in view
 			scenario = 1-pass_hor
 			# update logfile
-			f3.write("%02i %02i-%02i %02i:%02i %3i | " % (int(Pass),int(day),int(month),int(hour+2),int(minute),int(aer[0])))
+			f3.write("%02i %02i-%02i %02i:%02i %3i | " % (int(Pass),int(day),int(month),int(hour+gmtoff),int(minute),int(aer[0])))
 			k = k+1
 		else:
 			scenario = 0-pass_hor
@@ -201,7 +203,7 @@ for it in range(1,fullPeriod):
 			lst = []
 
 		# update logfile
-		f3.write("%02i:%02i %03i |\n" % (int(hour+2),int(minute),int(AZ_pre)))
+		f3.write("%02i:%02i %03i |\n" % (int(hour+gmtoff),int(minute),int(AZ_pre)))
 		k=k+1	
 	elif scenario == -1:
 		# inview: pass begins
@@ -211,7 +213,7 @@ for it in range(1,fullPeriod):
 		lst.append(aer[1])
 
 		# update logfile
-		f3.write("%02i %02i-%02i %02i:%02i %3i | " % (int(Pass),int(day),int(month),int(hour+2),int(minute),int(aer[0])))
+		f3.write("%02i %02i-%02i %02i:%02i %3i | " % (int(Pass),int(day),int(month),int(hour+gmtoff),int(minute),int(aer[0])))
 		k = k+1
 	elif scenario == 0:
 		#no change
