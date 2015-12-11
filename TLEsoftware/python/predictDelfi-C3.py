@@ -39,8 +39,8 @@ TT = datetime.datetime.utcnow()
 gmtoff = int(-gmttime.timezone)/3600
 
 # station coordinates [station: DopTrack]
-station_lat = 51.01#51+59/60+56.376/60/60
-station_lon = 4.36#4+22/60+24.551/60/60
+station_lat = 51+59/60+56.376/60/60
+station_lon = 4+22/60+24.551/60/60
 station_h = 0#130.85
 
 # Initializing
