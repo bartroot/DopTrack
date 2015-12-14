@@ -1,0 +1,21 @@
+Sat:
+  Predict:
+    EAzimuth: ''
+    Elevation: ''
+    Length of pass: ''
+    SAzimuth: ''
+    time used: ''
+    used TLE: ''
+  Record:
+    Start of recording: ''
+    num_sample: ''
+    sample_rate: ''
+    time1 UTC: ''
+    time2 UTC: ''
+    time3 LT: ''
+  State:
+    Antenna: ''
+    NORADID: ''
+    Name: ''
+    Priority: ''
+    Tuning Frequency: ''
