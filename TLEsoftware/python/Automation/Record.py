@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#/usr/bin/python
 #
 # This function extracts data from the meta-file and starts a recording using the USRP
 #

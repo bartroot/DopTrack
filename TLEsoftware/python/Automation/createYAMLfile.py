@@ -5,7 +5,7 @@ import yaml
 
 def make():
    data = {}
-   data = {'Sat':{'State':{'Name': {}}, 'Predict':{}, 'Record':{}}}
+   data = {'Sat':{'State':{'Name': {}}, 'Predict':{}, 'Record':{}, 'Station':{}}}
 
    # input the State variables in the meta-structure
    data['Sat']['State']['Name'] = ''
@@ -15,8 +15,10 @@ def make():
    data['Sat']['State']['Priority'] = ''
 
    # input the prediction variables into the meta-structure
-   data['Sat']['Predict']['used TLE'] = ''
-   data['Sat']['Predict']['time used'] = ''
+   data['Sat']['Predict']['used TLE line1'] = ''
+   data['Sat']['Predict']['used TLE line2'] = ''
+   data['Sat']['Predict']['time used UTC'] = ''
+   data['Sat']['Predict']['timezone used'] = ''
    data['Sat']['Predict']['Elevation'] = ''
    data['Sat']['Predict']['SAzimuth'] = ''
    data['Sat']['Predict']['EAzimuth'] = ''
@@ -29,6 +31,12 @@ def make():
    data['Sat']['Record']['time2 UTC'] = ''
    data['Sat']['Record']['time3 LT'] = ''
    data['Sat']['Record']['Start of recording'] = ''
+
+   # input for recording station
+   data['Sat']['Station']['Name'] = ''
+   data['Sat']['Station']['Lat'] = ''
+   data['Sat']['Station']['Lon'] = ''
+   data['Sat']['Station']['Height'] = ''
 
    with open('empty.yml', 'w') as outfile:
        outfile.write( yaml.dump(data, default_flow_style=False) )

@@ -9,7 +9,7 @@
 
 import yaml
 import Record
-#import predict
+import predict
 import os
 import subprocess
 import datetime
@@ -39,6 +39,8 @@ with open(rec_list) as f:
       # set satellite values for later
       NORADID = columns[1]
       name = columns[0]
+      freq = columns[2]
+      samp_rate = columns[3]
 
       # create mother meta file for this particular satellite
       with open('empty.yml', 'r') as metaf:
@@ -53,21 +55,28 @@ with open(rec_list) as f:
       metam['Sat']['State']['Priority'] = priority
 
       # Determine Antenna
-
-      if
+      if 30000000 < freq <= 300000000:
+         # VHF antenna range
+         metam['Sat']['State']['Antenna'] = 1 
+      elif 300000000 < freq < 1000000000:
+         #UHF antenna range
+         metam['Sat']['State']['Antenna'] = 3
+      else:
+         # default: VHF antenna range
+         metam['Sat']['State']['Antenna'] = 1
 
       # read TLE
       subprocess.call(['./getTLE',str(NORADID)])
 
       # make prediction
-      # predict.predict()     
+      metam = predict.predict(metam)     
 
       # make the metafiles
       tnow = datetime.datetime.now()
       year = tnow.year
       
       # input file
-      fname = 'prediction_' + str(NORADID) '.txt'
+      fname = 'prediction_' + str(NORADID) + '.txt'
       fin = open(fname,'r')
 
       # Start reading the prediction file and construct the metafile
@@ -83,11 +92,11 @@ with open(rec_list) as f:
                 bhour = int(fline[9:11])
                 bminute = int(fline[12:14])
           
-                ehour = int(fline[9:11])
-                eminute = int(fline[12:14])
+                ehour = int(fline[30:32])
+                eminute = int(fline[33:35])
       
-                SAzimuth = int(fline[])
-                EAzimuth = int(fline[])        
+                SAzimuth = int(fline[15:18])
+                EAzimuth = int(fline[36:39])        
 
                 # do the calculations
                 if bminute == 0 :
@@ -102,26 +111,40 @@ with open(rec_list) as f:
                         eminute = eminute + 1
 
                 # determine the length of recording
-                tb = datetime.datetime(year,month,day,bhour,bmin)
-                te = datetime.datetime(year,month,day,ehour,emin)
-                lofp = te.seconds - tb.seconds
+                tb = datetime.datetime(year,month,day,bhour,bminute)
+                te = datetime.datetime(year,month,day,ehour,eminute)
+                lofp = te - tb
+                lofp = lofp.seconds
+
+                # determine number of samples
+                num_samp = int(lofp)*int(samp_rate)
+
+                # start of recording
+                start_rec = int(str(year) + str(month).zfill(2) + str(day).zfill(2) + str(bhour).zfill(2) + str(bminute).zfill(2))
 
                 #  make daughter metafile
                 meta = metam 
                 # fill in the meta fill
-                meta['Sat']['Record']['EAzimuth'] = 
-                
+                meta['Sat']['Predict']['EAzimuth'] = EAzimuth
+                meta['Sat']['Predict']['SAzimuth'] = SAzimuth
+                meta['Sat']['Predict']['Length of pass'] = lofp
+                meta['Sat']['Predict']['Elevation'] = elevation
 
-           else :
+                meta['Sat']['Record']['Start of recording'] = start_rec
+                meta['Sat']['Record']['num_sample'] = num_samp
+
+                # Stored the metafile in the pending direcory
+                metaname = LOC_PEN + str(name) + '_' + str(NORADID) + '_' + str(start_rec) + '.yml'
+                with open(metaname, 'w') as outfile:
+                   outfile.write( yaml.dump(meta, default_flow_style=False) )
+                outfile.close()
+          else:
                 # do nothing
                 elevation = elevation
 
 
 print "End of for-loop!"
 fin.close()
-fout.close()
-
-
 f.close()
 # close rec list
 

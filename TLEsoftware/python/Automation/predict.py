@@ -30,23 +30,7 @@ from sgp4.io import twoline2rv
 import time as gmttime
 import yaml
 
-def main(argv):
-   inputfile = ''
-   try:
-      opts, args = getopt.getopt(argv,"hi:",["ifile="])
-   except getopt.GetoptError:
-      print 'test.py -i <inputfile>'
-      sys.exit(2)
-   for opt, arg in opts:
-      if opt == '-h':
-         print 'test.py -i <inputfile>'
-         sys.exit()
-      elif opt in ("-i", "--ifile"):
-         inputfile = arg
-
-   # load meta-file
-   with open(inputfile, 'r') as metaf:
-        meta = yaml.load(metaf)   
+def predict(meta):
 
    # load meta file variable
    name = meta['Sat']['State']['Name']
@@ -62,10 +46,21 @@ def main(argv):
    TT = datetime.datetime.utcnow()
    gmtoff = int(-gmttime.timezone)/3600
 
+   # get time format correct
+   TT_stamp = TT.strftime("%Y%m%d%H%M%S.%f")
+   meta['Sat']['Predict']['time used UTC'] = TT_stamp
+   meta['Sat']['Predict']['timezone used'] = gmtoff
+
    # station coordinates [station: DopTrack]
    station_lat = 51+59/60+56.376/60/60
    station_lon = 4+22/60+24.551/60/60
    station_h = 0#130.85
+
+   # store station coordinates
+   meta['Sat']['Station']['Name'] = 'DopTrack'
+   meta['Sat']['Station']['Lat'] = station_lat
+   meta['Sat']['Station']['Lon'] = station_lon
+   meta['Sat']['Station']['Height'] = station_h
 
    # Initializing
    print "Start of reading TLE file..."
@@ -82,14 +77,15 @@ def main(argv):
    line1 = f.readline()
    line2 = f.readline()
    f.close()
+
+   # store in the meta file
+   meta['Sat']['Predict']['used TLE line1'] = str(line1[:69]).rstrip()
+   meta['Sat']['Predict']['used TLE line2'] = str(line2[:69]).rstrip()
    # -------------------input TLE------------------------------------
 
    # Construct satellite variable
    satellite = twoline2rv(line1, line2, wgs84)
    print "Start 5-day prediction at: %s" % (TT)
-
-   # open file to write orbit values
-   #f2 = open('Prediction_5day.txt','w')
 
    # scenario variables
    Pass = 0
@@ -97,12 +93,13 @@ def main(argv):
    inview = 0
    scenario = 0
    k = 1
-start = 0
-f3 = open('prediction_Delfi-C3.txt','w')
-lst = []
+   start = 0
+   predictfile = 'prediction_' + str(NORADID) + '.txt'
+   f3 = open(predictfile,'w')
+   lst = []
 
-# start of for loop of 5-day prediction
-for it in range(1,fullPeriod):
+   # start of the prediction loop
+   for it in range(1,fullPeriod):
 	# add time
 	time = TT + datetime.timedelta(0,15*(it-1))
 	
@@ -251,6 +248,12 @@ for it in range(1,fullPeriod):
 	jdut1_pre = jdut1
 	pass_hor_minus1 = pass_hor
 
-f3.close()
+   f3.close()
+   # return the updated meta file
+   print "End of Program!"
+   return meta;
 
-print "End of Program!"
+if __name__ == "__main__":
+   main(meta)
+
+
