@@ -26,9 +26,9 @@ data['Sat']['Predict']['Length of pass'] = ''
 # input the recording variables in the meta-structure
 data['Sat']['Record']['sample_rate'] = ''
 data['Sat']['Record']['num_sample'] = ''
-data['Sat']['Record']['time1'] = ''
-data['Sat']['Record']['time2'] = ''
-data['Sat']['Record']['time3'] = ''
+data['Sat']['Record']['time1 UTC'] = ''
+data['Sat']['Record']['time2 UTC'] = ''
+data['Sat']['Record']['time3 LT'] = ''
 data['Sat']['Record']['Start of recording'] = ''
 
 with open('empty.yml', 'w') as outfile:
