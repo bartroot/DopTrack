@@ -1,4 +1,4 @@
-#/usr/bin/python
+#!/usr/bin/python
 #
 # This function extracts data from the meta-file and starts a recording using the USRP
 #
@@ -70,8 +70,8 @@ def main(argv):
    time1 = datetime.datetime.utcnow()
 
    # start recording
-   print start_rec_cmd
-   #subprocess.call(start_rec_cmd)
+   #print start_rec_cmd
+   subprocess.call(start_rec_cmd)
 
    # get time 2
    time2 = datetime.datetime.utcnow()

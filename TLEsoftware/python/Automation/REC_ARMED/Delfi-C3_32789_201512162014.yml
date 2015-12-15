@@ -1,17 +1,17 @@
 Sat:
   Predict:
-    EAzimuth: 320
-    Elevation: 7
-    Length of pass: 600
-    SAzimuth: 232
-    time used UTC: '20151215093209.943005'
+    EAzimuth: 0
+    Elevation: 17
+    Length of pass: 720
+    SAzimuth: 120
+    time used UTC: '20151215160200.139870'
     timezone used: 1
     used TLE line1: 1 32789U 08021G   15348.12992758  .00005095  00000-0  39663-3
       0  9993
     used TLE line2: 2 32789  97.6249  45.5536 0012441 162.4977 197.6679 15.01618142414063
   Record:
-    Start of recording: 201512192323
-    num_sample: 150000000
+    Start of recording: 201512162014
+    num_sample: 180000000
     sample_rate: '250000'
     time1 UTC: ''
     time2 UTC: ''

@@ -40,7 +40,7 @@ def predict(meta):
    pi = 3.1415926535897
    Re = 6378136.00 # radius of Earth in meters
    min_part = 15   # interval between SGP4 propagation
-   fullPeriod = 5*24*60*60/min_part # 5 day period of prediction
+   fullPeriod = 2*24*60*60/min_part # 5 day period of prediction
 
    # Get starttime and start date
    TT = datetime.datetime.utcnow()
@@ -200,7 +200,7 @@ def predict(meta):
 			# satellite is in view
 			scenario = 1-pass_hor
 			# update logfile
-			f3.write("%02i %02i-%02i %02i:%02i %3i | " % (int(Pass),int(day),int(month),int(hour+gmtoff),int(minute),int(aer[0])))
+			#f3.write("%02i %02i-%02i %02i:%02i %3i | " % (int(Pass),int(day),int(month),int(hour+gmtoff),int(minute),int(aer[0])))
 			k = k+1
 		else:
 			scenario = 0-pass_hor
@@ -223,9 +223,10 @@ def predict(meta):
            		k = k+1;
 			lst = []
 
-		# update logfile
-		f3.write("%02i:%02i %03i |\n" % (int(hour+gmtoff),int(minute),int(AZ_pre)))
-		k=k+1	
+		        # update logfile
+		        f3.write("%02i:%02i %03i |\n" % (int(hour+gmtoff),int(minute),int(AZ_pre)))
+		        k=k+1	
+
 	elif scenario == -1:
 		# inview: pass begins
 		Pass = Pass + 1
@@ -249,6 +250,14 @@ def predict(meta):
 	pass_hor_minus1 = pass_hor
 
    f3.close()
+
+   if inview == 1:
+	readFile = open(predictfile)
+	lines = readFile.readlines()
+	readFile.close()
+	w = open(predictfile,'w')
+	w.writelines([item for item in lines[:-1]])
+	w.close()
    # return the updated meta file
    print "End of Program!"
    return meta;

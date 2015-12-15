@@ -21,8 +21,10 @@ HOME = '/home/doptrack/'
 LOC_PEN = 'REC_PENDING/'
 LOC_ARM = 'REC_ARMED/'
 LOC_REC = '/media/data/'
+LOC_RUN = '/home/bart/DopTrack/TLEsoftware/python/Automation/'
 
 priority = 0
+os.chdir(LOC_RUN)
 
 # make mother metafile
 createYAMLfile.make()
@@ -127,7 +129,7 @@ with open(rec_list) as f:
                 # fill in the meta fill
                 meta['Sat']['Predict']['EAzimuth'] = EAzimuth
                 meta['Sat']['Predict']['SAzimuth'] = SAzimuth
-                meta['Sat']['Predict']['Length of pass'] = lofp
+                meta['Sat']['Predict']['Length of pass'] = int(lofp)
                 meta['Sat']['Predict']['Elevation'] = elevation
 
                 meta['Sat']['Record']['Start of recording'] = start_rec
@@ -135,7 +137,7 @@ with open(rec_list) as f:
 
                 # Stored the metafile in the pending direcory
                 metaname = LOC_PEN + str(name) + '_' + str(NORADID) + '_' + str(start_rec) + '.yml'
-                with open(metaname, 'w') as outfile:
+                with open(metaname, 'wr') as outfile:
                    outfile.write( yaml.dump(meta, default_flow_style=False) )
                 outfile.close()
           else:
@@ -149,8 +151,7 @@ fin.close()
 f.close()
 
 # check the pending recordings for arm
-
-# ARM recordings
+subprocess.call(['./make_atq.sh'])
 
 # Log list armed recordings
 

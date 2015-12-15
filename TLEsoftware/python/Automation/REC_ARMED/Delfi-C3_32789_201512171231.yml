@@ -1,10 +1,10 @@
 Sat:
   Predict:
-    EAzimuth: 254
+    EAzimuth: 255
     Elevation: 10
     Length of pass: 720
-    SAzimuth: 355
-    time used UTC: '20151215093209.943005'
+    SAzimuth: 354
+    time used UTC: '20151215160200.139870'
     timezone used: 1
     used TLE line1: 1 32789U 08021G   15348.12992758  .00005095  00000-0  39663-3
       0  9993
