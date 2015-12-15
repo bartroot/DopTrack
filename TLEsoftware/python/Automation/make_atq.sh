@@ -25,7 +25,7 @@ echo "Amount of new recordings: $numl"
 
 for i in `seq 1 $numl`;
 do
-        line=$(tail -n+$i pending.list | head -n1)
+        line=$(tail -n+$i new.list | head -n1)
         mv $LOC_PEN$line $LOC_ARM$line
 done
 
@@ -39,7 +39,10 @@ do
         ntime=$(cat $LOC_PEN$line | grep "time used UTC" | awk '{print $4}')
         otime=$(cat $LOC_ARM$line | grep "time used UTC" | awk '{print $4}')
         # if new file has improved TLE time
-        if [ $ntime > $otime ]; then
+        if [ "$ntime" -gt "$otime" ]; then
+	    mv $LOC_PEN$line $LOC_ARM$line
+
+	elif ["$ntime" -eq "$otime" ]; then
 	    mv $LOC_PEN$line $LOC_ARM$line
         else
             rm $LOC_PEN$line
@@ -61,7 +64,7 @@ do
         	record=$(tail -n+$i armed.list | head -n1)
 		if [ -f $LOC_ARM$record ];then
         		prio=$(cat $LOC_ARM$record | grep "Priority" | awk '{print $2}')
-                	if [ $prio == $p ]; then
+                	if [ "$prio" -eq "$p" ]; then
         			start_rec=$(cat $LOC_ARM$record | grep "Start of recording" | awk '{print $4}')
         			year=$(echo $start_rec | cut -c1-4)
         			month=$(echo $start_rec | cut -c5-6)
@@ -78,10 +81,13 @@ do
                    				# not the same record, so check if overlapping
   						if [ -f $LOC_ARM$rec_test ];then
                    					start_test=$(cat $LOC_ARM$rec_test | grep "Start of recording" | awk '{print $4}') 
+							prio_test=$(cat $LOC_ARM$rec_test | grep "Priority" | awk '{print $2}')
                   					if  [ "$start_rec" -lt "$start_test" -a "$start_test" -lt "$end_rec" ]; then
                      						# recordings are overlapping
-								echo "Overlapping file is removed: $LOC_ARM$rec_test"
-                      						rm $LOC_ARM$rec_test
+								if [ "$prio_test" -lt "$prio" ]; then
+									echo "Overlapping file is removed: $LOC_ARM$rec_test"
+                      							rm $LOC_ARM$rec_test
+								fi
                   					fi
 						fi
               				fi

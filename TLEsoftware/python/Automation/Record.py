@@ -71,7 +71,8 @@ def main(argv):
 
    # start recording
    #print start_rec_cmd
-   subprocess.call(start_rec_cmd)
+   #subprocess.call(start_rec_cmd)
+   os.system(start_rec_cmd)
 
    # get time 2
    time2 = datetime.datetime.utcnow()

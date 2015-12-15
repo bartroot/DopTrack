@@ -47,8 +47,8 @@ def predict(meta):
    gmtoff = int(-gmttime.timezone)/3600
 
    # get time format correct
-   TT_stamp = TT.strftime("%Y%m%d%H%M%S.%f")
-   meta['Sat']['Predict']['time used UTC'] = TT_stamp
+   TT_stamp = TT.strftime("%Y%m%d%H%M%S")
+   meta['Sat']['Predict']['time used UTC'] = int(TT_stamp)
    meta['Sat']['Predict']['timezone used'] = gmtoff
 
    # station coordinates [station: DopTrack]
@@ -58,9 +58,9 @@ def predict(meta):
 
    # store station coordinates
    meta['Sat']['Station']['Name'] = 'DopTrack'
-   meta['Sat']['Station']['Lat'] = station_lat
-   meta['Sat']['Station']['Lon'] = station_lon
-   meta['Sat']['Station']['Height'] = station_h
+   meta['Sat']['Station']['Lat'] = float(station_lat)
+   meta['Sat']['Station']['Lon'] = float(station_lon)
+   meta['Sat']['Station']['Height'] = float(station_h)
 
    # Initializing
    print "Start of reading TLE file..."
