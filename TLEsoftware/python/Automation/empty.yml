@@ -4,8 +4,10 @@ Sat:
     Elevation: ''
     Length of pass: ''
     SAzimuth: ''
-    time used: ''
-    used TLE: ''
+    time used UTC: ''
+    timezone used: ''
+    used TLE line1: ''
+    used TLE line2: ''
   Record:
     Start of recording: ''
     num_sample: ''
@@ -19,3 +21,8 @@ Sat:
     Name: ''
     Priority: ''
     Tuning Frequency: ''
+  Station:
+    Height: ''
+    Lat: ''
+    Lon: ''
+    Name: ''

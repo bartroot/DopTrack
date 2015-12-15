@@ -145,14 +145,14 @@ with open(rec_list) as f:
 
 print "End of for-loop!"
 fin.close()
-f.close()
 # close rec list
+f.close()
 
-# check priority
+# check the pending recordings for arm
 
 # ARM recordings
 
-# Update pending list
+# Log list armed recordings
 
 # end of program
 

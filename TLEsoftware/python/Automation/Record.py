@@ -12,6 +12,7 @@
 
 import sys, getopt
 import os
+import os.path
 import yaml
 import subprocess
 import datetime
@@ -37,7 +38,8 @@ def main(argv):
          inputfile = arg
 
    # load meta-file
-   with open(inputfile, 'r') as metaf:
+   inputstr = LOC_ARM + str(inputfile)
+   with open(inputstr, 'r') as metaf:
         meta = yaml.load(metaf)  
 
    # set the parameters for the recording
@@ -83,6 +85,10 @@ def main(argv):
    meta_out = LOC_REC + filename + '.yml'  
    with open(meta_out, 'w') as outfile:
       outfile.write( yaml.dump(meta, default_flow_style=False) )
+   outfile.close()
+   if os.path.isfile(meta_out):
+       os.remove(inputstr)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
