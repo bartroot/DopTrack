@@ -42,7 +42,7 @@ do
         if [ "$ntime" -gt "$otime" ]; then
 	    mv $LOC_PEN$line $LOC_ARM$line
 
-	elif ["$ntime" -eq "$otime" ]; then
+	elif [ "$ntime" -eq "$otime" ]; then
 	    mv $LOC_PEN$line $LOC_ARM$line
         else
             rm $LOC_PEN$line
@@ -87,6 +87,22 @@ do
 								if [ "$prio_test" -lt "$prio" ]; then
 									echo "Overlapping file is removed: $LOC_ARM$rec_test"
                       							rm $LOC_ARM$rec_test
+                                                                elif [ "$prio_test" -eq "$prio" ]; then
+									# similar recordings but off with one or two minutes
+									# check the newest TLE propagation
+									ntime=$(cat $LOC_ARM$rec_test | grep "time used UTC" | awk '{print $4}')
+								        otime=$(cat $LOC_ARM$record | grep "time used UTC" | awk '{print $4}')
+								        # if new file has improved TLE time
+								        if [ "$ntime" -gt "$otime" ]; then
+									    # don't do anything. In the following i loop the record will be removed
+									    otime=$otime	
+								        elif [ "$ntime" -eq "$otime" ]; then
+									    echo "Old file is removed: $LOC_ARM$rec_test"
+								            rm $LOC_ARM$rec_test
+      								        else
+								            echo "Old file is removed: $LOC_ARM$rec_test"
+           								    rm $LOC_ARM$rec_test
+       									fi
 								fi
                   					fi
 						fi

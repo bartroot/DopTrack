@@ -52,8 +52,8 @@ with open(rec_list) as f:
       # fill in mothe meta file
       metam['Sat']['State']['Name'] = columns[0]
       metam['Sat']['State']['NORADID'] = columns[1]
-      metam['Sat']['State']['Tuning Frequency'] = columns[2]
-      metam['Sat']['Record']['sample_rate'] = columns[3]
+      metam['Sat']['State']['Tuning Frequency'] = int(columns[2])
+      metam['Sat']['Record']['sample_rate'] = int(columns[3])
       metam['Sat']['State']['Priority'] = priority
 
       # Determine Antenna

@@ -9,43 +9,35 @@ import matplotlib.cm as cmMat
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import scipy.io as sio
-import yaml
 
 # input arguments handling
 
 def main(argv):
    inputfile = ''
    outputfile = ''
-   metafile = ''
    try:
-      opts, args = getopt.getopt(argv,"hi:o:m:",["ifile=","ofile=","mfile="])
+      opts, args = getopt.getopt(argv,"hi:o:",["ifile=","ofile="])
    except getopt.GetoptError:
-      print 'spectrogram.py -i <inputfile> -o <outputfile> -m <metafile>'
+      print 'test.py -i <inputfile> -o <outputfile>'
       sys.exit(2)
    for opt, arg in opts:
       if opt == '-h':
-         print 'spectogram.py -i <inputfile> -o <outputfile> -m <metafile>'
+         print 'test.py -i <inputfile> -o <outputfile>'
          sys.exit()
       elif opt in ("-i", "--ifile"):
          inputfile = arg
       elif opt in ("-o", "--ofile"):
          outputfile = arg
-      elif opt in ("-m", "--mfile"):
-         metafile = arg
    #print 'Input file is "', inputfile
    #print 'Output file is "', outputfile
 
-   # read in metafile
-   with open(metafile, 'r') as metaf:
-        meta = yaml.load(metaf)  
-   metaf.close()
-
    # input filename
+
    inputfilename = inputfile
 
    # initail values
-   Time = int(meta['Sat']['Predict']['Length of pass'])
-   Fs = int(meta['Sat']['Record']['sample_rate'])
+   Time = 900;
+   Fs = 250000.;
    Dt = 0.5;
 
    # Construct other information
