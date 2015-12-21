@@ -41,8 +41,8 @@ with open(rec_list) as f:
       # set satellite values for later
       NORADID = columns[1]
       name = columns[0]
-      freq = columns[2]
-      samp_rate = columns[3]
+      freq = int(columns[2])
+      samp_rate = int(columns[3])
 
       # create mother meta file for this particular satellite
       with open('empty.yml', 'r') as metaf:

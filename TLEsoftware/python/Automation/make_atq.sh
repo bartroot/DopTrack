@@ -81,8 +81,15 @@ do
                    				# not the same record, so check if overlapping
   						if [ -f $LOC_ARM$rec_test ];then
                    					start_test=$(cat $LOC_ARM$rec_test | grep "Start of recording" | awk '{print $4}') 
+							year=$(echo $start_test | cut -c1-4)
+                                			month=$(echo $start_test | cut -c5-6)
+                                			day=$(echo $start_test | cut -c7-8)
+                                			hour=$(echo $start_test | cut -c9-10)
+                                			minute=$(echo $start_test | cut -c11-12)
+                                			lofp=$(cat $LOC_ARM$rec_test | grep "Length of pass" | awk '{print $4}')
+                                			end_test=$(date -d "${year}-${month}-${day} ${hour}:${minute} $lofp seconds" +%Y%m%d%H%M)
 							prio_test=$(cat $LOC_ARM$rec_test | grep "Priority" | awk '{print $2}')
-                  					if  [ "$start_rec" -lt "$start_test" -a "$start_test" -lt "$end_rec" ]; then
+                  					if  [ "$start_rec" -lt "$start_test" -a "$start_test" -lt "$end_rec" -o "$start_rec" -lt "$end_test" -a "$end_test" -lt "$end_rec" ]; then
                      						# recordings are overlapping
 								if [ "$prio_test" -gt "$prio" ]; then
 									echo "Overlapping file is removed: $LOC_ARM$rec_test"
