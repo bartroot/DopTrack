@@ -40,7 +40,7 @@ def predict(meta):
    pi = 3.1415926535897
    Re = 6378136.00 # radius of Earth in meters
    min_part = 15   # interval between SGP4 propagation
-   fullPeriod = 2*24*60*60/min_part # 5 day period of prediction
+   fullPeriod = 3*24*60*60/min_part # 5 day period of prediction
 
    # Get starttime and start date
    TT = datetime.datetime.utcnow()

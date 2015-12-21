@@ -84,7 +84,7 @@ do
 							prio_test=$(cat $LOC_ARM$rec_test | grep "Priority" | awk '{print $2}')
                   					if  [ "$start_rec" -lt "$start_test" -a "$start_test" -lt "$end_rec" ]; then
                      						# recordings are overlapping
-								if [ "$prio_test" -lt "$prio" ]; then
+								if [ "$prio_test" -gt "$prio" ]; then
 									echo "Overlapping file is removed: $LOC_ARM$rec_test"
                       							rm $LOC_ARM$rec_test
                                                                 elif [ "$prio_test" -eq "$prio" ]; then
