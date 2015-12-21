@@ -22,6 +22,7 @@ import datetime
 LOC_REC = '/media/data/'
 LOC_ARM = 'REC_ARMED/'
 LOC_RAD = '/home/bart/DopTrack/dev/AR5001D.radio/'
+LOC_ERR = 'REC_ERROR/'
 
 def main(argv):
    inputfile = ''
@@ -83,13 +84,19 @@ def main(argv):
    meta['Sat']['Record']['time3 LT'] = time3
 
    # put data meta file in recording directory
-   meta_out = LOC_REC + filename + '.yml'  
-   with open(meta_out, 'w') as outfile:
-      outfile.write( yaml.dump(meta, default_flow_style=False) )
-   outfile.close()
-   if os.path.isfile(meta_out):
+   data_out = LOC_REC + filename + '.32fc'
+   if os.path.isfile(data_out):
+       meta_out = LOC_REC + filename + '.yml'  
+       with open(meta_out, 'w') as outfile:
+          outfile.write( yaml.dump(meta, default_flow_style=False) )
+       outfile.close()
        os.remove(inputstr)
-
+   else:
+       meta_err = LOC_ERR + filename + '.yml'
+       with open(meta_err, 'w') as outfile:
+          outfile.write( yaml.dump(meta, default_flow_style=False) )
+       outfile.close()
+       os.remove(inputstr)      
 
 if __name__ == "__main__":
     main(sys.argv[1:])
