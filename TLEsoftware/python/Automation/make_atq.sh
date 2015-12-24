@@ -29,6 +29,23 @@ do
         mv $LOC_PEN$line $LOC_ARM$line
 done
 
+# with old recordings check if time of recording is after time of this update and remove past recordings
+ntime=$(date +"%Y%m%d%H%M") 
+numl=$(cat old.list | wc -l)
+echo "Amount of old recordings: $numl"
+for i in `seq 1 $numl`;
+do
+        line=$(tail -n+$i old.list | head -n1)
+	otime=$(cat $LOC_ARM$line | grep "Start of recording" | awk '{print $4}')
+        # if old file has start of recording less then previous TLE update
+        if [ "$ntime" -gt "$otime" ]; then
+            # old file is removed
+            echo "Old file is removed: $LOC_ARM$line"
+            rm $LOC_ARM$line
+        fi
+done
+
+
 # with doubles check the time of TLE update and remove oldest
 numl=$(cat double.list | wc -l)
 echo "Amount of double recordings: $numl"
@@ -40,14 +57,16 @@ do
         otime=$(cat $LOC_ARM$line | grep "time used UTC" | awk '{print $4}')
         # if new file has improved TLE time
         if [ "$ntime" -gt "$otime" ]; then
+            echo "Updated double record to newer (TLE) version: $line"
 	    mv $LOC_PEN$line $LOC_ARM$line
-
 	elif [ "$ntime" -eq "$otime" ]; then
+            echo "Updated double record to newer (TLE) version: $line"
 	    mv $LOC_PEN$line $LOC_ARM$line
         else
             rm $LOC_PEN$line
         fi 
 done
+
 
 for p in `seq 1 $max_prio`
 do      
@@ -78,7 +97,7 @@ do
         			do
               				rec_test=$(tail -n+$a armed.list | head -n1)
               				if ! [ $rec_test == $record ]; then
-                   				# not the same record, so check if overlapping
+                   				# not the same record, then check if overlapping
   						if [ -f $LOC_ARM$rec_test ];then
                    					start_test=$(cat $LOC_ARM$rec_test | grep "Start of recording" | awk '{print $4}') 
 							year=$(echo $start_test | cut -c1-4)
@@ -89,13 +108,14 @@ do
                                 			lofp=$(cat $LOC_ARM$rec_test | grep "Length of pass" | awk '{print $4}')
                                 			end_test=$(date -d "${year}-${month}-${day} ${hour}:${minute} $lofp seconds" +%Y%m%d%H%M)
 							prio_test=$(cat $LOC_ARM$rec_test | grep "Priority" | awk '{print $2}')
-                  					if  [ "$start_rec" -lt "$start_test" -a "$start_test" -lt "$end_rec" -o "$start_rec" -lt "$end_test" -a "$end_test" -lt "$end_rec" ]; then
-                     						# recordings are overlapping
+							# check if start time is overlapping
+                  					if  [ "$start_rec" -le "$start_test" -a "$start_test" -le "$end_rec" ]; then
+                     						# recordings are overlapping! Check priority and remove lowest priority
 								if [ "$prio_test" -gt "$prio" ]; then
 									echo "Overlapping file is removed: $LOC_ARM$rec_test"
                       							rm $LOC_ARM$rec_test
                                                                 elif [ "$prio_test" -eq "$prio" ]; then
-									# similar recordings but off with one or two minutes
+									# similar priority recordings, but off with one or two minutes
 									# check the newest TLE propagation
 									ntime=$(cat $LOC_ARM$rec_test | grep "time used UTC" | awk '{print $4}')
 								        otime=$(cat $LOC_ARM$record | grep "time used UTC" | awk '{print $4}')
@@ -103,15 +123,58 @@ do
 								        if [ "$ntime" -gt "$otime" ]; then
 									    # don't do anything. In the following i loop the record will be removed
 									    otime=$otime	
-								        elif [ "$ntime" -eq "$otime" ]; then
-									    echo "Old file is removed: $LOC_ARM$rec_test"
-								            rm $LOC_ARM$rec_test
       								        else
 								            echo "Old file is removed: $LOC_ARM$rec_test"
            								    rm $LOC_ARM$rec_test
        									fi
 								fi
-                  					fi
+                  					fi 
+							if [ -f $LOC_ARM$rec_test ];then
+ 								# check if end time is overlapping
+                                                 	       if [ "$start_rec" -le "$end_test" -a "$end_test" -le "$end_rec" ]; then
+									# recordings are overlapping! Check priority and remove lowest priority
+                                                                	if [ "$prio_test" -gt "$prio" ]; then
+                                                                	        echo "Overlapping file is removed: $LOC_ARM$rec_test"
+                                                                        	rm $LOC_ARM$rec_test
+                                          	                      elif [ "$prio_test" -eq "$prio" ]; then
+                                                	                        # similar priority recordings, but off with one or two minutes
+                                                        	                # check the newest TLE propagation
+                                                                	        ntime=$(cat $LOC_ARM$rec_test | grep "time used UTC" | awk '{print $4}')
+                                                                        	otime=$(cat $LOC_ARM$record | grep "time used UTC" | awk '{print $4}')
+                                                                        	# if new file has improved TLE time
+                                                                        	if [ "$ntime" -gt "$otime" ]; then
+                                                                        	    # don't do anything. In the following i loop the record will be removed
+                                                                        	    otime=$otime
+                                                                        	else
+                                                                            		echo "Old file is removed: $LOC_ARM$rec_test"
+                                                                            		rm $LOC_ARM$rec_test
+                                                                        	fi
+                                                                	fi
+								fi
+							fi
+							if [ -f $LOC_ARM$rec_test ];then
+								# check if complete record is overlapping
+                	                                        if [ "$start_test" -lt "$start_rec" -a "$end_test" -gt "$end_rec" ]; then
+                	                                                # recordings are overlapping! Check priority and remove lowest priority
+                	                                                if [ "$prio_test" -gt "$prio" ]; then
+                        	                                                echo "Overlapping file is removed: $LOC_ARM$rec_test"
+                                	                                        rm $LOC_ARM$rec_test
+                                        	                        elif [ "$prio_test" -eq "$prio" ]; then
+                                        	                                # similar priority recordings, but off with one or two minutes
+                                                	                        # check the newest TLE propagation
+                                                        	                ntime=$(cat $LOC_ARM$rec_test | grep "time used UTC" | awk '{print $4}')
+                                                                	        otime=$(cat $LOC_ARM$record | grep "time used UTC" | awk '{print $4}')
+                                                      	                        # if new file has improved TLE time
+                                                        	                if [ "$ntime" -gt "$otime" ]; then
+                                                                      		      	# don't do anything. In the following i loop the record will be removed
+                                                          	                      	otime=$otime
+                                                                                else
+                                                                            		echo "Old file is removed: $LOC_ARM$rec_test"
+                                                                            		rm $LOC_ARM$rec_test
+                                                                        	fi
+                                                                	fi
+                                                        	fi
+							fi
 						fi
               				fi
 
