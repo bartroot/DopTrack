@@ -186,6 +186,9 @@ def predict(meta):
 	aer = geodetic2aer(lat, lon, alt, vlat/pi*180, vlon/pi*180, valt, ell=EarthEllipsoid(),deg=True)
 
 	# Quantify the passes
+        hourp = int(hour+gmtoff)
+        if hourp == 24:
+		hourp = 00
 	
 	# check scenario for the first epoch
 	if TT == time:
@@ -224,7 +227,7 @@ def predict(meta):
 			lst = []
 
 		        # update logfile
-		        f3.write("%02i:%02i %03i |\n" % (int(hour+gmtoff),int(minute),int(AZ_pre)))
+		        f3.write("%02i:%02i %03i |\n" % (int(hourp),int(minute),int(AZ_pre)))
 		        k=k+1	
 
 	elif scenario == -1:
@@ -235,7 +238,7 @@ def predict(meta):
 		lst.append(aer[1])
 
 		# update logfile
-		f3.write("%02i %02i-%02i %02i:%02i %3i | " % (int(Pass),int(day),int(month),int(hour+gmtoff),int(minute),int(aer[0])))
+		f3.write("%02i %02i-%02i %02i:%02i %3i | " % (int(Pass),int(day),int(month),int(hourp),int(minute),int(aer[0])))
 		k = k+1
 	elif scenario == 0:
 		#no change
