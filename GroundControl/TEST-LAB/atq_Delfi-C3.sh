@@ -1,0 +1,32 @@
+#!/bin/bash
+#
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151215_0922LT.32fc" | at -t 201512150922
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151215_1057LT.32fc" | at -t 201512151057
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151215_1233LT.32fc" | at -t 201512151233
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151215_2014LT.32fc" | at -t 201512152014
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151215_2148LT.32fc" | at -t 201512152148
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151215_2326LT.32fc" | at -t 201512152326
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151216_0922LT.32fc" | at -t 201512160922
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151216_1056LT.32fc" | at -t 201512161056
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151216_1232LT.32fc" | at -t 201512161232
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151216_2014LT.32fc" | at -t 201512162014
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151216_2147LT.32fc" | at -t 201512162147
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151216_2325LT.32fc" | at -t 201512162325
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151217_0921LT.32fc" | at -t 201512170921
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151217_1056LT.32fc" | at -t 201512171056
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151217_1231LT.32fc" | at -t 201512171231
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151217_2013LT.32fc" | at -t 201512172013
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151217_2147LT.32fc" | at -t 201512172147
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151217_2324LT.32fc" | at -t 201512172324
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151218_0920LT.32fc" | at -t 201512180920
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151218_1055LT.32fc" | at -t 201512181055
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151218_1231LT.32fc" | at -t 201512181231
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151218_2012LT.32fc" | at -t 201512182012
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151218_2146LT.32fc" | at -t 201512182146
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151218_2324LT.32fc" | at -t 201512182324
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151219_0920LT.32fc" | at -t 201512190920
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151219_1054LT.32fc" | at -t 201512191054
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151219_1230LT.32fc" | at -t 201512191230
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151219_2012LT.32fc" | at -t 201512192012
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151219_2145LT.32fc" | at -t 201512192145
+echo "uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=250k -N 225000000 /media/data/DelfiC3_145.870M_20151219_2323LT.32fc" | at -t 201512192323

@@ -1,0 +1,29 @@
+Sat:
+  Predict:
+    EAzimuth: 346
+    Elevation: 87
+    Length of pass: 840
+    SAzimuth: 164
+    time used UTC: 20160106013006
+    timezone used: 1
+    used TLE line1: 1 32789U 08021G   16004.78448377  .00004356  00000-0  33718-3
+      0  9992
+    used TLE line2: 2 32789  97.6278  66.8312 0012863  95.7732 264.4960 15.01913135417315
+  Record:
+    Start of recording: 201601062130
+    num_sample: 210000000
+    sample_rate: 250000
+    time1 UTC: 2016-01-06 20:30:00.790354
+    time2 UTC: 2016-01-06 20:30:01.383423
+    time3 LT: 2016-01-06 21:30:00.790326
+  State:
+    Antenna: 1
+    NORADID: '32789'
+    Name: Delfi-C3
+    Priority: 1
+    Tuning Frequency: 145870000
+  Station:
+    Height: 0.0
+    Lat: 51.01566
+    Lon: 4.006819722222223
+    Name: DopTrack

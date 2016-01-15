@@ -1,0 +1,29 @@
+Sat:
+  Predict:
+    EAzimuth: 0
+    Elevation: 14
+    Length of pass: 840
+    SAzimuth: 108
+    time used UTC: 20160115013010
+    timezone used: 1
+    used TLE line1: 1 39428U 13066N   16014.84846277  .00001231  00000-0  20950-3
+      0  9996
+    used TLE line2: 2 39428  97.6900  55.8389 0122464 216.5664 142.7136 14.65986373114749
+  Record:
+    Start of recording: 201601171819
+    num_sample: 210000000
+    sample_rate: 250000
+    time1 UTC: ''
+    time2 UTC: ''
+    time3 LT: ''
+  State:
+    Antenna: 1
+    NORADID: '39428'
+    Name: Delfi-n3Xt
+    Priority: 2
+    Tuning Frequency: 145870000
+  Station:
+    Height: 0.0
+    Lat: 51.01566
+    Lon: 4.006819722222223
+    Name: DopTrack

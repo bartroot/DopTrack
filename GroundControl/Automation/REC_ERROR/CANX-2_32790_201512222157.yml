@@ -1,0 +1,29 @@
+Sat:
+  Predict:
+    EAzimuth: 322
+    Elevation: 7
+    Length of pass: 720
+    SAzimuth: 232
+    time used UTC: 20151222071245
+    timezone used: 1
+    used TLE line1: 1 32790U 08021H   15355.38749928  .00001372  00000-0  15844-3
+      0  9999
+    used TLE line2: 2 32790  97.6216  30.6591 0014382 163.7758 196.3922 14.87078657414007
+  Record:
+    Start of recording: 201512222157
+    num_sample: 180000000
+    sample_rate: 250000
+    time1 UTC: 2015-12-22 20:57:01.092423
+    time2 UTC: 2015-12-22 20:57:01.882609
+    time3 LT: 2015-12-22 21:57:01.092382
+  State:
+    Antenna: 3
+    NORADID: '32790'
+    Name: CANX-2
+    Priority: 2
+    Tuning Frequency: 437478000
+  Station:
+    Height: 0.0
+    Lat: 51.01566
+    Lon: 4.006819722222223
+    Name: DopTrack

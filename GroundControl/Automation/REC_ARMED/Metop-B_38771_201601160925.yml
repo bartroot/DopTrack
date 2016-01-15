@@ -1,0 +1,29 @@
+Sat:
+  Predict:
+    EAzimuth: 154
+    Elevation: 21
+    Length of pass: 960
+    SAzimuth: 25
+    time used UTC: 20160115013016
+    timezone used: 1
+    used TLE line1: 1 38771U 12049A   16014.52743203  .00000045  00000-0  40496-4
+      0  9996
+    used TLE line2: 2 38771  98.6698  76.0572 0000541  56.2117  79.7596 14.21503802172440
+  Record:
+    Start of recording: 201601160925
+    num_sample: 240000000
+    sample_rate: 250000
+    time1 UTC: ''
+    time2 UTC: ''
+    time3 LT: ''
+  State:
+    Antenna: 1
+    NORADID: '38771'
+    Name: Metop-B
+    Priority: 3
+    Tuning Frequency: 137100000
+  Station:
+    Height: 0.0
+    Lat: 51.01566
+    Lon: 4.006819722222223
+    Name: DopTrack

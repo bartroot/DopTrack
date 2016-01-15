@@ -1,0 +1,49 @@
+Students reactions after the project:
+
+What did you think of the project?
+This was probably the best project I've done so far; I found the subject to be incredibly interesting and challenging. I especially liked how this was a real project, and not something that has been done countless of times before.
+
+How was the workload distributed over the project?
+The workload was distributed properly.
+
+Did you have sufficient knowledge to do the project?
+At the start of the project: not really. This problem was solved by the literature research. Subjects that were still unclear, were clarified by you (which I really liked)
+
+Can you recommend this project to other students?
+I would recommend this project to any student who even slightly interested in space.
+
+What did you learn during this project?
+Non-content related: looking at your own work with criticism. Content related: how to filter a very noisy signal, what range-rate is and the different reference frames and how they can be transformed into each other. 
+
+___Another student___
+What did you think of the project?
+I found it very satisfying. Maintaining an overview of what we were actually doing was difficult at times, it was easy to forget that we're dealing with something physical when we were busy handling or discussing data. I am happy with our end result, and I think the idea that we, as students, actually managed to determine the range-rate of an object in space is very empowering. 
+
+How was the workload distributed over the project?
+I would say we all put roughly the same amount of effort in. The coding work was concentrated on by only a few people, which was unfortunate but unavoidable. I think most of us contributed to the conceptual work, figuring where to go next, what our data means, etc. 
+
+Did you have sufficient knowledge to do the project?
+Not at the start, I had to learning more about Latex for the report writing, and a lot about signal analysis to understand what we were doing and to write a report on it. TLE data was a completely new topic I had to learn, however the Doppler shift concept I could handle and could use.
+
+Can you recommend this project to other students?
+I highly recommend it to other students, I felt like I really accomplished something and didn't just 'passively' go through the project. What seemed challenging at first was surprisingly achievable, and I think that is rewarding and shows that it is important to always put effort in.
+
+
+What did you learn during this project?
+I learned about sidelobes, sources of attenuation and noise, and many other signal analysis related topics. I discovered the value of a data set and how it can be used in not-so-obvious ways, for example attempting to determine the satellite's tumbling rate based on the periodic change in the frequency's amplitude (was not included in the report). Besides knowledge of the topic, I also learned how to criticize scientific conclusions (our own work) and data, and how to write a scientific report.
+
+---Another student---
+What did you think of the project?
+I think that this project was really fun working on. I really liked the idea that we got real data from a real satellite orbiting the earth. It was also very interesting to determine orbital parameters (even if it was only range rate) from only the signal in a relatively simple method. I found it nice that our method came relatively close to the official NASA method. And because we used real data we saw some interesting things which we would never see in college and stuff. It was also nice to have a totally space project for a change. All the other projects so far were really focussed on aircrafts. Sometimes space is stuffed in the project somewhere, but this was totally different. And compared to other groups we had the most interesting subject. It was also nice to bring the theory to practise, I really enjoyed it
+
+How was the workload distributed over the project?
+The workload was quite high compared to other groups. But it was not too much in my opinion. Other groups were done with the project some weeks before the project officially ended. we were on the other hand busy with calculations until the last moment. But this was not bad at all, in my opinion it is how a project should be. The workload was quite evenly distributed over the project. Ad the end of the project we had more work because we had to write the article, but this is normal, at the end the work is always more.
+
+Did you have sufficient knowledge to do the project?
+At the start of the project not yet, but this is normal. During the project I learned a lot, which is the purpose of a project in my opinion. We had enough knowledge to start and develop our skills to the required level.
+
+Can you recommend this project to other students?
+simply yes. It was fun and I learned a lot
+
+What did you learn during this project?
+I learned a lot about matlab. Before this project I could do some simple work, make a basic plot and so on, but during this project I learned additional skills in for example plotting. Further I learned some things about the current orbit determination methods. But the most important thing is in my opinon the way of thinking. Programming in matlab requires a special way of thinking and in the projects before this one we didn't really practise this. It was also nice to learn some stuff about the Doppler effect.

@@ -1,0 +1,30 @@
+Sat:
+  Predict:
+    EAzimuth: 11
+    Elevation: 21
+    Length of pass: 1320
+    SAzimuth: 247
+    time used UTC: 20160104013015
+    timezone used: 1
+    used TLE line1: 1 39497U 13076E   16003.01383008  .00000024  00000-0  10000-3
+      0  9992
+    used TLE line2: 2 39497  82.4842  28.4900 0018176 142.6726 217.5626 12.42671682
+      91587
+  Record:
+    Start of recording: 201601062213
+    num_sample: 330000000
+    sample_rate: 250000
+    time1 UTC: 2016-01-06 21:13:00.618248
+    time2 UTC: 2016-01-06 21:13:01.207496
+    time3 LT: 2016-01-06 22:13:00.618219
+  State:
+    Antenna: 3
+    NORADID: '39497'
+    Name: COSMOS-2491
+    Priority: 3
+    Tuning Frequency: 435465000
+  Station:
+    Height: 0.0
+    Lat: 51.01566
+    Lon: 4.006819722222223
+    Name: DopTrack
