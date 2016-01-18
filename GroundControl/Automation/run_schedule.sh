@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 
-cd  /home/bart/DopTrack/TLEsoftware/python/Automation
+cd  /home/bart/DopTrack/GroundControl/Automation
 
 # For the crontab
 
