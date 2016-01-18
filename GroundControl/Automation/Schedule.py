@@ -21,7 +21,7 @@ HOME = '/home/doptrack/'
 LOC_PEN = 'REC_PENDING/'
 LOC_ARM = 'REC_ARMED/'
 LOC_REC = '/media/data/'
-LOC_RUN = '/home/bart/DopTrack/TLEsoftware/python/Automation/'
+LOC_RUN = '/home/bart/DopTrack/GroundControl/Automation/'
 
 priority = 0
 os.chdir(LOC_RUN)
