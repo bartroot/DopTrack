@@ -3,10 +3,10 @@ DopTrack
 
 This repository contains all files relevant to the DopTrack activities.
 
-Budget
+GroundControl
 -----
 
-This diectory contains the latex and supporting files of the DopTrack budget document.
+This diectory contains all the scripts and software that is responsible for the Recording, Prediction, and Post-Processing.
 
 
 Dev
