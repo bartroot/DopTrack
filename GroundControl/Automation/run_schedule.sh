@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 
-cd  /home/bart/DopTrack/GroundControl/Automation
+cd  /home/doptrack/DopTrack/GroundControl/Automation
 
 # For the crontab
 

@@ -21,7 +21,7 @@ import datetime
 
 LOC_REC = '/media/data/'
 LOC_ARM = 'REC_ARMED/'
-LOC_RAD = '/home/bart/DopTrack/dev/AR5001D.radio/'
+LOC_RAD = '/home/doptrack/DopTrack/dev/AR5001D.radio/'
 LOC_ERR = 'REC_ERROR/'
 
 def main(argv):
