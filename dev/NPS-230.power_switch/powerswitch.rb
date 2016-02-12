@@ -22,13 +22,11 @@ module PowerSwitch
     @@ip=File.open("#{File.expand_path(File.dirname(__FILE__))}/ip.txt","r").read.chomp
     @@debug=ARGV.include?('debug')
 
-    def initialize
+    def initialize(pwd)
       if @@debug
 
         puts "Currently in debug mode, nothing happens in reality\nConneting to #{@@ip}"
       else
-        #need password
-        pwd = ask("Enter password: ") { |q| q.echo = false }
         #open the connection
         @connection = Net::Telnet::new(
           "Host" => @@ip,
@@ -83,17 +81,20 @@ if __FILE__==$0
   #inits
   done=false
   #simple calls
-  if PowerSwitch::COMLIST.keys.map{|k| k.to_s}.include?(ARGV[0])
-    PowerSwitch::Control.new.cmd(ARGV[0].to_sym).close
+  if PowerSwitch::COMLIST.keys.map{|k| k.to_s}.include?(ARGV[1])
+    PowerSwitch::Control.new(ARGV[0]).cmd(ARGV[1].to_sym).close
     done=true
   end
   #power calls
-  if PowerSwitch::POWERMODES.include?(ARGV[0])
-    PowerSwitch::Control.new.power(ARGV[0],ARGV[1].to_i).close
+  if PowerSwitch::POWERMODES.include?(ARGV[1])
+    PowerSwitch::Control.new(ARGV[0]).power(ARGV[1],ARG[2].to_i).close
     done=true
   end
   #sanity
-  raise RuntimeError,"Cannot understand the input arguments. Use either:\n"+
+  raise RuntimeError,"\n\n"+
+    "#{__FILE__} password [#{PowerSwitch::COMLIST.keys.map{|k| k.to_s}.join('|')}|#{PowerSwitch::POWERMODES.join(' plug_nr|')} plug_nr]\n\n"+
+    "First, state the password to access the power switch.\n"+
+    "Then, use either:\n"+
     " - one of #{PowerSwitch::COMLIST.keys.map{|k| k.to_s}.join(', ')};\n"+
     " - one of #{PowerSwitch::POWERMODES.join(', ')} followed by the plug number." unless done
 end
