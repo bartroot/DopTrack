@@ -25,7 +25,7 @@ then
 fi
 
 #check if target group exists
-cat /etc/group | grep $TARGET_GROUP > /dev/null
+awk -F':' '{print $1}' /etc/group | grep $TARGET_GROUP > /dev/null
 if [ $? -ne 0 ]
 then
 	echo ERROR: unknown group $TARGET_GROUP
