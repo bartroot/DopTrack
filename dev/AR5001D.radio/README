@@ -1,7 +1,5 @@
 # to control the radio via scripted language, you need to be in group dialout
-# to do this:
-
-sudo gpasswd --add ${USER} dialout
+# to do this, see addUSER.sh script in this this
 
 --- terminal control ----
 
