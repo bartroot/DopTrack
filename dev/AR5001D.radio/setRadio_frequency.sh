@@ -1,14 +1,17 @@
 #!/bin/bash
-#
 
-freq=$1
+DIR=$(cd $(dirname $0);pwd)
 
-if [ -z "$freq" ]
+#handle inputs
+if [ $# -eq 0 ]
 then
-  echo "Input is empty. You need to specify frequency in Hz!"
+	echo "Input is empty. You need to specify the frequency in Hz"
+	exit 3
 else
-  # set radio's center frequency
-  foo="$(printf "%010d" $freq)"
-  echo "CF${foo}"
-  echo -en "CF${foo}\r" > /dev/ttyUSB0
+	freq=$1
 fi
+
+# set radio's center frequency
+foo="$(printf "%010d" $freq)"
+echo -en "CF${foo}\r" > /dev/ttyUSB0
+echo "Radio reports tunned frequency to be $($DIR/command-ar5001d.rb CF)"

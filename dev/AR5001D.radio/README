@@ -7,11 +7,11 @@ To control the radio use the same commands as in the screen. No feedback yet, bu
 
 set radio frequency
 
-echo CFXXXXXXXXXX > /dev/ttyUSB0
-echo CF0145870000 > /dev/ttyUSB0
+echo "CFXXXXXXXXXX\r" > /dev/ttyUSB0
+echo "CF0145870000\r" > /dev/ttyUSB0
 
 set radio antenna
 
-echo ANX > /dev/ttyUSB0
-echo AN1 > /dev/ttyUSB0  #for VHF antenna
-echo AN3 > /dev/ttyUSB0  #for UHF antenna
+echo "ANX\r" > /dev/ttyUSB0
+echo "AN1\r" > /dev/ttyUSB0  #for VHF antenna
+echo "AN3\r" > /dev/ttyUSB0  #for UHF antenna

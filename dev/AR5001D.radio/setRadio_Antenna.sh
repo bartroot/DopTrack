@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DIR=$( cd $(dirname $0);pwd )
+
 function antenna_name
 {
 	[ $# -ne 1 ] && return 3
@@ -40,7 +42,8 @@ fi
 
 # set radio's center frequency
 ANT="$(printf "%1i" $ANT)"
-echo -n "Changing antenna to $ANT_NAME ($ANT)... "
+echo "Changing antenna to $ANT_NAME ($ANT)... "
 echo -en "AN$ANT\r" > /dev/ttyUSB0
-echo "Done!"
+echo "Radio reports antenna to be $($DIR/command-ar5001d.rb AN)"
+
 
