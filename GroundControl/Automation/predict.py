@@ -189,7 +189,9 @@ def predict(meta):
         hourp = int(hour+gmtoff)
         if hourp == 24:
 		hourp = 00
-	
+	if hourp == 25:
+		hourp = 01
+
 	# check scenario for the first epoch
 	if TT == time:
 		if pass_hor == 1:

@@ -117,6 +117,11 @@ with open(rec_list) as f:
                         	ehour = ehour + 1
                 else :
                         eminute = eminute + 1
+		
+		if ehour == 24 :
+ 	               ehour = 0
+		if bhour == 24 :
+        	        bhour = 0
 
                 # determine the length of recording
                 tb = datetime.datetime(year,month,day,bhour,bminute)
