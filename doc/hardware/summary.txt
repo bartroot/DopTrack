@@ -1,0 +1,194 @@
+Computer
+
+Dell OptiPlex 7010 (https://intranet.tudelft.nl/en/services/fmreict-psc/office/computer/hardware/your-desktopcomputer-or-laptop/standard-systems/dell-optiplex-7010/)
++ 2TB Hard disk
+
+€ 850 euro (https://intranet.tudelft.nl/en/services/fmreict-psc/office/computer/hardware/your-desktopcomputer-or-laptop/standard-systems/dell-optiplex-7010/)
+
+
+
+GPS clock
+
+Spectracom Epsilon Clock Model EC1S (http://www.spectracomcorp.com/DesktopModules/Bring2mind/DMX/Download.aspx?EntryId=285)
+- GPS 12 channel reception on L1 (1575 MHz) C/A code
+- PPS Accuracy to UTC: 25 ns (1sigma)
+- 10 MHz Accuracy < 2e-12 (one day average) 
+- Temperature Stability (peak to peak): 1e-9 (from 0° to 60°C)
+- Full remote control by RS-232C
+
+€ 1.551 (http://www.testenmeetwinkel.nl/nl/producten/frequency-timing-gps/frequency-timing/ec1s_so)
+
+
+Trimble Thunderbolt E GPS Disciplined Clock (http://www.microtron.be/downloads/product_docs/33843.PDF)
+- L1 frequency, CA/code (SPS), 12-channel continuous tracking receiver 
+- Update rate: 1 Hz 
+- PPS accuracy: UTC 15 nanoseconds (one sigma) 
+- 10 MHz accuracy: 1.16e-12 (one day average)
+- Serial interface: RS-232 through a DB-9 connector
+- Serial protocol: Trimble Standard Interface Protocol (TSIP) binary protocol @ 9600, 8-None-1
+
+Ordering info: Microtron B.V. (price unknown)
+
+£1,075.20 (inc VAT, http://www.dpieshop.com/trimble-thunderbolt-gps-disciplined-clock-p-1011.html?osCsid=iq77blbg365eoegmhe7lde7cc5)
+
+
+
+GPS Antenna
+
+
+Spectracom Epsilon GPS Antenna 35 dB (http://www.spectracomcorp.com/Support/HowCanWeHelpYou/Library/tabid/59/Default.aspx?EntryId=269)
+- Input Voltage: 5 V ± 0.5 V
+- Gain: 35 dB typical
+- Noise Figure: 2.2 dB max (1.8 dB typical)
+- Coaxial Connector Type: N type female
+- Fixation: 4 M4 screws
+
+Ordering info: C. N. Rood B.V. (price unknown)
+
+
+Trimble Bullet GPS Antenna (http://trl.trimble.com/docushare/dsweb/Get/Document-8420/Bullet-III_DS.pdf)
+- Connector: F-type & TNC (5 V DC) - TNC (3.3 V DC only)
+- Gain: 30 dB @ 25 °C - 3.3V; 35 dB ± 3 dB - 5V
+- Noise: 3.3 dB maximum (25 °C ±5 °C) 3.3V; 3.3 dB maximum (25 °C ±5 °C) 5V
+- Mounting: 1”-14” thread or 3/4” pipe thread
+
+£63.60 (Inc VAT, http://www.dpieshop.com/trimble-bullet-iii-gps-antenna-50v-ftype-connector-p-1019.html)
+Ordering info: Microtron B.V. (price unknown)
+
+
+Trimble Thunderbolt E GPS Disciplined Clock + Trimble Bullet GPS Antenna
+£1,366.80 (http://www.dpieshop.com/trimble-thunderbolt-starter-kit-p-138.html)
+
+
+
+Radio
+
+
+AOR AR5001D (http://www.wsplc.com/pdf/ar5001d.pdf)
+- Frequency range: 40kHz to 3.15GHz
+- 10MHz reference input SMA-J connector (0.01ppm frequency accuracy for the 10MHz internal master oscillator is obtained when synchronized to a GPS signal)
+- capable of recording demodulated audio signal directly to the built-in SD media recorder
+- 12kHz IF output is provided for a PC sound card based SDR (3.5mm stereo-phone jack)
+- 45.05MHz Analog IF output (BNC-J connector)
+- optional I/Q interface board allows up to 1MHz of digital I/Q output to be recorded to the hard drive of computers operating under Windows environment (USB2.0, Frequency range 25MHz - 3.15GHz only)
+- USB 1.1/2.0 Jack for PC control
+
+£3,749.95 (http://www.wsplc.com/acatalog/AR-50001D_Base_Receiver.html)
+
+
+AOR AR-2300 DSP black box receiver (manual: http://www.aorja.com/support/manuals/AR2300_MANUAL_feb.21_2011.pdf)
+- Frequency range: 40kHz to 3.15 GHz
+- PC controllable
+- DDS (direct digital synthesizer) local oscillator
+- IF signal output (45.05MHz, +/- 7.5MHz for a total of 15MHz bandwidth) 25MHz to 3.15GHz only
+- SD/SDHC card interface
+- Fast Fourier Transform (FFT) analyzer for fast spectrum display processing
+- 12kHz I/Q output for DRM PC receiver
+- USB 2.0 interface
+- Trio frequency receive (receive 3 frequencies simultaneously)
+- I/Q output with 1MHz bandwidth (optional) 25MHz to 3.15GHz only
+- Frequency coherent (with optional GPS receiver unit, 0.01ppm, SMA type connector)
+- LAN (Local Area Network) control (with optional LAN interface)
+
+£3,199.95 (http://www.wsplc.com/acatalog/AR-2300_DSP_black_box_receiver_40KHz-3150MHz_with_DC_lead_PC_software_240V_PSU_extra.html)
+
+
+AOR AR-ONE (manual: http://www.aorja.com/support/manuals/ar-one_manual.pdf)
+- Frequency range: 10 KHz to 3.3 GHz
+- tune in increments of ONE Hertz
+- Ultra-stable reference frequency oscillator (0.1ppm)
+- Two RS-232C ports plus control head port 
+- IF signal output (10.7 MHz or 455KHz)
+- Standard signal (10 MHz) input connector
+
+£5,299.95 (http://www.wsplc.com/acatalog/AR-ONEC_Frequency_and_Phase_Coherent_Receiver.html)
+
+
+AOR AR-ALPHA (manual: http://www.aorja.com/support/manuals/aralpha_manual_jan.9_2013.pdf)
+- Frequency range: 10 kHz to 3.5 GHz
+- Zero-IF frequency (for the 3rd IF) (http://en.wikipedia.org/wiki/Direct-conversion_receiver)
+- DDS (Direct Digital Synthesizer) local oscillator
+- I/Q output with 1 MHz bandwidth
+- Selectable IF bandwidths: 200 Hz, 500 Hz, 1 kHz, 3 kHz, 6 kHz, 15 kHz, 30 kHz, 100 kHz, 200 kHz and 300 kHz and the ability to shift the IF
+- Fast Fourier Transform (FFT) spectrum display 
+- Analog output for DRM PC receiver
+- RS-232C and USB 2.0 interfaces
+
+£7,999.95 (http://www.wsplc.com/acatalog/AR-ALPHA_Receiver_DSP_spectrum_display_TV_10KHz-3.3GHz_12V.html)
+
+
+TEN-TEC RX-340 (https://www.tentec.com/downloads/manuals/rx340/rx340Brochure.pdf)
+- Frequency range: 5 kHz to 30MHz
+- tuning steps and display resolution of 1 Hz
+- DSP microprocessors replace many of the discrete circuits 
+- External Frequency Reference: 1, 2, 5, or 10 MHz ( +/- 1 PPM, 200 mv rms into high impedance load)
+- Digital Data Output: Provides post DSP IF and audio information in both serial and parallel data streams.
+
+£4,099.95 (http://www.wsplc.com/acatalog/RX-340_HF_DSP_Receiver.html)
+$4,450.00 (http://www.tentec.com/products/RX%252d340-HF-DSP-Receiver.html)
+
+
+
+SDR
+
+
+FLEX-6700(R) Signature Series SDR (http://www.flexradio.com/FLEX-6000.pdf)
+- Includes GPS disciplined oscilater with optional upgrade FLEX-6000 GPSDO (Frequency stability is 1e-8 within 5 minutes at 25° C and 5e-12 over 24 hours with GPS lock)
+- utilize FPGA hardware to directly generate the CW waveform digitally at the RF carrier frequency
+- Digital Down Conversion (DDC) of the signal at RF (eliminates the performance limitations inherent in legacy superheterodyne roofing filter based transceivers)
+- 8 independent Slice Receivers providing reception from 0.03 MHz to 77 MHz and 135 MHz to 165 MHz
+- 1Gb Ethernet port
+- two USB 2.0 communication ports
+
+Transceiver: $7,499.00 (http://cart.flexradio.com/FLEX-6700-Signature-Series-SDR-Transceiver_p_913.html)
+Receiver:
+- £4,799.95 (http://www.wsplc.com/acatalog/FLEX-6700R_SDR_HF_VHF_Receiver_b.html)
+- $6,399.00 (http://cart.flexradio.com/FLEX-6500-Signature-Series-SDR-Transceiver_p_912.html)
+FLEX-6000 GPSDO upgrade: $699.00
+
+NOTICE: orders placed now have a target ship date of 3rd quarter 2013 (from flexradio.com)
+
+
+SDR-IP-01-02 (http://www.rfspace.com/RFSPACE/SDR-IP.html)
+- Frequency Range: 0.01 - 34 MHz
+- PC Interface: Ethernet 100 base-T  (UDP/TCP/IP)
+- Output Sample Rate: 32 KHz to 2.0 MHz @ 24b IQ
+- Output bandwidth: 1.8 MHz 
+- External Radio Control: Built-in RS-232 port 
+- Synchronization : Phase and Frequency (+/- 1.0 ppm over temperature 0-50C when unlocked)
+
+$3699 (http://www.rfspace.com/RFSPACE/SDR-IP.html)
+£3,499.95 (http://www.wsplc.com/acatalog/SDR-IP-1-2_SDR_commercial_grade_ethernet_radio.html)
+
+
+NetSDR-01-02 (http://www.rfspace.com/RFSPACE/NetSDR.html)
+- Frequency Range: 10 KHz - 32 MHz
+- PC Interface: Ethernet 100 base-T  (UDP/TCP/IP)
+- Output IQ Sample Rate: 12.5 KHz to 2 MHz
+- Output I/Q Bandwidth: 10 KHz to 1.60 MHz
+- External Radio Control: Built-in RS-232 port
+- Synchronization : 10 MHz reference input
+- includes Triggered Recordings and Triggered Startup
+
+$2998 (http://www.rfspace.com/RFSPACE/NetSDR.html)
+
+
+Ordering information
+
+C. N. Rood B.V.
+Blauwroodlaan 280 
+2718 SK - Zoetermeer 
+The Netherlands 
+Tel. +31-(0)79 360 00 18       
+Fax +31-(0)79 362 81 90 
+email: info.netherlands@cnrood.com
+
+Microtron B.V.
+Hoevestein 11
+NL-4903 SE
+Oosterhout
+The Netherlands
++31 (0) 162 44 72 72
++31 (0) 162 44 72 74
+E: info@microtron.nl
+W: www.microtron.nl
