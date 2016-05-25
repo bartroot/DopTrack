@@ -1,0 +1,111 @@
+
+Spectracom Epsilon Clock Model EC2S (http://www.cnrood.com/PHP/files/telecom_pdf/Epsilon-EC2S.pdf)
+- GPS 12 channel reception on L1 (1575 MHz) C/A code
+- PPS Accuracy to UTC: 100 ns (1sigma)
+- 10 MHz Accuracy < 2e-12 (one day average) 
+- Temperature Stability (peak to peak): 1e-9 (from 0° to 60°C)
+- 4 x 10 MHz sine wave outputs
+- Up to 4 x 1PPS TTL outputs (+3 as option)
+- Full remote control by serial port RS-232C
+
+Price unknown (representative in NL contacted)
+ 
+
+Spectracom Epsilon Clock Model EC20S (http://www.spectracomcorp.com/Support/HowCanWeHelpYou/Library/tabid/59/Default.aspx?EntryId=287&Command=Core_Download)
+- GPS 12 channel reception on L1 (1575 MHz) C/A code
+- PPS Accuracy to UTC: 25 ns (1sigma)
+- 10 MHz Accuracy < 2e-12 (one day average) 
+- Temperature Stability (peak to peak): 1e-9 (from 0° to 60°C)
+- Up to 10 x 10 MHz sine wave outputs
+- Up to 10 x 1PPS TTL outputs
+- Remote management by SNMP/HTTP, through Ethernet port
+- Full remote control by serial port RS-232C
+- NMEA 0183 output (http://en.wikipedia.org/wiki/NMEA_0183)
+
+€ 2.110: 7 x 1PPS (http://www.testenmeetwinkel.nl/nl/producten/frequency-timing-gps/frequency-timing/cnt_90)
+€ 3.719: 10 x 1PPS (http://www.testenmeetwinkel.nl/nl/producten/frequency-timing-gps/frequency-timing/ec20s_xo_o3)
+(representative in NL contacted)
+
+Spectracom Epsilon Clock Model EC22S (http://www.spectracomcorp.com/Support/HowCanWeHelpYou/Library/tabid/59/Default.aspx?EntryId=288&Command=Core_Download)
+- Fully redundant dual GPS clock (2 x L1 GPS C/A code)
+- 8 x 1PPS TTL outputs
+- 8 x 10 MHz outputs
+- PPS Accuracy to UTC: 25 ns (1sigma)
+- 10 MHz Accuracy < 2e-12 (one day average) 
+- Temperature Stability (peak to peak): 1e-9 (from 0° to 60°C)
+- Remote management by SNMP/HTTP, through Ethernet port
+
+Price unknown (representative in NL contacted)
+
+
+Symmetricom TSC 4400 GPS Disciplined Rb Oscillator (http://www.symmetricom.com/link.cfm?lid=4405)
+- GPS reception on L1/L2
+- PPS Accuracy to UTC: 15 ns RMS
+- 10 MHz Allan deviation < 1e-13 for periods longer than 2 hours; < 1e-12 for periods longer than 2 min.
+- 4 x 10 MHz sine wave outputs
+- 4 x 1PPS TTL outputs
+- 4 x IRIG-B (http://en.wikipedia.org/wiki/IRIG_timecode)
+- Status Information via Ethernet
+- Network Time Protocol (NTP) Server
+- Includes GPS Antenna
+
+Price unknown (representative in NL contacted)
+ 
+
+Additional contacts:
+
+Spectracom representative:
+C. N. Rood B.V.
+Blauwroodlaan 280 
+2718 SK - Zoetermeer 
+The Netherlands 
+Tel. +31-(0)79 360 00 18       
+Fax +31-(0)79 362 81 90 
+email: info.netherlands@cnrood.com
+
+Symmetricon representative:
+Frits Daris: f.daris@tmsystems.nl
+T&M Systems BV 
+Centaurusweg 148-b 
+5015 TA Tilburg     Netherlands 
+Tel: +31 (0) 13 463 95 40 
+Tel: +32 (0) 13 463 96 63 
+
+
+
+
+Unsuitable:
+
+
+GPS Disciplined Clock
+
+Spectracom Epsilon Clock Model EC1S (http://www.spectracomcorp.com/DesktopModules/Bring2mind/DMX/Download.aspx?EntryId=285)
+- GPS 12 channel reception on L1 (1575 MHz) C/A code
+- PPS Accuracy to UTC: 25 ns (1sigma)
+- 10 MHz Accuracy < 2e-12 (one day average) 
+- Temperature Stability (peak to peak): 1e-9 (from 0° to 60°C)
+- Full remote control by RS-232C
+
+€ 1.551 (http://www.testenmeetwinkel.nl/nl/producten/frequency-timing-gps/frequency-timing/ec1s_so)
+
+
+Trimble Thunderbolt E GPS Disciplined Clock (http://www.microtron.be/downloads/product_docs/33843.PDF)
+- L1 frequency, CA/code (SPS), 12-channel continuous tracking receiver 
+- Update rate: 1 Hz 
+- PPS accuracy: UTC 15 nanoseconds (one sigma) 
+- 10 MHz accuracy: 1.16e-12 (one day average)
+- Serial interface: RS-232 through a DB-9 connector
+- Serial protocol: Trimble Standard Interface Protocol (TSIP) binary protocol @ 9600, 8-None-1
+
+£1,075.20 (http://www.dpieshop.com/trimble-thunderbolt-gps-disciplined-clock-p-1011.html)
+
+Trimble representative:
+Microtron B.V.
+Hoevestein 11
+NL-4903 SE
+Oosterhout
+The Netherlands
++31 (0) 162 44 72 72
++31 (0) 162 44 72 74
+E: info@microtron.nl
+W: www.microtron.nl

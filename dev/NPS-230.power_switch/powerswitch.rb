@@ -19,7 +19,7 @@ module PowerSwitch
     :connection)
     attr_reader :connection
     #retrieve IP of power switch
-    @@ip=File.open("#{File.expand_path(File.dirname(__FILE__))}/ip.txt","r").read.chomp
+    @@ip=File.open("#{File.expand_path(File.dirname(__FILE__))}/powerswitch.ip","r").read.chomp
     @@debug=ARGV.include?('debug')
 
     def initialize(pwd)
@@ -87,9 +87,13 @@ if __FILE__==$0
   end
   #power calls
   if PowerSwitch::POWERMODES.include?(ARGV[1])
-    PowerSwitch::Control.new(ARGV[0]).power(ARGV[1],ARG[2].to_i).close
+    PowerSwitch::Control.new(ARGV[0]).power(ARGV[1],ARGV[2].to_i).close
     done=true
   end
+
+
+
+
   #sanity
   raise RuntimeError,"\n\n"+
     "#{__FILE__} password [#{PowerSwitch::COMLIST.keys.map{|k| k.to_s}.join('|')}|#{PowerSwitch::POWERMODES.join(' plug_nr|')} plug_nr]\n\n"+

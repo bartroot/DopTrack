@@ -2,3 +2,4 @@ rsync.*
 unison.*
 local
 *.swp
+.DS_Store

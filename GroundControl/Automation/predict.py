@@ -44,7 +44,7 @@ def predict(meta):
 
    # Get starttime and start date
    TT = datetime.datetime.utcnow()
-   gmtoff = int(-gmttime.timezone)/3600
+   gmtoff = int(-gmttime.timezone)/3600 + int(gmttime.daylight)
 
    # get time format correct
    TT_stamp = TT.strftime("%Y%m%d%H%M%S")
@@ -52,8 +52,8 @@ def predict(meta):
    meta['Sat']['Predict']['timezone used'] = gmtoff
 
    # station coordinates [station: DopTrack]
-   station_lat = 51+59/60+56.376/60/60
-   station_lon = 4+22/60+24.551/60/60
+   station_lat = 51+59/60+56.387/60/60
+   station_lon = 4+22/60+24.558/60/60
    station_h = 0#130.85
 
    # store station coordinates
@@ -189,7 +189,9 @@ def predict(meta):
         hourp = int(hour+gmtoff)
         if hourp == 24:
 		hourp = 00
-	
+	if hourp == 25:
+		hourp = 01
+
 	# check scenario for the first epoch
 	if TT == time:
 		if pass_hor == 1:

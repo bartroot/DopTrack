@@ -1,0 +1,43 @@
+Spectracom Epsilon GPS Antenna 35 dB (http://www.spectracomcorp.com/Support/HowCanWeHelpYou/Library/tabid/59/Default.aspx?EntryId=269)
+- Input Voltage: 5 V ± 0.5 V
+- Gain: 35 dB typical
+- Noise Figure: 2.2 dB max (1.8 dB typical)
+- Coaxial Connector Type: N type female
+- Fixation: 4 M4 screws
+
+Ordering info: C. N. Rood B.V. (price unknown)
+
+
+Trimble Bullet GPS Antenna (http://trl.trimble.com/docushare/dsweb/Get/Document-8420/Bullet-III_DS.pdf)
+- Connector: F-type & TNC (5 V DC) - TNC (3.3 V DC only)
+- Gain: 30 dB @ 25 °C - 3.3V; 35 dB ± 3 dB - 5V
+- Noise: 3.3 dB maximum (25 °C ±5 °C) 3.3V; 3.3 dB maximum (25 °C ±5 °C) 5V
+- Mounting: 1”-14” thread or 3/4” pipe thread
+
+£63.60 (Inc VAT, http://www.dpieshop.com/trimble-bullet-iii-gps-antenna-50v-ftype-connector-p-1019.html)
+Ordering info: Microtron B.V. (price unknown)
+
+
+Trimble Thunderbolt E GPS Disciplined Clock + Trimble Bullet GPS Antenna
+£1,366.80 (http://www.dpieshop.com/trimble-thunderbolt-starter-kit-p-138.html)
+
+
+C. N. Rood B.V.
+Blauwroodlaan 280 
+2718 SK - Zoetermeer 
+The Netherlands 
+Tel. +31-(0)79 360 00 18       
+Fax +31-(0)79 362 81 90 
+email: info.netherlands@cnrood.com
+
+
+
+Microtron B.V.
+Hoevestein 11
+NL-4903 SE
+Oosterhout
+The Netherlands
++31 (0) 162 44 72 72
++31 (0) 162 44 72 74
+E: info@microtron.nl
+W: www.microtron.nl

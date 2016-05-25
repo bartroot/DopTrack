@@ -103,14 +103,25 @@ with open(rec_list) as f:
                 # do the calculations
                 if bminute == 0 :
                         bminute = 59
-                        bhour = bhour - 1
+			if bhour == 0 :
+				bhour = 23
+			else :
+                        	bhour = bhour - 1
                 else :
                         bminute = bminute - 1
                 if eminute == 59 :
                         eminute = 0
-                        ehour = ehour + 1
+			if ehour == 23 :
+				ehour = 0
+			else : 
+                        	ehour = ehour + 1
                 else :
                         eminute = eminute + 1
+		
+		if ehour == 24 :
+ 	               ehour = 0
+		if bhour == 24 :
+        	        bhour = 0
 
                 # determine the length of recording
                 tb = datetime.datetime(year,month,day,bhour,bminute)

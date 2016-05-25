@@ -1,0 +1,70 @@
+RFSpace NetSDR IP SDR
+- Frequency Range: 0,01 to 32 MHz
+- maximum receive bandwidth (spectrum) of 1.6MHz
+- Ethernet connection (USB for setup)
+- Output IQ Sample Rate: 12.5 KHz to 2 MHz
+- Output I/Q Bandwidth: 10 KHz to 1.60 MHz
+- 80MHz/16bit analog/digital converter and a Xilinx FPGA
+- 10MHz reference input
+- External Radio Control: Built-in RS-232 port
+- Synchronization : 10 MHz reference input
+- includes Triggered Recordings and Triggered Startup
+- open specs for the software interface of the NetSDR
+
+€1.753,29 (http://www.rys.nl/nl/producten/20-scanner-a-ontvanger/77-basis/693-rfspace-netsdr-ip-sdr-ontvanger.html)
+$2998 (http://www.rfspace.com/RFSPACE/NetSDR.html)
+
+RFSpace SDR-IP-01-02 (http://www.rfspace.com/RFSPACE/SDR-IP.html)
+- Frequency Range: 0.01 - 34 MHz
+- PC Interface: Ethernet 100 base-T  (UDP/TCP/IP)
+- Output Sample Rate: 32 KHz to 2.0 MHz @ 24b IQ
+- Output bandwidth: 1.8 MHz 
+- External Radio Control: Built-in RS-232 port 
+- Synchronization : Phase and Frequency (+/- 1.0 ppm over temperature 0-50C when unlocked)
+
+$3699 (http://www.rfspace.com/RFSPACE/SDR-IP.html)
+£3,499.95 (http://www.wsplc.com/acatalog/SDR-IP-1-2_SDR_commercial_grade_ethernet_radio.html)
+€4.814,58 (with option 03, http://www.rys.nl/nl/producten/20-scanner-a-ontvanger/77-basis/1094-rfspace-sdr-ip-ontvanger-met-optie-12-en3.html)
+
+
+Kinetics SBS-3 (http://www.kinetic-avionics.com/#)
+- Dedicated 1090MHz Receiver
+- Dual independent 40Mhz to 800 Mhz SDR Tuners
+- 8Mhz Bandwidth per tuner
+- 6 channels of demodulation
+- Full speed 100M Ethernet interface with concurrent multiple sockets
+- High Speed Ethernet, USB and analog audio output
+- RS232 radio control interface
+- GPS input port
+- Software API available
+
+€599,00 (http://www.rys.nl/nl/producten/20-scanner-a-ontvanger/77-basis/808-kinetics-sbs-3-multi-device-multi-band-multi-channel-sdr.html)
+
+
+TEN-TEC RX-340 (https://www.tentec.com/downloads/manuals/rx340/rx340Brochure.pdf)
+- Frequency range: 5 kHz to 30MHz
+- tuning steps and display resolution of 1 Hz
+- DSP microprocessors replace many of the discrete circuits 
+- External Frequency Reference: 1, 2, 5, or 10 MHz ( +/- 1 PPM, 200 mv rms into high impedance load)
+- Digital Data Output: Provides post DSP IF and audio information in both serial and parallel data streams.
+
+£4,099.95 (http://www.wsplc.com/acatalog/RX-340_HF_DSP_Receiver.html)
+$4,450.00 (http://www.tentec.com/products/RX%252d340-HF-DSP-Receiver.html)
+
+
+FLEX-6700(R) Signature Series SDR (http://www.flexradio.com/FLEX-6000.pdf)
+- Includes GPS disciplined oscilater with optional upgrade FLEX-6000 GPSDO (Frequency stability is 1e-8 within 5 minutes at 25° C and 5e-12 over 24 hours with GPS lock)
+- utilize FPGA hardware to directly generate the CW waveform digitally at the RF carrier frequency
+- Digital Down Conversion (DDC) of the signal at RF (eliminates the performance limitations inherent in legacy superheterodyne roofing filter based transceivers)
+- 8 independent Slice Receivers providing reception from 0.03 MHz to 77 MHz and 135 MHz to 165 MHz
+- 1Gb Ethernet port
+- two USB 2.0 communication ports
+
+Transceiver: $7,499.00 (http://cart.flexradio.com/FLEX-6700-Signature-Series-SDR-Transceiver_p_913.html)
+Receiver:
+- £4,799.95 (http://www.wsplc.com/acatalog/FLEX-6700R_SDR_HF_VHF_Receiver_b.html)
+- $6,399.00 (http://cart.flexradio.com/FLEX-6500-Signature-Series-SDR-Transceiver_p_912.html)
+FLEX-6000 GPSDO upgrade: $699.00
+- €6.195,00 (http://www.rys.nl/nl/producten/20-scanner-a-ontvanger/77-basis/990-flexradio-flex-6700r-sdr-ontvanger.html)
+
+NOTICE: orders placed now have a target ship date of 3rd quarter 2013 (from flexradio.com)

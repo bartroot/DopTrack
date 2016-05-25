@@ -1,0 +1,117 @@
+AOR AR5001D (http://www.wsplc.com/pdf/ar5001d.pdf)
+- Frequency range: 40kHz to 3.15GHz
+- 10MHz reference input SMA-J connector (0.01ppm frequency accuracy for the 10MHz internal master oscillator is obtained when synchronized to a GPS signal)
+- capable of recording demodulated audio signal directly to the built-in SD media recorder
+- 12kHz IF output is provided for a PC sound card based SDR (3.5mm stereo-phone jack)
+- 45.05MHz Analog IF output (BNC-J connector)
+- optional I/Q (In-phase/Quadrature) interface board allows up to 1MHz of digital I/Q output to be recorded to the hard drive of computers operating under Windows environment (USB2.0, Frequency range 25MHz - 3.15GHz only)
+- USB 1.1/2.0 Jack for PC control
+- LAN (Local Area Network) control (with optional LAN interface)
+
+€3.995,00 (http://www.rys.nl/nl/producten/20-scanner-a-ontvanger/77-basis/493-aor-ar-5001-d-ontvanger.html)
+€3197.00 (http://shop.boger.de/index.php?page=shop.product_details&flypage=flypage_images.tpl&product_id=740&category_id=51&keyword=AR-5001&option=com_virtuemart&Itemid=1)
+
+
+AOR AR-2300 DSP black box receiver (manual: http://www.aorja.com/support/manuals/AR2300_MANUAL_feb.21_2011.pdf)
+- Frequency range: 40kHz to 3.15 GHz
+- PC controllable
+- DDS (direct digital synthesizer) local oscillator
+- IF signal output (45.05MHz, +/- 7.5MHz for a total of 15MHz bandwidth) 25MHz to 3.15GHz only
+- SD/SDHC card interface
+- Fast Fourier Transform (FFT) analyzer for fast spectrum display processing
+- 12kHz I/Q output for DRM PC receiver
+- USB 2.0 interface
+- Trio frequency receive (receive 3 frequencies simultaneously)
+- I/Q output with 1MHz bandwidth (optional) 25MHz to 3.15GHz only
+- Frequency coherent (with optional GPS receiver unit, 0.01ppm, SMA type connector)
+- LAN (Local Area Network) control (with optional LAN interface)
+
+£3,199.95 (http://www.wsplc.com/acatalog/AR-50001D_Base_Receiver.html)
+€2 555.00 (DX-ECO: http://shop.boger.de/index.php?option=com_virtuemart&page=shop.product_details&flypage=flypage.tpl&product_id=656&category_id=51&Itemid=1)
+€296.00 (AR-GPS: Reference frequency input: http://shop.boger.de/index.php?page=shop.product_details&flypage=flypage_images.tpl&product_id=746&category_id=51&keyword=AR-GPS&option=com_virtuemart&Itemid=1)
+
+
+
+Boger BO-3500 (in german: http://www.boger-electronics.de/en/empfangstechnik/receiver-digitalanalog/index.php?eID=tx_nawsecuredl&u=0&file=/fileadmin/benutzerdaten/pdf/Empfaenger_BO/BO-3500-D_V_1_0.pdf&t=1368529065&hash=af774d7390f82cca5df0cbcaf66ff131)
+- Frequency range: 10 kHz to 3.5 GHz
+- Über PC steuerbar ( USB oder RS-232)
+- Anschluss für externe 10 MHz Referenz
+- Analoger ZF Ausgang: schaltbar 10.7MHz entsprechend der eingestellten Filter / breit = 10 MHz umschaltbar auf 455kHz
+- IF-filter switchable 2,4/ 4,0/ 6,0/ 15,0/ 30,0/ 110/ 220kHz optional 500Hz
+- IF signal output (10.7 MHz or 455KHz)
+
+€3959.00 (http://shop.boger.de/index.php?page=shop.product_details&flypage=flypage_images.tpl&product_id=745&category_id=51&option=com_virtuemart&Itemid=1&vmcchk=1&Itemid=1)
+
+
+BO-35D - Digital Wideband Receiver 10 kHz - 3,5 GHz (http://www.boger-electronics.de/en/empfangstechnik/receiver-digitalanalog/index.php?eID=tx_nawsecuredl&u=0&file=/fileadmin/benutzerdaten/pdf/Empfaenger_BO/BO-35D_receiver_Febr-07-2012_Vers_1_0.pdf&t=1368529066&hash=24960bea99ccb0693ebd3e2d0bb5231c)
+- focus on digital signal processing
+- frequency range 10kHz - 3.5 GHz
+- digital real-time bandwidth up to 1.5 MHz (PDF with techincal data also mentions 2,0MHz)
+- snapshot mode up to 10 MHz (repeat rate of snapshot is not mentioned)
+- digital IF-Out LAN
+- Interface TCP/IP 
+- frequency resolution: 1 Hz
+- 10MHz clock connection switchable internal / external synchronisation
+- Analog IF 10.7MHz narrow/wide (max. 12MHz) switchable to 455kHz
+- IF-filter switchable 2,4/ 5,5/ 7,0/ 15,0/ 30,0/ 110/ 220kHz optional 500Hz
+
+Price unknown
+
+
+Icom IC-R9500 (http://www.icomamerica.com/en/downloads/DownloadDocument.aspx?Document=245)
+- Frequency range: 0.005–3335MHz 
+- native ±0.05ppm high frequency stability (external reference frequency possible)
+- Frequency resolution: 1Hz
+- IF: 278.7MHz or 778.7MHz (1st) / 58.7MHz (2nd) /10.7MHz (3rd) /48kHz (4th)
+- Digital IF filter (allows to adjust the filter shape filter bandwidth, and center frequency characteristics)
+- Multi function spectrum scope
+- Noise blanker(DSP controlled noise blanker that significantly reduces pulse type noise and improves the S/N ratio by removing interfering noise)
+- Digital voice recorder (sampling rate 8kHz or 48kHz)
+- USB connector (Received audio and the receiver configuration files can be imported and exported to a PC)
+- 4 antenna connectors
+- RS-232C Connector
+- External Display Connector
+- Ethernet Connector
+
+€13.010,04 (http://www.rys.nl/nl/producten/20-scanner-a-ontvanger/77-basis/78-icom-ic-r9500-professionele-ontvanger.html)
+€13 499.00 (http://shop.boger.de/index.php?page=shop.product_details&flypage=flypage_images.tpl&product_id=116&category_id=51&option=com_virtuemart&Itemid=1)
+
+
+
+AOR AR6000 (http://borisec.rs/br/AR6000_temporary_brochure_(1).pdf)
+- Frequency range: kHz9–6GHz
+- Frequency resolution: 1Hz (2Hz above 3.15GHz)
+- 10MHz reference input SMA-J connector (improving stability from +/- 1ppm to +/- 0.01 ppm;)
+- IF signal output (45.05MHz, +/- 7.5MHz for a total of 15MHz bandwidth) 25MHz to 6GHz only
+- 12kHz I/Q output for DRM PC receiver
+- SD/SDHC card interface
+- SDR architecture (Signals are processed digitally from the 3rd IF stage for better performance, firmware upgradable)
+- Digital I/Q output with 0.9MHz bandwidth (optional), sampling rate of 1.125 Msample/sec, with the supplied AR-IQ2 software
+
+€5.799,00 (http://www.rys.nl/nl/producten/20-scanner-a-ontvanger/77-basis/1152-aor-ar6000-ontvanger-40khz-6ghz.html)
+
+
+Possibly not:
+
+AOR AR-ONE (manual: http://www.aorja.com/support/manuals/ar-one_manual.pdf)
+- Frequency range: 10 KHz to 3.3 GHz
+- tune in increments of ONE Hertz
+- Ultra-stable reference frequency oscillator (0.1ppm)
+- Two RS-232C ports plus control head port 
+- IF signal output (10.7 MHz or 455KHz)
+- Standard signal (10 MHz) input connector
+
+£5,299.95 (http://www.wsplc.com/acatalog/AR-ONEC_Frequency_and_Phase_Coherent_Receiver.html)
+
+
+AOR AR-ALPHA (manual: http://www.aorja.com/support/manuals/aralpha_manual_jan.9_2013.pdf)
+- Frequency range: 10 kHz to 3.5 GHz
+- Zero-IF frequency (for the 3rd IF) (http://en.wikipedia.org/wiki/Direct-conversion_receiver)
+- DDS (Direct Digital Synthesizer) local oscillator
+- I/Q output with 1 MHz bandwidth
+- Selectable IF bandwidths: 200 Hz, 500 Hz, 1 kHz, 3 kHz, 6 kHz, 15 kHz, 30 kHz, 100 kHz, 200 kHz and 300 kHz and the ability to shift the IF
+- Fast Fourier Transform (FFT) spectrum display 
+- Analog output for DRM PC receiver
+- RS-232C and USB 2.0 interfaces
+
+£7,999.95 (http://www.wsplc.com/acatalog/AR-ALPHA_Receiver_DSP_spectrum_display_TV_10KHz-3.3GHz_12V.html)
