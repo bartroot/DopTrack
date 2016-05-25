@@ -2,15 +2,21 @@
 
 require "serialport"
 
+#set parameters
+dev="/dev/ttyUSB0"
+baud_rate=115200
+data_bits=8
+stop_bits=1
+parity=SerialPort::NONE
+
 #opening port
-sp = SerialPort.new("/dev/ttyUSB0",115200,8,1,SerialPort::NONE)
+sp = SerialPort.new(dev,baud_rate,data_bits,stop_bits,parity)
 
 #sending command
 sp.write(ARGV[0]+"\r")
 
-#reading feedback
-out=String.new
-until out[-1] == "\n"
-	out+=sp.read(1)
-end
-puts out if out.length>0
+#showing response
+puts sp.readlines
+
+#close serial port
+sp.close 
