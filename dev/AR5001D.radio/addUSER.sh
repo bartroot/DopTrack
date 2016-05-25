@@ -44,5 +44,5 @@ do
 done
 
 #add user to target group
-sudo useradd -G $TARGET_GROUP $USER_NOW
+sudo usermod -a -G $TARGET_GROUP $USER_NOW
 
