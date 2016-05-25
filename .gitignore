@@ -1,3 +1,4 @@
 rsync.*
 unison.*
 local
+*.swp
