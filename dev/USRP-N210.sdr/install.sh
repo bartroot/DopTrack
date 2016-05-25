@@ -31,9 +31,12 @@ ubuntu) #method-anchor
   #libuhd003 - universal hardware driver for Ettus Research products
   #uhd-host - universal hardware driver for Ettus Research products
   sudo apt-get install --yes gnuradio uhd-host
+  sudo uhd_images_downloader
+  uhd_image_loader --args="type=usrp2,addr=192.168.10.1"
+  echo "don't forget to cycle the power of the SDR!"
 ;;
 ubuntu-rm) #method-anchor
-  sudo apt-get purge --auto-remove gnuradio uhd-host libgnuradio* libuhd*
+  sudo apt-get purge --auto-remove gnuradio uhd-host libgnuradio* libuhd* librtlsdr*
 ;;
 myriad) #method-anchor
   for i in ppa:myriadrf/drivers ppa:myriadrf/gnuradio
@@ -41,10 +44,12 @@ myriad) #method-anchor
     sudo add-apt-repository -y $i
   done
   sudo apt-get update
-  sudo apt-get install --yes gnuradio uhd
+  sudo apt-get install --yes gnuradio uhd uhd-host
+  sudo uhd_images_downloader
+  usrp_n2xx_simple_net_burner --addr="192.168.10.1"
 ;;
 myriad-rm) #method-anchor
-  sudo apt-get purge --auto-remove gnuradio uhd libgnuradio* libuhd* libvolk1-bin
+  sudo apt-get purge --auto-remove gnuradio uhd uhd-host libgnuradio* libuhd* libvolk1-bin librtlsdr*
   for i in ppa:myriadrf/drivers ppa:myriadrf/gnuradio
   do
     sudo apt-add-repository -y --remove $i
