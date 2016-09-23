@@ -16,7 +16,11 @@ sp = SerialPort.new(dev,baud_rate,data_bits,stop_bits,parity)
 sp.write(ARGV[0]+"\r")
 
 #showing response
-puts sp.readlines
+begin
+  puts sp.readline("\r")
+rescue
+  #do nothing
+end
 
 #close serial port
 sp.close 
