@@ -1,0 +1,7 @@
+ShinySDR.egg-info/PKG-INFO
+ShinySDR.egg-info/SOURCES.txt
+ShinySDR.egg-info/dependency_links.txt
+ShinySDR.egg-info/entry_points.txt
+ShinySDR.egg-info/not-zip-safe
+ShinySDR.egg-info/requires.txt
+ShinySDR.egg-info/top_level.txt

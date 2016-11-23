@@ -1,0 +1,17 @@
+Metadata-Version: 1.1
+Name: ShinySDR
+Version: 0.0.0
+Summary: Software-defined radio receiver application built on GNU Radio with a web-based UI and plugins.
+Home-page: https://github.com/kpreid/shinysdr/
+Author: Kevin Reid
+Author-email: kpreid@switchb.org
+License: GPLv3+
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Twisted
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Communications :: Ham Radio
