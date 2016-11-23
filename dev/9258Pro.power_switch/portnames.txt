@@ -1,0 +1,8 @@
+ Port1Name:Radio
+ Port2Name:Computer
+ Port3Name:Clock
+ Port4Name:Router
+ Port5Name:SDR
+ Port6Name:
+ Port7Name:
+ Port8Name:
