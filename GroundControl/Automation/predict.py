@@ -44,7 +44,7 @@ def predict(meta):
 
    # Get starttime and start date
    TT = datetime.datetime.utcnow()
-   gmtoff = int(-gmttime.timezone)/3600 + int(gmttime.daylight)
+   gmtoff = int(-gmttime.timezone)/3600 + int(gmttime.localtime().tm_isdst)
 
    # get time format correct
    TT_stamp = TT.strftime("%Y%m%d%H%M%S")
