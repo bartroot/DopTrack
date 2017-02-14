@@ -68,7 +68,12 @@ with open(rec_list) as f:
          metam['Sat']['State']['Antenna'] = 1
 
       # read TLE
-      subprocess.call(['./getTLE',str(NORADID)])
+      if NORADID[0:1] == 'PL':
+         # Don't get TLE, because using a pre-specified pre-launch TLE
+         print "Pre-Launch TLE"
+      else:
+         # get TLE from the space-track website
+         subprocess.call(['./getTLE',str(NORADID)])
 
       # make prediction
       metam = predict.predict(metam)     
