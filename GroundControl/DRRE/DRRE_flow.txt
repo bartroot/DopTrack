@@ -1,0 +1,69 @@
+Flow of DRRE.m:
+
+in: str folder
+    str filename
+    bool figure_flag
+
+
+>>> Estimation of orbit and recorded signal
+      MOPI(TLE, target_time, estimated_signal_frequency, figure_flag)
+    in: TLE, target_time, estimated_signal_frequency, figure_flag
+    out: spg (struct?)
+
+>>> Signal subsection and mask creation
+    file_to_fourier_signal.m
+    create_mask_v1.m
+    in: (folder,file), time_window, recording_length, sampling_rate, radio_local_frequency, estimated_signal_frequency, estimated_signal_width
+    out: mask
+
+>>> Extracting the time and frequency, central frequency, and TCA
+    image2tf.m
+    in: I, mask, t, f, time_window, figure_flag
+    out: tsig, fsig, acc, fc, TCA
+
+>>> Compute range rate
+    range_rate = c*(fsig/fc-1);
+
+>>> Write the signal subsection and other results to file
+    write_results.m
+
+
+
+
+
+
+Plotting:
+---------------
+  if (figure_flag)
+      figure
+      imagesc((f-145870000)./1e3,t,10*log10(I));c=colorbar;
+      hold on
+      scatter((fsig-145870000)./1e3,tsig,'.r')
+      hold off
+      xlabel('Relative frequency to 145.870 MHz [kHz]','FontSize',20)
+      ylabel('Time [s]','FontSize',20)
+      ylabel(c,'Power signal [dB]','FontSize',20)
+      set(gca,'FontSize',20,'YDir','normal')
+      caxis([-20 0])
+      
+      figure
+      imagesc((f-145870000)./1e3,t,10*log10(I));c=colorbar;   
+      xlabel('Relative frequency to 145.870 MHz [kHz]','FontSize',20)
+      ylabel('Time [s]','FontSize',20)
+      ylabel(c,'Power signal [dB]','FontSize',20)
+      set(gca,'FontSize',20,'YDir','normal')
+      caxis([-20 0])
+      
+      
+      figure
+      imagesc(10*log10(I.*mask))
+      xlabel('Frequency [Hz]')
+      ylabel('Time [s]')
+      
+      %rrmopi = spg.rangerate*1000; %For reference data creation I guess.
+      figure
+      plot(tsig,range_rate);
+      xlabel('time [s]');
+      ylabel('range rate [m/s]');
+      title('Range rate extracted from satellite signal');
+  end
