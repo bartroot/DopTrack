@@ -11,9 +11,10 @@ from math import *
 import sys, os
 import re
 import yaml
-import FourierAnalysis as FFT
 import create_mask as cm
 from scipy.fftpack import fft
+import os.path
+import image2tf
 
 
 class DRRE(object):
@@ -29,7 +30,8 @@ class DRRE(object):
   home = os.path.expanduser("~")     # cross-platform home folder of the system
   buffer_size = 2^22
 
-  def __init__(self, filename = 'Delfi-C3_32789_201607132324', foldername = '', est_signal_freq = 145888300, figure_flag = False, est_signal_width = 7000):
+  def __init__(self, filename = 'Delfi-C3_32789_201607132324', foldername = '', 
+    est_signal_freq = 145888300, figure_flag = False, est_signal_width = 7000):
     """Initialization of the class, allows to modify the behaviour of the program.
     inputs:
     filename: string of filename without extension. defaults to newest in folder
@@ -51,7 +53,9 @@ class DRRE(object):
   def mainrun(self):
     # TODO: make all these fns
     # self.estimateOrbit()
-    # self.extractSignal() // possibly class?
+    self.runFourier()
+    mask = cm.create_mask(self.I)
+    image2tf.filterSatData(self.I, 1/self.sampling_rate)
     # self.image2tf() // """
     # self.write_results
     # if self.figureflag: self.plots()
@@ -81,6 +85,19 @@ class DRRE(object):
   def getfile(self):
     return ''
 
+  def runFourier(self):
+    file = os.path.join(self.parentfolder, self.filename+ '.npz')
+    try:
+      with open(file, 'rb') as f:
+        load = np.load(f)
+        self.I = load['arr_0']
+        self.freq = load['arr_1']
+        self.time = load['arr_2']
+    except:
+      print("running fourier")
+      self.FourierAnalysis()
+      np.savez(file, self.I, self.freq, self.time)
+
   def FourierAnalysis(self):
     # input filename
     file = os.path.join(self.parentfolder, self.filename + '.32fc')
@@ -106,23 +123,19 @@ class DRRE(object):
     # set certain zoom area
     lbound = float(self.estimated_signal_frequency) - float(self.estimated_signal_width)
     rbound = float(self.estimated_signal_frequency) + float(self.estimated_signal_width)
-
+    # Initialize Matrices    
     LF = np.array((bandwidth>lbound).nonzero())
-
     lfreq = LF.min()+1
     RF = np.array((bandwidth>rbound).nonzero())
     rfreq = RF.min()+1
-
     numC = (bandwidth[lfreq:rfreq+1]).size
-
     self.I = np.zeros([int(Time/Dt),int(numC)],dtype='float')
-
-    # Initialize Matrices
     forend = int(Time/Dt)
+
     with open(file,'rb') as f:
-      t = np.fromfile(f,dtype = np.float32, count = setWav)
-      for i in range(0,forend):      
+      for i in range(0,forend):
         # start reading the file
+        t = np.fromfile(f,dtype = np.float32, count = setWav)
         n = int(len(t)/2)
 
         # Reconstruct the complex array
@@ -167,7 +180,7 @@ def main(argv):
  
 if __name__ == "__main__":
   dr = DRRE()
-  dr.FourierAnalysis()
-  print(dr.I)
+  dr.mainrun()
+  #cm.create_mask(dr.I)
   #print(dr.runFourier())
   #main(sys.argv)
