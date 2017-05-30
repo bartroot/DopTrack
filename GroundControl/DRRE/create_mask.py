@@ -9,7 +9,10 @@
  
 # import other software 
 import numpy as np
- 
+import PIL.Image
+from scipy.misc import 
+import cv2
+
 # Start function
 
 def create_mask(I):
@@ -37,5 +40,18 @@ def create_mask(I):
    mask = maskI2
   
    return mask
+
+def create_mask_v1(I, time_step):
+   scale = 1/time_step
+   maskI1 = I > np.mean(I) + 2*np.std(I)
+   maskI1 = cv2.erode(maskI1,ones(5*scale,1))
+   maskI1 = 1 - cv2.dilate(maskI1, ones(120*scale,50/scale))
    
-   
+
+
+
+
+def create_mask2(I):
+   mask = create_mask(I)
+   toimage(mask*I).show()
+

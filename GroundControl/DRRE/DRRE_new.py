@@ -17,6 +17,7 @@ import os.path
 import image2tf
 
 
+
 class DRRE(object):
   """ Main class containing the logic for the DRRE program.
       Check __init__ for inputs to the class. 
@@ -55,7 +56,7 @@ class DRRE(object):
     # self.estimateOrbit()
     self.runFourier()
     mask = cm.create_mask(self.I)
-    image2tf.filterSatData(self.I, 1/self.sampling_rate)
+    image2tf.filterSatData(self.I, self.time_window)
     # self.image2tf() // """
     # self.write_results
     # if self.figureflag: self.plots()
@@ -81,9 +82,6 @@ class DRRE(object):
     """
     all_subdirs = [d for d in os.listdir(self.home) if os.path.isdir(d)]
     return max(all_subdirs, key=os.path.getmtime)
-
-  def getfile(self):
-    return ''
 
   def runFourier(self):
     file = os.path.join(self.parentfolder, self.filename+ '.npz')

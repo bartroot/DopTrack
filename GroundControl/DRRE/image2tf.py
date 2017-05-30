@@ -20,20 +20,34 @@ def filterSatData(data,window):
         rdata[i][:]=avgdata
         pks = np.max(avgdata)
         loc = np.argmax(avgdata)
-        #why???
-        if not pks:
+        if pks:         #nodig?
             peaks[0][i]=pks
             peak[0][i]=loc
 #    %define usable data space
     peaks[peaks<(np.mean(peaks)-np.std(peaks)*0.5)]=0
     peaks[peaks>0]=1
-    print(pks)
     peaks = moving_average(peaks, int(200/window))
+    print(peaks)
+
+    rpeaks = peak
+    print(loc)
+
+    return rdata, rpeaks, usable(peaks)
+
+
+def moving_average(a, n=3):
+    ret = np.cumsum(a, dtype=float)
+    ret[n:] = ret[n:] - ret[:-n]
+    return ret[n - 1:] / n
+
+def usable(peaks):
     usable=np.array([peaks>0.2])
-    #print(usable)
+    #### ----> alleen false... all values <= 0.18
+#    print(usable)
     # 0-usable?
     #usable=diff(usable)
     d1 = np.nonzero(usable>0.5)[0]
+    print(d1)
     d2 = np.nonzero(usable<-0.5)[-1]
     if not d1 or d1>(sz[0]/2):
         d1=1
@@ -43,12 +57,4 @@ def filterSatData(data,window):
     usable[usable>d2]=0
     usable[usable<d1]=0
     usable[usable>0]=1
-
-    rpeaks = peak
-    #print(peaks)
-
-
-def moving_average(a, n=3):
-    ret = np.cumsum(a, dtype=float)
-    ret[n:] = ret[n:] - ret[:-n]
-    return ret[n - 1:] / n
+    return usable
