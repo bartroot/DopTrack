@@ -15,6 +15,7 @@ import create_mask as cm
 from scipy.fftpack import fft
 import os.path
 import image2tf
+import logging
 
 
 
@@ -45,10 +46,6 @@ class DRRE(object):
     self.figure_flag = figure_flag
     self.estimated_signal_frequency = est_signal_freq
     self.estimated_signal_width = est_signal_width
-    #if foldername == '':
-    #  self.foldername = self.getfolder()
-    #if filename == '':
-    #  self.filename = self.getfile()
     self.readyml()
 
   def mainrun(self):
@@ -56,25 +53,26 @@ class DRRE(object):
     # self.estimateOrbit()
     self.runFourier()
     mask = cm.create_mask(self.I)
-    image2tf.filterSatData(self.I, self.time_window)
-    # self.image2tf() // """
+    mask2 = cm.create_mask_v1(self.I, self.time_window)
+    image2tf.image2tf(self.I, mask2, self.time, self.freq, self.time_window, True)
+    #image2tf.filterSatData(self.I, self.time_window)
     # self.write_results
     # if self.figureflag: self.plots()
     pass    
 
   def readyml(self):
     """ Reads 'filename'.yml to get the TLE's """
-    #try:
-    with open(os.path.join(self.parentfolder, self.filename+'.yml'),'r') as f:
-      yml = yaml.load(f)
-      TLE1 = yml['Sat']['Predict']['used TLE line1']
-      TLE2 = yml['Sat']['Predict']['used TLE line2']       
-      self.TLE = [TLE1, TLE2]
-      self.radio_local_frequency = yml['Sat']['State']['Tuning Frequency']  # in Hz
-      self.sampling_rate         = yml['Sat']['Record']['sample_rate']      # in Hz
-      self.recording_length      = yml['Sat']['Predict']['Length of pass']    # in seconds
-    #except:
-    #  print('YML FILE NOT FOUND: Default values used')
+    try:
+      with open(os.path.join(self.parentfolder, self.filename+'.yml'),'r') as f:
+        yml = yaml.load(f)
+        TLE1 = yml['Sat']['Predict']['used TLE line1']
+        TLE2 = yml['Sat']['Predict']['used TLE line2']       
+        self.TLE = [TLE1, TLE2]
+        self.radio_local_frequency = yml['Sat']['State']['Tuning Frequency']  # in Hz
+        self.sampling_rate         = yml['Sat']['Record']['sample_rate']      # in Hz
+        self.recording_length      = yml['Sat']['Predict']['Length of pass']    # in seconds
+    except:
+      logging.warning('YML FILE NOT FOUND: Default values used')
 
   def getfolder(self):
     """ uses the latest modified folder containig the correct filetype
@@ -143,7 +141,7 @@ class DRRE(object):
 
         # generate the fft of the signal
         Y = fft(v,NFFT)
-        dum = 2*abs(Y[0:NFFT+1]/setWav)
+        dum = abs(Y[0:NFFT+1])
         half = int(len(dum)/2)
 
         # fill in the Waterfall matrix
@@ -154,10 +152,12 @@ class DRRE(object):
 
         invec = np.asarray(line[lfreq:rfreq+1], float)
         invec[invec<=0] = 10**(-10)         # To remove divide by zeros, possibly superfluous
-        self.I[i,:] = 10*np.log10(invec)
+        #self.I[i,:] = 10*np.log10(invec)
+        self.I[i,:] = invec
 
     # Frequency of the selected bandwidth
     self.freq = bandwidth[lfreq:rfreq+1]
+    print(self.I)
 
 
 
