@@ -59,7 +59,7 @@ def FourierAnalysis(datafile, time_window, recording_length, sampling_rate, radi
 
    ###################################################################################################
    ## integers are better, round up or down? 
-   I = np.zeros([int(Time/Dt),int(numC)],dtype='float')
+   I = np.zeros([int(Time/Dt),int(numC)],dtype='double')
 
    # Initialize Matrices
    forend = int(Time/Dt)

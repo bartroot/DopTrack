@@ -5,14 +5,12 @@ from scipy.interpolate import interp1d
 from math import *
 import matplotlib.pyplot as plt
 
-
 def image2tf(data, mask, t, freq, window, dispFig):
     dispFig = 1
     sideBand = 600
     est_freq = 2000
     print(data.shape)
     mData = np.mean(data)
-    #If = data*mask+(1-mask)*mData
     If = np.multiply(data,mask) + np.multiply(1-mask, mData)
     _, loc, us = filterSatData(If, window, satSignal(window, sideBand))
     #select usable time area for fitting
@@ -20,6 +18,7 @@ def image2tf(data, mask, t, freq, window, dispFig):
     tu = t[us==1]
     ploc = loc[us==1]
     #remove outliers and fit tanh to retrieve carrier frequency
+    
     tu, ploc = removeOutliers(tu, ploc, est_freq, 2*sideBand)
     tFit, _ = fitTanh(tu, ploc, window ,dispFig)
     x = np.arange(freq.size)
@@ -36,8 +35,9 @@ def image2tf(data, mask, t, freq, window, dispFig):
     # Fit disturbance model on residu
     rfit, _ = resFit(rest, residu, dispFig)
     fit = Tanh(t, *tFit) + fourier4(t, *rfit)
-    plt.plot(t, fit)
-    plt.show()
+    if dispFig:
+        plt.plot(t, fit)
+        plt.show()
     print(data.shape)
 
 
@@ -50,14 +50,73 @@ def image2tf(data, mask, t, freq, window, dispFig):
 
     #filter data and find peaks
     Ic = np.multiply(If, mask) + np.multiply(1-mask, mData)
-    #_, loc2, us2 = filterSatData(Ic, window, sc.gaussian(100*window))
+
+    _, loc2, us2 = filterSatData(Ic, window, sc.gaussian(100*window,2.5))
+    tu2 = t[us2==1]
+    ploc2 = loc2[us2==1]
+    #remove outliers and fit tanh to retrieve carrier frequency
+    
+    tFit2, _ = fitTanh(tu, ploc, window ,dispFig)
+
+    TCA = tFit2[3]
+    fc = interp1d(x, freq, fill_value=tFit2[1])
+    lEst=tFit2[2]*2.8
+    ploc2 = ploc2[(tu2>TCA-lEst)&(tu2<TCA+lEst)]
+    tu2 = tu2[(tu2>TCA-lEst)&(tu2<TCA+lEst)]
+
+    residu2 = ploc2- Tanh(tu2, *tFit2)
+    rest2, residu2 = removeOutliers(tu2, residu2, 0, 100*window)
+
+    rFit2, _ = resFit(rest2, residu2, dispFig)
+    fit2 = Tanh(tu2, *tFit) + fourier4(tu2, *rfit) 
+
+    #if dispFig:
+        #plt.scatter(x, t, np.log10(data))
+        #plt.plot(tu2, freq[ploc2])
+        #plt.plot(freq[ploc2], tu2)
+        #plt.show()
+
+    t2= tu2[abs(ploc2-fit2)<35*window]
+    pks2= ploc2[abs(ploc2-fit2)<35*window]
+    Id=np.multiply((data-mData),mask)
+
+    #python runs from 0_to_end so t2-1 is needed.
+    #std over rows of Id
+    stdpks = np.std(Id[(t2-1).astype(int),:],axis=1)
+    amppks = np.zeros(len(t2))
+    for i in range(len(t2)):
+        amppks[i]=Id[int(t2[i]-1),int(pks2[i])]
+
+    with np.errstate(divide='ignore', invalid='ignore'):    
+        acc = np.divide(stdpks,amppks)  #normalized standard deviation
+        acc[~np.isfinite(acc)] = 0      #catch divide by zeroes
+
+    tf=t2
+    pksf=freq[pks2.astype(int)]
+
+    tresh = np.median(acc)+np.std(acc)*2
+    tresha = np.median(amppks)-np.std(amppks)
+
+    #filter out weak parts
+    tf = tf[(acc<=tresh)&(amppks>=tresha)]
+    pksf = pksf[(acc<=tresh)&(amppks>=tresha)]
+
+#    if dispFig:
+#        plt.scatter(freq,t,np.log10(data))
+#        plt.plot(pksf,tf,'r.','LineWidth',4)
+    t=tf
+    freq=pksf
+
+    return t, freq, acc, fc, TCA
+
+
 
 
     
 def removeOutliers(t, y, mean, band):
-    y = y[(y>mean-band) & (y<mean+band)]
-    t = t[(y>mean-band) & (y<mean+band)]
-    return t, y
+    y_ = y[(y>mean-band) & (y<mean+band)]
+    t_ = t[(y>mean-band) & (y<mean+band)]
+    return t_, y_
     
 
 def filterSatData(data,window, _filter):

@@ -16,7 +16,7 @@ from scipy.fftpack import fft
 import os.path
 import image2tf
 import logging
-
+import Fourrier3 as f3
 
 
 class DRRE(object):
@@ -30,7 +30,7 @@ class DRRE(object):
   parentfolder = os.path.dirname(__file__)
   c = 299792458                      # speed of light in m/s
   home = os.path.expanduser("~")     # cross-platform home folder of the system
-  buffer_size = 2^22
+  buffer_size = 2**22
 
   def __init__(self, filename = 'Delfi-C3_32789_201607132324', foldername = '', 
     est_signal_freq = 145888300, figure_flag = False, est_signal_width = 7000):
@@ -51,14 +51,17 @@ class DRRE(object):
   def mainrun(self):
     # TODO: make all these fns
     # self.estimateOrbit()
+    #self.I, self.freq, self.time = f3.FourierAnalysis(self.filename+'.32fc', self.time_window, self.recording_length, self.sampling_rate, 
+    #  self.radio_local_frequency, self.estimated_signal_frequency, self.estimated_signal_width, self.buffer_size)
     self.runFourier()
     mask = cm.create_mask(self.I)
     mask2 = cm.create_mask_v1(self.I, self.time_window)
-    image2tf.image2tf(self.I, mask2, self.time, self.freq, self.time_window, True)
-    #image2tf.filterSatData(self.I, self.time_window)
-    # self.write_results
-    # if self.figureflag: self.plots()
-    pass    
+    im = image2tf.image2tf(self.I, mask2, self.time, self.freq, self.time_window, True)
+    self.writeresults()
+    if self.figure_flag:
+      self.plots()
+    print('End of program!')
+
 
   def readyml(self):
     """ Reads 'filename'.yml to get the TLE's """
@@ -84,7 +87,7 @@ class DRRE(object):
   def runFourier(self):
     file = os.path.join(self.parentfolder, self.filename+ '.npz')
     try:
-      with open(file, 'rb') as f:
+      with open(filez, 'rb') as f:
         load = np.load(f)
         self.I = load['arr_0']
         self.freq = load['arr_1']
@@ -157,7 +160,7 @@ class DRRE(object):
 
     # Frequency of the selected bandwidth
     self.freq = bandwidth[lfreq:rfreq+1]
-    print(self.I)
+    print(self.I.shape)
 
 
 
