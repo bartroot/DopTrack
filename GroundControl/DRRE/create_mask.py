@@ -9,7 +9,10 @@
  
 # import other software 
 import numpy as np
- 
+import PIL.Image
+from scipy.misc import *
+import cv2
+
 # Start function
 
 def create_mask(I):
@@ -37,5 +40,25 @@ def create_mask(I):
    mask = maskI2
   
    return mask
-   
-   
+
+def create_mask_v1(I, time_step):
+   # Combined filter for horizontal and vertical stripes
+   scale = 1./time_step
+   indices = I > np.mean(I) + 2*np.std(I)
+   maskI1 = np.zeros(I.shape)
+   maskI1[indices] = 1
+   ## Check hoek
+   maskI1 = cv2.erode(maskI1,np.ones((int(5*scale+1),1)))
+   maskI1 = 1 - cv2.dilate(maskI1, np.ones((120*scale,50/scale)))
+   # Mask for horizontal bars
+   maskI2 = create_mask(I)
+   # Combined mask
+   mask = np.multiply(maskI1, maskI2)
+   return mask
+
+
+
+def create_mask2(I):
+   mask = create_mask(I)
+   toimage(mask*I).show()
+

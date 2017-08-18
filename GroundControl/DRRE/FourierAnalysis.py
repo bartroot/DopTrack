@@ -31,10 +31,11 @@ def FourierAnalysis(datafile, time_window, recording_length, sampling_rate, radi
    setWav = int(2*L/(Time/Dt))
 
    # get optimal NFFT value
+   #############################################################################
    #n2 = 1 #nextpow 2 algoritm
    #while n2 < L/Time/Dt: n2 *= 2
    #NFFT = 2^n2 
-   NFFT = 65536.
+   NFFT = 65536
    #half = NFFT/2
 
    # get values for axis waterfall plot
@@ -56,42 +57,42 @@ def FourierAnalysis(datafile, time_window, recording_length, sampling_rate, radi
    tmp = bandwidth[lfreq:rfreq+1]
    numC = tmp.size
 
-   I = np.zeros([Time/Dt,numC],dtype='float')
+   ###################################################################################################
+   ## integers are better, round up or down? 
+   I = np.zeros([int(Time/Dt),int(numC)],dtype='double')
 
    # Initialize Matrices
    forend = int(Time/Dt)
-   f = open(inputfilename,'rb')
-   for i in range(0,forend):
-        # start reading the file
-        t = np.fromfile(f,dtype = np.float32, count = setWav)
-        n = len(t)/2
+   with open(inputfilename,'rb') as f:
+     for i in range(0,forend):      
+          # start reading the file
+          t = np.fromfile(f,dtype = np.float32, count = setWav)
+          n = len(t)/2
 
-        # Reconstruct the complex array
-        v = np.zeros([n], dtype = np.complex)
-        v.real = t[::2]
-        v.imag = -t[1::2]
-        
-        # generate the fft of the signal
-        Y = fft(v,NFFT)
-        dum = 2*abs(Y[0:NFFT+1]/setWav)
-        half = len(dum)/2
+          # Reconstruct the complex array
+          v = np.zeros([n], dtype = np.complex)
+          v.real = t[::2]
+          v.imag = -t[1::2]
+          
+          # generate the fft of the signal
+          Y = fft(v,NFFT)
+          dum = 2*abs(Y[0:NFFT+1]/setWav)
+          half = len(dum)/2
 
-        # fill in the Waterfall matrix
-        line = np.zeros(dum.shape)
-        line[0:half] = dum[half:]
-        line[half:] = dum[0:half]
-        line = line.conj().transpose()
-        #line = line[::-1]
+          # fill in the Waterfall matrix
+          line = np.zeros(dum.shape)
+          line[0:half] = dum[half:]
+          line[half:] = dum[0:half]
+          line = line.conj().transpose()
+          #line = line[::-1]
 
-        invec = line[lfreq:rfreq+1]
-        I[i,:] = 10*np.log10(invec)
+          invec = line[lfreq:rfreq+1]
+          I[i,:] = 10*np.log10(invec)
 
-        # print progress
-        progress_fft = int((i+1)*100/(Time/Dt))
-        print progress_fft
-        sys.stdout.write("\033[F")
+          # print progress
+          progress_fft = int((i+1)*100/(Time/Dt))
+          sys.stdout.write("\033[F")
 
-   f.close()
    #print(i+1)
 
    # Frequency of the selected bandwidth
