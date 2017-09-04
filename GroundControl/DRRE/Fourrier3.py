@@ -14,11 +14,16 @@ import sys, getopt
 import numpy as np
 from scipy.fftpack import fft
 import logging
+import matplotlib.pyplot as plt
+import os
 
 
 def FourierAnalysis(datafile, time_window, recording_length, sampling_rate, radio_local_frequency, estimated_signal_frequency, estimated_signal_width,buffer_size):
   
-  window_number_buffered = int(buffer_size / (time_window * sampling_rate) )*2
+  window_number_buffered = int(buffer_size / (time_window * sampling_rate * 2 * 32) )
+  if window_number_buffered == 0:
+    window_number_buffered = 1
+  print(buffer_size)
   if ( window_number_buffered < 1):
     window_number_buffered = 1
   counter = 0
@@ -29,39 +34,42 @@ def FourierAnalysis(datafile, time_window, recording_length, sampling_rate, radi
   # Initialise zero matrix to store Fourier values and counter at 1.
   fourier = np.zeros((int(recording_length/time_window), max_bin-min_bin+1))
 #  try:
-  with open(datafile,'rb') as f:
+  with open(os.path.join('RRes', datafile),'rb') as f:
     for i in range(0, int(recording_length / (window_number_buffered * time_window))):
       data = np.fromfile(f, count=window_number_buffered*sampling_rate*time_window*2,dtype = np.float32)
       if data is None:
         break
       n = int(len(data)/2)
-
       # Reconstruct the complex array
       v = np.zeros([n], dtype = np.complex)
       v.real = data[::2]
       v.imag = -data[1::2]
 
-      for i in range(window_number_buffered):
-        if (counter < recording_length/time_window):
-          subset_signal = v[(i*sampling_rate*time_window):((i+1)*sampling_rate*time_window)]
-      #    break
-          try:
-            F = abs(fft(subset_signal, axis=0, overwrite_x=True))
-          except(ValueError):
-            break
-          dumF = F
-          
-          # change spectrum such that it is correctly linked to
-          # frequency values.
-          F[0:int(len(F)/2)]  = dumF[int(len(F)/2):]
-          F[int(len(F)/2):] = dumF[0:int(len(F)/2)]
-          # Extract frequency zoom section.
-          fourier[counter,:] = F[min_bin-1 : max_bin]
-          counter += 1
-      #break
+      subset_signal = v
+
+      try:
+        F = abs(fft(subset_signal))
+      except(ValueError):
+        break
+
+      dumF = F
+
+      # change spectrum such that it is correctly linked to
+      # frequency values.
+      FF = np.zeros(F.shape)
+
+      FF[0:int(len(F)/2)]  = dumF[int(len(F)/2):]
+      FF[int(len(F)/2):] = dumF[0:int(len(F)/2)]
+      # Extract frequency zoom section.
+
+      fourier[counter,:] = FF[min_bin-1 : max_bin]
+      counter += 1  
+    #break
   t = np.arange(0,((recording_length/time_window)-1)*time_window + time_window/2)
   f = bin_to_frequency(np.arange(min_bin,max_bin+1), estimated_signal_frequency, 1/sampling_rate, time_window)
   print('fourier', fourier.shape, f.shape, t.shape)
+  #plt.imshow(10*np.log10(fourier))
+  #plt.show()
   return fourier, f, t
 
 def bin_to_frequency(_bin, radio_frequency, sampling_frequency, frequency_step):

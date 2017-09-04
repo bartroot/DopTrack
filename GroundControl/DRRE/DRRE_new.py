@@ -18,6 +18,7 @@ import image2tf
 import logging
 import Fourrier3 as f3
 
+files = ['Delfi-C3_32789_' + date for date in ['201607132324', '201707271140', '201707301128', '201707312042', '201707312214', '201707311125']]
 
 class DRRE(object):
   """ Main class containing the logic for the DRRE program.
@@ -32,7 +33,7 @@ class DRRE(object):
   home = os.path.expanduser("~")     # cross-platform home folder of the system
   buffer_size = 2**22
 
-  def __init__(self, filename = 'Delfi-C3_32789_201607132324', foldername = '', 
+  def __init__(self, filename = 'Delfi-C3_32789_201707271140', foldername = 'RRes', 
     est_signal_freq = 145888300, figure_flag = False, est_signal_width = 7000):
     """Initialization of the class, allows to modify the behaviour of the program.
     inputs:
@@ -51,22 +52,23 @@ class DRRE(object):
   def mainrun(self):
     # TODO: make all these fns
     # self.estimateOrbit()
-    #self.I, self.freq, self.time = f3.FourierAnalysis(self.filename+'.32fc', self.time_window, self.recording_length, self.sampling_rate, 
-    #  self.radio_local_frequency, self.estimated_signal_frequency, self.estimated_signal_width, self.buffer_size)
-    self.runFourier()
+    
+    self.I, self.freq, self.time = f3.FourierAnalysis(self.filename+'.32fc', self.time_window, self.recording_length, self.sampling_rate, self.radio_local_frequency, self.estimated_signal_frequency, self.estimated_signal_width, self.buffer_size)
+    #self.runFourier()
     mask = cm.create_mask(self.I)
     mask2 = cm.create_mask_v1(self.I, self.time_window)
-    im = image2tf.image2tf(self.I, mask2, self.time, self.freq, self.time_window, True)
-    self.writeresults()
-    if self.figure_flag:
-      self.plots()
-    print('End of program!')
+    im = image2tf.image2tf(self.I, mask2, self.time, self.freq, self.time_window, False)
+    im.range_rate = self.c*(im.freq/im.fc-1)
+    self.write_results(im)
+    #if self.figure_flag:
+    #  self.plots()
+    print('End of program!', "\n")
 
 
   def readyml(self):
     """ Reads 'filename'.yml to get the TLE's """
     try:
-      with open(os.path.join(self.parentfolder, self.filename+'.yml'),'r') as f:
+      with open(os.path.join(self.parentfolder, self.foldername, self.filename+'.yml'),'r') as f:
         yml = yaml.load(f)
         TLE1 = yml['Sat']['Predict']['used TLE line1']
         TLE2 = yml['Sat']['Predict']['used TLE line2']       
@@ -85,9 +87,9 @@ class DRRE(object):
     return max(all_subdirs, key=os.path.getmtime)
 
   def runFourier(self):
-    file = os.path.join(self.parentfolder, self.filename+ '.npz')
+    file = os.path.join(self.parentfolder, self.foldername, self.filename+ '.npz')
     try:
-      with open(filez, 'rb') as f:
+      with open(file, 'rb') as f:
         load = np.load(f)
         self.I = load['arr_0']
         self.freq = load['arr_1']
@@ -99,7 +101,7 @@ class DRRE(object):
 
   def FourierAnalysis(self):
     # input filename
-    file = os.path.join(self.parentfolder, self.filename + '.32fc')
+    file = os.path.join(self.parentfolder, self.foldername, self.filename + '.32fc')
 
     # initial values
     Time = self.recording_length
@@ -162,6 +164,15 @@ class DRRE(object):
     self.freq = bandwidth[lfreq:rfreq+1]
     print(self.I.shape)
 
+  def write_results(self, im):
+    with open(self.filename+'.rre2', 'w') as f:
+      f.write('TCA = '+ str(im.TCA)+ '\n')
+      f.write('Carrier frequency = '+ str(im.fc) + '\n')
+    with open(self.filename+'.rre2', 'ab') as f:
+      np.savetxt(f, np.vstack((im.t, im.freq, im.range_rate)).T, fmt=['%03.0f ', '%10.5f', '%10.6f'], newline='\n', header='time frequency acc')
+
+
+
 
 
 def main(argv):
@@ -169,7 +180,7 @@ def main(argv):
   Geeft iig een idee"""
   args = {}
   for i, arg in enumerate(argv):
-    for j, match in enumerate(['filename', 'foldername', 'signal_freq', 'figure_flag', 'signal_width']):
+    for j, match in enumerate(['filename', 'foldername']):
       if re.match(arg, match):
         args[j] = argv[i+1]
   args = sort(args)
@@ -180,8 +191,13 @@ def main(argv):
 
  
 if __name__ == "__main__":
-  dr = DRRE()
-  dr.mainrun()
+  for file in files:
+    #try:
+    print(file)
+    dr = DRRE(file)
+    dr.mainrun()
+    #except:
+    #  print("\n", "ERROR in ", file, "\n")
   #cm.create_mask(dr.I)
   #print(dr.runFourier())
   #main(sys.argv)
