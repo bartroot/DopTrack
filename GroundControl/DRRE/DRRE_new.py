@@ -3,7 +3,8 @@
  Doptrack station. It converts the raw data into Doppler 'range-rate' data, extracting 
  the frequncy signal of the radio transmission.
 
-The code is a python version of the initial prototype code in MATLAB, designed by TUDelft students, under supervision by Bart Root.
+The code is a python version of the initial prototype code in MATLAB, designed by TUDelft students, 
+under supervision by Bart Root.
   author: Hielke Krijnen"""
 
 import numpy as np
@@ -18,7 +19,8 @@ import image2tf
 import logging
 import Fourrier3 as f3
 
-files = ['Delfi-C3_32789_' + date for date in ['201607132324', '201707271140', '201707301128', '201707312042', '201707312214', '201707311125']]
+files = ['Delfi-C3_32789_' + date for date in ['201607132324', '201707271140', 
+'201707301128', '201707312042', '201707312214', '201707311125']]
 
 class DRRE(object):
   """ Main class containing the logic for the DRRE program.
@@ -27,11 +29,12 @@ class DRRE(object):
   """
   # These default values can be changed, but usually are fine for the intended use
   est_signal_width = 7000
-  time_window = 1
+  time_window = .5
   parentfolder = os.path.dirname(__file__)
   c = 299792458                      # speed of light in m/s
   home = os.path.expanduser("~")     # cross-platform home folder of the system
   buffer_size = 2**22
+
 
   def __init__(self, filename = 'Delfi-C3_32789_201707271140', foldername = 'RRes', 
     est_signal_freq = 145888300, figure_flag = False, est_signal_width = 7000):
@@ -45,24 +48,31 @@ class DRRE(object):
     self.filename = filename
     self.foldername = foldername
     self.figure_flag = figure_flag
+    self.figure_flag = True
     self.estimated_signal_frequency = est_signal_freq
     self.estimated_signal_width = est_signal_width
     self.readyml()
 
+
   def mainrun(self):
-    # TODO: make all these fns
-    # self.estimateOrbit()
-    
-    self.I, self.freq, self.time = f3.FourierAnalysis(self.filename+'.32fc', self.time_window, self.recording_length, self.sampling_rate, self.radio_local_frequency, self.estimated_signal_frequency, self.estimated_signal_width, self.buffer_size)
-    #self.runFourier()
-    mask = cm.create_mask(self.I)
+    """All functions are called here."""
+    #self.I, self.freq, self.time = f3.FourierAnalysis(self.filename+'.32fc', self.time_window, 
+    #  self.recording_length, self.sampling_rate, self.radio_local_frequency, self.estimated_signal_frequency, 
+    #  self.estimated_signal_width, self.buffer_size)
+    self.runFourier()
+    #mask = cm.create_mask(self.I)
     mask2 = cm.create_mask_v1(self.I, self.time_window)
-    im = image2tf.image2tf(self.I, mask2, self.time, self.freq, self.time_window, False)
+    im = image2tf.image2tf(self.I, mask2, self.time, self.freq, self.time_window, self.figure_flag)
     im.range_rate = self.c*(im.freq/im.fc-1)
     self.write_results(im)
     #if self.figure_flag:
     #  self.plots()
     print('End of program!', "\n")
+
+
+  def showdata(self):
+    self.runFourier()
+    self.I
 
 
   def readyml(self):
@@ -79,12 +89,14 @@ class DRRE(object):
     except:
       logging.warning('YML FILE NOT FOUND: Default values used')
 
+
   def getfolder(self):
     """ uses the latest modified folder containig the correct filetype
     TODO: needed? preferable behaviour?
     """
     all_subdirs = [d for d in os.listdir(self.home) if os.path.isdir(d)]
     return max(all_subdirs, key=os.path.getmtime)
+
 
   def runFourier(self):
     file = os.path.join(self.parentfolder, self.foldername, self.filename+ '.npz')
@@ -98,6 +110,7 @@ class DRRE(object):
       print("running fourier")
       self.FourierAnalysis()
       np.savez(file, self.I, self.freq, self.time)
+
 
   def FourierAnalysis(self):
     # input filename
@@ -136,7 +149,7 @@ class DRRE(object):
     with open(file,'rb') as f:
       for i in range(0,forend):
         # start reading the file
-        t = np.fromfile(f,dtype = np.float32, count = setWav)
+        t = np.fromfile(f,dtype = np.float32, count = int(setWav))
         n = int(len(t)/2)
 
         # Reconstruct the complex array
@@ -164,15 +177,14 @@ class DRRE(object):
     self.freq = bandwidth[lfreq:rfreq+1]
     print(self.I.shape)
 
+
   def write_results(self, im):
     with open(self.filename+'.rre2', 'w') as f:
       f.write('TCA = '+ str(im.TCA)+ '\n')
       f.write('Carrier frequency = '+ str(im.fc) + '\n')
     with open(self.filename+'.rre2', 'ab') as f:
-      np.savetxt(f, np.vstack((im.t, im.freq, im.range_rate)).T, fmt=['%03.0f ', '%10.5f', '%10.6f'], newline='\n', header='time frequency acc')
-
-
-
+      np.savetxt(f, np.vstack((im.t, im.freq, im.range_rate)).T, fmt=['%03.0f ', '%10.5f', '%10.6f'], 
+        newline='\n', header='time frequency acc')
 
 
 def main(argv):
@@ -188,9 +200,16 @@ def main(argv):
   dr = DRRE([item for item, arg in args])
   dr.mainrun()
 
+######
+#WATERFALL PLOT
+#######
+
+
 
  
 if __name__ == "__main__":
+  #dr = DRRE()
+  #dr.mainrun()
   for file in files:
     #try:
     print(file)
@@ -200,4 +219,4 @@ if __name__ == "__main__":
     #  print("\n", "ERROR in ", file, "\n")
   #cm.create_mask(dr.I)
   #print(dr.runFourier())
-  #main(sys.argv)
+  #main(sys.argv)"""

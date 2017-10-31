@@ -19,23 +19,22 @@ def image2tf(data, mask, t, freq, window, dispFig):
     mData = np.mean(data)
     If = np.multiply(data,mask) + np.multiply(1-mask, mData)
 
-    # select usable time area for fitting
-    
+    # select usable time area for fitting 
     _, loc, us = filterSatData(If, window, satSignal(window, sideBand))
     print("i2tf")
     tu = t[us==1]
     ploc = loc[us==1]
-    # fit tanh to retrieve carrier frequency
-    
+
+    # fit tanh to retrieve carrier frequency    
     tFit, _ = fitTanh(tu[100:], ploc[100:], window ,dispFig)
     x = np.arange(freq.size)
     fc = (interp1d(x, freq))(tFit[1])
     TCA = tFit[3]
+
     #crop to first length estimate
     lEst = tFit[2]*2
     ploc = ploc[(tu>TCA-lEst) & (tu<TCA+lEst)]
     tu = tu[(tu>TCA-lEst) & (tu<TCA+lEst)]
-
     residu = ploc - Tanh(tu, *tFit)
     rest, residu = removeOutliers(tu, residu, 0, 200*window)
 
@@ -43,60 +42,55 @@ def image2tf(data, mask, t, freq, window, dispFig):
     rfit, _, fn = resFit(rest, residu, dispFig)
     fit = Tanh(t, *tFit) + fn(t, *rfit)
     if dispFig:
-        plt.plot(t, fit)
+        plt.plot(t, fit, color='r')
+        plt.title("First fit")
+        plt.ylabel("Frequency (Hz)")
+        plt.xlabel("Time (s)")
         plt.show()
 
-    #window = 100*window
-    mask = np.zeros((t.size, freq.size))
+            #HIER nog even naar kijken, removeoutliers() gebruiken?
 
+    #Create a mask from the first fit
+    mask = np.zeros((t.size, freq.size))
     for j in range(t.size):
         line = [0 if (i < fit[j] - 100*window) | (i > fit[j] + 100*window) else 1 for i in range(freq.size)]
         mask[j,:] = line
 
-    print(np.mean(mask))
     #filter data and find peaks
     Ic = np.multiply(If, mask) + np.multiply(1-mask, mData)
-
+        #----
     _, loc2, us2 = filterSatData(Ic, window, sc.gaussian(100*window,2.5))
     tu2 = t[us2==1]
     ploc2 = loc2[us2==1]
-    #remove outliers and fit tanh to retrieve carrier frequency
-    
-    tFit2, _ = fitTanh(tu, ploc, window ,dispFig)
 
+    #remove outliers and fit tanh to retrieve carrier frequency
+    tFit2, _ = fitTanh(tu, ploc, window ,dispFig)
     TCA = tFit2[3]
     fc = (interp1d(x, freq))(tFit2[1])
     lEst=tFit2[2]*2.8
     ploc2 = ploc2[(tu2>TCA-lEst)&(tu2<TCA+lEst)]
     tu2 = tu2[(tu2>TCA-lEst)&(tu2<TCA+lEst)]
-
     residu2 = ploc2- Tanh(tu2, *tFit2)
     rest2, residu2 = removeOutliers(tu2, residu2, 0, 100*window)
 
    # rFit2, _ = resFit(rest2, residu2, dispFig)
     fit2 = Tanh(tu2, *tFit)# + fourier5(tu2, *rfit) 
-
     print("Estimated frequency: ", fit2[1])
     print("Estimated midpoint: ", fit2[3])
-
-    t2= tu2[abs(ploc2-fit2)<35*window]
-    pks2= ploc2[abs(ploc2-fit2)<35*window]
+    t2= tu2[abs(ploc2-fit2)<80*window]
+    pks2= ploc2[abs(ploc2-fit2)<80*window]
     Id=np.multiply((data-mData),mask)
 
-    #python runs from 0_to_end so t2-1 is needed.
     #std over rows of Id
     stdpks = np.std(Id[(t2).astype(int),:],axis=1)
     amppks = np.zeros(len(t2))
     for i in range(len(t2)):
         amppks[i]=Id[int(t2[i]),int(pks2[i])]
-
     with np.errstate(divide='ignore', invalid='ignore'):    
         acc = np.divide(stdpks,amppks)  #normalized standard deviation
         acc[~np.isfinite(acc)] = 0      #catch divide by zeroes
-
     tf=t2
     pksf=freq[pks2.astype(int)]
-
     tresh = np.median(acc)+np.std(acc)*2
     tresha = np.median(amppks)-np.std(amppks)
 
@@ -108,11 +102,13 @@ def image2tf(data, mask, t, freq, window, dispFig):
     if dispFig:
         #plt.imshow(freq,t,np.log10(data))
         plt.scatter(pksf,tf)
+        plt.title("Final Peaks")
+        plt.xlabel("Frequency (Hz)")
+        plt.ylabel("Time (s)")
         plt.show()
-
-
     t=tf
     freq=pksf
+
 
     class im():
         def __init__(self, t, freq, acc, fc, TCA):
@@ -121,14 +117,9 @@ def image2tf(data, mask, t, freq, window, dispFig):
             self.acc = acc
             self.fc = fc
             self.TCA = TCA
-
-
     return im(t, freq, acc, fc, TCA)
 
-
-
-
-    
+ 
 def removeOutliers(t, y, mean, band):
     y_ = y[(y>mean-band) & (y<mean+band)]
     t_ = t[(y>mean-band) & (y<mean+band)]
@@ -188,18 +179,21 @@ def fitTanh(t, pks, dt, dispFig):
                                 method='trf', ftol=ftol, xtol=xtol, max_nfev=max_nfev)
 
     if dispFig:
-        ### plot it
+        ### plot it        
         plt.scatter(t,pks)
-        plt.plot(t, Tanh(t, *fitresult))
+        plt.plot(t, Tanh(t, *fitresult), color='r')
+        plt.title("Tanh fit")
+        plt.ylabel("Frequency (Hz)")
+        plt.xlabel("Time (s)")
         plt.show()
     return fitresult, covar
     
-
 
 def moving_average(a, n=3):
     ret = np.cumsum(a, dtype=float)
     ret[n:] = ret[n:] - ret[:-n]
     return ret[n - 1:] / n
+
 
 def usable(peaks, window, sz):
     #peaks[peaks<(np.mean(peaks)-np.std(peaks)*0.5)]=0
@@ -221,6 +215,7 @@ def usable(peaks, window, sz):
     usable[usable>0]=1
     return usable
 
+
 def satSignal(freqStep, sideBand):
     ##Hardcoded for delfi
     dp = sideBand * freqStep
@@ -235,11 +230,13 @@ def satSignal(freqStep, sideBand):
     sig = moving_average(sig, int(freqStep*9)*2+1)
     return sig
 
+
 def fourier4(x,a0,a1,a2,a3,a4,b1,b2,b3,b4,p):
     return a0 + a1 * np.cos(1*x*p) + b1 * np.sin(1*x*p) + \
             a2 * np.cos(2*x*p) + b2 * np.sin(2*x*p) + \
             a3 * np.cos(3*x*p) + b3 * np.sin(3*x*p) + \
             a4 * np.cos(4*x*p) + b4 * np.sin(4*x*p)
+
 
 def fourier5(x,a0,a1,a2,a3,a4,a5,b1,b2,b3,b4,b5,p):
     return a0 + a1 * np.cos(1*x*p) + b1 * np.sin(1*x*p) + \
@@ -248,20 +245,25 @@ def fourier5(x,a0,a1,a2,a3,a4,a5,b1,b2,b3,b4,b5,p):
             a4 * np.cos(4*x*p) + b4 * np.sin(4*x*p) + \
             a5 * np.cos(5*x*p) + b5 * np.sin(5*x*p)
 
+
 def fourier3(x,a0,a1,a2,a3, b1,b2,b3,p):
     return a0 + a1 * np.cos(1*x*p) + b1 * np.sin(1*x*p) + \
             a2 * np.cos(2*x*p) + b2 * np.sin(2*x*p) + \
             a3 * np.cos(3*x*p) + b3 * np.sin(3*x*p)
            
+
 def p3(x, a0, a1, a2, a3, p):
     return a0 + a1 * (x - p) + a2 * (x - p)**2 + a3 * (x - p)**3
+
 
 def p5(x, a0, a1, a2, a3, a4, a5, p):
     return a0 + a1 * (x - p) + a2 * (x - p)**2 + a3 * (x - p)**3 + \
     a4 * (x - p)**4 + a5 * (x - p)**5
 
+
 def p0(x):
     return x * 0
+
 
 def resFit(rest, residu, dispFig):
     print('residual fit')
@@ -289,6 +291,9 @@ def resFit(rest, residu, dispFig):
             if dispFig:
                 plt.scatter(rest, residu)
                 plt.plot(rest, fn(rest, *fitresult), color='r')
+                plt.title("Residue fit")
+                plt.ylabel("Normalized frequency difference ()")
+                plt.xlabel("Time (s)")
                 plt.show()            
             return fitresult, covar, fn
         except:
@@ -296,7 +301,6 @@ def resFit(rest, residu, dispFig):
 
     #This return statement only occurs when no match is found. 
     return [], 0, p0
-
 
     
 def bisquare(rho):
