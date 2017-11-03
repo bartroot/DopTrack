@@ -6,15 +6,19 @@ from math import *
 import matplotlib.pyplot as plt
 
 
-def image2tf(data, mask, t, freq, window, dispFig):
+def image2tf(FourierData, mask, window, dispFig):
     """
     Function that analyses the spectogram of the satellite signal to find the 
     transmission frequency of the satellite. 
     """
-    #dispFig = 0
+    dispFig = 1
     sideBand = 600
     #est_freq = 6000
     #est_shift = 4000
+
+    data = FourierData.I
+    t = FourierData.time
+    freq = FourierData.freq
     
     mData = np.mean(data)
     If = np.multiply(data,mask) + np.multiply(1-mask, mData)
@@ -24,9 +28,18 @@ def image2tf(data, mask, t, freq, window, dispFig):
     print("i2tf")
     tu = t[us==1]
     ploc = loc[us==1]
-
-    # fit tanh to retrieve carrier frequency    
-    tFit, _ = fitTanh(tu[100:], ploc[100:], window ,dispFig)
+    ploc = ploc[tu>100]
+    tu = tu[tu>100]
+    
+    # fit tanh to retrieve carrier frequency, the first 100s aren't used for plotting    
+    # The outliers are progressively removed to obtain a tighter fit
+    tFit, _ = fitTanh(tu, ploc, window ,dispFig)
+    tu, ploc = removeOutliers(tu, ploc, Tanh(tu, *tFit), 2.5*sideBand)
+    tFit, _ = fitTanh(tu, ploc, window, dispFig)
+    tu, ploc = removeOutliers(tu, ploc, Tanh(tu, *tFit), 1.5*sideBand)
+    tFit, _ = fitTanh(tu, ploc, window, dispFig)
+    tu, ploc = removeOutliers(tu, ploc, Tanh(tu, *tFit), .5*sideBand)
+    tFit, _ = fitTanh(tu, ploc, window, dispFig)
     x = np.arange(freq.size)
     fc = (interp1d(x, freq))(tFit[1])
     TCA = tFit[3]
@@ -35,20 +48,21 @@ def image2tf(data, mask, t, freq, window, dispFig):
     lEst = tFit[2]*2
     ploc = ploc[(tu>TCA-lEst) & (tu<TCA+lEst)]
     tu = tu[(tu>TCA-lEst) & (tu<TCA+lEst)]
+
+    # Fit a disturbance model on remaining errors
     residu = ploc - Tanh(tu, *tFit)
     rest, residu = removeOutliers(tu, residu, 0, 200*window)
-
-    # Fit disturbance model on residu
     rfit, _, fn = resFit(rest, residu, dispFig)
     fit = Tanh(t, *tFit) + fn(t, *rfit)
+
+
     if dispFig:
         plt.plot(t, fit, color='r')
+        plt.scatter(tu, ploc)
         plt.title("First fit")
         plt.ylabel("Frequency (Hz)")
         plt.xlabel("Time (s)")
         plt.show()
-
-            #HIER nog even naar kijken, removeoutliers() gebruiken?
 
     #Create a mask from the first fit
     mask = np.zeros((t.size, freq.size))
@@ -58,10 +72,11 @@ def image2tf(data, mask, t, freq, window, dispFig):
 
     #filter data and find peaks
     Ic = np.multiply(If, mask) + np.multiply(1-mask, mData)
-        #----
     _, loc2, us2 = filterSatData(Ic, window, sc.gaussian(100*window,2.5))
     tu2 = t[us2==1]
     ploc2 = loc2[us2==1]
+    ploc2 = ploc2[tu2>100]
+    tu2 = tu2[tu2>100]
 
     #remove outliers and fit tanh to retrieve carrier frequency
     tFit2, _ = fitTanh(tu, ploc, window ,dispFig)
@@ -77,8 +92,8 @@ def image2tf(data, mask, t, freq, window, dispFig):
     fit2 = Tanh(tu2, *tFit)# + fourier5(tu2, *rfit) 
     print("Estimated frequency: ", fit2[1])
     print("Estimated midpoint: ", fit2[3])
-    t2= tu2[abs(ploc2-fit2)<80*window]
-    pks2= ploc2[abs(ploc2-fit2)<80*window]
+    t2= tu2[abs(ploc2-fit2)<15*window]
+    pks2= ploc2[abs(ploc2-fit2)<15*window]
     Id=np.multiply((data-mData),mask)
 
     #std over rows of Id
@@ -100,15 +115,26 @@ def image2tf(data, mask, t, freq, window, dispFig):
     acc = acc[(acc<=tresh)&(amppks>=tresha)]
 
     if dispFig:
-        #plt.imshow(freq,t,np.log10(data))
-        plt.scatter(pksf,tf)
+        FD = FourierData
+        plt.imshow(10*np.log10(np.flipud(FD.I.T)),
+            extent=(FD.time[0], FD.time[-1],FD.freq[0], FD.freq[-1]),
+            aspect='auto', cmap='afmhot')
+        plt.scatter(tf, pksf, color='b', s=9)
         plt.title("Final Peaks")
-        plt.xlabel("Frequency (Hz)")
-        plt.ylabel("Time (s)")
+        plt.ylabel("Frequency (Hz)")
+        plt.xlabel("Time (s)")
         plt.show()
+
+        plt.imshow(10*np.log10(np.flipud(Ic.T)),
+        extent=(FD.time[0], FD.time[-1],FD.freq[0], FD.freq[-1]),
+        aspect='auto', cmap='afmhot')
+        plt.show()        
+
+
+
+
     t=tf
     freq=pksf
-
 
     class im():
         def __init__(self, t, freq, acc, fc, TCA):
@@ -187,7 +213,7 @@ def fitTanh(t, pks, dt, dispFig):
         plt.xlabel("Time (s)")
         plt.show()
     return fitresult, covar
-    
+
 
 def moving_average(a, n=3):
     ret = np.cumsum(a, dtype=float)
@@ -219,8 +245,8 @@ def usable(peaks, window, sz):
 def satSignal(freqStep, sideBand):
     ##Hardcoded for delfi
     dp = sideBand * freqStep
-    dz = round(dp/4)
-    l = round(dp*1.2)
+    dz = int(dp/4)
+    l = int(dp*1.2)
     h = np.zeros((1,l*2))
     h[0,l-1] = 1.2
     h[0,l-dp-1] = 1
