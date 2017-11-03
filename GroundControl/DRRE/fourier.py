@@ -7,6 +7,8 @@ from scipy.fftpack import fft
 
 
 class FourierData(object):
+  NFFT = 65536
+  
   def __init__(FD, DRRE):
     FD.FourierAnalysis(DRRE)
 
@@ -23,19 +25,16 @@ class FourierData(object):
     L = Time*Fs
     setWav = int(2*L/(Time/Dt))
 
-    ### Hier nog even naar kijken
-    NFFT = 65536
-
     # get values for axis waterfall plot
     FD.f0 = float(DRRE.radio_local_frequency)
-    FD.nx = float(Fs)/float(NFFT)
+    FD.nx = float(Fs)/float(FD.NFFT)
     FD.ny = float(Dt)
     FD.bandwidth = np.arange(FD.f0-Fs/2+FD.nx/2,FD.f0+Fs/2-FD.nx/2+1,FD.nx)
     FD.time = np.arange(1,Time+1,FD.ny)
 
     # set certain zoom area
-    FD.lbound = float(DRRE.estimated_signal_frequency) - float(DRRE.estimated_signal_width)
-    FD.rbound = float(DRRE.estimated_signal_frequency) + float(DRRE.estimated_signal_width)
+    FD.lbound = float(DRRE.SatData.estimated_signal_freq) - float(DRRE.SatData.estimated_signal_width)
+    FD.rbound = float(DRRE.SatData.estimated_signal_freq) + float(DRRE.SatData.estimated_signal_width)
     # Initialize Matrices    
     LF = np.array((FD.bandwidth>FD.lbound).nonzero())
     lfreq = LF.min()+1
@@ -57,8 +56,8 @@ class FourierData(object):
         v.imag = -t[1::2]
 
         # generate the fft of the signal
-        Y = fft(v,NFFT)
-        dum = abs(Y[0:NFFT+1])
+        Y = fft(v,FD.NFFT)
+        dum = abs(Y[0:FD.NFFT+1])
         half = int(len(dum)/2)
 
         # fill in the Waterfall matrix

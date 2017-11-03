@@ -16,6 +16,8 @@ import create_mask as cm
 import os.path
 import image2tf
 from fourier import FourierData
+import satdata_delfi as delfi
+
 
 class DRRE(object):
   """ Main class containing the logic for the DRRE program.
@@ -23,16 +25,12 @@ class DRRE(object):
     
   """
   # These default values can be changed, but usually are fine for the intended use
-  est_signal_width = 7000
   time_window = .5
   parentfolder = os.path.dirname(__file__)
   c = 299792458                      # speed of light in m/s
-  home = os.path.expanduser("~")     # cross-platform home folder of the system
-  buffer_size = 2**22
+  #buffer_size = 2**22
 
-
-  def __init__(self, filename = 'Delfi-C3_32789_201707271140', foldername = 'RRes', 
-    est_signal_freq = 145888300, figure_flag = False, est_signal_width = 7000):
+  def __init__(self, filename = 'Delfi-C3_32789_201707271140', foldername = 'RRes',figure_flag = False, SatData=delfi.SatData()):
     """Initialization of the class, allows to modify the behaviour of the program.
     inputs:
     filename: string of filename without extension. defaults to newest in folder
@@ -43,21 +41,15 @@ class DRRE(object):
     self.filename = filename
     self.foldername = foldername
     self.figure_flag = figure_flag
-    self.figure_flag = True
-    self.estimated_signal_frequency = est_signal_freq
-    self.estimated_signal_width = est_signal_width
+    self.SatData = SatData
     self.readyml()
 
 
   def mainrun(self):
     """All functions are called here."""
-    #self.I, self.freq, self.time = f3.FourierAnalysis(self.filename+'.32fc', self.time_window, 
-    #  self.recording_length, self.sampling_rate, self.radio_local_frequency, self.estimated_signal_frequency, 
-    #  self.estimated_signal_width, self.buffer_size)
-    self.runFourier()
-    #mask = cm.create_mask(self.FD.I)
+    self.FD = FourierData(self)
     mask2 = cm.create_mask_v1(self.FD.I, self.time_window)
-    im = image2tf.image2tf(self.FD, mask2, self.time_window, self.figure_flag)
+    im = image2tf.image2tf(self.FD, mask2, self.SatData, self.time_window, self.figure_flag)
     im.range_rate = self.c*(im.freq/im.fc-1)
     self.write_results(im)
     print('End of program!', "\n")
@@ -75,14 +67,7 @@ class DRRE(object):
         self.sampling_rate         = yml['Sat']['Record']['sample_rate']      # in Hz
         self.recording_length      = yml['Sat']['Predict']['Length of pass']    # in seconds
     except:
-      logging.warning('YML FILE NOT FOUND: Default values used')
-
-
-  def runFourier(self):
-    #file = os.path.join(self.parentfolder, self.foldername, self.filename+ '.npz')
-    print("running fourier")
-    self.FD = FourierData(self)
-    #np.savez(file, self.I, self.freq, self.time)
+      print('YML FILE NOT FOUND: Default values used')
 
 
   def write_results(self, im):
@@ -104,10 +89,9 @@ def list_of_files(foldername):
   return [f.split('.')[0] for f in listdir(foldername) if is_32fc(f)]
 
 
- 
 if __name__ == "__main__":
-#  dr = DRRE()
-#  dr.mainrun()
+  dr = DRRE(foldername='../DRRE/RRes')
+  dr.mainrun()
   print(list_of_files('RRes'))
   for file in list_of_files('RRes'):
     try:

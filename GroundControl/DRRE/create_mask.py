@@ -47,7 +47,6 @@ def create_mask_v1(I, time_step):
    indices = I > np.mean(I) + 2*np.std(I)
    maskI1 = np.zeros(I.shape)
    maskI1[indices] = 1
-   ## Check hoek
    maskI1 = cv2.erode(maskI1,np.ones((int(5*scale+1),1)))
    maskI1 = 1 - cv2.dilate(maskI1, np.ones((120*scale,50/scale)))
    # Mask for horizontal bars
@@ -57,8 +56,9 @@ def create_mask_v1(I, time_step):
    return mask
 
 
-
+"""
 def create_mask2(I):
    mask = create_mask(I)
    toimage(mask*I).show()
 
+"""
