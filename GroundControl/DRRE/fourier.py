@@ -68,8 +68,11 @@ class FourierData(object):
 
         invec = np.asarray(line[lfreq:rfreq+1], float)
         invec[invec<=0] = 10**(-10)         # remove divide by zeros, possibly superfluous
-        #FD.I[i,:] = 10*np.log10(invec)
         FD.I[i,:] = invec
+
+        ### Technically a fourier transform should be done like this, but that would require redoing the weights in image2tf
+        #FD.I[i,:] = 10*np.log10(invec)
+        
 
     # Frequency of the selected bandwidth
     FD.freq = FD.bandwidth[lfreq:rfreq+1]

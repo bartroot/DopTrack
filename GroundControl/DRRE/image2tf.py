@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from fitting import *
 
 
-def image2tf(FourierData, satData, mask, window, dispFig):
+def image2tf(FourierData, SatData, mask, window, dispFig):
     """
     Function that analyses the spectogram of the satellite signal to find the 
     transmission frequency of the satellite. 

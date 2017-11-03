@@ -49,7 +49,7 @@ class DRRE(object):
     """All functions are called here."""
     self.FD = FourierData(self)
     mask2 = cm.create_mask_v1(self.FD.I, self.time_window)
-    im = image2tf.image2tf(self.FD, mask2, self.SatData, self.time_window, self.figure_flag)
+    im = image2tf.image2tf(self.FD, self.SatData, mask2, self.time_window, self.figure_flag)
     im.range_rate = self.c*(im.freq/im.fc-1)
     self.write_results(im)
     print('End of program!', "\n")
@@ -97,7 +97,7 @@ if __name__ == "__main__":
     try:
       print(file)
       dr = DRRE(file)
-      dr.figure_flag= 0
+      dr.figure_flag= 1
       dr.mainrun()
     except KeyboardInterrupt:
       break
