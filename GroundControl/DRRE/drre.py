@@ -30,18 +30,22 @@ class DRRE(object):
   c = 299792458                      # speed of light in m/s
   #buffer_size = 2**22
 
-  def __init__(self, filename = 'Delfi-C3_32789_201707271140', foldername = 'RRes',figure_flag = False, SatData=delfi.SatData()):
+  def __init__(self, filename = 'Delfi-C3_32789_201707271140', foldername = 'RRes', destination = 'same', figure_flag = False, SatData=delfi.SatData()):
     """Initialization of the class, allows to modify the behaviour of the program.
     inputs:
     filename: string of filename without extension. defaults to newest in folder
-    foldername: location of file wrt working directory TODO check defenition. defaults to newest
+    foldername: path of file wrt working directory 
     est_signal_freq: estimated frequency of the satelite signal in hz. defaults to the frequency of Delfi-C3
     figure_flag: boolean to decide whether or not to show figures. defaults to false.
+    destination: allows rre file to be saved to a different location, defaults to the same as foldername
     """
     self.filename = filename
     self.foldername = foldername
     self.figure_flag = figure_flag
     self.SatData = SatData
+    self.destination = destination
+    if destination == 'same':
+      self.destination = foldername    
     self.readyml()
 
 
@@ -49,11 +53,13 @@ class DRRE(object):
     """All functions are called here."""
     self.FD = FourierData(self)
     mask2 = cm.create_mask_v1(self.FD.I, self.time_window)
-    im = image2tf.image2tf(self.FD, self.SatData, mask2, self.time_window, self.figure_flag)
-    im.range_rate = self.c*(im.freq/im.fc-1)
-    self.write_results(im)
+    self.im = image2tf.image2tf(self.FD, self.SatData, mask2, self.time_window, self.figure_flag)
+    self.im.range_rate = self.c*(self.im.freq/self.im.fc-1)
+    self.write_results()
     print('End of program!', "\n")
 
+  def runFourier(self):
+    self.FD = FourierData(self)
 
   def readyml(self):
     """ Reads 'filename'.yml to get the TLE's """
@@ -70,12 +76,12 @@ class DRRE(object):
       print('YML FILE NOT FOUND: Default values used')
 
 
-  def write_results(self, im):
-    with open(self.filename+'.rre2', 'w') as f:
-      f.write('TCA = '+ str(im.TCA)+ '\n')
-      f.write('Carrier frequency = '+ str(im.fc) + '\n')
-    with open(self.filename+'.rre2', 'ab') as f:
-      np.savetxt(f, np.vstack((im.t, im.freq, im.range_rate)).T, fmt=['%03.0f ', '%10.5f', '%10.6f'], 
+  def write_results(self):
+    with open(os.path.join(self.parentfolder, self.destination, self.filename+'.rre2'), 'w') as f:
+      f.write('TCA = '+ str(self.im.TCA)+ '\n')
+      f.write('Carrier frequency = '+ str(self.im.fc) + '\n')
+    with open(os.path.join(self.parentfolder, self.destination, self.filename+'.rre2'), 'ab') as f:
+      np.savetxt(f, np.vstack((self.im.t, self.im.freq, self.im.range_rate)).T, fmt=['%03.0f ', '%10.5f', '%10.6f'], 
         newline='\n', header='time frequency acc')
 
 
@@ -90,17 +96,17 @@ def list_of_files(foldername):
 
 
 if __name__ == "__main__":
-  dr = DRRE(foldername='../DRRE/RRes')
+  dr = DRRE('Delfi-C3_32789_201709301034', figure_flag=True)
   dr.mainrun()
-  print(list_of_files('RRes'))
+  """
   for file in list_of_files('RRes'):
     try:
       print(file)
       dr = DRRE(file)
-      dr.figure_flag= 1
       dr.mainrun()
     except KeyboardInterrupt:
       break
     except: 
       print("some error occurred")
       pass
+"""
