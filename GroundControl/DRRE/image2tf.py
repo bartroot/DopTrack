@@ -47,8 +47,8 @@ def image2tf(FourierData, SatData, mask, window, dispFig):
     # Fit a disturbance model on remaining errors
     residu = ploc - Tanh(tu, *tFit)
     rest, residu = removeOutliers(tu, residu, 0, 200*window)
-    rfit, _, fn = resFit(rest, residu, dispFig)
-    fit = Tanh(t, *tFit) + fn(t, *rfit)
+    #rfit, _, fn = resFit(rest, residu, dispFig)
+    fit = Tanh(t, *tFit) #+ fn(t, *rfit)
 
 
     if dispFig:
@@ -83,12 +83,12 @@ def image2tf(FourierData, SatData, mask, window, dispFig):
     residu2 = ploc2- Tanh(tu2, *tFit2)
     rest2, residu2 = removeOutliers(tu2, residu2, 0, 100*window)
 
-   # rFit2, _ = resFit(rest2, residu2, dispFig)
-    fit2 = Tanh(tu2, *tFit)# + fourier5(tu2, *rfit) 
-    print("Estimated frequency: ", fit2[1])
-    print("Estimated midpoint: ", fit2[3])
-    t2= tu2[abs(ploc2-fit2)<15*window]
-    pks2= ploc2[abs(ploc2-fit2)<15*window]
+    rFit2, _, fn = resFit(rest2, residu2, dispFig)
+    fit2 = Tanh(tu2, *tFit) + fn(tu2, *rFit2) 
+    print("Estimated frequency: ", tFit2[1])
+    print("Estimated midpoint: ", tFit2[3])
+    t2= tu2[abs(ploc2-fit2)<35*window]
+    pks2= ploc2[abs(ploc2-fit2)<35*window]
     Id=np.multiply((data-mData),mask)
 
     #std over rows of Id
@@ -119,22 +119,23 @@ def image2tf(FourierData, SatData, mask, window, dispFig):
         plt.ylabel("Frequency (Hz)")
         plt.xlabel("Time (s)")
         plt.show()
-
+        """
         plt.imshow(10*np.log10(np.flipud(Ic.T)),
         extent=(FD.time[0], FD.time[-1],FD.freq[0], FD.freq[-1]),
         aspect='auto', cmap='afmhot')
-        plt.show()        
+        plt.show()        """
     t=tf
     freq=pksf
 
     class im():
-        def __init__(self, t, freq, acc, fc, TCA):
+        def __init__(self, t, freq, acc, fc, TCA, Ic):
             self.t = t
             self.freq = freq
             self.acc = acc
             self.fc = fc
             self.TCA = TCA
-    return im(t, freq, acc, fc, TCA)
+            self.Ic = Ic
+    return im(t, freq, acc, fc, TCA, Ic)
 
  
 def removeOutliers(t, y, mean, band):
@@ -195,7 +196,7 @@ def usable(peaks, window, sz):
 
 def satSignal(freqStep, sideBand):
     ##Hardcoded for delfi
-    dp = sideBand * freqStep
+    dp = int(sideBand * freqStep)
     dz = int(dp/4)
     l = int(dp*1.2)
     h = np.zeros((1,l*2))
