@@ -8,10 +8,7 @@ import matplotlib.pyplot as plt
 def Tanh(tt, a, b, c, d):
     return -a*np.tanh((tt-d)/c)+b
 
-def fitTanh(t, pks, dt, dispFig):
-    print('fittan')
-    # define the function to fit
-     
+def fitTanh(t, pks, dt, dispFig):    
     # initial guess
     a0 = (np.max(pks)-np.min(pks))/2
     b0 = np.mean(pks)
@@ -28,8 +25,7 @@ def fitTanh(t, pks, dt, dispFig):
     # prepare curve data
     # non-linear least squares
     fitresult, covar = curve_fit(Tanh, t, pks, bounds=bounds, p0=p00, loss='soft_l1',
-                                method='trf', ftol=ftol, xtol=xtol, max_nfev=max_nfev)
-
+                                    method='trf', ftol=ftol, xtol=xtol, max_nfev=max_nfev)
     if dispFig:
         ### plot it        
         plt.scatter(t,pks)
