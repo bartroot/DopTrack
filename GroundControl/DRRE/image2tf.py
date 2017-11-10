@@ -23,8 +23,25 @@ def image2tf(FourierData, SatData, mask, window, dispFig):
     print("i2tf")
     tu = t[us==1]
     ploc = loc[us==1]
+    if dispFig:
+        plt.scatter(tu, ploc)
+        plt.title("SatData")
+        plt.ylabel("Frequency (Hz)")
+        plt.xlabel("Time (s)")
+        plt.show()
+
+    """
+    Remove first 100 seconds and any remaining horizontal lines 
+    longer than 25 datapoints
+    """
     ploc = ploc[tu>100]
     tu = tu[tu>100]
+    while (np.bincount(ploc.astype(int)).max())> (25/window):
+        lineloc = np.bincount(ploc.astype(int)).argmax()
+        tu, ploc = tu[ploc!=lineloc], ploc[ploc!=lineloc]
+
+
+
     
     # fit tanh to retrieve carrier frequency, the first 100s aren't used for plotting    
     # The outliers are progressively removed to obtain a tighter fit
@@ -47,8 +64,8 @@ def image2tf(FourierData, SatData, mask, window, dispFig):
     # Fit a disturbance model on remaining errors
     residu = ploc - Tanh(tu, *tFit)
     rest, residu = removeOutliers(tu, residu, 0, 200*window)
-    #rfit, _, fn = resFit(rest, residu, dispFig)
-    fit = Tanh(t, *tFit) #+ fn(t, *rfit)
+    rfit, _, fn = resFit(rest, residu, dispFig)
+    fit = Tanh(t, *tFit) + fn(t, *rfit)
 
 
     if dispFig:
@@ -84,9 +101,11 @@ def image2tf(FourierData, SatData, mask, window, dispFig):
     rest2, residu2 = removeOutliers(tu2, residu2, 0, 100*window)
 
     rFit2, _, fn = resFit(rest2, residu2, dispFig)
-    fit2 = Tanh(tu2, *tFit) + fn(tu2, *rFit2) 
+    fit2 = Tanh(tu2, *tFit2) + fn(tu2, *rFit2) 
     print("Estimated frequency: ", tFit2[1])
     print("Estimated midpoint: ", tFit2[3])
+
+
     t2= tu2[abs(ploc2-fit2)<35*window]
     pks2= ploc2[abs(ploc2-fit2)<35*window]
     Id=np.multiply((data-mData),mask)
@@ -102,7 +121,7 @@ def image2tf(FourierData, SatData, mask, window, dispFig):
     tf=t2
     pksf=freq[pks2.astype(int)]
     tresh = np.median(acc)+np.std(acc)*2
-    tresha = np.median(amppks)-np.std(amppks)
+    tresha = np.median(amppks)-0.5*np.std(amppks)
 
     #filter out weak parts
     tf = tf[(acc<=tresh)&(amppks>=tresha)]
@@ -114,12 +133,13 @@ def image2tf(FourierData, SatData, mask, window, dispFig):
         plt.imshow(10*np.log10(np.flipud(FD.I.T)),
             extent=(FD.time[0], FD.time[-1],FD.freq[0], FD.freq[-1]),
             aspect='auto', cmap='afmhot')
-        plt.scatter(tf, pksf, color='b', s=9)
+        plt.scatter(tf, pksf, color='b', s=3)
         plt.title("Final Peaks")
         plt.ylabel("Frequency (Hz)")
         plt.xlabel("Time (s)")
         plt.show()
         """
+        #This plot 
         plt.imshow(10*np.log10(np.flipud(Ic.T)),
         extent=(FD.time[0], FD.time[-1],FD.freq[0], FD.freq[-1]),
         aspect='auto', cmap='afmhot')

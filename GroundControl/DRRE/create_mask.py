@@ -47,8 +47,9 @@ def create_mask_v1(I, time_step):
    indices = I > np.mean(I) + 2*np.std(I)
    maskI1 = np.zeros(I.shape)
    maskI1[indices] = 1
-   maskI1 = cv2.erode(maskI1,np.ones((int(5*scale+1),1)))
-   maskI1 = 1 - cv2.dilate(maskI1, np.ones((120*scale,50/scale)))
+
+   maskI1 = cv2.erode(maskI1.astype(np.uint8),np.ones((int(5*scale+1),1),np.uint8))
+   maskI1 = 1 - cv2.dilate(maskI1, np.ones((int(120*scale),int(50/scale)),np.uint8))
    # Mask for horizontal bars
    maskI2 = create_mask(I)
    # Combined mask

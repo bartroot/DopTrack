@@ -98,7 +98,7 @@ def list_of_files(foldername):
 if __name__ == "__main__":
   dr = DRRE('Delfi-C3_32789_201709301034', figure_flag=True)
   dr.mainrun()
-  """
+"""
   for file in list_of_files('RRes'):
     try:
       print(file)
