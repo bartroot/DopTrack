@@ -86,11 +86,21 @@ def main(argv):
    # put data meta file in recording directory
    data_out = LOC_REC + filename + '.32fc'
    if os.path.isfile(data_out):
-       meta_out = LOC_REC + filename + '.yml'  
+       meta_out = LOC_REC + filename + '.yml'              
        with open(meta_out, 'w') as outfile:
           outfile.write( yaml.dump(meta, default_flow_style=False) )
        outfile.close()
        os.remove(inputstr)
+
+       # add DRRE script if Recording is Delfi-C3
+       if str(NORADID) == '32789':
+           # run DRRE file 
+           sys.path.append('../DRRE/')  
+           import drre
+            
+           dr = drre.DRRE(filename, LOC_REC)
+           dr.mainrun() 
+
    else:
        meta_err = LOC_ERR + filename + '.yml'
        with open(meta_err, 'w') as outfile:
