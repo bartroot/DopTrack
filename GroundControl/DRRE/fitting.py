@@ -78,24 +78,17 @@ def p0(x):
 def resFit(rest, residu, dispFig):
     print('residual fit')
     # define the function to fit
-    #plt.plot(t, fff(t,*p00))
-    #plt.show()
-    #print(f(*p0))
     ftol = 10**-8
     xtol = 10**-8
     max_nfev = 6000
     p00 = [0,0,0,0,0,0,0,0,0,0.8]
     a = (rest)/np.std(rest)
     # non-linear least squares
-    i =1
     for fn in [fourier4, fourier3, fourier5, p3, p5]:
-        print(i)
-        i+=1
         try:
             fitresult, covar = curve_fit(fn, a, residu, #p0=p00,
                 method='trf', loss='soft_l1', max_nfev=max_nfev)
             fitresult[-1] = (fitresult[-1])/np.std(rest)
-            print('Score:',np.mean(rest-fn(rest, *fitresult)))
             if np.abs(np.mean(rest-fn(rest, *fitresult))) > 10000:
                 raise Exception('Did not converge')
             if dispFig:
