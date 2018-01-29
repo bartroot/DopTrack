@@ -81,7 +81,7 @@ class DRRE(object):
       f.write('TCA = '+ str(self.im.TCA)+ '\n')
       f.write('Carrier frequency = '+ str(self.im.fc) + '\n')
     with open(os.path.join(self.parentfolder, self.destination, self.filename+'.rre2'), 'ab') as f:
-      np.savetxt(f, np.vstack((self.im.t, self.im.freq, self.im.range_rate)).T, fmt=['%03.0f ', '%10.5f', '%10.6f'], 
+      np.savetxt(f, np.vstack((self.im.t, self.im.freq, self.im.range_rate)).T, fmt=['%03.1f ', '%10.5f', '%10.6f'],
         newline='\n', header='time frequency acc')
 
 
