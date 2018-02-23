@@ -65,7 +65,7 @@ def main(argv):
    
    # set recording
    filename = str(name) + '_' + str(NORADID) + '_' + str(STime)
-   start_rec_cmd = 'uhd_rx_cfile -a "addr=192.168.10.1" -f 45.07M --samp-rate=' + str(samp_rate) + ' -N ' + str(num_samp) + ' ' + str(LOC_REC) + filename + '.32fc'
+   start_rec_cmd = 'uhd_rx_cfile -a "addr=192.168.10.1" -f 45.05M --samp-rate=' + str(samp_rate) + ' -N ' + str(num_samp) + ' ' + str(LOC_REC) + filename + '.32fc'
    time3 = datetime.datetime.now()
    # get time1
    time1 = datetime.datetime.utcnow()
@@ -93,13 +93,13 @@ def main(argv):
        os.remove(inputstr)
 
        # add DRRE script if Recording is Delfi-C3
-       if str(NORADID) == '32789':
-           # run DRRE file 
-           sys.path.append('../DRRE/')  
-           import drre
-            
-           dr = drre.DRRE(filename, LOC_REC)
-           dr.mainrun() 
+#       if str(NORADID) == '32789':
+ #          # run DRRE file 
+  #         sys.path.append('../DRRE/')  
+   #        import drre
+    #        
+     #      dr = drre.DRRE(filename, LOC_REC)
+      #     dr.mainrun() 
 
    else:
        meta_err = LOC_ERR + filename + '.yml'
