@@ -14,10 +14,6 @@ def fit_tanh(xs, ys, dt):
     d0 = np.mean(xs)
     p0 = [a0, b0, c0, d0]
 
-    lower = [0.5*a0, 0.7*b0, 20, d0 - 500*dt]
-    upper = [1.5*a0, 1.3*b0, 200, d0 + 500*dt]
-    # TODO bounds might not be needed
-    bounds = (lower, upper)
     ftol = 10**-8
     xtol = 10**-8
     max_nfev = 10000

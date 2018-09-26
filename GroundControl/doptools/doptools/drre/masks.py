@@ -33,7 +33,3 @@ def area_mask(image, ori, dt):
     mask = np.logical_not(mask)
 
     return mask
-
-
-
-
