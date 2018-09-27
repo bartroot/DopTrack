@@ -1,0 +1,3 @@
+config.ini
+docs/_build/*
+**/.pytest_cache
