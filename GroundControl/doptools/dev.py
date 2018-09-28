@@ -31,7 +31,7 @@ dataids = ['Delfi-C3_32789_201602121133',
 #           'Delfi-C3_32789_201602210946',
 #           'Delfi-C3_32789_201607132324']
 #
-dataids = ['Delfi-C3_32789_201602210946']
+dataids = ['Delfi-C3_32789_201602210946_02s']
 
 #dataids = ['Delfi-C3_32789_201607132324']
 #dataids = ['Delfi-C3_32789_201602201122']
@@ -42,7 +42,7 @@ dataids = ['Delfi-C3_32789_201602210946']
 import doptools.drre.drre as drre
 
 for dataid in dataids:
-    drre.main(dataid)
+    drre.extract_datapoints(dataid)
 
 
 

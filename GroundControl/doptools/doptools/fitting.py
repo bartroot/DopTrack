@@ -1,5 +1,13 @@
-import numpy as np
+import sys
+import logging
+import autograd.numpy as np
 import scipy.optimize as optimize
+
+from .config import config
+
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(stream=sys.stdout, level=config['runtime']['log_level'])
 
 
 def tanh(xs, a, b, c, d):
@@ -66,7 +74,6 @@ def p5(x, a0, a1, a2, a3, a4, a5, p):
 
 
 def fit_residual(times, residual):
-    print('residual fit')
     max_nfev = 6000
     a = (times)/np.std(times)
     # non-linear least squares
@@ -79,7 +86,7 @@ def fit_residual(times, residual):
             fit_coeffs[-1] = (fit_coeffs[-1]) / np.std(times)
             if np.abs(np.mean(times - func(times, *fit_coeffs))) > 10000:
                 raise RuntimeError('Did not converge')
-            print(f'Fit converged using {func}')
+            logger.debug(f'Residual fitting converged using {func}')
             return func, fit_coeffs
         except RuntimeError:
             print(f'Fitting function {func} did not converge.')

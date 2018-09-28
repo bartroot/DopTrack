@@ -1,3 +1,4 @@
 config.ini
+dev.py
 docs/_build/*
 **/.pytest_cache
