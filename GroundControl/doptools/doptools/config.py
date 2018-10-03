@@ -1,22 +1,44 @@
 import os
-import configparser
+import yaml
 
 
 # TODO Config path should be changed to $HOME.
-CONFIG_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'config.ini'))
+BASE_PATH = os.path.join(os.path.dirname(__file__), '..')
+BASE_PATH = os.path.normpath(BASE_PATH)
+CONFIG_PATH = os.path.abspath(os.path.join(BASE_PATH, 'config.yml'))
 CONFIG_PATH = os.path.normpath(CONFIG_PATH)
-config = configparser.ConfigParser()
-config.read(CONFIG_PATH)
 
 
-if os.path.isabs(config['data']['dir']):
-    DATA_PATH = os.path.join(config['data']['dir'])
-else:
-    DATA_PATH = os.path.join(os.path.dirname(__file__), '..', config['data']['dir'])
-DATA_PATH = os.path.normpath(DATA_PATH)
+class Config:
 
-config['path'] = {'data': DATA_PATH,
-                  'recordings': os.path.join(DATA_PATH, 'recordings'),
-                  'spectrograms': os.path.join(DATA_PATH, 'spectrograms'),
-                  'rre': os.path.join(DATA_PATH, 'rre'),
-                  'external': os.path.join(DATA_PATH, 'external')}
+    def __init__(self, configpath=CONFIG_PATH):
+
+        self.configpath = configpath
+        with open(self.configpath) as metafile:
+            config = yaml.load(metafile)
+
+        # Get full default path
+        config['paths']['default'] = _normpath(config['paths']['default'], BASE_PATH)
+
+        # Get remaining full paths
+        for path in config['paths']:
+            if config['paths'][path] == 'None':
+                config['paths'][path] = os.path.join(config['paths']['default'], path)
+            elif path == 'recordings':
+                recpaths = []
+                for _, recpath in config['paths']['recordings'].items():
+                    recpaths.append(_normpath(recpath, config['paths']['default']))
+                config['paths']['recordings'] = set(recpaths)
+            else:
+                if not os.path.isabs(config['paths'][path]):
+                    config['paths'][path] = _normpath(config['paths'][path],
+                                                      config['paths']['default'])
+
+        # Add config dictionary to instance dictionary
+        self.__dict__.update(config)
+
+
+def _normpath(path, defaultpath):
+    if not os.path.isabs(path):
+        path = os.path.join(defaultpath, path)
+    return os.path.normpath(path)

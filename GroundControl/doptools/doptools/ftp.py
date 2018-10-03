@@ -71,3 +71,9 @@ def download_tai_utc():
         with open(os.path.join(config['path']['external'], 'tai-utc.dat'), 'wb') as f:
             logger.info(f'Downloading maia.usno.navy.mil/ser7/tai-utc.dat')
             ftp.retrbinary(f'RETR tai-utc.dat', f.write)
+
+
+def download_external():
+    download_eopp()
+    download_eopc04()
+    download_tai_utc()
