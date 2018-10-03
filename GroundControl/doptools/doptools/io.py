@@ -62,12 +62,13 @@ class Database:
                 passids[satid]['both'].append(dataid)
 
         # TODO add 32fc files to overview
-        print(38 * '-')
-        print(f"{'Dataid':20}{'yml':>6}{'rre':>6}{'both':>6}")
-        print(38 * '-')
+        print(39 * '-')
+        print(f"{'SatName':15}{'SatID':5}{'yml':>7}{'rre':>6}{'both':>6}")
+        print(39 * '-')
         for key, val in passids.items():
-            print(f"{key:20}{len(val['yml']):6}{len(val['rre']):6}{len(val['both']):6}")
-        print(38 * '-')
+            satname, satid = key.split('_')[:2]
+            print(f"{satname:15}{satid:5}{len(val['yml']):7}{len(val['rre']):6}{len(val['both']):6}")
+        print(39 * '-')
 
     def get_dataids(self, extensions):
         return set.intersection(*self._get_dataid_sets(extensions, self.paths['recordings']))
