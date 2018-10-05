@@ -11,9 +11,12 @@ import time
 from doptools.analysis import BulkAnalysis, ResidualAnalysis
 
 data = BulkAnalysis().data
-data_labels = {'tca': {'name': 'TCA - Time of closest approach', 'unit': ''},
+data_labels = {'tca': {'name': 'TCA - Datetime of closest approach', 'unit': ''},
                'fca': {'name': 'FCA - Frequency at closest approach', 'unit': '(Hz)'},
-               'dtca': {'name': 'dTCA - Time error', 'unit': '(s)'}}
+               'dtca': {'name': 'dTCA - Time error', 'unit': '(s)'},
+               'tca_time_plotly': {'name': 'TCA - Time of day of closest approach', 'unit': ''}}
+
+data['tca_time_plotly'] = [dt.replace(year=2000, month=1, day=1) for dt in data['tca']]
 
 
 app = dash.Dash()
@@ -157,8 +160,9 @@ app.layout = html.Div(children=[
 def update_bulk_graph(xkey, ykey):
     xtitle = ' '.join(['<b>', data_labels[xkey]['name'], data_labels[xkey]['unit'], '</b>'])
     ytitle = ' '.join(['<b>', data_labels[ykey]['name'], data_labels[ykey]['unit'], '</b>'])
-    return {
-        'data': [
+
+    plot = dict()
+    plot['data'] = [
             go.Scatter(
                     x=data[data['timeofday'] == 'morning'][xkey],
                     y=data[data['timeofday'] == 'morning'][ykey],
@@ -181,8 +185,9 @@ def update_bulk_graph(xkey, ykey):
                     },
                     name='Evening'
             )
-        ],
-        'layout': go.Layout(
+        ]
+
+    plot['layout'] = go.Layout(
 #            title='Complete Dataset',
             xaxis={'title': xtitle, 'showline': True},
             yaxis={'title': ytitle, 'showline': True},
@@ -191,7 +196,8 @@ def update_bulk_graph(xkey, ykey):
             height=715,
             margin={'t': 40, 'r': 40, 'b': 70, 'l': 100}
         )
-    }
+
+    return plot
 
 
 
@@ -273,7 +279,6 @@ def update_passinfo(n_clicks, checklist):
     print('TTTTTT:', n_clicks)
     print('TTTTTT:', checklist)
     return None
-
 
 
 if __name__ == '__main__':
