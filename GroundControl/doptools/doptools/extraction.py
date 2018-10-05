@@ -1,4 +1,5 @@
 import sys
+import os
 import logging
 import autograd.numpy as np
 from autograd import elementwise_grad as egrad
@@ -8,14 +9,14 @@ import scipy.optimize as optimize
 from collections import Counter
 from sklearn.cluster import DBSCAN
 
-from .config import config
+from .config import Config
 from .model_doptrack import Spectrogram
 from .masking import area_mask, fit_mask, time_mask
 from .fitting import tanh, fit_tanh, fit_residual
 
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(stream=sys.stdout, level=config['runtime']['log_level'])
+logging.basicConfig(stream=sys.stdout, level=Config().runtime['log_level'])
 
 
 def extract_datapoints(dataid):

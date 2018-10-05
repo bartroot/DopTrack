@@ -10,7 +10,7 @@ from .config import Config
 
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logging.basicConfig(stream=sys.stdout, level=Config().runtime['log_level'])
 
 
 class Database:
@@ -89,7 +89,7 @@ class Database:
 
 
 def read_meta(dataid, folderpath=Database().paths['recordings']):
-    with open(os.path.join(folderpath, f'{dataid}.yml'), 'r') as metafile:
+    with open(os.path.join(folderpath, f'{dataid[:27]}.yml'), 'r') as metafile:
         meta = yaml.load(metafile)
     return meta
 

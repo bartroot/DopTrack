@@ -3,11 +3,11 @@ import logging
 import autograd.numpy as np
 import scipy.optimize as optimize
 
-from .config import config
+from .config import Config
 
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(stream=sys.stdout, level=config['runtime']['log_level'])
+logging.basicConfig(stream=sys.stdout, level=Config().runtime['log_level'])
 
 
 def tanh(xs, a, b, c, d):
