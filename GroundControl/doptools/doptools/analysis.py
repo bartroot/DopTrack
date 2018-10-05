@@ -88,4 +88,4 @@ class BulkAnalysis:
         self.data.sort_index(axis=0, inplace=True)
         self.data.sort_index(axis=1, inplace=True)
 
-        self.data.to_csv(os.path.join(config['path']['data'], 'bulk.csv'))
+        self.data.to_csv(os.path.join(Config().paths['default'], 'bulk.csv'))
