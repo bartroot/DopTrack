@@ -19,6 +19,18 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stdout, level=Config().runtime['log_level'])
 
 
+def process(dataid):
+    xs, ys, vals, tca, fca = extract_datapoints(dataid)
+    filepath = os.path.join(Config().paths['extracted'], f"{dataid}.DOP1B")
+    with open(filepath, 'w+') as file:
+        file.write(f"tca: {tca}\n")
+        file.write(f"fca: {fca}\n")
+        file.write("==============\n")
+        file.write('time,freq,vals\n')
+        for x, y, val in zip(xs, ys, vals):
+            file.write(f"{x},{y},{val}\n")
+
+
 def extract_datapoints(dataid):
 
     logger.info(f'Extracting frequency data points from {dataid}')
