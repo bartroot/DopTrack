@@ -133,7 +133,7 @@ app.layout = html.Div(children=[
                             ]
                         ),
 
-        ]), className='container', style={'width': '95%', 'max-width': 1920}),#, 'max-width': 50000})
+        ]), className='container', style={'width': '95%', 'max-width': 1920, 'margin': 10}),#, 'max-width': 50000})
 
 #    dtable.DataTable(
 #        # Initialise the rows
