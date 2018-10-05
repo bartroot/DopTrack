@@ -8,6 +8,7 @@ import plotly.graph_objs as go
 import numpy as np
 from plotly import tools
 import time
+
 import pandas as pd
 
 from doptools.analysis import BulkAnalysis, ResidualAnalysis
@@ -21,6 +22,7 @@ data_labels = {'tca': {'name': 'TCA - Datetime of closest approach', 'unit': ''}
                'dtca': {'name': 'dTCA - Time error', 'unit': '(s)'},
                'tca_time_plotly': {'name': 'TCA - Time of day of closest approach', 'unit': ''}}
 data['tca_time_plotly'] = [dt.replace(year=2000, month=1, day=1) for dt in data['tca']]
+
 
 
 app = dash.Dash()
@@ -98,6 +100,7 @@ app.layout = html.Div(children=[
                                                 options=[
                                                     {'label': 'Bad data   ', 'value': 'bad_data'},
                                                     {'label': 'Reboot   ', 'value': 'reboot'}
+
                                                 ],
                                                 values=[],
     #                                            labelStyle={'display': 'inline-block'},
@@ -141,6 +144,7 @@ app.layout = html.Div(children=[
                         ),
 
         ]), className='container', style={'width': '95%', 'max-width': 1920, 'margin': 10}),#, 'max-width': 50000})
+
 
 #    dtable.DataTable(
 #        # Initialise the rows
@@ -202,6 +206,7 @@ def update_bulk_graph(xkey, ykey):
         )
 
     return plot
+
 
 
 
