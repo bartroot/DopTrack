@@ -1,21 +1,25 @@
+import os
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import dash_table_experiments as dtable
+#import dash_table_experiments as dtable
 from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
 import numpy as np
 from plotly import tools
 import time
+import pandas as pd
 
 from doptools.analysis import BulkAnalysis, ResidualAnalysis
+from doptools.config import Config
+
 
 data = BulkAnalysis().data
+
 data_labels = {'tca': {'name': 'TCA - Datetime of closest approach', 'unit': ''},
                'fca': {'name': 'FCA - Frequency at closest approach', 'unit': '(Hz)'},
                'dtca': {'name': 'dTCA - Time error', 'unit': '(s)'},
                'tca_time_plotly': {'name': 'TCA - Time of day of closest approach', 'unit': ''}}
-
 data['tca_time_plotly'] = [dt.replace(year=2000, month=1, day=1) for dt in data['tca']]
 
 
@@ -93,7 +97,7 @@ app.layout = html.Div(children=[
                                                 id='checklist',
                                                 options=[
                                                     {'label': 'Bad data   ', 'value': 'bad_data'},
-                                                    {'label': 'Shutdown   ', 'value': 'shutdown'}
+                                                    {'label': 'Reboot   ', 'value': 'reboot'}
                                                 ],
                                                 values=[],
     #                                            labelStyle={'display': 'inline-block'},
@@ -269,15 +273,82 @@ def update_pass_graphs_from_bulk(clickData, t_prev, t_next, figure):
     return fig
 
 
+@app.callback(Output('checklist', 'values'),
+              [Input('bulk-graph', 'clickData'),
+               Input('button_prev', 'n_clicks_timestamp'),
+               Input('button_next', 'n_clicks_timestamp')],
+              [State('pass-graph', 'figure')])
+def update_feature_checklist(clickData, t_prev, t_next, figure):
+
+    t_prev, t_next = int(t_prev)/1000, int(t_next)/1000
+
+    if clickData is None and (t_prev == 0 and t_next == 0):
+        i = 0
+        dataid = data.index[0]
+    elif (time.time() - int(t_prev)) < 1 or (time.time() - int(t_next)) < 1:
+        dataid = figure['layout']['title'][-31:-4]
+        i = int(np.where(data.index == dataid)[0])
+        if t_prev > t_next:
+            if i == 0:
+                dataid = dataid
+            else:
+                dataid = data.index[i - 1]
+        else:
+            if i == len(data) - 1:
+                dataid = dataid
+            else:
+                dataid = data.index[i + 1]
+        i = int(np.where(data.index == dataid)[0])
+        print(i, dataid)
+    else:
+        dataid = clickData['points'][0]['text']
+        i = int(np.where(data.index == dataid)[0])
+        print(i, dataid)
+
+    filepath = os.path.join(Config().paths['default'], 'pass_features.csv')
+    if not os.path.isfile(filepath):
+        return []
+    features = pd.read_csv(filepath)
+    features.set_index('dataid', inplace=True)
+    if dataid not in features.index:
+        return []
+
+    feature_list = [feature for feature, boolean in features.loc[dataid].iteritems() if boolean]
+
+    return feature_list
+
+
 @app.callback(Output('hidden-div', 'children'),
               [Input('button_save', 'n_clicks_timestamp')],
-              [State('checklist', 'values')])
-def update_passinfo(n_clicks, checklist):
+              [State('checklist', 'values'),
+               State('pass-graph', 'figure')])
+def update_pass_features(n_clicks, checklist, figure):
+    print(checklist)
+    if figure is None:
+        return None
+    filepath = os.path.join(Config().paths['default'], 'pass_features.csv')
+    if os.path.isfile(filepath):
+        features = pd.read_csv(filepath)
+        new_dataids = set.difference(set(data.index), set(features['dataid']))
+        new_features = pd.DataFrame([[new_dataid, False, False] for new_dataid in new_dataids],
+                                    columns=['dataid', 'bad_data', 'reboot'])
+        features = features.append(new_features)
+        # TODO fix bug where new passes in data are not added to info
+    else:
+        features = pd.DataFrame({'dataid': data.index,
+                                 'bad_data': [False] * len(data.index),
+                                 'reboot': [False] * len(data.index)
+                                 })
+    features.set_index('dataid', inplace=True)
 
+    dataid = figure['layout']['title'][-31:-4]
 
+    features.loc[dataid, 'bad_data'] = True if 'bad_data' in checklist else False
+    features.loc[dataid, 'reboot'] = True if 'reboot' in checklist else False
 
-    print('TTTTTT:', n_clicks)
-    print('TTTTTT:', checklist)
+    features.sort_index(inplace=True)
+    features.to_csv(filepath)
+
     return None
 
 
