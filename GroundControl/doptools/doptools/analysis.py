@@ -8,8 +8,8 @@ from tqdm import tqdm
 
 from .model_doptrack import SatellitePassRecorded
 from .model_tle import SatellitePassTLE
-from .io import get_dataids
-from .config import config
+from .io import Database
+from .config import Config
 
 
 class ResidualAnalysis:
@@ -52,11 +52,13 @@ class BulkAnalysis:
 
     def __init__(self):
         try:
-            self.data = pd.read_csv(os.path.join(config['path']['data'], 'bulk.csv'))
+            self.data = pd.read_csv(os.path.join(Config().paths['default'], 'bulk.csv'))
             self.data.set_index('dataid', inplace=True)
             self.data['tca'] = pd.to_datetime(self.data['tca'])
         except FileNotFoundError:
             self.update()
+
+        self.database = Database()
 
     def plot(self, key1, key2):
         fig = plt.figure()
@@ -69,7 +71,7 @@ class BulkAnalysis:
 
     def update(self):
         datadict = defaultdict(list)
-        dataids = get_dataids('yml rre')
+        dataids = self.database.get_dataids('yml rre')
         for dataid in tqdm(dataids, desc='Analyzing passes:'):
             a = ResidualAnalysis(dataid)
             datadict['dataid'].append(a.dataid)
@@ -86,4 +88,4 @@ class BulkAnalysis:
         self.data.sort_index(axis=0, inplace=True)
         self.data.sort_index(axis=1, inplace=True)
 
-        self.data.to_csv(os.path.join(config['path']['data'], 'bulk.csv'))
+        self.data.to_csv(os.path.join(Config().paths['default'], 'bulk.csv'))

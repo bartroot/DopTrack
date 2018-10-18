@@ -8,8 +8,7 @@ import scipy.constants as constants
 from scipy.fftpack import fft, fftshift
 from tqdm import tqdm
 
-from .config import config
-from .io import read_meta, read_rre
+from .io import Database, read_meta, read_rre
 from .groundstation import DopTrackStation
 
 
@@ -56,11 +55,11 @@ class Recording:
         self.tuning_freq = int(self.meta['Sat']['State']['Tuning Frequency'])
 
     def data(self, dt):
+        database = Database()
         samples = int(self.sample_freq * self.duration)
         timesteps = int(self.duration / dt)
         cutoff = int(2 * samples / timesteps)
-        with open(os.path.join(config['path']['recordings'],
-                               f'{self.dataid}.32fc'), 'r') as file:
+        with open(database.get_filepath(self.dataid, '32fc'), 'r') as file:
             for i in range(timesteps):
                 yield np.fromfile(file, dtype=np.float32, count=cutoff)
 
@@ -203,8 +202,8 @@ class Spectrogram:
         Spectrogram
             A spectrogram object for the given recording.
         """
-        with open(os.path.join(config['path']['spectrograms'],
-                               f'{dataid}.npy.meta'), 'r') as file:
+        datafilepath, metafilepath = Database().get_filepath(dataid, 'npy')
+        with open(metafilepath, 'r') as file:
             xlim1 = float(file.readline().strip('\n').split('=')[1])
             xlim2 = float(file.readline().strip('\n').split('=')[1])
             ylim1 = datetime.strptime(file.readline().strip('\n').split('=')[1],
@@ -213,8 +212,7 @@ class Spectrogram:
                                       '%Y-%m-%d %H:%M:%S.%f')
         freq_lims = (xlim1, xlim2)
         time_lims = (ylim1, ylim2)
-        spectrogram = np.load(os.path.join(config['path']['spectrograms'],
-                                           f'{dataid}.npy'))
+        spectrogram = np.load(datafilepath)
         dt = (time_lims[0] - time_lims[1]).total_seconds() / spectrogram.shape[0]
 
         return cls(dataid, spectrogram, freq_lims, time_lims, dt)
@@ -228,19 +226,18 @@ class Spectrogram:
         dataid : str
             ID of recording in the database.
         """
+        folderpath = Database().paths['spectrograms']
 
-        if filename == None:
+        if filename is None:
             filename = self.dataid
 
-        with open(os.path.join(config['path']['spectrograms'],
-                               f'{filename}.npy.meta'), 'w+') as file:
+        with open(os.path.join(folderpath, f'{filename}.npy.meta'), 'w+') as file:
             file.write(f'xlim_lower={self.freq_lims[0]}\n')
             file.write(f'xlim_upper={self.freq_lims[1]}\n')
             file.write(f'ylim_lower={self.time_lims[0]}\n')
             file.write(f'ylim_upper={self.time_lims[1]}')
 
-        np.save(os.path.join(config['path']['spectrograms'],
-                             f'{filename}.npy'), self.image)
+        np.save(os.path.join(folderpath, f'{filename}.npy'), self.image)
 
     def plot(self, cmap='jet', clim=(-75, -50), **kwargs):
         """
@@ -359,7 +356,6 @@ class Spectrogram:
 #
 #        plt.show()
 #        sys.exit()
-
 
         # Calculate relative power level in dB of spectrum.
         # TODO should be fixed to dimensionless values but requires changes in drre

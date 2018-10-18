@@ -6,55 +6,98 @@ from datetime import datetime, timedelta
 import functools
 import pandas as pd
 
-from .config import config
+from .config import Config
 
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logging.basicConfig(stream=sys.stdout, level=Config().runtime['log_level'])
 
 
-def print_dataids():
-    ymls = get_dataids('yml')
-    rres = get_dataids('rre')
-    passids = {}
-    for dataid in set.union(ymls, rres):
-        satid = '_'.join(dataid.split('_')[:2])
-        if satid not in passids:
-            passids[satid] = {'yml': [], 'rre': [], 'both': []}
-        if dataid in ymls:
-            passids[satid]['yml'].append(dataid)
-        if dataid in rres:
-            passids[satid]['rre'].append(dataid)
-        if dataid in set.intersection(ymls, rres):
-            passids[satid]['both'].append(dataid)
-    for key, val in passids.items():
-        print('==============')
-        print(key)
-        print('yml:', len(val['yml']))
-        print('rre:', len(val['rre']))
-        print('both:', len(val['both']))
+class Database:
+
+    def __init__(self, config=Config()):
+
+        self.paths = config.paths
+
+    def get_filepath(self, dataid, ext):
+        if ext in ('32fc', 'yml'):
+            if type(self.paths['recordings']) == str:
+                filepath = os.path.join(self.paths['recordings'], dataid + '.' + ext)
+                if os.path.isfile(filepath):
+                    return filepath
+            else:
+                for folderpath in self.paths['recordings']:
+                    filepath = os.path.join(folderpath, dataid + '.' + ext)
+                    print(filepath)
+                    if os.path.isfile(filepath):
+                        return filepath
+        elif ext == 'npy':
+            datafilepath = os.path.join(self.paths['spectrograms'], dataid + '.' + ext)
+            metafilepath = os.path.join(self.paths['spectrograms'], dataid + '.' + ext + '.meta')
+            if os.path.isfile(datafilepath) and os.path.isfile(metafilepath):
+                return datafilepath, metafilepath
+        elif ext == 'rre':
+            filepath = os.path.join(self.paths['rre'], dataid + '.' + ext)
+            if os.path.isfile(filepath):
+                return filepath
+        elif ext == 'rre':
+            filepath = os.path.join(self.paths['rre'], dataid + '.' + ext)
+            if os.path.isfile(filepath):
+                return filepath
+        logger.error('File not found in database')
+
+    def print_dataids(self):
+        ymls = self.get_dataids('yml')
+        rres = self.get_dataids('rre')
+        passids = {}
+        for dataid in set.union(ymls, rres):
+            satid = '_'.join(dataid.split('_')[:2])
+            if satid not in passids:
+                passids[satid] = {'yml': [], 'rre': [], 'both': []}
+            if dataid in ymls:
+                passids[satid]['yml'].append(dataid)
+            if dataid in rres:
+                passids[satid]['rre'].append(dataid)
+            if dataid in set.intersection(ymls, rres):
+                passids[satid]['both'].append(dataid)
+
+        # TODO add 32fc files to overview
+        print(39 * '-')
+        print(f"{'SatName':15}{'SatID':5}{'yml':>7}{'rre':>6}{'both':>6}")
+        print(39 * '-')
+        for key, val in passids.items():
+            satname, satid = key.split('_')[:2]
+            print(f"{satname:15}{satid:5}{len(val['yml']):7}{len(val['rre']):6}{len(val['both']):6}")
+        print(39 * '-')
+
+    def get_dataids(self, extensions):
+        return set.intersection(*self._get_dataid_sets(extensions, self.paths['recordings']))
+
+    @property
+    def dataids(self):
+        files = _listfiles(self.paths['recordings'])
+        return set(map(_remove_file_extension, files))
+
+    @staticmethod
+    def _get_dataid_sets(extensions, path):
+        sets = []
+        for ext in extensions.split():
+            files = _listfiles(path)
+            files = filter(functools.partial(_file_is_type, ext), files)
+            sets.append(set(map(_remove_file_extension, files)))
+        return sets
 
 
-def get_dataids(extensions):
-    return set.intersection(*_get_dataid_sets(extensions, config['path']['recordings']))
-
-
-def get_all_dataids():
-    files = _listfiles(config['path']['recordings'])
-    return set(map(_remove_file_extension, files))
-
-
-def read_meta(dataid):
-    dataid = dataid[:27]
-    with open(os.path.join(config['path']['recordings'], f'{dataid}.yml'), 'r') as metafile:
+def read_meta(dataid, folderpath=Database().paths['recordings']):
+    with open(os.path.join(folderpath, f'{dataid[:27]}.yml'), 'r') as metafile:
         meta = yaml.load(metafile)
     return meta
 
 
-def read_rre(dataid):
+def read_rre(dataid, folderpath=Database().paths['rre']):
     meta = read_meta(dataid)
     rre = dict(tca=None, fca=None, datetime=[], frequency=[])
-    path = os.path.join(config['path']['rre'], f'{dataid}.rre')
+    path = os.path.join(folderpath, f'{dataid}.rre')
     with open(path, 'r') as rrefile:
         rre['tca'] = float(rrefile.readline().split('=')[1])
         rre['fca'] = float(rrefile.readline().split('=')[1])
@@ -69,12 +112,12 @@ def read_rre(dataid):
     return rre
 
 
-def read_eopp():
+def read_eopp(folderpath=Database().paths['external']):
     data = dict(MJD=[], Xp=[], Yp=[])
-    for filename in os.listdir(os.path.join(config['path']['external'], 'eopp')):
-        if os.stat(os.path.join(config['path']['external'], 'eopp', filename)).st_size == 0:
+    for filename in os.listdir(os.path.join(folderpath, 'eopp')):
+        if os.stat(os.path.join(folderpath, 'eopp', filename)).st_size == 0:
             break
-        with open(os.path.join(config['path']['external'], 'eopp', filename)) as f:
+        with open(os.path.join(folderpath, 'eopp', filename)) as f:
             for _ in range(5):
                 next(f)
             line = f.readline()
@@ -87,9 +130,9 @@ def read_eopp():
     return df
 
 
-def read_eopc04():
+def read_eopc04(folderpath=Database().paths['external']):
     data = dict(datetime=[], DUT1=[], LOD=[])
-    with open(os.path.join(config['path']['external'], 'eopc04.dat')) as f:
+    with open(os.path.join(folderpath, 'eopc04.dat')) as f:
         for _ in range(14):
             next(f)
         for line in f.readlines():
@@ -102,12 +145,12 @@ def read_eopc04():
     return df
 
 
-def read_tai_utc():
+def read_tai_utc(folderpath=Database().paths['external']):
     month = dict(JAN=1, FEB=2, MAR=3, APR=4, MAY=5, JUN=6,
                  JUL=7, AUG=8, SEP=9, OCT=10, NOV=11, DEC=12)
     data = dict(datetime=[], JD=[], DAT=[])
     try:
-        with open(os.path.join(config['path']['external'], 'tai-utc.dat')) as f:
+        with open(os.path.join(folderpath, 'tai-utc.dat')) as f:
             for line in f.readlines():
                 e = line.split()
 
@@ -146,12 +189,3 @@ def _get_file_extension(file):
 
 def _file_is_type(extension, file):
     return _get_file_extension(file) == extension
-
-
-def _get_dataid_sets(extensions, path):
-    sets = []
-    for ext in extensions.split():
-        files = _listfiles(path)
-        files = filter(functools.partial(_file_is_type, ext), files)
-        sets.append(set(map(_remove_file_extension, files)))
-    return sets
