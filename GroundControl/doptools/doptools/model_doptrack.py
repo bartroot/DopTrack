@@ -132,7 +132,7 @@ class Spectrogram:
         self.dfreq = (freq_lims[1] - freq_lims[0]) / spectrogram.shape[1]
 
     @classmethod
-    def create(cls, dataid, bounds=(12000, 24000), nfft=2**16, dt=1):
+    def create(cls, dataid, bounds=(12000, 24000), nfft=250_000, dt=1):
         """
         Create a spectrogram from a 32fc file.
 
@@ -229,7 +229,7 @@ class Spectrogram:
         folderpath = Database().paths['spectrograms']
 
         if filename is None:
-            filename = self.dataid
+            filename = f'{self.dataid}_{int(self.dt * 10)}'
 
         with open(os.path.join(folderpath, f'{filename}.npy.meta'), 'w+') as file:
             file.write(f'xlim_lower={self.freq_lims[0]}\n')
@@ -312,7 +312,7 @@ class Spectrogram:
         upper = tuning_freq + bounds[1]
 
         estimated_signal_width = 7000
-        estimated_signal_freq = 145888300
+        estimated_signal_freq = 145_888_300
 
         lower = estimated_signal_freq - estimated_signal_width
         upper = estimated_signal_freq + estimated_signal_width
