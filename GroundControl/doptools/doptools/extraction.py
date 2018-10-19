@@ -31,7 +31,7 @@ def process(dataid):
             file.write(f"{x},{y},{val}\n")
 
 
-def extract_datapoints(dataid):
+def extract_datapoints(dataid, plot=False):
 
     logger.info(f'Extracting frequency data points from {dataid}')
     spectrogram = Spectrogram.load(dataid)
@@ -47,14 +47,22 @@ def extract_datapoints(dataid):
 
     # First fitting cycle
     sideband = 600
-    threshs = sideband * np.array([2.5, 1.5, 0.5])
+    widths = sideband * np.array([2.5, 1.5, 0.5])
     xs, ys, vals, fitfunc = fitting_cycle(image_masked,
                                           spectrogram.dt,
-                                          threshs=threshs,
+                                          widths=widths,
                                           cluster_eps=25,
-                                          plot=False)
+                                          plot=plot)
 
     logger.info(f'1st fitting cycle completed.\n    Found {len(xs)} data points.')
+    if plot:
+        plt.figure()
+        plt.imshow(image_masked, clim=(0, 0.1), cmap='viridis', aspect='auto')
+        plt.scatter(ys, xs, color='r')
+        times = np.arange(image.shape[0])
+        plt.plot(fitfunc(times), times, 'r')
+        plt.title('First masking and fitting cycle')
+        plt.show()
 
     # Second masking
     mask1 = fit_mask(image, fitfunc)
@@ -64,60 +72,84 @@ def extract_datapoints(dataid):
 
     # Second fitting cycle
     sideband = 600
-    threshs = sideband * np.array([0.5])
+    widths = sideband * np.array([0.5])
     xs, ys, vals, fitfunc = fitting_cycle(image_masked,
                                           spectrogram.dt,
-                                          threshs=threshs,
-                                          cluster_eps=20,
-                                          plot=False)
+                                          widths=widths,
+                                          cluster_eps=15,
+                                          tresh = 0.05,
+                                          plot=plot)
 
     logger.info(f'2nd fitting cycle completed.\n    Found {len(xs)} data points.')
+    if plot:
+        plt.figure()
+        plt.imshow(image_masked, clim=(0, 0.1), cmap='viridis', aspect='auto')
+        plt.scatter(ys, xs, color='r')
+        times = np.arange(image.shape[0])
+        plt.plot(fitfunc(times), times, 'r')
+        plt.title('Second masking and fitting cycle')
+        plt.show()
 
     # Calculate bounds for root finding
-    middle = xs[0] + (xs[-1] - xs[0]) / 2
-    bound = (xs[-1] - xs[0]) / 8
+#    middle = xs[0] + (xs[-1] - xs[0]) / 2
+#    bound = (xs[-1] - xs[0]) / 8
+    # TODO Might fail if xs is sparse
+    deriv2 = egrad(egrad(fitfunc))(xs)
+    lower_bound = xs[deriv2.argmin()]
+    upper_bound = xs[deriv2.argmax()]
+
+
 
     # Perform root finding to determine tca and fca
-    tca = optimize.brentq(egrad(egrad(fitfunc)), middle - bound, middle + bound)
-    fca = fitfunc(tca)
+    if plot:
+        plt.figure()
+        x = np.linspace(xs[0], xs[-1], 1000)
+        y = egrad(egrad(fitfunc))(x)
+        plt.plot(x, y)
+        plt.show()
+    try:
+        tca = optimize.brentq(egrad(egrad(fitfunc)), lower_bound, upper_bound)
+        fca = fitfunc(tca)
+    except:
+        logger.error('Could not find root to determine tca')
+        tca = None
+        fca = None
 
     logger.info(f'Additional values calculated:\n    tca: {tca}\n    fca: {fca}')
 
     plt.figure()
-    plt.imshow(image_masked, clim=(0, 0.1), cmap='viridis', aspect='auto')
+    plt.imshow(image, clim=(0, 0.1), cmap='viridis', aspect='auto')
     plt.scatter(ys, xs, color='r')
-    times = np.arange(image.shape[0])
-    plt.plot(fitfunc(times), times, 'r')
+    plt.title(f'{dataid}: Final data points')
     plt.show()
 
     return xs, ys, vals, tca, fca
 
 
-def fitting_cycle(image, dt, threshs, cluster_eps, plot=False):
+def fitting_cycle(image, dt, widths, cluster_eps, tresh=None, plot=False):
 
-    xs, ys, vals = filter_datapoints(image, dt)
+    xs, ys, vals = filter_datapoints_rowmaxes(image, dt)
 
     # Repeatedly fit tangent curve to filtered data points
-    for thresh in threshs:
+    for width in widths:
         fit_coeffs = fit_tanh(xs, ys, dt)
-        fit = tanh(xs, *fit_coeffs)
-        xs, ys, vals = remove_outliers(xs, ys, vals, fit, thresh)
-    fit = tanh(xs, *fit_coeffs)
-    res = ys - fit
+        tanh_fit = tanh(xs, *fit_coeffs)
+        xs, ys, vals = remove_width_outliers(xs, ys, vals, tanh_fit, width)
+
+    if tresh:
+        xs = xs[vals > tresh]
+        ys = ys[vals > tresh]
+        vals = vals[vals > tresh]
+
+    tanh_fit = tanh(xs, *fit_coeffs)
+    res = ys - tanh_fit
 
     # Find clusters of data points
     data = np.dstack((xs, res))[0]
     db = DBSCAN(eps=cluster_eps, min_samples=5).fit(data)
     data = np.column_stack(data)
 
-    if plot:
-        plt.figure()
-        for i in set(db.labels_):
-            plt.scatter(data[0][db.labels_ == i], data[1][db.labels_ == i], label=i)
-        plt.legend()
-        plt.show()
-
-    # Find labels of all 'good' clusters with 10 or more data points
+    # Find labels of all clusters with 10 or more data points
     counter = Counter(db.labels_)
     counter.pop(-1, None)
     labels = []
@@ -127,26 +159,44 @@ def fitting_cycle(image, dt, threshs, cluster_eps, plot=False):
         else:
             labels.append(key)
 
-    # Remove data points not in one of the 'good' clusters
+    # Create temp datapoints and fit func only from clusters with 10 or more
     bools = np.isin(db.labels_, labels)
-    xs = data[0][bools]
-    ys = ys[bools]
-    vals = vals[bools]
-    res = data[1][bools]
+    xs_temp = data[0][bools]
+    res_temp = data[1][bools]
+    res_func_temp, res_coeffs_temp = fit_residual(xs_temp, res_temp)
 
-    # Create final fitting function
-    func, coeffs = fit_residual(xs, res)
+    # Calculate residual between data and fit, and remove clusters far from fit
+    res2 = ys - res_func_temp(xs, *res_coeffs_temp)
+    final_labels = []
+    for label in labels:
+        if abs(np.mean(res2[db.labels_ == label])) > 15:
+            final_labels.append(label)
 
-    def fitfunc(xs):
+    final_bools = np.isin(db.labels_, final_labels)
+    xs = xs[final_bools]
+    ys = ys[final_bools]
+    vals = vals[final_bools]
+    res = res[final_bools]
+    res_func, res_coeffs = fit_residual(xs, res)
+
+    def fit_func(x):
         """Calculates the fit for any value."""
-        tanfunc = tanh(xs, *fit_coeffs)
-        resfunc = func(xs, *coeffs)
-        return tanfunc + resfunc
+        return tanh(x, *fit_coeffs) + res_func(x, *res_coeffs)
 
-    return xs, ys, vals, fitfunc
+    if plot:
+        plt.figure()
+        for i in set(db.labels_):
+            plt.scatter(data[0][db.labels_ == i], data[1][db.labels_ == i], label=i)
+        times = np.linspace(xs[0], xs[-1], 1000)
+        plt.plot(times, res_func(times, *res_coeffs))
+        plt.legend()
+        plt.show()
 
 
-def filter_datapoints(data, dt):
+    return xs, ys, vals, fit_func
+
+
+def filter_datapoints_rowmaxes(data, dt):
 
     noisefilter = signal.gaussian(int(14 / dt) + 1, 2.5)
     noisefilter = noisefilter / np.sum(noisefilter)
@@ -177,7 +227,7 @@ def filter_datapoints(data, dt):
     return xs, ys, vals
 
 
-def remove_outliers(xs, ys, vals, mean, band):
+def remove_width_outliers(xs, ys, vals, mean, band):
     ys_ = ys[(ys > mean - band) & (ys < mean + band)]
     xs_ = xs[(ys > mean - band) & (ys < mean + band)]
     vals_ = vals[(ys > mean - band) & (ys < mean + band)]

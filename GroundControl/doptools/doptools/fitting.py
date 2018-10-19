@@ -89,7 +89,7 @@ def fit_residual(times, residual):
             logger.debug(f'Residual fitting converged using {func}')
             return func, fit_coeffs
         except RuntimeError:
-            print(f'Fitting function {func} did not converge.')
+            logger.warning(f'Fitting function {func} did not converge.')
             continue
 
     raise RuntimeError('None of the fitting functions converged.')

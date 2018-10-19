@@ -45,7 +45,7 @@ def fit_mask(image, fitfunc):
     fits = fitfunc(times)
     mask = abs(mask - np.reshape(fits, (-1, 1)))
 
-    mask = mask < 0.8 * 600 / 4
+    mask = mask < 0.8 * 600 # /4
 
     return mask
 
