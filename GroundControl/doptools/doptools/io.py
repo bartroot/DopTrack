@@ -40,11 +40,7 @@ class Database:
             filepath = os.path.join(self.paths['rre'], dataid + '.' + ext)
             if os.path.isfile(filepath):
                 return filepath
-        elif ext == 'rre':
-            filepath = os.path.join(self.paths['rre'], dataid + '.' + ext)
-            if os.path.isfile(filepath):
-                return filepath
-        logger.error('File not found in database')
+        raise FileNotFoundError('File with extension {ext} not found for {dataid}')
 
     def print_dataids(self):
         ymls = self.get_dataids('yml')
