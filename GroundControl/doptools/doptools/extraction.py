@@ -38,12 +38,12 @@ def extract_datapoints(dataid, plot=False):
     image = spectrogram.image
 
     # First masking
-    mask1 = area_mask(image, ori='freq', dt=spectrogram.dt)
-    mask2 = area_mask(image, ori='time', dt=spectrogram.dt)
+    mask1 = area_mask(image, ori='freq')
+    mask2 = area_mask(image, ori='time')
     mask = np.logical_and(mask1, mask2)
 
     # Apply mask and change zeros to the mean value of the data
-    image_masked = image * mask
+    image_masked = image * mask + np.mean(image) * np.logical_not(mask)
 
     # First fitting cycle
     sideband = 600
