@@ -11,20 +11,6 @@ from .io import Database, read_meta, read_rre
 from .groundstation import DopTrackStation
 
 
-#class Metadata:
-#
-#    def __init__(self, metadata):
-#        self.__dict__.update(metadata)
-#
-#    def read(cls, dataid):
-#        with open(os.path.join(DATA_DIR, f'{dataid}.yml'), 'r') as metafile:
-#            metadata = yaml.load(metafile)
-#        return cls(metadata)
-#
-#    def create(cls):
-#        raise NotImplementedError
-
-
 class Recording:
     """
     Recording from DopTrack.
