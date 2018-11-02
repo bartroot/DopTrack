@@ -1,4 +1,3 @@
-import os
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -310,8 +309,8 @@ def update_feature_checklist(clickData, t_prev, t_next, figure):
         i = int(np.where(data.index == dataid)[0])
         print(i, dataid)
 
-    filepath = os.path.join(Config().paths['default'], 'pass_features.csv')
-    if not os.path.isfile(filepath):
+    filepath = Config().paths['default'] / 'pass_features.csv'
+    if not filepath.is_file():
         return []
     features = pd.read_csv(filepath)
     features.set_index('dataid', inplace=True)
@@ -331,8 +330,8 @@ def update_pass_features(n_clicks, checklist, figure):
     print(checklist)
     if figure is None:
         return None
-    filepath = os.path.join(Config().paths['default'], 'pass_features.csv')
-    if os.path.isfile(filepath):
+    filepath = Config().paths['default'] / 'pass_features.csv'
+    if filepath.is_file():
         features = pd.read_csv(filepath)
         new_dataids = set.difference(set(data.index), set(features['dataid']))
         new_features = pd.DataFrame([[new_dataid, False, False] for new_dataid in new_dataids],

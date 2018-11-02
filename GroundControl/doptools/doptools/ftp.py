@@ -23,6 +23,7 @@ def ftpconnection(server, *args, **kwargs):
     logger.info('FTP connection closed.')
 
 
+# TODO Change from os.path to pathlib
 def download_eopp():
     logger.info('Downloading Earth orientation parameters.')
     eopp_dir = os.path.join(config['path']['external'], 'eopp')

@@ -1,4 +1,3 @@
-import os
 import numpy as np
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
@@ -231,13 +230,13 @@ class Spectrogram:
         if filename is None:
             filename = f'{self.dataid}_{int(self.dt * 10)}'
 
-        with open(os.path.join(folderpath, f'{filename}.npy.meta'), 'w+') as file:
+        with open(folderpath / f'{filename}.npy.meta', 'w+') as file:
             file.write(f'xlim_lower={self.freq_lims[0]}\n')
             file.write(f'xlim_upper={self.freq_lims[1]}\n')
             file.write(f'ylim_lower={self.time_lims[0]}\n')
             file.write(f'ylim_upper={self.time_lims[1]}')
 
-        np.save(os.path.join(folderpath, f'{filename}.npy'), self.image)
+        np.save(folderpath / f'{filename}.npy', self.image)
 
     def plot(self, cmap='jet', clim=(-75, -50), **kwargs):
         """

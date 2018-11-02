@@ -1,4 +1,3 @@
-import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -52,7 +51,7 @@ class BulkAnalysis:
 
     def __init__(self):
         try:
-            self.data = pd.read_csv(os.path.join(Config().paths['default'], 'bulk.csv'))
+            self.data = pd.read_csv(Config().paths['default'] / 'bulk.csv')
             self.data.set_index('dataid', inplace=True)
             self.data['tca'] = pd.to_datetime(self.data['tca'])
         except FileNotFoundError:
@@ -88,4 +87,4 @@ class BulkAnalysis:
         self.data.sort_index(axis=0, inplace=True)
         self.data.sort_index(axis=1, inplace=True)
 
-        self.data.to_csv(os.path.join(Config().paths['default'], 'bulk.csv'))
+        self.data.to_csv(Config().paths['default'] / 'bulk.csv')

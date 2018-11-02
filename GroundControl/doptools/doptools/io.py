@@ -1,7 +1,8 @@
+import os
 import logging
 import sys
-import os
 import yaml
+from pathlib import Path
 from datetime import datetime, timedelta
 import functools
 import pandas as pd
@@ -19,26 +20,26 @@ class Database:
 
         self.paths = config.paths
 
+    # TODO Make this work with multiple recording folders
     def get_filepath(self, dataid, ext):
         if ext in ('32fc', 'yml'):
             if type(self.paths['recordings']) == str:
-                filepath = os.path.join(self.paths['recordings'], dataid + '.' + ext)
-                if os.path.isfile(filepath):
+                filepath = self.paths['recordings'] / f'{dataid}.{ext}'
+                if filepath.is_file():
                     return filepath
             else:
                 for folderpath in self.paths['recordings']:
-                    filepath = os.path.join(folderpath, dataid + '.' + ext)
-                    print(filepath)
-                    if os.path.isfile(filepath):
+                    filepath = folderpath / f'{dataid}.{ext}'
+                    if filepath.is_file():
                         return filepath
         elif ext == 'npy':
-            datafilepath = os.path.join(self.paths['spectrograms'], dataid + '.' + ext)
-            metafilepath = os.path.join(self.paths['spectrograms'], dataid + '.' + ext + '.meta')
-            if os.path.isfile(datafilepath) and os.path.isfile(metafilepath):
+            datafilepath = self.paths['spectrograms'] / f'{dataid}.{ext}'
+            metafilepath = self.paths['spectrograms'] / f'{dataid}.{ext}.meta'
+            if datafilepath.is_file() and metafilepath.is_file():
                 return datafilepath, metafilepath
         elif ext == 'rre':
-            filepath = os.path.join(self.paths['rre'], dataid + '.' + ext)
-            if os.path.isfile(filepath):
+            filepath = self.paths['rre'] / f'{dataid}.{ext}'
+            if filepath.is_file():
                 return filepath
         raise FileNotFoundError('File with extension {ext} not found for {dataid}')
 
@@ -85,15 +86,17 @@ class Database:
 
 
 def read_meta(dataid, folderpath=Database().paths['recordings']):
-    with open(os.path.join(folderpath, f'{dataid[:27]}.yml'), 'r') as metafile:
+    folderpath = Path(folderpath)
+    with open(folderpath / f'{dataid[:27]}.yml', 'r') as metafile:
         meta = yaml.load(metafile)
     return meta
 
 
 def read_rre(dataid, folderpath=Database().paths['rre']):
+    folderpath = Path(folderpath)
     meta = read_meta(dataid)
     rre = dict(tca=None, fca=None, datetime=[], frequency=[])
-    path = os.path.join(folderpath, f'{dataid}.rre')
+    path = folderpath / f'{dataid}.rre'
     with open(path, 'r') as rrefile:
         rre['tca'] = float(rrefile.readline().split('=')[1])
         rre['fca'] = float(rrefile.readline().split('=')[1])
@@ -109,11 +112,12 @@ def read_rre(dataid, folderpath=Database().paths['rre']):
 
 
 def read_eopp(folderpath=Database().paths['external']):
+    folderpath = Path(folderpath)
     data = dict(MJD=[], Xp=[], Yp=[])
-    for filename in os.listdir(os.path.join(folderpath, 'eopp')):
-        if os.stat(os.path.join(folderpath, 'eopp', filename)).st_size == 0:
+    for filename in os.listdir(folderpath / 'eopp'):
+        if os.stat(folderpath / 'eopp' / filename).st_size == 0:
             break
-        with open(os.path.join(folderpath, 'eopp', filename)) as f:
+        with open(folderpath / 'eopp' / filename) as f:
             for _ in range(5):
                 next(f)
             line = f.readline()
@@ -127,8 +131,9 @@ def read_eopp(folderpath=Database().paths['external']):
 
 
 def read_eopc04(folderpath=Database().paths['external']):
+    folderpath = Path(folderpath)
     data = dict(datetime=[], DUT1=[], LOD=[])
-    with open(os.path.join(folderpath, 'eopc04.dat')) as f:
+    with open(folderpath / 'eopc04.dat') as f:
         for _ in range(14):
             next(f)
         for line in f.readlines():
@@ -142,11 +147,12 @@ def read_eopc04(folderpath=Database().paths['external']):
 
 
 def read_tai_utc(folderpath=Database().paths['external']):
+    folderpath = Path(folderpath)
     month = dict(JAN=1, FEB=2, MAR=3, APR=4, MAY=5, JUN=6,
                  JUL=7, AUG=8, SEP=9, OCT=10, NOV=11, DEC=12)
     data = dict(datetime=[], JD=[], DAT=[])
     try:
-        with open(os.path.join(folderpath, 'tai-utc.dat')) as f:
+        with open(folderpath / 'tai-utc.dat') as f:
             for line in f.readlines():
                 e = line.split()
 
@@ -165,14 +171,14 @@ def read_tai_utc(folderpath=Database().paths['external']):
 
 
 def read_nutation_coeffs():
-    path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'nutation_coeffs.csv'))
+    path = Path(__file__).parent / 'nutation_coeffs.csv'
     return pd.read_csv(path)
 
 
 def _listfiles(path):
     """List all files, excluding folders, in a directory"""
     return (file for file in os.listdir(path)
-            if os.path.isfile(os.path.join(path, file)))
+            if (path / file).is_file())
 
 
 def _remove_file_extension(file):
