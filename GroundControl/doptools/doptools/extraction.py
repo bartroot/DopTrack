@@ -1,5 +1,4 @@
 import sys
-import os
 import logging
 import autograd.numpy as np
 from autograd import elementwise_grad as egrad
@@ -77,7 +76,7 @@ def extract_datapoints(dataid, plot=False):
                                           spectrogram.dt,
                                           widths=widths,
                                           cluster_eps=15,
-                                          tresh = 0.05,
+                                          tresh=0.05,
                                           plot=plot)
 
     logger.info(f'2nd fitting cycle completed.\n    Found {len(xs)} data points.')
@@ -98,8 +97,6 @@ def extract_datapoints(dataid, plot=False):
     lower_bound = xs[deriv2.argmin()]
     upper_bound = xs[deriv2.argmax()]
 
-
-
     # Perform root finding to determine tca and fca
     if plot:
         plt.figure()
@@ -107,13 +104,13 @@ def extract_datapoints(dataid, plot=False):
         y = egrad(egrad(fitfunc))(x)
         plt.plot(x, y)
         plt.show()
-    try:
-        tca = optimize.brentq(egrad(egrad(fitfunc)), lower_bound, upper_bound)
-        fca = fitfunc(tca)
-    except:
-        logger.error('Could not find root to determine tca')
-        tca = None
-        fca = None
+#    try:
+    tca = optimize.brentq(egrad(egrad(fitfunc)), lower_bound, upper_bound)
+    fca = fitfunc(tca)
+#    except:
+#        logger.error('Could not find root to determine tca')
+#        tca = None
+#        fca = None
 
     logger.info(f'Additional values calculated:\n    tca: {tca}\n    fca: {fca}')
 
@@ -191,7 +188,6 @@ def fitting_cycle(image, dt, widths, cluster_eps, tresh=None, plot=False):
         plt.plot(times, res_func(times, *res_coeffs))
         plt.legend()
         plt.show()
-
 
     return xs, ys, vals, fit_func
 
