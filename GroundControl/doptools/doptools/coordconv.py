@@ -1,6 +1,6 @@
 """Coordinate conversion functions.
 
-This module contains functions for transformations between the  different
+This module contains functions for transformations between the different
 reference frames used in doppler tracking.
 
 Constants
@@ -165,12 +165,12 @@ def ecef2geodetic(x, y, z):
     """
 
     lon = np.arctan2(y, x)
-
     alt = 0
     n = WGS84_a
     p = np.sqrt(x**2 + y**2)
     lat = 0
     previous_lat = 90
+
     # Iterate until tolerance is reached
     while abs(lat - previous_lat) >= 1e-9:
         previous_lat = lat
