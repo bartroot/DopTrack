@@ -44,7 +44,7 @@ class Recording:
         samples = int(self.sample_freq * self.duration)
         timesteps = int(self.duration / dt)
         cutoff = int(2 * samples / timesteps)
-        with open(database.get_filepath(self.dataid, '32fc'), 'r') as file:
+        with open(database.filepath(self.dataid, level='L0'), 'r') as file:
             for i in range(timesteps):
                 yield np.fromfile(file, dtype=np.float32, count=cutoff)
 

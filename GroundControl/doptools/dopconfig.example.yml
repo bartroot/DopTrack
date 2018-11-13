@@ -1,8 +1,9 @@
 paths:
     default: ../../../data
-    recordings: None
-    spectrograms: None
-    rre: None
+    L0: None
+    L1A: None
+    L1B: None
+    L2: None
     external: None
 
 station:
