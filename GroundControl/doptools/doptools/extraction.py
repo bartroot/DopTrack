@@ -19,7 +19,7 @@ logging.basicConfig(stream=sys.stdout, level=Config().runtime['log_level'])
 
 
 def process(dataid):
-    xs, ys, vals, tca, fca = extract_datapoints(dataid)
+    xs, ys, vals, tca, fca, _ = extract_datapoints(dataid)
     filepath = Config().paths['extracted'] / f"{dataid}.DOP1B"
     with open(filepath, 'w+') as file:
         file.write(f"tca: {tca}\n")
@@ -114,13 +114,14 @@ def extract_datapoints(dataid, plot=False):
 
     logger.info(f'Additional values calculated:\n    tca: {tca}\n    fca: {fca}')
 
-    plt.figure()
-    plt.imshow(image, clim=(0, 0.1), cmap='viridis', aspect='auto')
-    plt.scatter(ys, xs, color='r')
-    plt.title(f'{dataid}: Final data points')
-    plt.show()
+    if plot:
+        plt.figure()
+        plt.imshow(image, clim=(0, 0.1), cmap='viridis', aspect='auto')
+        plt.scatter(ys, xs, color='r')
+        plt.title(f'{dataid}: Final data points')
+        plt.show()
 
-    return xs, ys, vals, tca, fca
+    return xs, ys, vals, tca, fca, fitfunc
 
 
 def fitting_cycle(image, dt, widths, cluster_eps, tresh=None, plot=False):
