@@ -13,7 +13,7 @@ The names of the paths corespond to the data levels (see further down).
 
 ```yaml
 paths:
-    default: .home/data
+    default: C:/Users/john/data
     L0: None
     L1A: None
     L1B: None
@@ -21,16 +21,16 @@ paths:
     external: None
 ```
 
-If a path, e.g. L1A, is set to `None` then the path will be set to `[default]/[L1A]`.
+If a path, e.g. L1A, is set to `None` then the path will be set to `<default>/L1A`.
 The L0 data (recordings) can be spread out in multiple folders.
 In this case the paths are added as follows:
 
 ```yaml
 paths:
-    default: ../../../data
+    default: C:/Users/john/data
     L0: 
-        path1: /home/recordingsA
-        path2: /home/recordingsB
+        path1: C:/Users/john/recordingsA
+        path2: D:/recordingsB
     L1A: None
     L1B: None
     L2: None
