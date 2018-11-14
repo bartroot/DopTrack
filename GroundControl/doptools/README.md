@@ -194,7 +194,7 @@ The data can also be quickly plotted for inspection.
 extracted_data.plot()
 ```
 
-![Extracted data](/docs/images/extracted.png "Test")
+![Extracted data](/GroundControl/doptools/docs/images/extracted.png "extracted data")
 
 
 
