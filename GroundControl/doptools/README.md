@@ -6,7 +6,7 @@ Setup
 -----
 
 The doptools package is "hidden" inside the DopTrack repository. 
-The doptools pacakge can technically be used by setting the current working directory to the package directory, but it is easier to just add the package directory to the `PYTHONPATH` variable.
+The doptools package can technically be used by setting the current working directory to the package directory, but it is easier to just add the package directory to the `PYTHONPATH` variable.
 This can be done by adding a path (`.pth`) file with any name, for example `user_paths.pth`, in the `PythonXX/Lib/site-packages` folder. Then simply add a line with the doptools path in the file:
 ```
 C:\Users\john\DopTrack\GroundControl\doptools
@@ -151,12 +151,10 @@ To generate a spectrogram of a specific satellite pass simply pass the data id t
 spec = Spectrogram.create('Delfi-C3_32789_201602210946', nfft=250000, dt=0.2)
 ```
 
-The spectrogram can be plotted and saved using the corresponding instance methods. A saved spectrogram can be loaded by calling the `load` class constructor.
+The spectrogram can be saved using the corresponding instance method. A saved spectrogram can be loaded by calling the `load` class constructor.
 
 ```python
-spec.plot()
 spec.save()
-
 loaded_spec = Spectrogram.load('Delfi-C3_32789_201602210946')
 ```
 
@@ -182,8 +180,6 @@ extracted_data = ExtractedDataPoints('Delfi-C3_32789_201602210946')
 This will extract the data points during object instantiation, after which the data can be used directly, for example plotted, or saved to the database. This data can then be loaded using the class constructor.
 ```python
 extracted_data.save()
-extracted_data.plot()
-
 loaded_extracted_data = ExtractedData.load('Delfi-C3_32789_201602210946')
 ```
 
@@ -193,7 +189,12 @@ extracted_data.fit_func
 ```
 All these are available both after instantiation, i.e. running the extracting algorithm, as well as after loading already saved data.
 
+The data can also be quickly plotted for inspection.
+```python
+extracted_data.plot()
+```
 
+![Extracted data](/docs/images/extracted.png "Test")
 
 
 
