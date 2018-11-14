@@ -64,11 +64,11 @@ def fourier3(x, a0, a1, a2, a3, b1, b2, b3, p):
             a3 * np.cos(3*x*p) + b3 * np.sin(3*x*p)
 
 
-def p3(x, a0, a1, a2, a3, p):
+def poly3(x, a0, a1, a2, a3, p):
     return a0 + a1 * (x - p) + a2 * (x - p)**2 + a3 * (x - p)**3
 
 
-def p5(x, a0, a1, a2, a3, a4, a5, p):
+def poly5(x, a0, a1, a2, a3, a4, a5, p):
     return a0 + a1 * (x - p) + a2 * (x - p)**2 + a3 * (x - p)**3 + \
            a4 * (x - p)**4 + a5 * (x - p)**5
 
@@ -77,7 +77,7 @@ def fit_residual(times, residual):
     max_nfev = 6000
     a = (times)/np.std(times)
     # non-linear least squares
-    for func in [fourier6, fourier4, fourier3, fourier5, p3, p5]:
+    for func in [fourier6, fourier4, fourier3, fourier5, poly3, poly5]:
         try:
             fit_coeffs, covar = optimize.curve_fit(func, a, residual,
                                                    method='trf',

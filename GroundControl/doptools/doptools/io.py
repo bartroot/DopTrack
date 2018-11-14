@@ -7,7 +7,7 @@ from pathlib import Path
 from datetime import datetime, timedelta
 import pandas as pd
 
-from config import Config
+from .config import Config
 
 
 logger = logging.getLogger(__name__)
@@ -17,7 +17,7 @@ logging.basicConfig(stream=sys.stdout, level=Config().runtime['log_level'])
 levels = {'L0': '32fc',
           'L0_meta': 'yml',
           'L1A': 'npy',
-          'L1A_meta': 'meta',
+          'L1A_meta': 'npy.meta',
           'L1B': 'DOP1B',
           'L2': 'rre'}
 
@@ -200,8 +200,3 @@ def read_tai_utc(folderpath=Database().paths['external']):
 def read_nutation_coeffs():
     path = Path(__file__).parent / 'nutation_coeffs.csv'
     return pd.read_csv(path)
-
-
-if __name__ == '__main__':
-    read_eopp()
-

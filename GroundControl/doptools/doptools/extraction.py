@@ -1,5 +1,6 @@
 import sys
 import logging
+from datetime import timedelta
 import autograd.numpy as np
 from autograd import elementwise_grad as egrad
 import matplotlib.pyplot as plt
@@ -9,223 +10,324 @@ from collections import Counter
 from sklearn.cluster import DBSCAN
 
 from .config import Config
-from .model_doptrack import Spectrogram
+from .io import Database
 from .masking import area_mask, fit_mask, time_mask
 from .fitting import tanh, fit_tanh, fit_residual
+from . import fitting
 
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stdout, level=Config().runtime['log_level'])
 
 
-def process(dataid):
-    xs, ys, vals, tca, fca, _ = extract_datapoints(dataid)
-    filepath = Config().paths['extracted'] / f"{dataid}.DOP1B"
-    with open(filepath, 'w+') as file:
-        file.write(f"tca: {tca}\n")
-        file.write(f"fca: {fca}\n")
-        file.write("==============\n")
-        file.write('time,freq,vals\n')
-        for x, y, val in zip(xs, ys, vals):
-            file.write(f"{x},{y},{val}\n")
+class ExtractedData:
 
+    def __init__(self, data):
 
-def extract_datapoints(dataid, plot=False):
+        # Add data dictionary to instance dictionary
+        self.__dict__.update(data)
 
-    logger.info(f'Extracting frequency data points from {dataid}')
-    spectrogram = Spectrogram.load(dataid)
-    image = spectrogram.image
+    @classmethod
+    def create(cls, spectrogram):
 
-    # First masking
-    mask1 = area_mask(image, ori='freq')
-    mask2 = area_mask(image, ori='time')
-    mask = np.logical_and(mask1, mask2)
+        cls.dataid = spectrogram.dataid
+        cls.recording = spectrogram.recording
+        cls.image = spectrogram.image
 
-    # Apply mask and change zeros to the mean value of the data
-    image_masked = image * mask + np.mean(image) * np.logical_not(mask)
+        logger.debug(f'Extracting frequency data points from {spectrogram.dataid}')
+        image = spectrogram.image
 
-    # First fitting cycle
-    sideband = 600
-    widths = sideband * np.array([2.5, 1.5, 0.5])
-    xs, ys, vals, fitfunc = fitting_cycle(image_masked,
-                                          spectrogram.dt,
-                                          widths=widths,
-                                          cluster_eps=25,
-                                          plot=plot)
+        # First extraction cycle
+        image = cls.first_masking(image)
+        data = cls.first_fitting_cycle(image, spectrogram.dt)
+        fit_func = cls.create_fit_func(data['tanh_coeffs'],
+                                       data['residual_coeffs'],
+                                       data['residual_func'])
+        logger.debug(f"1st fitting cycle completed. Found {len(data['time'])} data points.")
 
-    logger.info(f'1st fitting cycle completed.\n    Found {len(xs)} data points.')
-    if plot:
+        # Second extraction cycle
+        image = cls.second_masking(image, fit_func, data['time'][0], data['time'][-1])
+        data = cls.second_fitting_cycle(image, spectrogram.dt)
+        fit_func = cls.create_fit_func(data['tanh_coeffs'],
+                                       data['residual_coeffs'],
+                                       data['residual_func'])
+        data['fit_func'] = fit_func
+        logger.debug(f"2nd fitting cycle completed. Found {len(data['time'])} data points.")
+
+        # Calculation of additional values
+        data['tca'] = cls.calc_tca(data['time'], fit_func)
+        data['fca'] = fit_func(data['tca'])
+        logger.debug(f"Values at closest approach calculated. tca:{data['tca']} fca:{data['fca']}")
+
+        return cls(data)
+
+    def save(self):
+
+        filepath = Database().paths['L1B'] / f"{self.dataid}.DOP1B"
+
+        start_time = self.recording.start_time
+
+        with open(filepath, 'w+') as file:
+            file.write(f"tca={self.tca}\n")
+            file.write(f"fca={self.fca}\n")
+
+            file.write(f"tanh_coeffs={self.tanh_coeffs}\n")
+            file.write(f"residual_func={self.residual_func.__name__}\n")
+            file.write(f"residual_coeffs={self.residual_coeffs}\n")
+
+            file.write("==============\n")
+
+            file.write('datetime,time,frequency,power\n')
+            for time, frequency, power in zip(self.time, self.frequency, self.power):
+                datetime = start_time + timedelta(seconds=int(time))
+                file.write(f"{datetime},{time},{frequency},{power}\n")
+
+    @classmethod
+    def load(cls, dataid):
+
+        filepath = Database().filepath(dataid, level='L1B')
+
+        data = {}
+
+        with open(filepath, 'r') as file:
+            data['tca'] = float(file.readline().strip('\n').split('=')[1])
+            data['fca'] = float(file.readline().strip('\n').split('=')[1])
+
+            line = file.readline().strip('\n')
+            string_coeffs = line.split('=')[1].strip('[]').split()
+            data['tanh_coeffs'] = [float(coeff) for coeff in string_coeffs]
+
+            residual_func_name = file.readline().strip('\n').split('=')[1]
+            data['residual_func'] = getattr(fitting, residual_func_name)
+
+            residual_coeffs = []
+            while True:
+                line = file.readline().strip('\n')
+                if '=' in line and ']' in line:
+                    string_coeffs = line.split('=')[1].strip('[]').split()
+                    residual_coeffs.extend([float(coeff) for coeff in string_coeffs])
+                    break
+                elif '=' in line:
+                    string_coeffs = line.split('=')[1].strip('[').split()
+                    residual_coeffs.extend([float(coeff) for coeff in string_coeffs])
+                elif ']' in line:
+                    string_coeffs = line.strip(']').split()
+                    residual_coeffs.extend([float(coeff) for coeff in string_coeffs])
+                    break
+                else:
+                    string_coeffs = line.split()
+                    residual_coeffs.extend([float(coeff) for coeff in string_coeffs])
+            data['residual_coeffs'] = residual_coeffs
+
+            file.readline()
+            file.readline()
+
+            time, frequency, power = [], [], []
+            for line in file.readlines():
+                time.append(float(line.split(',')[1]))
+                frequency.append(float(line.split(',')[2]))
+                power.append(float(line.split(',')[3]))
+
+            data['time'] = np.array(time)
+            data['frequency'] = np.array(frequency)
+            data['power'] = np.array(power)
+
+        return cls(data)
+
+    def plot(self):
         plt.figure()
-        plt.imshow(image_masked, clim=(0, 0.1), cmap='viridis', aspect='auto')
-        plt.scatter(ys, xs, color='r')
-        times = np.arange(image.shape[0])
-        plt.plot(fitfunc(times), times, 'r')
-        plt.title('First masking and fitting cycle')
+        try:
+            plt.imshow(self.image, clim=(0, 0.1), cmap='viridis', aspect='auto')
+        except AttributeError as e:
+            logger.warning(f"{e}. Plotting without spectrogram. This happens when loading data.")
+        plt.scatter(self.frequency, self.time, color='r')
         plt.show()
 
-    # Second masking
-    mask1 = fit_mask(image, fitfunc)
-    mask2 = time_mask(image, xs[0], xs[-1])
-    mask = np.logical_and(mask1, mask2)
-    image_masked = image_masked * mask
+    @staticmethod
+    def create_fit_func(tanh_coeffs, residual_coeffs, residual_func):
+            def fit_func(x):
+                return tanh(x, *tanh_coeffs) + residual_func(x, *residual_coeffs)
+            return fit_func
 
-    # Second fitting cycle
-    sideband = 600
-    widths = sideband * np.array([0.5])
-    xs, ys, vals, fitfunc = fitting_cycle(image_masked,
-                                          spectrogram.dt,
-                                          widths=widths,
-                                          cluster_eps=15,
-                                          tresh=0.05,
-                                          plot=plot)
+    @staticmethod
+    def first_masking(image):
+        mask1 = area_mask(image, ori='freq')
+        mask2 = area_mask(image, ori='time')
+        mask = np.logical_and(mask1, mask2)
+        masked_image = image * mask + np.mean(image) * np.logical_not(mask)
+        return masked_image
 
-    logger.info(f'2nd fitting cycle completed.\n    Found {len(xs)} data points.')
-    if plot:
-        plt.figure()
-        plt.imshow(image_masked, clim=(0, 0.1), cmap='viridis', aspect='auto')
-        plt.scatter(ys, xs, color='r')
-        times = np.arange(image.shape[0])
-        plt.plot(fitfunc(times), times, 'r')
-        plt.title('Second masking and fitting cycle')
-        plt.show()
+    @staticmethod
+    def second_masking(image, fitfunc, start_of_signal, end_of_signal):
+        mask1 = fit_mask(image, fitfunc)
+        mask2 = time_mask(image, start_of_signal, end_of_signal)
+        mask = np.logical_and(mask1, mask2)
+        masked_image = image * mask
+        return masked_image
 
-    # Calculate bounds for root finding
-#    middle = xs[0] + (xs[-1] - xs[0]) / 2
-#    bound = (xs[-1] - xs[0]) / 8
-    # TODO Might fail if xs is sparse
-    deriv2 = egrad(egrad(fitfunc))(xs)
-    lower_bound = xs[deriv2.argmin()]
-    upper_bound = xs[deriv2.argmax()]
+    @classmethod
+    def first_fitting_cycle(cls, image, dt):
 
-    # Perform root finding to determine tca and fca
-    if plot:
-        plt.figure()
-        x = np.linspace(xs[0], xs[-1], 1000)
-        y = egrad(egrad(fitfunc))(x)
-        plt.plot(x, y)
-        plt.show()
-#    try:
-    tca = optimize.brentq(egrad(egrad(fitfunc)), lower_bound, upper_bound)
-    fca = fitfunc(tca)
-#    except:
-#        logger.error('Could not find root to determine tca')
-#        tca = None
-#        fca = None
+        # Extract initial data points
+        time, frequency, power = cls.get_rowmaxes_as_points(image, dt)
 
-    logger.info(f'Additional values calculated:\n    tca: {tca}\n    fca: {fca}')
+        # Repeatedly fit tangent curve and filter data points
+        sideband = 600
+        widths = sideband * np.array([2.5, 1.5, 0.5])
 
-    if plot:
-        plt.figure()
-        plt.imshow(image, clim=(0, 0.1), cmap='viridis', aspect='auto')
-        plt.scatter(ys, xs, color='r')
-        plt.title(f'{dataid}: Final data points')
-        plt.show()
+        for width in widths:
+            tanh_coeffs = fit_tanh(time, frequency, dt)
+            tanh_fit = tanh(time, *tanh_coeffs)
+            time, frequency, power = cls.remove_width_outliers(time, frequency, power, tanh_fit, width)
+        tanh_fit = tanh(time, *tanh_coeffs)
+        residual = frequency - tanh_fit
 
-    return xs, ys, vals, tca, fca, fitfunc
+        # Find clusters of data points
+        data = np.dstack((time, residual))[0]
+        clustering = DBSCAN(eps=25, min_samples=5).fit(data)
+        data = {'time': time,
+                'frequency': frequency,
+                'power': power,
+                'residual': residual,
+                'labels': clustering.labels_}
 
+        # Remove clusters with too few points
+        filtered_labels = cls.labels_of_clusters_with_n_or_more_points(data['labels'], n=10)
+        data = cls.filter_clusters_by_label(data, filtered_labels)
 
-def fitting_cycle(image, dt, widths, cluster_eps, tresh=None, plot=False):
+        # Calculate initial residual fit
+        residual_func, residual_coeffs = fit_residual(data['time'], data['residual'])
 
-    xs, ys, vals = filter_datapoints_rowmaxes(image, dt)
+        # Remove cluster where mean of residual of residual is too high
+        residual_of_residual = data['residual'] - residual_func(data['time'], *residual_coeffs)
+        final_labels = cls.labels_of_clusters_with_low_mean(residual_of_residual, data['labels'], mean=15)
+        data = cls.filter_clusters_by_label(data, final_labels)
 
-    # Repeatedly fit tangent curve to filtered data points
-    for width in widths:
-        fit_coeffs = fit_tanh(xs, ys, dt)
-        tanh_fit = tanh(xs, *fit_coeffs)
-        xs, ys, vals = remove_width_outliers(xs, ys, vals, tanh_fit, width)
+        # Calculate final residual fit and add fits to final data
+        residual_func, residual_coeffs = fit_residual(time, residual)
+        data['tanh_coeffs'] = tanh_coeffs
+        data['residual_func'] = residual_func
+        data['residual_coeffs'] = residual_coeffs
 
-    if tresh:
-        xs = xs[vals > tresh]
-        ys = ys[vals > tresh]
-        vals = vals[vals > tresh]
+        return data
 
-    tanh_fit = tanh(xs, *fit_coeffs)
-    res = ys - tanh_fit
+    @classmethod
+    def second_fitting_cycle(cls, image, dt):
 
-    # Find clusters of data points
-    data = np.dstack((xs, res))[0]
-    db = DBSCAN(eps=cluster_eps, min_samples=5).fit(data)
-    data = np.column_stack(data)
+        # Extract initial data points and remove points with too low power
+        time, frequency, power = cls.get_rowmaxes_as_points(image, dt)
+        treshold = 0.05
+        time = time[power > treshold]
+        frequency = frequency[power > treshold]
+        power = power[power > treshold]
 
-    # Find labels of all clusters with 10 or more data points
-    counter = Counter(db.labels_)
-    counter.pop(-1, None)
-    labels = []
-    for key, count in counter.most_common():
-        if count < 10:
-            break
-        else:
-            labels.append(key)
+        # Compute initial fit
+        tanh_coeffs = fit_tanh(time, frequency, dt)
+        tanh_fit = tanh(time, *tanh_coeffs)
+        residual = frequency - tanh_fit
 
-    # Create temp datapoints and fit func only from clusters with 10 or more
-    bools = np.isin(db.labels_, labels)
-    xs_temp = data[0][bools]
-    res_temp = data[1][bools]
-    res_func_temp, res_coeffs_temp = fit_residual(xs_temp, res_temp)
+        # Find clusters of data points
+        data = np.dstack((time, residual))[0]
+        clustering = DBSCAN(eps=25, min_samples=5).fit(data)
+        data = {'time': time,
+                'frequency': frequency,
+                'power': power,
+                'residual': residual,
+                'labels': clustering.labels_}
 
-    # Calculate residual between data and fit, and remove clusters far from fit
-    res2 = ys - res_func_temp(xs, *res_coeffs_temp)
-    final_labels = []
-    for label in labels:
-        if abs(np.mean(res2[db.labels_ == label])) > 15:
-            final_labels.append(label)
+        # Remove clusters with too few points
+        filtered_labels = cls.labels_of_clusters_with_n_or_more_points(data['labels'], n=10)
+        data = cls.filter_clusters_by_label(data, filtered_labels)
 
-    final_bools = np.isin(db.labels_, final_labels)
-    xs = xs[final_bools]
-    ys = ys[final_bools]
-    vals = vals[final_bools]
-    res = res[final_bools]
-    res_func, res_coeffs = fit_residual(xs, res)
+        # Calculate initial residual fit
+        residual_func, residual_coeffs = fit_residual(data['time'], data['residual'])
 
-    def fit_func(x):
-        """Calculates the fit for any value."""
-        return tanh(x, *fit_coeffs) + res_func(x, *res_coeffs)
+        # Remove cluster where mean of residual of residual is too high
+        residual_of_residual = data['residual'] - residual_func(data['time'], *residual_coeffs)
+        final_labels = cls.labels_of_clusters_with_low_mean(residual_of_residual, data['labels'], mean=15)
+        data = cls.filter_clusters_by_label(data, final_labels)
 
-    if plot:
-        plt.figure()
-        for i in set(db.labels_):
-            plt.scatter(data[0][db.labels_ == i], data[1][db.labels_ == i], label=i)
-        times = np.linspace(xs[0], xs[-1], 1000)
-        plt.plot(times, res_func(times, *res_coeffs))
-        plt.legend()
-        plt.show()
+        # Calculate final residual fit and add fits to final data
+        residual_func, residual_coeffs = fit_residual(time, residual)
+        data['tanh_coeffs'] = tanh_coeffs
+        data['residual_func'] = residual_func
+        data['residual_coeffs'] = residual_coeffs
 
-    return xs, ys, vals, fit_func
+        return data
 
+    @staticmethod
+    def calc_tca(time, fitfunc):
 
-def filter_datapoints_rowmaxes(data, dt):
+        deriv2 = egrad(egrad(fitfunc))(time)
+        lower_bound = time[deriv2.argmin()]
+        upper_bound = time[deriv2.argmax()]
 
-    noisefilter = signal.gaussian(int(14 / dt) + 1, 2.5)
-    noisefilter = noisefilter / np.sum(noisefilter)
+        tca = optimize.brentq(egrad(egrad(fitfunc)), lower_bound, upper_bound)
 
-    mean = data.mean()
+        return tca
 
-    vals = np.zeros(len(data))
-    ys = np.zeros(len(data))
+    @staticmethod
+    def labels_of_clusters_with_n_or_more_points(array_of_labels, n):
+        counter = Counter(array_of_labels)
+        counter.pop(-1, None)
+        new_labels = []
+        for key, count in counter.most_common():
+            if count < n:
+                break
+            else:
+                new_labels.append(key)
+        return new_labels
 
-    for i, row in enumerate(data):
-        row_norm = row - mean
-        # Set all values less than 5 std from mean to zero
-        row_norm[row_norm < 5 * np.std(row_norm)] = 0
-        # Apply gaussian filter
-        row_norm = np.convolve(row_norm, noisefilter, mode='same')
+    @staticmethod
+    def labels_of_clusters_with_low_mean(values, array_of_labels, mean):
+        new_labels = []
+        for label in set(array_of_labels):
+            if abs(np.mean(values[array_of_labels == label])) < mean:
+                new_labels.append(label)
+        return new_labels
 
-        vals[i] = np.max(row_norm)
-        ys[i] = np.argmax(row_norm)
+    @staticmethod
+    def filter_clusters_by_label(data, labels_to_filter):
+        bools = np.isin(data['labels'], labels_to_filter)
+        for key in data.keys():
+            data[key] = data[key][bools]
+        return data
 
-    xs = np.arange(len(ys))
+    @staticmethod
+    def get_rowmaxes_as_points(image, dt):
 
-    # Filter out data points where freq is zero
-    bools = ys != 0
-    xs = xs[bools]
-    ys = ys[bools]
-    vals = vals[bools]
+        noisefilter = signal.gaussian(int(14 / dt) + 1, 2.5)
+        noisefilter = noisefilter / np.sum(noisefilter)
 
-    return xs, ys, vals
+        mean = image.mean()
 
+        power = np.zeros(len(image))
+        frequency = np.zeros(len(image))
 
-def remove_width_outliers(xs, ys, vals, mean, band):
-    ys_ = ys[(ys > mean - band) & (ys < mean + band)]
-    xs_ = xs[(ys > mean - band) & (ys < mean + band)]
-    vals_ = vals[(ys > mean - band) & (ys < mean + band)]
-    return xs_, ys_, vals_
+        for i, row in enumerate(image):
+            row_norm = row - mean
+            # Set all values less than 5 std from mean to zero
+            row_norm[row_norm < 5 * np.std(row_norm)] = 0
+            # Apply gaussian filter
+            row_norm = np.convolve(row_norm, noisefilter, mode='same')
+
+            power[i] = np.max(row_norm)
+            frequency[i] = np.argmax(row_norm)
+
+        time = np.arange(len(frequency))
+
+        # Filter out data points where freq is zero
+        bools = frequency != 0
+        time = time[bools]
+        frequency = frequency[bools]
+        power = power[bools]
+
+        return time, frequency, power
+
+    @staticmethod
+    def remove_width_outliers(time, frequency, power, mean, band):
+        bools = (frequency > mean - band) & (frequency < mean + band)
+        new_frequency = frequency[bools]
+        new_time = time[bools]
+        new_power = power[bools]
+        return new_time, new_frequency, new_power
