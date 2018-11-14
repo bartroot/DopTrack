@@ -6,9 +6,16 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 import scipy.constants as constants
 from scipy.fftpack import fft, fftshift
 from tqdm import tqdm
+import logging
+import sys
 
+from .config import Config
 from .io import Database, read_meta, read_rre
 from .groundstation import DopTrackStation
+
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(stream=sys.stdout, level=Config().runtime['log_level'])
 
 
 class Recording:
@@ -187,7 +194,9 @@ class Spectrogram:
         Spectrogram
             A spectrogram object for the given recording.
         """
-        datafilepath, metafilepath = Database().get_filepath(dataid, 'npy')
+        db = Database()
+        datafilepath = db.filepath(dataid, level='L1A')
+        metafilepath = db.filepath(dataid, level='L1A', meta=True)
         with open(metafilepath, 'r') as file:
             xlim1 = float(file.readline().strip('\n').split('=')[1])
             xlim2 = float(file.readline().strip('\n').split('=')[1])
