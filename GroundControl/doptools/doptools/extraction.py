@@ -13,6 +13,7 @@ from .config import Config
 from .io import Database
 from .masking import area_mask, fit_mask, time_mask
 from .fitting import tanh, fit_tanh, fit_residual
+from .model_doptrack import Recording
 from . import fitting
 
 
@@ -20,19 +21,16 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stdout, level=Config().runtime['log_level'])
 
 
-class ExtractedData:
+class FrequencyData:
 
     def __init__(self, data):
 
         # Add data dictionary to instance dictionary
         self.__dict__.update(data)
+        self.recording = Recording(self.dataid)
 
     @classmethod
     def create(cls, spectrogram):
-
-        cls.dataid = spectrogram.dataid
-        cls.recording = spectrogram.recording
-        cls.image = spectrogram.image
 
         logger.debug(f'Extracting frequency data points from {spectrogram.dataid}')
         image = spectrogram.image
@@ -43,20 +41,23 @@ class ExtractedData:
         fit_func = cls.create_fit_func(data['tanh_coeffs'],
                                        data['residual_coeffs'],
                                        data['residual_func'])
-        logger.debug(f"1st fitting cycle completed. Found {len(data['time'])} data points.")
+        logger.debug(f"Extraction cycle 1 completed. Found {len(data['time'])} data points.")
 
         # Second extraction cycle
-        image = cls.second_masking(image, fit_func, data['time'][0], data['time'][-1])
+        image = cls.second_masking(image, fit_func, data['time'][0], data['time'][-1], spectrogram.dt)
         data = cls.second_fitting_cycle(image, spectrogram.dt)
         fit_func = cls.create_fit_func(data['tanh_coeffs'],
                                        data['residual_coeffs'],
                                        data['residual_func'])
         data['fit_func'] = fit_func
-        logger.debug(f"2nd fitting cycle completed. Found {len(data['time'])} data points.")
+        logger.debug(f"Extraction cycle 2 completed. Found {len(data['time'])} data points.")
 
         # Calculation of additional values
         data['tca'] = cls.calc_tca(data['time'], fit_func)
         data['fca'] = fit_func(data['tca'])
+        data['dt'] = spectrogram.dt
+        data['image'] = spectrogram.image
+        data['dataid'] = spectrogram.dataid
         logger.debug(f"Values at closest approach calculated. tca:{data['tca']} fca:{data['fca']}")
 
         return cls(data)
@@ -70,6 +71,7 @@ class ExtractedData:
         with open(filepath, 'w+') as file:
             file.write(f"tca={self.tca}\n")
             file.write(f"fca={self.fca}\n")
+            file.write(f"dt={self.dt}\n")
 
             file.write(f"tanh_coeffs={self.tanh_coeffs}\n")
             file.write(f"residual_func={self.residual_func.__name__}\n")
@@ -87,11 +89,12 @@ class ExtractedData:
 
         filepath = Database().filepath(dataid, level='L1B')
 
-        data = {}
+        data = {'dataid': dataid}
 
         with open(filepath, 'r') as file:
             data['tca'] = float(file.readline().strip('\n').split('=')[1])
             data['fca'] = float(file.readline().strip('\n').split('=')[1])
+            data['dt'] = float(file.readline().strip('\n').split('=')[1])
 
             line = file.readline().strip('\n')
             string_coeffs = line.split('=')[1].strip('[]').split()
@@ -134,14 +137,28 @@ class ExtractedData:
 
         return cls(data)
 
-    def plot(self):
-        plt.figure()
+    def plot(self, savepath=None):
+        plt.figure(figsize=(16, 9))
+        xlim = (0 - 0.5, self.image.shape[1] - 0.5)
+        ylim = (self.image.shape[0]*self.dt, 0)
         try:
-            plt.imshow(self.image, clim=(0, 0.1), cmap='viridis', aspect='auto')
+            # TODO fix to take into account different nfft
+            plt.imshow(self.image, clim=(0, 0.1), cmap='viridis', aspect='auto',
+                       extent=(xlim[0],
+                               xlim[1],
+                               ylim[0],
+                               ylim[1]))
         except AttributeError as e:
             logger.warning(f"{e}. Plotting without spectrogram. This happens when loading data.")
-        plt.scatter(self.frequency, self.time, color='r')
-        plt.show()
+        markersize = 0.5 if savepath else None
+        plt.scatter(self.frequency, self.time, s=markersize, color='r')
+        plt.xlim(*xlim)
+        plt.ylim(*ylim)
+
+        if savepath:
+            plt.savefig(savepath, format='png', dpi=300)
+        else:
+            plt.show()
 
     @staticmethod
     def create_fit_func(tanh_coeffs, residual_coeffs, residual_func):
@@ -158,9 +175,9 @@ class ExtractedData:
         return masked_image
 
     @staticmethod
-    def second_masking(image, fitfunc, start_of_signal, end_of_signal):
-        mask1 = fit_mask(image, fitfunc)
-        mask2 = time_mask(image, start_of_signal, end_of_signal)
+    def second_masking(image, fitfunc, start_of_signal, end_of_signal, dt):
+        mask1 = fit_mask(image, fitfunc, dt)
+        mask2 = time_mask(image, start_of_signal, end_of_signal, dt)
         mask = np.logical_and(mask1, mask2)
         masked_image = image * mask
         return masked_image
@@ -262,8 +279,11 @@ class ExtractedData:
         lower_bound = time[deriv2.argmin()]
         upper_bound = time[deriv2.argmax()]
 
-        tca = optimize.brentq(egrad(egrad(fitfunc)), lower_bound, upper_bound)
-
+        try:
+            tca = optimize.brentq(egrad(egrad(fitfunc)), lower_bound, upper_bound)
+        except ValueError:
+            logger.error("Root finding failed!")
+            tca = 0
         return tca
 
     @staticmethod
@@ -314,7 +334,7 @@ class ExtractedData:
             power[i] = np.max(row_norm)
             frequency[i] = np.argmax(row_norm)
 
-        time = np.arange(len(frequency))
+        time = np.arange(len(frequency)) * dt + 0.5 * dt
 
         # Filter out data points where freq is zero
         bools = frequency != 0

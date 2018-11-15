@@ -169,21 +169,21 @@ The saved spectrograms can however take up a lot of harddisk space if `nfft` is 
 
 ### Level 1B (frequency datapoints)
 
-The frequency data points can be extracted from a spectrogram by using the `ExtractedData` class.
+The frequency data points can be extracted from a spectrogram by using the `FrequencyData` class.
 
 ```python
-from doptools.extraction import ExtractedData
+from doptools.extraction import FrequencyData
 
-extracted_data = ExtractedDataPoints('Delfi-C3_32789_201602210946')
+extracted_data = FrequencyData('Delfi-C3_32789_201602210946')
 ```
 
 This will extract the data points during object instantiation, after which the data can be used directly, for example plotted, or saved to the database. This data can then be loaded using the class constructor.
 ```python
 extracted_data.save()
-loaded_extracted_data = ExtractedData.load('Delfi-C3_32789_201602210946')
+loaded_extracted_data = FrequencyData.load('Delfi-C3_32789_201602210946')
 ```
 
-In addition to the time, frequency, and power data, the `ExtractedData` object also contains time of closest approach, frequency at closest approach, and also the fitting function used during extraction.
+In addition to the time, frequency, and power data, the `FrequencyData` object also contains time of closest approach, frequency at closest approach, and also the fitting function used during extraction.
 ```python
 extracted_data.fit_func
 ```

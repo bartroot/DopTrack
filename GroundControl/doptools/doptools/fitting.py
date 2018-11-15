@@ -84,12 +84,10 @@ def fit_residual(times, residual):
                                                    loss='soft_l1',
                                                    max_nfev=max_nfev)
             fit_coeffs[-1] = (fit_coeffs[-1]) / np.std(times)
-            if np.abs(np.mean(times - func(times, *fit_coeffs))) > 10000:
-                raise RuntimeError('Did not converge')
             logger.debug(f'Residual fitting converged using {func}')
             return func, fit_coeffs
         except RuntimeError:
-            logger.warning(f'Fitting function {func} did not converge.')
+            logger.debug(f'Fitting function {func} did not converge.')
             continue
 
     raise RuntimeError('None of the fitting functions converged.')

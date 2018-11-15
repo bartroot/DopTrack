@@ -31,24 +31,24 @@ def area_mask(image, ori):
     return mask
 
 
-def fit_mask(image, fitfunc):
+def fit_mask(image, fit_func, dt):
 
     mask = np.arange(image.shape[1])
     mask = np.broadcast_to(mask, image.shape)
-    times = np.arange(image.shape[0])
-    fits = fitfunc(times)
+    times = np.arange(image.shape[0]) * dt
+    fits = fit_func(times)
     mask = abs(mask - np.reshape(fits, (-1, 1)))
 
-    mask = mask < 0.8 * 600 # /4
+    mask = mask < 0.5 * 600
 
     return mask
 
 
-def time_mask(image, start_time, end_time):
+def time_mask(image, start_time, end_time, dt):
 
-    tmin = int(start_time)
-    tmax = int(end_time)
+    min_index = int(start_time / dt)
+    max_index = int(end_time / dt)
     mask = np.zeros(image.shape)
-    mask[tmin:tmax, :] = True
+    mask[min_index:max_index, :] = True
 
     return mask
