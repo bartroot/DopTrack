@@ -134,14 +134,19 @@ class FrequencyData:
             data['time'] = np.array(time)
             data['frequency'] = np.array(frequency)
             data['power'] = np.array(power)
-
+            data['fit_func'] = cls.create_fit_func(data['tanh_coeffs'],
+                                                   data['residual_coeffs'],
+                                                   data['residual_func'])
         return cls(data)
 
     def plot(self, savepath=None):
         plt.figure(figsize=(16, 9))
-        xlim = (0 - 0.5, self.image.shape[1] - 0.5)
-        ylim = (self.image.shape[0]*self.dt, 0)
+
         try:
+            xlim = (0 - 0.5, self.image.shape[1] - 0.5)
+            ylim = (self.image.shape[0]*self.dt, 0)
+            plt.xlim(*xlim)
+            plt.ylim(*ylim)
             # TODO fix to take into account different nfft
             plt.imshow(self.image, clim=(0, 0.1), cmap='viridis', aspect='auto',
                        extent=(xlim[0],
@@ -149,11 +154,9 @@ class FrequencyData:
                                ylim[0],
                                ylim[1]))
         except AttributeError as e:
-            logger.warning(f"{e}. Plotting without spectrogram. This happens when loading data.")
+            logger.warning(f"{e}. This happens when loading data. Plotting without spectrogram.")
         markersize = 0.5 if savepath else None
         plt.scatter(self.frequency, self.time, s=markersize, color='r')
-        plt.xlim(*xlim)
-        plt.ylim(*ylim)
 
         if savepath:
             plt.savefig(savepath, format='png', dpi=300)
