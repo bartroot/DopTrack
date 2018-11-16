@@ -18,6 +18,9 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stdout, level=Config().runtime['log_level'])
 
 
+# TODO add frequency data to this module
+
+
 class Recording:
     """
     Recording from DopTrack.
@@ -47,6 +50,7 @@ class Recording:
         self.tuning_freq = int(self.meta['Sat']['State']['Tuning Frequency'])
 
     def data(self, dt):
+        """Returns an iterable of the raw data cut into chunks of dt*sample_rate."""
         database = Database()
         samples = int(self.sample_freq * self.duration)
         timesteps = int(self.duration / dt)
@@ -54,40 +58,6 @@ class Recording:
         with open(database.filepath(self.dataid, level='L0'), 'r') as file:
             for i in range(timesteps):
                 yield np.fromfile(file, dtype=np.float32, count=cutoff)
-
-
-class SatellitePassRecorded:
-    """
-    Spectrogram of a DopTrack recording.
-
-    Parameters
-    ----------
-    dataid : str
-        ID of recording in the database.
-    spectrogram : (N, M) numpy.ndarray
-        An array containing the values of the spectrogram in dB.
-    freq_lims : (float, float) tuple
-        The minimum and maximum frequency values of the spectrogram.
-    time_lims : (datetime.datetime, datetime.datetime) tuple
-        The end and start time of recording. The order is reversen since it is
-        convention to flip the y-axis in a spectrogram.
-
-    """
-    def __init__(self, dataid):
-        self.station = DopTrackStation
-        self.dataid = dataid
-        self.recording = Recording(dataid)
-
-        rre = read_rre(self.dataid)
-        self.time = rre['datetime']
-        self.tca = rre['tca']
-        self.frequency = np.array(rre['frequency'])
-        self.fca = rre['fca']
-        self.rangerate = self._rangerate_model(self.frequency, self.fca)
-
-    @staticmethod
-    def _rangerate_model(frequency, fca):
-        return (1 - (frequency/fca)) * constants.c
 
 
 class Spectrogram:
@@ -118,6 +88,7 @@ class Spectrogram:
         self.dataid = dataid
         self.recording = Recording(dataid)
         self.image = spectrogram
+        self.image_decibel = self._to_decibel(spectrogram)
         self.freq_lims = freq_lims
         self.time_lims = time_lims
         self.dt = dt
@@ -161,21 +132,38 @@ class Spectrogram:
                      recording.tuning_freq + recording.sample_freq/2)
         time_lims = (recording.stop_time, recording.start_time)
 
+        # Create array with all frequency values.
+        bandwidth = np.linspace(freq_lims[0],
+                                freq_lims[1],
+                                nfft)
+
+        # Calculate the bounds of zoom
+#        lower = tuning_freq + bounds[0]
+#        upper = tuning_freq + bounds[1]
+        # TODO decide on how bounds are determined
+        estimated_signal_width = 7000
+        estimated_signal_freq = 145_888_300
+        lower = estimated_signal_freq - estimated_signal_width
+        upper = estimated_signal_freq + estimated_signal_width
+
+        # Create a mask for desired frequency values.
+        mask, = np.nonzero((lower <= bandwidth) & (bandwidth <= upper))
+        bandwidth = bandwidth[mask]
+        freq_lims = (bandwidth[0], bandwidth[-1])
+
         # Read data, cut data, and perform FFT for each timestep.
         timesteps = int(recording.duration / dt)
-        spectrogram = np.zeros((timesteps, nfft))
+        # TODO fix spec width so it is not hardcoded
+        spectrogram = np.zeros((timesteps, 14000))
         for i, raw_data in tqdm(enumerate(recording.data(dt)), total=timesteps):
             signal = np.zeros(int(len(raw_data)/2), dtype=np.complex)
             signal.real = raw_data[::2]
             signal.imag = -raw_data[1::2]
-            spectrogram[i] = cls._construct_spectrum(signal, nfft)
-
-        # Zoom spectrogram if bounds are given.
-        if bounds:
-            spectrogram, freq_lims = cls._zoom(spectrogram,
-                                               freq_lims,
-                                               recording.tuning_freq,
-                                               bounds)
+            row = cls._construct_spectrum(signal, nfft)
+            # TODO does not currently use bounds other than as a flag
+            if bounds:
+                row = row[mask]
+            spectrogram[i] = row
 
         return cls(dataid, spectrogram, freq_lims, time_lims, dt)
 
@@ -233,7 +221,7 @@ class Spectrogram:
 
         np.save(folderpath / f'{filename}.npy', self.image)
 
-    def plot(self, cmap='jet', clim=(-75, -50), **kwargs):
+    def plot(self, savepath=None, cmap='viridis', clim=None, decibel=False, **kwargs):
         """
         Plot the spectrogram.
 
@@ -253,14 +241,16 @@ class Spectrogram:
         # Convert datetime values to floats.
         num_time_lims = tuple(e for e in map(mdates.date2num, self.time_lims))
 
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(16, 9))
 
         # Create new axis for colorbar.
         divider = make_axes_locatable(ax)
         cax = divider.append_axes('right', size='5%', pad=0.05)
 
         # Plot spectrogram with defined limits.
-        im = ax.imshow(self.image,
+        image = self.image_decibel if decibel else self.image
+        clim = (0, image.mean() + 4*image.std()) if not clim else clim
+        im = ax.imshow(image,
                        extent=(self.freq_lims[0],
                                self.freq_lims[1],
                                num_time_lims[0],
@@ -271,55 +261,10 @@ class Spectrogram:
         self._axis_format_totime(ax.yaxis)
         fig.colorbar(im, cax=cax, orientation='vertical')
 
-        fig.show()
-
-    @staticmethod
-    def _zoom(spectrogram, freq_lims, tuning_freq, bounds):
-        """
-        Create a zoomed version of a spectrogram.
-
-        Parameters
-        ----------
-        spectrogram : (N, M) numpy.ndarray
-            An array containing the values of the spectrogram in dB.
-        freq_lims : (float, float) tuple
-            The minimum and maximum frequency values of the spectrogram.
-        tuning_freq : float
-            The tuning frequency of the recorded signal.
-        bounds : (float, float) tuple, optional
-            The lower and upper bounds of the desired frequency range
-            relative to the tuning frequency.
-
-        Returns
-        -------
-        spectrogram : (N, M) numpy.ndarray
-            An array containing the values of the zoomed spectrogram in dB.
-        freq_lims : (float, float) tuple
-            The new minimum and maximum frequency values of the zoomed spectrogram.
-        """
-
-        # Create array with all frequency values.
-        bandwidth = np.linspace(freq_lims[0],
-                                freq_lims[1],
-                                spectrogram.shape[1])
-        lower = tuning_freq + bounds[0]
-        upper = tuning_freq + bounds[1]
-
-        estimated_signal_width = 7000
-        estimated_signal_freq = 145_888_300
-
-        lower = estimated_signal_freq - estimated_signal_width
-        upper = estimated_signal_freq + estimated_signal_width
-
-        # Create a mask for desired frequency values.
-        mask, = np.nonzero((lower <= bandwidth) & (bandwidth <= upper))
-        bandwidth = bandwidth[mask]
-
-        # Apply mask to reduce spectrogram down to desired size.
-        spectrogram = (spectrogram.transpose()[mask]).transpose()
-        freq_lims = (bandwidth[0], bandwidth[-1])
-
-        return spectrogram, freq_lims
+        if savepath:
+            fig.savefig(savepath, format='png', dpi=150)
+        else:
+            fig.show()
 
     @staticmethod
     def _construct_spectrum(signal, nfft):
@@ -336,27 +281,16 @@ class Spectrogram:
         (N,) numpy.ndarray
             Array containing the spectrum of the signal over the full bandwidth.
         """
-        # Perform FFT.
         spectrum = fft(signal, nfft)
         spectrum = fftshift(spectrum)
-
         spectrum = abs(spectrum)
 
-#        plt.figure()
-#        plt.plot(range(len(spectrum)), spectrum)
-#
-#        plt.figure()
-#        plt.plot(range(len(spectrum1)), spectrum1)
-#
-#        plt.show()
-#        sys.exit()
-
-        # Calculate relative power level in dB of spectrum.
-        # TODO should be fixed to dimensionless values but requires changes in drre
-#        spectrum = 10*np.log10(2*abs(spectrum)/)
-#        spectrum = 10*np.log10(2*abs(spectrum)/len(signal))
-
         return spectrum
+
+    @staticmethod
+    def _to_decibel(spectrogram):
+        """ Calculate relative power level in dB of spectrum. """
+        return 10*np.log10(spectrogram / spectrogram.mean())
 
     @staticmethod
     def _axis_format_totime(axis):
