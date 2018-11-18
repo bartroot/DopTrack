@@ -77,13 +77,12 @@ class FrequencyData:
             file.write(f"residual_func={self.residual_func.__name__}\n")
             file.write(f"residual_coeffs={self.residual_coeffs}\n")
 
-            file.write(f"{'='*20}\n")
+            file.write("==============\n")
 
-            file.write(f"{'datetime':^26}    {'rtime':^5}    {'rfreq':^9}    {'power':^6}\n")
-            file.write(f"{'(UTC)':^26}    {'(s)':^5}    {'(Hz)':^9}    {'(-)':^6}\n")
+            file.write('datetime,time,frequency,power\n')
             for time, frequency, power in zip(self.time, self.frequency, self.power):
                 datetime = start_time + timedelta(seconds=int(time))
-                file.write(f"{datetime},   {time:>5.1f},   {frequency:>9.1f},   {power:>6.4f}\n")
+                file.write(f"{datetime},{time},{frequency},{power}\n")
 
     @classmethod
     def load(cls, dataid):
@@ -97,7 +96,6 @@ class FrequencyData:
             data['fca'] = float(file.readline().strip('\n').split('=')[1])
             data['dt'] = float(file.readline().strip('\n').split('=')[1])
 
-            # TODO fix wrong load and save of lists
             line = file.readline().strip('\n')
             string_coeffs = line.split('=')[1].strip('[]').split()
             data['tanh_coeffs'] = [float(coeff) for coeff in string_coeffs]
@@ -142,28 +140,28 @@ class FrequencyData:
         return cls(data)
 
     def plot(self, savepath=None):
+        plt.figure(figsize=(16, 9))
 
-        fig, ax = plt.subplots(figsize=(16, 9))
         try:
-            clim = (0, self.image.mean() + 4*self.image.std())
             xlim = (0 - 0.5, self.image.shape[1] - 0.5)
             ylim = (self.image.shape[0]*self.dt, 0)
-            ax.set_xlim(*xlim)
-            ax.set_ylim(*ylim)
+            plt.xlim(*xlim)
+            plt.ylim(*ylim)
             # TODO fix to take into account different nfft
-            ax.imshow(self.image, clim=clim, cmap='viridis', aspect='auto',
-                      extent=(xlim[0], xlim[1], ylim[0], ylim[1]))
+            plt.imshow(self.image, clim=(0, 0.1), cmap='viridis', aspect='auto',
+                       extent=(xlim[0],
+                               xlim[1],
+                               ylim[0],
+                               ylim[1]))
         except AttributeError as e:
             logger.warning(f"{e}. This happens when loading data. Plotting without spectrogram.")
-
         markersize = 0.5 if savepath else None
-        ax.scatter(self.frequency, self.time, s=markersize, color='r')
+        plt.scatter(self.frequency, self.time, s=markersize, color='r')
 
         if savepath:
-            fig.savefig(savepath, format='png', dpi=150)
-            sys.exit()
+            plt.savefig(savepath, format='png', dpi=300)
         else:
-            fig.show()
+            plt.show()
 
     @staticmethod
     def create_fit_func(tanh_coeffs, residual_coeffs, residual_func):

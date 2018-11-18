@@ -79,6 +79,30 @@ class Database:
         """List all files, excluding folders, in a directory"""
         return [name for name in os.listdir(path) if len(name.split('.')) != 1]
 
+#    def print_dataids(self):
+#        ymls = self.get_dataids('yml')
+#        rres = self.get_dataids('rre')
+#        passids = {}
+#        for dataid in set.union(ymls, rres):
+#            satid = '_'.join(dataid.split('_')[:2])
+#            if satid not in passids:
+#                passids[satid] = {'yml': [], 'rre': [], 'both': []}
+#            if dataid in ymls:
+#                passids[satid]['yml'].append(dataid)
+#            if dataid in rres:
+#                passids[satid]['rre'].append(dataid)
+#            if dataid in set.intersection(ymls, rres):
+#                passids[satid]['both'].append(dataid)
+#
+#        # TODO add 32fc files to overview
+#        print(39 * '-')
+#        print(f"{'SatName':15}{'SatID':5}{'yml':>7}{'rre':>6}{'both':>6}")
+#        print(39 * '-')
+#        for key, val in passids.items():
+#            satname, satid = key.split('_')[:2]
+#            print(f"{satname:15}{satid:5}{len(val['yml']):7}{len(val['rre']):6}{len(val['both']):6}")
+#        print(39 * '-')
+
 
 def read_meta(dataid, filepath=None):
     if filepath is None:
