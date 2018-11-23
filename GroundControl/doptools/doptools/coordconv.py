@@ -1,6 +1,6 @@
 """Coordinate conversion functions.
 
-This module contains functions for transformations between the  different
+This module contains functions for transformations between the different
 reference frames used in doppler tracking.
 
 Constants
@@ -39,6 +39,7 @@ WGS84_omega = 7.2921151467e-05
 WGS84_a = 6378137.0
 WGS84_e = 0.08181919092890638
 
+# TODO determine what happens when files are not found
 NUTATION_COEFFS = read_nutation_coeffs()
 EOPP = read_eopp()
 EOPC04 = read_eopc04()
@@ -165,12 +166,12 @@ def ecef2geodetic(x, y, z):
     """
 
     lon = np.arctan2(y, x)
-
     alt = 0
     n = WGS84_a
     p = np.sqrt(x**2 + y**2)
     lat = 0
     previous_lat = 90
+
     # Iterate until tolerance is reached
     while abs(lat - previous_lat) >= 1e-9:
         previous_lat = lat

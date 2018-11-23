@@ -1,0 +1,21 @@
+paths:
+    default: ../../../data
+    L0: None
+    L1A: None
+    L1B: None
+    L2: None
+    output: None
+    external: None
+    logs: None
+
+station:
+    latitude: 51.9989
+    longitude: 4.3733585
+    altitude: 95
+
+space-track.org:
+    user: <USERNAME>
+    password: <PASSWORD>
+
+runtime:
+    log_level: DEBUG

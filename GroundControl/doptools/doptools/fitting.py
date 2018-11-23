@@ -7,7 +7,6 @@ from .config import Config
 
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(stream=sys.stdout, level=Config().runtime['log_level'])
 
 
 def tanh(xs, a, b, c, d):
@@ -64,11 +63,11 @@ def fourier3(x, a0, a1, a2, a3, b1, b2, b3, p):
             a3 * np.cos(3*x*p) + b3 * np.sin(3*x*p)
 
 
-def p3(x, a0, a1, a2, a3, p):
+def poly3(x, a0, a1, a2, a3, p):
     return a0 + a1 * (x - p) + a2 * (x - p)**2 + a3 * (x - p)**3
 
 
-def p5(x, a0, a1, a2, a3, a4, a5, p):
+def poly5(x, a0, a1, a2, a3, a4, a5, p):
     return a0 + a1 * (x - p) + a2 * (x - p)**2 + a3 * (x - p)**3 + \
            a4 * (x - p)**4 + a5 * (x - p)**5
 
@@ -77,19 +76,17 @@ def fit_residual(times, residual):
     max_nfev = 6000
     a = (times)/np.std(times)
     # non-linear least squares
-    for func in [fourier6, fourier4, fourier3, fourier5, p3, p5]:
+    for func in [fourier6, fourier4, fourier3, fourier5, poly3, poly5]:
         try:
             fit_coeffs, covar = optimize.curve_fit(func, a, residual,
                                                    method='trf',
                                                    loss='soft_l1',
                                                    max_nfev=max_nfev)
             fit_coeffs[-1] = (fit_coeffs[-1]) / np.std(times)
-            if np.abs(np.mean(times - func(times, *fit_coeffs))) > 10000:
-                raise RuntimeError('Did not converge')
-            logger.debug(f'Residual fitting converged using {func}')
+            logger.info(f'Residual fitting converged using {func.__name__}')
             return func, fit_coeffs
         except RuntimeError:
-            print(f'Fitting function {func} did not converge.')
+            logger.warning(f'Fitting function {func.__name__} did not converge.')
             continue
 
     raise RuntimeError('None of the fitting functions converged.')

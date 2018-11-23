@@ -1,29 +1,18 @@
-import os
 import numpy as np
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-import scipy.constants as constants
 from scipy.fftpack import fft, fftshift
 from tqdm import tqdm
+import logging
 
-from .io import Database, read_meta, read_rre
-from .groundstation import DopTrackStation
+from .io import Database, read_meta
+from .extraction import extract_frequency_data, create_fit_func
+from . import fitting
 
 
-#class Metadata:
-#
-#    def __init__(self, metadata):
-#        self.__dict__.update(metadata)
-#
-#    def read(cls, dataid):
-#        with open(os.path.join(DATA_DIR, f'{dataid}.yml'), 'r') as metafile:
-#            metadata = yaml.load(metafile)
-#        return cls(metadata)
-#
-#    def create(cls):
-#        raise NotImplementedError
+logger = logging.getLogger(__name__)
 
 
 class Recording:
@@ -55,47 +44,14 @@ class Recording:
         self.tuning_freq = int(self.meta['Sat']['State']['Tuning Frequency'])
 
     def data(self, dt):
+        """Returns an iterable of the raw data cut into chunks of  size dt*sample_rate."""
         database = Database()
         samples = int(self.sample_freq * self.duration)
         timesteps = int(self.duration / dt)
         cutoff = int(2 * samples / timesteps)
-        with open(database.get_filepath(self.dataid, '32fc'), 'r') as file:
+        with open(database.filepath(self.dataid, level='L0'), 'r') as file:
             for i in range(timesteps):
                 yield np.fromfile(file, dtype=np.float32, count=cutoff)
-
-
-class SatellitePassRecorded:
-    """
-    Spectrogram of a DopTrack recording.
-
-    Parameters
-    ----------
-    dataid : str
-        ID of recording in the database.
-    spectrogram : (N, M) numpy.ndarray
-        An array containing the values of the spectrogram in dB.
-    freq_lims : (float, float) tuple
-        The minimum and maximum frequency values of the spectrogram.
-    time_lims : (datetime.datetime, datetime.datetime) tuple
-        The end and start time of recording. The order is reversen since it is
-        convention to flip the y-axis in a spectrogram.
-
-    """
-    def __init__(self, dataid):
-        self.station = DopTrackStation
-        self.dataid = dataid
-        self.recording = Recording(dataid)
-
-        rre = read_rre(self.dataid)
-        self.time = rre['datetime']
-        self.tca = rre['tca']
-        self.frequency = np.array(rre['frequency'])
-        self.fca = rre['fca']
-        self.rangerate = self._rangerate_model(self.frequency, self.fca)
-
-    @staticmethod
-    def _rangerate_model(frequency, fca):
-        return (1 - (frequency/fca)) * constants.c
 
 
 class Spectrogram:
@@ -126,13 +82,14 @@ class Spectrogram:
         self.dataid = dataid
         self.recording = Recording(dataid)
         self.image = spectrogram
+        self.image_decibel = self._to_decibel(spectrogram)
         self.freq_lims = freq_lims
         self.time_lims = time_lims
         self.dt = dt
         self.dfreq = (freq_lims[1] - freq_lims[0]) / spectrogram.shape[1]
 
     @classmethod
-    def create(cls, dataid, bounds=(12000, 24000), nfft=2**16, dt=1):
+    def create(cls, dataid, bounds=(12000, 24000), nfft=250_000, dt=1):
         """
         Create a spectrogram from a 32fc file.
 
@@ -163,27 +120,46 @@ class Spectrogram:
         most likely raise an array broadcast exception.
         """
 
+        logger.info(f"Creating spectrogram for {dataid}")
+
         # Determine the limits of the spectrogram.
         recording = Recording(dataid)
         freq_lims = (recording.tuning_freq - recording.sample_freq/2,
                      recording.tuning_freq + recording.sample_freq/2)
         time_lims = (recording.stop_time, recording.start_time)
 
+        # Create array with all frequency values.
+        bandwidth = np.linspace(freq_lims[0],
+                                freq_lims[1],
+                                nfft)
+
+        # Calculate the bounds of zoom
+#        lower = tuning_freq + bounds[0]
+#        upper = tuning_freq + bounds[1]
+        # TODO decide on how bounds are determined
+        estimated_signal_width = 7000
+        estimated_signal_freq = 145_888_300
+        lower = estimated_signal_freq - estimated_signal_width
+        upper = estimated_signal_freq + estimated_signal_width
+
+        # Create a mask for desired frequency values.
+        mask, = np.nonzero((lower <= bandwidth) & (bandwidth <= upper))
+        bandwidth = bandwidth[mask]
+        freq_lims = (bandwidth[0], bandwidth[-1])
+
         # Read data, cut data, and perform FFT for each timestep.
         timesteps = int(recording.duration / dt)
-        spectrogram = np.zeros((timesteps, nfft))
+        # TODO fix spec width so it is not hardcoded
+        spectrogram = np.zeros((timesteps, 14000))
         for i, raw_data in tqdm(enumerate(recording.data(dt)), total=timesteps):
             signal = np.zeros(int(len(raw_data)/2), dtype=np.complex)
             signal.real = raw_data[::2]
             signal.imag = -raw_data[1::2]
-            spectrogram[i] = cls._construct_spectrum(signal, nfft)
-
-        # Zoom spectrogram if bounds are given.
-        if bounds:
-            spectrogram, freq_lims = cls._zoom(spectrogram,
-                                               freq_lims,
-                                               recording.tuning_freq,
-                                               bounds)
+            row = cls._construct_spectrum(signal, nfft)
+            # TODO does not currently use bounds other than as a flag
+            if bounds:
+                row = row[mask]
+            spectrogram[i] = row
 
         return cls(dataid, spectrogram, freq_lims, time_lims, dt)
 
@@ -202,7 +178,12 @@ class Spectrogram:
         Spectrogram
             A spectrogram object for the given recording.
         """
-        datafilepath, metafilepath = Database().get_filepath(dataid, 'npy')
+
+        logger.info(f"Loading spectrogram for {dataid}")
+
+        db = Database()
+        datafilepath = db.filepath(dataid, level='L1A')
+        metafilepath = db.filepath(dataid, level='L1A', meta=True)
         with open(metafilepath, 'r') as file:
             xlim1 = float(file.readline().strip('\n').split('=')[1])
             xlim2 = float(file.readline().strip('\n').split('=')[1])
@@ -228,18 +209,22 @@ class Spectrogram:
         """
         folderpath = Database().paths['spectrograms']
 
-        if filename is None:
-            filename = self.dataid
+        logger.info(f"Saving spectrogram for {self.dataid}")
 
-        with open(os.path.join(folderpath, f'{filename}.npy.meta'), 'w+') as file:
+        folderpath = Database().paths['spectrograms']
+
+        if filename is None:
+            filename = f'{self.dataid}_{int(self.dt * 10)}'
+
+        with open(folderpath / f'{filename}.npy.meta', 'w+') as file:
             file.write(f'xlim_lower={self.freq_lims[0]}\n')
             file.write(f'xlim_upper={self.freq_lims[1]}\n')
             file.write(f'ylim_lower={self.time_lims[0]}\n')
             file.write(f'ylim_upper={self.time_lims[1]}')
 
-        np.save(os.path.join(folderpath, f'{filename}.npy'), self.image)
+        np.save(folderpath / f'{filename}.npy', self.image)
 
-    def plot(self, cmap='jet', clim=(-75, -50), **kwargs):
+    def plot(self, savepath=None, cmap='viridis', clim=None, decibel=False, **kwargs):
         """
         Plot the spectrogram.
 
@@ -259,14 +244,16 @@ class Spectrogram:
         # Convert datetime values to floats.
         num_time_lims = tuple(e for e in map(mdates.date2num, self.time_lims))
 
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(16, 9))
 
         # Create new axis for colorbar.
         divider = make_axes_locatable(ax)
         cax = divider.append_axes('right', size='5%', pad=0.05)
 
         # Plot spectrogram with defined limits.
-        im = ax.imshow(self.image,
+        image = self.image_decibel if decibel else self.image
+        clim = (0, image.mean() + 4*image.std()) if not clim else clim
+        im = ax.imshow(image,
                        extent=(self.freq_lims[0],
                                self.freq_lims[1],
                                num_time_lims[0],
@@ -277,55 +264,11 @@ class Spectrogram:
         self._axis_format_totime(ax.yaxis)
         fig.colorbar(im, cax=cax, orientation='vertical')
 
-        fig.show()
-
-    @staticmethod
-    def _zoom(spectrogram, freq_lims, tuning_freq, bounds):
-        """
-        Create a zoomed version of a spectrogram.
-
-        Parameters
-        ----------
-        spectrogram : (N, M) numpy.ndarray
-            An array containing the values of the spectrogram in dB.
-        freq_lims : (float, float) tuple
-            The minimum and maximum frequency values of the spectrogram.
-        tuning_freq : float
-            The tuning frequency of the recorded signal.
-        bounds : (float, float) tuple, optional
-            The lower and upper bounds of the desired frequency range
-            relative to the tuning frequency.
-
-        Returns
-        -------
-        spectrogram : (N, M) numpy.ndarray
-            An array containing the values of the zoomed spectrogram in dB.
-        freq_lims : (float, float) tuple
-            The new minimum and maximum frequency values of the zoomed spectrogram.
-        """
-
-        # Create array with all frequency values.
-        bandwidth = np.linspace(freq_lims[0],
-                                freq_lims[1],
-                                spectrogram.shape[1])
-        lower = tuning_freq + bounds[0]
-        upper = tuning_freq + bounds[1]
-
-        estimated_signal_width = 7000
-        estimated_signal_freq = 145888300
-
-        lower = estimated_signal_freq - estimated_signal_width
-        upper = estimated_signal_freq + estimated_signal_width
-
-        # Create a mask for desired frequency values.
-        mask, = np.nonzero((lower <= bandwidth) & (bandwidth <= upper))
-        bandwidth = bandwidth[mask]
-
-        # Apply mask to reduce spectrogram down to desired size.
-        spectrogram = (spectrogram.transpose()[mask]).transpose()
-        freq_lims = (bandwidth[0], bandwidth[-1])
-
-        return spectrogram, freq_lims
+        if savepath:
+            fig.savefig(savepath, format='png', dpi=150)
+            plt.close(fig)
+        else:
+            fig.show()
 
     @staticmethod
     def _construct_spectrum(signal, nfft):
@@ -342,27 +285,16 @@ class Spectrogram:
         (N,) numpy.ndarray
             Array containing the spectrum of the signal over the full bandwidth.
         """
-        # Perform FFT.
         spectrum = fft(signal, nfft)
         spectrum = fftshift(spectrum)
-
         spectrum = abs(spectrum)
 
-#        plt.figure()
-#        plt.plot(range(len(spectrum)), spectrum)
-#
-#        plt.figure()
-#        plt.plot(range(len(spectrum1)), spectrum1)
-#
-#        plt.show()
-#        sys.exit()
-
-        # Calculate relative power level in dB of spectrum.
-        # TODO should be fixed to dimensionless values but requires changes in drre
-#        spectrum = 10*np.log10(2*abs(spectrum)/)
-#        spectrum = 10*np.log10(2*abs(spectrum)/len(signal))
-
         return spectrum
+
+    @staticmethod
+    def _to_decibel(spectrogram):
+        """ Calculate relative power level in dB of spectrum. """
+        return 10*np.log10(spectrogram / spectrogram.mean())
 
     @staticmethod
     def _axis_format_totime(axis):
@@ -370,3 +302,138 @@ class Spectrogram:
         date_format = mdates.DateFormatter('%H:%M:%S')
         axis.set_major_formatter(date_format)
         axis.set_major_locator(mdates.MinuteLocator(interval=2))
+
+
+class FrequencyData:
+
+    def __init__(self, data):
+
+        # Add data dictionary to instance dictionary
+        self.__dict__.update(data)
+        self.recording = Recording(self.dataid)
+
+    @classmethod
+    def create(cls, spectrogram):
+
+        logger.info(f"Extracting frequency data for {spectrogram.dataid}")
+
+        logger.debug(f'Extracting frequency data points from {spectrogram.dataid}')
+        data = extract_frequency_data(spectrogram.image, spectrogram.dt)
+        data['dt'] = spectrogram.dt
+        data['image'] = spectrogram.image
+        data['dataid'] = spectrogram.dataid
+
+        return cls(data)
+
+    @classmethod
+    def load(cls, dataid):
+
+        logger.info(f"Loading frequency data for {dataid}")
+
+        filepath = Database().filepath(dataid, level='L1B')
+
+        data = {'dataid': dataid}
+
+        with open(filepath, 'r') as file:
+            data['tca'] = float(file.readline().strip('\n').split('=')[1])
+            data['fca'] = float(file.readline().strip('\n').split('=')[1])
+            data['dt'] = float(file.readline().strip('\n').split('=')[1])
+
+            line = file.readline().strip('\n')
+            string_coeffs = line.split('=')[1].strip('[]').split()
+            data['tanh_coeffs'] = [float(coeff) for coeff in string_coeffs]
+
+            residual_func_name = file.readline().strip('\n').split('=')[1]
+            data['residual_func'] = getattr(fitting, residual_func_name)
+
+            residual_coeffs = []
+            while True:
+                line = file.readline().strip('\n')
+                if '=' in line and ']' in line:
+                    string_coeffs = line.split('=')[1].strip('[]').split()
+                    residual_coeffs.extend([float(coeff) for coeff in string_coeffs])
+                    break
+                elif '=' in line:
+                    string_coeffs = line.split('=')[1].strip('[').split()
+                    residual_coeffs.extend([float(coeff) for coeff in string_coeffs])
+                elif ']' in line:
+                    string_coeffs = line.strip(']').split()
+                    residual_coeffs.extend([float(coeff) for coeff in string_coeffs])
+                    break
+                else:
+                    string_coeffs = line.split()
+                    residual_coeffs.extend([float(coeff) for coeff in string_coeffs])
+            data['residual_coeffs'] = residual_coeffs
+
+            file.readline()
+            file.readline()
+
+            time, frequency, power = [], [], []
+            for line in file.readlines():
+                time.append(float(line.split(',')[1]))
+                frequency.append(float(line.split(',')[2]))
+                power.append(float(line.split(',')[3]))
+
+            data['time'] = np.array(time)
+            data['frequency'] = np.array(frequency)
+            data['power'] = np.array(power)
+            data['fit_func'] = create_fit_func(data['tanh_coeffs'],
+                                               data['residual_coeffs'],
+                                               data['residual_func'])
+        return cls(data)
+
+    def save(self):
+
+        logger.info(f"Saving frequency data for {self.dataid}")
+
+        filepath = Database().paths['L1B'] / f"{self.dataid}.DOP1B"
+
+        start_time = self.recording.start_time
+
+        with open(filepath, 'w+') as file:
+            file.write(f"tca={self.tca}\n")
+            file.write(f"fca={self.fca}\n")
+            file.write(f"dt={self.dt}\n")
+
+            file.write(f"tanh_coeffs={self.tanh_coeffs}\n")
+            file.write(f"residual_func={self.residual_func.__name__}\n")
+            file.write(f"residual_coeffs={self.residual_coeffs}\n")
+
+            file.write("==============\n")
+
+            file.write('datetime,time,frequency,power\n')
+            for time, frequency, power in zip(self.time, self.frequency, self.power):
+                datetime = start_time + timedelta(seconds=int(time))
+                file.write(f"{datetime},{time},{frequency},{power}\n")
+
+    def plot(self, fit_func=True, savepath=None):
+        fig, ax = plt.subplots(figsize=(16, 9))
+
+        try:
+            xlim = (0 - 0.5, self.image.shape[1] - 0.5)
+            ylim = (self.image.shape[0]*self.dt, 0)
+            ax.set_xlim(*xlim)
+            ax.set_ylim(*ylim)
+            # TODO fix to take into account different nfft
+            ax.imshow(self.image, clim=(0, 0.1), cmap='viridis', aspect='auto',
+                      extent=(xlim[0],
+                              xlim[1],
+                              ylim[0],
+                              ylim[1]))
+        except AttributeError as e:
+            logger.warning(f"{e}. This happens when loading data. Plotting without spectrogram.")
+        markersize = 0.5 if savepath else None
+        ax.scatter(self.frequency, self.time, s=markersize, color='r')
+        if fit_func:
+            times = np.linspace(self.time[0], self.time[-1], 100)
+            ax.plot(self.fit_func(times), times, 'k')
+
+        if savepath:
+            fig.savefig(savepath, format='png', dpi=300)
+            plt.close(fig)
+        else:
+            fig.show()
+
+
+class RangerateData:
+    pass
