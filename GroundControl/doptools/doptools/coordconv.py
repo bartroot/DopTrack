@@ -39,6 +39,7 @@ WGS84_omega = 7.2921151467e-05
 WGS84_a = 6378137.0
 WGS84_e = 0.08181919092890638
 
+# TODO determine what happens when files are not found
 NUTATION_COEFFS = read_nutation_coeffs()
 EOPP = read_eopp()
 EOPC04 = read_eopc04()

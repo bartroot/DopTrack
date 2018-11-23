@@ -3,8 +3,10 @@ from datetime import timedelta
 from sgp4.model import Satellite
 from sgp4.io import twoline2rv
 from sgp4.earth_gravity import wgs84
+import scipy.constants as constants
 
 from .coordconv import teme2ecef
+from .data import Recording
 from .io import read_meta, read_rre
 from .coordconv import geodetic2ecef, ecef2geodetic
 from .utils import GeodeticPosition

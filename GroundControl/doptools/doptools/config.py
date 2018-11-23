@@ -32,8 +32,3 @@ class Config:
 
         # Add config dictionary to instance dictionary
         self.__dict__.update(config)
-
-
-if __name__ == '__main__':
-    c = Config()
-    print(c.paths['recordings'])

@@ -7,7 +7,6 @@ from .config import Config
 
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(stream=sys.stdout, level=Config().runtime['log_level'])
 
 
 def tanh(xs, a, b, c, d):
@@ -84,10 +83,10 @@ def fit_residual(times, residual):
                                                    loss='soft_l1',
                                                    max_nfev=max_nfev)
             fit_coeffs[-1] = (fit_coeffs[-1]) / np.std(times)
-            logger.debug(f'Residual fitting converged using {func}')
+            logger.info(f'Residual fitting converged using {func.__name__}')
             return func, fit_coeffs
         except RuntimeError:
-            logger.debug(f'Fitting function {func} did not converge.')
+            logger.warning(f'Fitting function {func.__name__} did not converge.')
             continue
 
     raise RuntimeError('None of the fitting functions converged.')

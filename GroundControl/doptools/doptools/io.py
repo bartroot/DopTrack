@@ -1,6 +1,5 @@
 import os
 import logging
-import sys
 import yaml
 import numpy as np
 from pathlib import Path
@@ -11,7 +10,6 @@ from .config import Config
 
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(stream=sys.stdout, level=Config().runtime['log_level'])
 
 
 levels = {'L0': '32fc',
@@ -57,6 +55,36 @@ class Database:
         print(f"{'L2':3}  {L2}")
         print(30 * '-')
 
+    def create_log(self):
+
+        logdict = {}
+
+        for dataid in sorted(self.dataids['all']):
+            logdict[dataid] = {'processed': {'rec_armed': None,
+                                             'recorded': None,
+                                             'level_1A': None,
+                                             'level_1B': None,
+                                             'level_2': None},
+                               'files': {'rec_data': dataid in self.dataids['L0'],
+                                         'rec_meta': dataid in self.dataids['L0_meta'],
+                                         'level_1A': dataid in self.dataids['L1A'],
+                                         'level_1B': dataid in self.dataids['L1B'],
+                                         'level_2': dataid in self.dataids['L2']}}
+        with open(self.paths['logs'] / 'database.log', 'w') as logfile:
+            yaml.dump(logdict, stream=logfile, default_flow_style=False)
+
+    def update_log(self, dataid, level, value):
+        logdict = self.load_log()
+        # TODO should be changed - processed vs files
+        logdict[dataid]['processed'] = value
+        with open(self.paths['logs'] / 'database.log', 'w') as logfile:
+            yaml.dump(logdict, stream=logfile, default_flow_style=False)
+
+    def load_log(self):
+        with open(self.paths['logs'] / 'database.log', 'r') as logfile:
+            return yaml.load(logfile)
+
+
     def _dataids(self):
         dataid_dict = {}
 
@@ -77,7 +105,11 @@ class Database:
     @staticmethod
     def _listfiles(path):
         """List all files, excluding folders, in a directory"""
-        return [name for name in os.listdir(path) if len(name.split('.')) != 1]
+        try:
+            return [name for name in os.listdir(path) if len(name.split('.')) != 1]
+        except FileNotFoundError as e:
+            logger.error(e)
+            return []
 
 #    def print_dataids(self):
 #        ymls = self.get_dataids('yml')
@@ -143,17 +175,20 @@ def read_rre(dataid, filepath=None, metafilepath=None):
 
 def read_eopp(folderpath=Database().paths['external']):
     data = dict(MJD=[], Xp=[], Yp=[])
-    for filename in os.listdir(folderpath / 'eopp'):
-        if os.stat(folderpath / 'eopp' / filename).st_size == 0:
-            break
-        with open(folderpath / 'eopp' / filename) as f:
-            for _ in range(5):
-                next(f)
-            line = f.readline()
-            e = line.split()
-            data['MJD'].append(int(e[0]))
-            data['Xp'].append(float(e[1]) / 3600)
-            data['Yp'].append(float(e[2]) / 3600)
+    try:
+        for filename in os.listdir(folderpath / 'eopp'):
+            if os.stat(folderpath / 'eopp' / filename).st_size == 0:
+                break
+            with open(folderpath / 'eopp' / filename) as f:
+                for _ in range(5):
+                    next(f)
+                line = f.readline()
+                e = line.split()
+                data['MJD'].append(int(e[0]))
+                data['Xp'].append(float(e[1]) / 3600)
+                data['Yp'].append(float(e[2]) / 3600)
+    except FileNotFoundError as e:
+        logger.error(e)
     df = pd.DataFrame.from_dict(data)
     df.set_index('MJD', inplace=True)
     return df
@@ -161,14 +196,17 @@ def read_eopp(folderpath=Database().paths['external']):
 
 def read_eopc04(folderpath=Database().paths['external']):
     data = dict(datetime=[], DUT1=[], LOD=[])
-    with open(folderpath / 'eopc04.dat') as f:
-        for _ in range(14):
-            next(f)
-        for line in f.readlines():
-            e = line.split()
-            data['datetime'].append(datetime(int(e[0]), int(e[1]), int(e[2])))
-            data['DUT1'].append(float(e[6]))
-            data['LOD'].append(float(e[7]))
+    try:
+        with open(folderpath / 'eopc04.dat') as f:
+            for _ in range(14):
+                next(f)
+            for line in f.readlines():
+                e = line.split()
+                data['datetime'].append(datetime(int(e[0]), int(e[1]), int(e[2])))
+                data['DUT1'].append(float(e[6]))
+                data['LOD'].append(float(e[7]))
+    except FileNotFoundError as e:
+        logger.error(e)
     df = pd.DataFrame.from_dict(data)
     df.set_index('datetime', inplace=True)
     return df
@@ -190,8 +228,8 @@ def read_tai_utc(folderpath=Database().paths['external']):
                 data['datetime'].append(datetime(y, m, d))
                 data['JD'].append(jd)
                 data['DAT'].append(dat + (jd - 2400000.5 - c1)*c2)
-    except FileNotFoundError:
-        logger.warning('Could not find tai-utc.dat file.')
+    except FileNotFoundError as e:
+        logger.error(e)
     df = pd.DataFrame.from_dict(data)
     df.set_index('datetime', inplace=True)
     return df

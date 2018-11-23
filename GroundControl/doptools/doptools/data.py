@@ -3,22 +3,16 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-import scipy.constants as constants
 from scipy.fftpack import fft, fftshift
 from tqdm import tqdm
 import logging
-import sys
 
-from .config import Config
-from .io import Database, read_meta, read_rre
-from .groundstation import DopTrackStation
+from .io import Database, read_meta
+from .extraction import extract_frequency_data, create_fit_func
+from . import fitting
 
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(stream=sys.stdout, level=Config().runtime['log_level'])
-
-
-# TODO add frequency data to this module
 
 
 class Recording:
@@ -50,7 +44,7 @@ class Recording:
         self.tuning_freq = int(self.meta['Sat']['State']['Tuning Frequency'])
 
     def data(self, dt):
-        """Returns an iterable of the raw data cut into chunks of dt*sample_rate."""
+        """Returns an iterable of the raw data cut into chunks of  size dt*sample_rate."""
         database = Database()
         samples = int(self.sample_freq * self.duration)
         timesteps = int(self.duration / dt)
@@ -126,6 +120,8 @@ class Spectrogram:
         most likely raise an array broadcast exception.
         """
 
+        logger.info(f"Creating spectrogram for {dataid}")
+
         # Determine the limits of the spectrogram.
         recording = Recording(dataid)
         freq_lims = (recording.tuning_freq - recording.sample_freq/2,
@@ -182,6 +178,9 @@ class Spectrogram:
         Spectrogram
             A spectrogram object for the given recording.
         """
+
+        logger.info(f"Loading spectrogram for {dataid}")
+
         db = Database()
         datafilepath = db.filepath(dataid, level='L1A')
         metafilepath = db.filepath(dataid, level='L1A', meta=True)
@@ -208,6 +207,9 @@ class Spectrogram:
         dataid : str
             ID of recording in the database.
         """
+
+        logger.info(f"Saving spectrogram for {self.dataid}")
+
         folderpath = Database().paths['spectrograms']
 
         if filename is None:
@@ -263,6 +265,7 @@ class Spectrogram:
 
         if savepath:
             fig.savefig(savepath, format='png', dpi=150)
+            plt.close(fig)
         else:
             fig.show()
 
@@ -298,3 +301,138 @@ class Spectrogram:
         date_format = mdates.DateFormatter('%H:%M:%S')
         axis.set_major_formatter(date_format)
         axis.set_major_locator(mdates.MinuteLocator(interval=2))
+
+
+class FrequencyData:
+
+    def __init__(self, data):
+
+        # Add data dictionary to instance dictionary
+        self.__dict__.update(data)
+        self.recording = Recording(self.dataid)
+
+    @classmethod
+    def create(cls, spectrogram):
+
+        logger.info(f"Extracting frequency data for {spectrogram.dataid}")
+
+        logger.debug(f'Extracting frequency data points from {spectrogram.dataid}')
+        data = extract_frequency_data(spectrogram.image, spectrogram.dt)
+        data['dt'] = spectrogram.dt
+        data['image'] = spectrogram.image
+        data['dataid'] = spectrogram.dataid
+
+        return cls(data)
+
+    @classmethod
+    def load(cls, dataid):
+
+        logger.info(f"Loading frequency data for {dataid}")
+
+        filepath = Database().filepath(dataid, level='L1B')
+
+        data = {'dataid': dataid}
+
+        with open(filepath, 'r') as file:
+            data['tca'] = float(file.readline().strip('\n').split('=')[1])
+            data['fca'] = float(file.readline().strip('\n').split('=')[1])
+            data['dt'] = float(file.readline().strip('\n').split('=')[1])
+
+            line = file.readline().strip('\n')
+            string_coeffs = line.split('=')[1].strip('[]').split()
+            data['tanh_coeffs'] = [float(coeff) for coeff in string_coeffs]
+
+            residual_func_name = file.readline().strip('\n').split('=')[1]
+            data['residual_func'] = getattr(fitting, residual_func_name)
+
+            residual_coeffs = []
+            while True:
+                line = file.readline().strip('\n')
+                if '=' in line and ']' in line:
+                    string_coeffs = line.split('=')[1].strip('[]').split()
+                    residual_coeffs.extend([float(coeff) for coeff in string_coeffs])
+                    break
+                elif '=' in line:
+                    string_coeffs = line.split('=')[1].strip('[').split()
+                    residual_coeffs.extend([float(coeff) for coeff in string_coeffs])
+                elif ']' in line:
+                    string_coeffs = line.strip(']').split()
+                    residual_coeffs.extend([float(coeff) for coeff in string_coeffs])
+                    break
+                else:
+                    string_coeffs = line.split()
+                    residual_coeffs.extend([float(coeff) for coeff in string_coeffs])
+            data['residual_coeffs'] = residual_coeffs
+
+            file.readline()
+            file.readline()
+
+            time, frequency, power = [], [], []
+            for line in file.readlines():
+                time.append(float(line.split(',')[1]))
+                frequency.append(float(line.split(',')[2]))
+                power.append(float(line.split(',')[3]))
+
+            data['time'] = np.array(time)
+            data['frequency'] = np.array(frequency)
+            data['power'] = np.array(power)
+            data['fit_func'] = create_fit_func(data['tanh_coeffs'],
+                                               data['residual_coeffs'],
+                                               data['residual_func'])
+        return cls(data)
+
+    def save(self):
+
+        logger.info(f"Saving frequency data for {self.dataid}")
+
+        filepath = Database().paths['L1B'] / f"{self.dataid}.DOP1B"
+
+        start_time = self.recording.start_time
+
+        with open(filepath, 'w+') as file:
+            file.write(f"tca={self.tca}\n")
+            file.write(f"fca={self.fca}\n")
+            file.write(f"dt={self.dt}\n")
+
+            file.write(f"tanh_coeffs={self.tanh_coeffs}\n")
+            file.write(f"residual_func={self.residual_func.__name__}\n")
+            file.write(f"residual_coeffs={self.residual_coeffs}\n")
+
+            file.write("==============\n")
+
+            file.write('datetime,time,frequency,power\n')
+            for time, frequency, power in zip(self.time, self.frequency, self.power):
+                datetime = start_time + timedelta(seconds=int(time))
+                file.write(f"{datetime},{time},{frequency},{power}\n")
+
+    def plot(self, fit_func=True, savepath=None):
+        fig, ax = plt.subplots(figsize=(16, 9))
+
+        try:
+            xlim = (0 - 0.5, self.image.shape[1] - 0.5)
+            ylim = (self.image.shape[0]*self.dt, 0)
+            ax.set_xlim(*xlim)
+            ax.set_ylim(*ylim)
+            # TODO fix to take into account different nfft
+            ax.imshow(self.image, clim=(0, 0.1), cmap='viridis', aspect='auto',
+                      extent=(xlim[0],
+                              xlim[1],
+                              ylim[0],
+                              ylim[1]))
+        except AttributeError as e:
+            logger.warning(f"{e}. This happens when loading data. Plotting without spectrogram.")
+        markersize = 0.5 if savepath else None
+        ax.scatter(self.frequency, self.time, s=markersize, color='r')
+        if fit_func:
+            times = np.linspace(self.time[0], self.time[-1], 100)
+            ax.plot(self.fit_func(times), times, 'k')
+
+        if savepath:
+            fig.savefig(savepath, format='png', dpi=300)
+            plt.close(fig)
+        else:
+            fig.show()
+
+
+class RangerateData:
+    pass

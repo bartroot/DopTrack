@@ -9,7 +9,6 @@ from .config import Config
 
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 
 @contextmanager

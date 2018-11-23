@@ -4,7 +4,9 @@ paths:
     L1A: None
     L1B: None
     L2: None
+    output: None
     external: None
+    logs: None
 
 station:
     latitude: 51.9989

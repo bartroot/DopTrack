@@ -1,7 +1,6 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-#import dash_table_experiments as dtable
 from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
 import numpy as np
@@ -23,7 +22,6 @@ data_labels = {'tca': {'name': 'TCA - Datetime of closest approach', 'unit': ''}
 data['tca_time_plotly'] = [dt.replace(year=2000, month=1, day=1) for dt in data['tca']]
 
 
-
 app = dash.Dash()
 app.title = 'DopTrack'
 
@@ -35,15 +33,15 @@ app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"
 app.layout = html.Div(children=[
 
     html.Div(children=[
-        html.Img(src='https://www.tudelft.nl/typo3conf/ext/tud_styling/Resources/Public/img/logo.svg',
-                 style={'height': 55, 'align': 'left', 'margin': 10},
-                 className='two columns'),
+                       html.Img(src='https://www.tudelft.nl/typo3conf/ext/tud_styling/Resources/Public/img/logo.svg',
+                                style={'height': 55, 'align': 'left', 'margin': 10},
+                                className='two columns'),
 
-        html.H1(children='DopTrack Analysis Dashboard',
-                style={'textAlign': 'right', 'margin': 10, 'color': 'white'},
-                className='ten columns')],
+                       html.H1(children='DopTrack Analysis Dashboard',
+                               style={'textAlign': 'right', 'margin': 10, 'color': 'white'},
+                               className='ten columns')],
 
-        className='row', style={'background-color': '#00A6D6'}),
+             className='row', style={'background-color': '#00A6D6'}),
 
     html.Div(
         html.Div(className='row',

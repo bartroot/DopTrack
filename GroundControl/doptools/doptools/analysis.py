@@ -4,11 +4,14 @@ import matplotlib.pyplot as plt
 from datetime import time
 from collections import defaultdict
 from tqdm import tqdm
+import logging
 
-from .model_doptrack import SatellitePassRecorded
-from .model_tle import SatellitePassTLE
+from .model import SatellitePassRecorded, SatellitePassTLE
 from .io import Database
 from .config import Config
+
+
+logger = logging.getLogger(__name__)
 
 
 class ResidualAnalysis:
@@ -57,8 +60,6 @@ class BulkAnalysis:
         except FileNotFoundError:
             self.update()
 
-        self.database = Database()
-
     def plot(self, key1, key2):
         fig = plt.figure()
         ax = fig.add_subplot(111)
@@ -70,7 +71,7 @@ class BulkAnalysis:
 
     def update(self):
         datadict = defaultdict(list)
-        dataids = self.database.get_dataids('yml rre')
+        dataids = Database().dataids['L1B']
         for dataid in tqdm(dataids, desc='Analyzing passes:'):
             a = ResidualAnalysis(dataid)
             datadict['dataid'].append(a.dataid)
