@@ -19,16 +19,18 @@ class Config:
         config['paths']['default'] = Path(config['paths']['default'])
 
         # Get remaining full paths
-        for path in config['paths']:
-            if config['paths'][path] == 'None':
-                config['paths'][path] = config['paths']['default'] / path
-            elif path == 'recordings':
-                recpaths = []
-                for _, recpath in config['paths']['recordings'].items():
-                    recpaths.append(Path(recpath))
-                config['paths']['recordings'] = set(recpaths)
+        for key, path in config['paths'].items():
+            if key == 'L0':
+                if isinstance(path,  dict):
+                    config['paths'][key] = {Path(subpath) for subpath in path.values()}
+                elif path is None:
+                    config['paths'][key] = {config['paths']['default'] / key}
+                else:
+                    config['paths'][key] = {Path(path)}
+            elif path is None:
+                config['paths'][key] = config['paths']['default'] / key
             else:
-                config['paths'][path] = Path(config['paths'][path])
+                config['paths'][key] = Path(path)
 
         # Add config dictionary to instance dictionary
         self.__dict__.update(config)

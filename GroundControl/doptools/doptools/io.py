@@ -22,38 +22,48 @@ levels = {'L0': '32fc',
 
 class Database:
 
-    def __init__(self, config=Config()):
+    def __init__(self, config=None):
 
+        config = config if config is not None else Config()
         self.paths = config.paths
-        self.dataids = self._dataids()
 
     def filepath(self, dataid, level, meta=False):
+        if f'{level}_meta' not in levels:
+            raise RuntimeError(f'Meta files are not used for data level {level}')
+
         if not meta:
             filename = f'{dataid}.{levels[level]}'
         else:
             filename = f"{dataid}.{levels[f'{level}_meta']}"
-        filepath = self.paths[level] / filename
+
+        if level == 'L0':
+            folderpath = self._get_folder_with_file(filename, self.paths[level])
+        else:
+            folderpath = self.paths[level]
+        filepath = folderpath / filename
 
         if filepath.is_file():
             return filepath
         else:
             raise FileNotFoundError(f'No such file in database: {filepath}')
 
-    def status(self, dataid):
+    @classmethod
+    def setup(cls, config=None):
 
-        L0 = dataid in set.intersection(self.dataids['L0'], self.dataids['L0_meta'])
-        L1A = dataid in set.intersection(self.dataids['L1A'], self.dataids['L1A_meta'])
-        L1B = dataid in self.dataids['L1B']
-        L2 = dataid in self.dataids['L2']
+        config = config if config is not None else Config()
 
-        print(30 * '-')
-        print(dataid)
-        print(30 * '-')
-        print(f"{'L0':3}  {L0}")
-        print(f"{'L1A':3}  {L1A}")
-        print(f"{'L1B':3}  {L1B}")
-        print(f"{'L2':3}  {L2}")
-        print(30 * '-')
+        for key, path in config.paths.items():
+            if key == 'L0':
+                paths = path if isinstance(path, set) else {path}
+                for subpath in paths:
+                    if not subpath.is_dir():
+                        logger.error(f'Given L0 data folder does not exist: {subpath}')
+            elif key in ['default', 'L1A', 'L1B', 'L2', 'external', 'output', 'logs']:
+                if not path.is_dir():
+                    logger.info(f'Creating folder ({key}): {path}')
+                    os.makedirs(path)
+                else:
+                    logger.info(f'Folder already exists ({key}): {path}')
 
     def create_log(self):
 
@@ -84,19 +94,18 @@ class Database:
         with open(self.paths['logs'] / 'database.log', 'r') as logfile:
             return yaml.load(logfile)
 
-
-    def _dataids(self):
+    @property
+    def dataids(self):
         dataid_dict = {}
 
         for level, ext in levels.items():
             baselevel = level.split('_')[0]
-            if self.paths[baselevel] is not set:
+            if not isinstance(self.paths[baselevel], set):
                 files = self._listfiles(self.paths[baselevel])
             else:
                 files = []
                 for path in self.paths[baselevel]:
-                    files.append(self._listfiles(path))
-
+                    files.extend(self._listfiles(path))
             dataid_dict[level] = set([file.split('.')[0] for file in files
                                       if file.split('.')[-1] == ext])
         dataid_dict['all'] = set.union(*dataid_dict.values())
@@ -105,35 +114,44 @@ class Database:
     @staticmethod
     def _listfiles(path):
         """List all files, excluding folders, in a directory"""
-        try:
-            return [name for name in os.listdir(path) if len(name.split('.')) != 1]
-        except FileNotFoundError as e:
-            logger.error(e)
-            return []
+        return [name for name in os.listdir(path) if len(name.split('.')) != 1]
 
-#    def print_dataids(self):
-#        ymls = self.get_dataids('yml')
-#        rres = self.get_dataids('rre')
-#        passids = {}
-#        for dataid in set.union(ymls, rres):
-#            satid = '_'.join(dataid.split('_')[:2])
-#            if satid not in passids:
-#                passids[satid] = {'yml': [], 'rre': [], 'both': []}
-#            if dataid in ymls:
-#                passids[satid]['yml'].append(dataid)
-#            if dataid in rres:
-#                passids[satid]['rre'].append(dataid)
-#            if dataid in set.intersection(ymls, rres):
-#                passids[satid]['both'].append(dataid)
-#
-#        # TODO add 32fc files to overview
-#        print(39 * '-')
-#        print(f"{'SatName':15}{'SatID':5}{'yml':>7}{'rre':>6}{'both':>6}")
-#        print(39 * '-')
-#        for key, val in passids.items():
-#            satname, satid = key.split('_')[:2]
-#            print(f"{satname:15}{satid:5}{len(val['yml']):7}{len(val['rre']):6}{len(val['both']):6}")
-#        print(39 * '-')
+    @staticmethod
+    def _get_folder_with_file(filename, folders):
+        """Returns the first folder that contains file"""
+        for folder in folders:
+            filepath = folder / filename
+            if filepath.is_file():
+                return folder
+        else:
+            logger.error('L0 file was searched for in multiple folders but not found')
+            Path()
+
+
+class DataID(str):
+
+    def valid(self):
+        raise NotImplementedError
+
+    @property
+    def satname(self):
+        satname, satid, strtimestamp = self.split('_')
+        return satname
+
+    @property
+    def satid(self):
+        satname, satid, timestamp = self.split('_')
+        return satid
+
+    @property
+    def strtimestamp(self):
+        satname, satid, strtimestamp = self.split('_')
+        return strtimestamp
+
+    @property
+    def timestamp(self):
+        raise NotImplementedError
+
 
 
 def read_meta(dataid, filepath=None):
@@ -173,7 +191,8 @@ def read_rre(dataid, filepath=None, metafilepath=None):
     return rre
 
 
-def read_eopp(folderpath=Database().paths['external']):
+def read_eopp(folderpath=None):
+    folderpath = Database().paths['external'] if folderpath is None else folderpath
     data = dict(MJD=[], Xp=[], Yp=[])
     try:
         for filename in os.listdir(folderpath / 'eopp'):
@@ -194,7 +213,8 @@ def read_eopp(folderpath=Database().paths['external']):
     return df
 
 
-def read_eopc04(folderpath=Database().paths['external']):
+def read_eopc04(folderpath=None):
+    folderpath = Database().paths['external'] if folderpath is None else folderpath
     data = dict(datetime=[], DUT1=[], LOD=[])
     try:
         with open(folderpath / 'eopc04.dat') as f:
@@ -212,7 +232,8 @@ def read_eopc04(folderpath=Database().paths['external']):
     return df
 
 
-def read_tai_utc(folderpath=Database().paths['external']):
+def read_tai_utc(folderpath=None):
+    folderpath = Database().paths['external'] if folderpath is None else folderpath
     month = dict(JAN=1, FEB=2, MAR=3, APR=4, MAY=5, JUN=6,
                  JUL=7, AUG=8, SEP=9, OCT=10, NOV=11, DEC=12)
     data = dict(datetime=[], JD=[], DAT=[])
