@@ -1,12 +1,12 @@
 paths:
-    default: ../../../data
-    L0: None
-    L1A: None
-    L1B: None
-    L2: None
-    output: None
-    external: None
-    logs: None
+    default: <absolute path>
+    L0: null
+    L1A: null
+    L1B: null
+    L2: null
+    output: null
+    external: null
+    logs: null
 
 station:
     latitude: 51.9989
@@ -18,4 +18,4 @@ space-track.org:
     password: <PASSWORD>
 
 runtime:
-    log_level: DEBUG
+    logging: false
