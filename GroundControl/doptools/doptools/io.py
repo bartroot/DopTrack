@@ -28,6 +28,9 @@ class Database:
         self.paths = config.paths
 
     def filepath(self, dataid, level, meta=False):
+
+        dataid = DataID(dataid)
+
         if f'{level}_meta' not in levels:
             raise RuntimeError(f'Meta files are not used for data level {level}')
 
@@ -65,34 +68,8 @@ class Database:
                 else:
                     logger.info(f'Folder already exists ({key}): {path}')
 
-    def create_log(self):
-
-        logdict = {}
-
-        for dataid in sorted(self.dataids['all']):
-            logdict[dataid] = {'processed': {'rec_armed': None,
-                                             'recorded': None,
-                                             'level_1A': None,
-                                             'level_1B': None,
-                                             'level_2': None},
-                               'files': {'rec_data': dataid in self.dataids['L0'],
-                                         'rec_meta': dataid in self.dataids['L0_meta'],
-                                         'level_1A': dataid in self.dataids['L1A'],
-                                         'level_1B': dataid in self.dataids['L1B'],
-                                         'level_2': dataid in self.dataids['L2']}}
-        with open(self.paths['logs'] / 'database.log', 'w') as logfile:
-            yaml.dump(logdict, stream=logfile, default_flow_style=False)
-
-    def update_log(self, dataid, level, value):
-        logdict = self.load_log()
-        # TODO should be changed - processed vs files
-        logdict[dataid]['processed'] = value
-        with open(self.paths['logs'] / 'database.log', 'w') as logfile:
-            yaml.dump(logdict, stream=logfile, default_flow_style=False)
-
-    def load_log(self):
-        with open(self.paths['logs'] / 'database.log', 'r') as logfile:
-            return yaml.load(logfile)
+    def validate(self):
+        raise NotImplementedError()
 
     @property
     def dataids(self):
@@ -106,8 +83,8 @@ class Database:
                 files = []
                 for path in self.paths[baselevel]:
                     files.extend(self._listfiles(path))
-            dataid_dict[level] = set([file.split('.')[0] for file in files
-                                      if file.split('.')[-1] == ext])
+            filenames_with_correct_ext = [file for file in files if file.split('.')[-1] == ext]
+            dataid_dict[level] = self._get_dataids_from_filenames(filenames_with_correct_ext)
         dataid_dict['all'] = set.union(*dataid_dict.values())
         return dataid_dict
 
@@ -127,30 +104,53 @@ class Database:
             logger.error('L0 file was searched for in multiple folders but not found')
             Path()
 
+    @staticmethod
+    def _get_dataids_from_filenames(filenames):
+        valid_dataids = []
+        for filename in filenames:
+            filestem = filename.split('.')[0]
+            try:
+                valid_dataids.append(DataID(filestem))
+            except TypeError:
+                logger.warning(f'File with incorrect dataid in database: {filename}')
+
+        return set(valid_dataids)
+
 
 class DataID(str):
 
-    def valid(self):
-        raise NotImplementedError
+    def __init__(self, string):
+        self.validate()
+
+    def validate(self):
+        try:
+            assert len(self.split('_')) == 3
+            assert len(self.satnum) == 5
+            assert len(self.strtimestamp) == 12
+        except AssertionError as e:
+            raise TypeError(f'Invalid dataid format {self}. {e}')
 
     @property
     def satname(self):
-        satname, satid, strtimestamp = self.split('_')
+        satname, satnum, strtimestamp = self.split('_')
         return satname
 
     @property
-    def satid(self):
-        satname, satid, timestamp = self.split('_')
-        return satid
+    def satnum(self):
+        satname, satnum, timestamp = self.split('_')
+        return satnum
 
     @property
     def strtimestamp(self):
-        satname, satid, strtimestamp = self.split('_')
+        satname, satnum, strtimestamp = self.split('_')
         return strtimestamp
 
     @property
     def timestamp(self):
-        raise NotImplementedError
+        raise NotImplementedError()
+
+    def __repr__(self):
+        return f"DataID('{str(self)}')"
 
 
 
