@@ -1,7 +1,7 @@
 DopTrack
 ========
 
-This repository contains all files relevant to the DopTrack activities.
+This repository contains all files relevant to the DopTrack activities. Project website is http://doptrack.tudelft.nl/Site/Welcome.html 
 
 GroundControl
 -----
