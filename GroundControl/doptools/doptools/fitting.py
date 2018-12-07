@@ -1,12 +1,13 @@
-import sys
 import logging
 import autograd.numpy as np
 import scipy.optimize as optimize
 
-from .config import Config
-
 
 logger = logging.getLogger(__name__)
+
+
+class FittingError(Exception):
+    pass
 
 
 def tanh(xs, a, b, c, d):
@@ -25,10 +26,12 @@ def fit_tanh(xs, ys, dt):
     xtol = 10**-8
     max_nfev = 10000
 
-    # prepare curve data
     # non-linear least squares
-    fit_coeffs, covar = optimize.curve_fit(tanh, xs, ys, p0=p0, loss='soft_l1',
-                                           method='trf', ftol=ftol, xtol=xtol, max_nfev=max_nfev)
+    try:
+        fit_coeffs, covar = optimize.curve_fit(tanh, xs, ys, p0=p0, loss='soft_l1',
+                                               method='trf', ftol=ftol, xtol=xtol, max_nfev=max_nfev)
+    except RuntimeError as e:
+        raise FittingError(f'Fitting of tanh was unsuccessful: {e}')
 
     return fit_coeffs
 
@@ -83,10 +86,10 @@ def fit_residual(times, residual):
                                                    loss='soft_l1',
                                                    max_nfev=max_nfev)
             fit_coeffs[-1] = (fit_coeffs[-1]) / np.std(times)
-            logger.info(f'Residual fitting converged using {func.__name__}')
+            logger.debug(f'Residual fitting converged using {func.__name__}')
             return func, fit_coeffs
         except RuntimeError:
-            logger.warning(f'Fitting function {func.__name__} did not converge.')
+            logger.warning(f'Fitting function {func.__name__} did not converge')
             continue
 
-    raise RuntimeError('None of the fitting functions converged.')
+    raise FittingError('None of the residual fitting functions converged')

@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
@@ -13,6 +14,10 @@ from . import fitting
 
 
 logger = logging.getLogger(__name__)
+
+
+class EmptyRecordingError(Exception):
+    pass
 
 
 class Recording:
@@ -46,17 +51,22 @@ class Recording:
     def data(self, dt):
         """Returns an iterable of the raw data cut into chunks of  size dt*sample_rate."""
         database = Database()
+        filepath = database.filepath(self.dataid, level='L0')
+
+        if os.stat(filepath).st_size < 10*10**6:  # Check if file is more than 10 mb
+            raise EmptyRecordingError(f'L0 data file for {self.dataid} is empty or too small')
+
         samples = int(self.sample_freq * self.duration)
         timesteps = int(self.duration / dt)
         cutoff = int(2 * samples / timesteps)
-        with open(database.filepath(self.dataid, level='L0'), 'r') as file:
+        with open(filepath, 'r') as file:
             for i in range(timesteps):
                 yield np.fromfile(file, dtype=np.float32, count=cutoff)
 
 
-class Spectrogram:
+class L1A:
     """
-    Spectrogram of a DopTrack recording.
+    L1A data (spectrogram) of a DopTrack recording.
 
     Parameters
     ----------
@@ -81,8 +91,8 @@ class Spectrogram:
     def __init__(self, dataid, spectrogram, freq_lims, time_lims, dt):
         self.dataid = dataid
         self.recording = Recording(dataid)
-        self.image = spectrogram
-        self.image_decibel = self._to_decibel(spectrogram)
+        self.spectrogram = spectrogram
+        self.spectrogram_decibel = self._to_decibel(spectrogram)
         self.freq_lims = freq_lims
         self.time_lims = time_lims
         self.dt = dt
@@ -116,7 +126,7 @@ class Spectrogram:
         Warnings
         --------
         The dt parameter should be chosen carefully. "Nice" values like 1,
-        0.5, or 0.2 should work, but non-"nice" values like 0.236687 will
+        0.5, or 0.2 should work, but "ugly" values like 0.236687 will
         most likely raise an array broadcast exception.
         """
 
@@ -222,7 +232,10 @@ class Spectrogram:
             file.write(f'ylim_lower={self.time_lims[0]}\n')
             file.write(f'ylim_upper={self.time_lims[1]}')
 
-        np.save(folderpath / f'{filename}.npy', self.image)
+        filepath = folderpath / f'{filename}.npy'
+        np.save(filepath, self.spectrogram)
+
+        logger.info(f'Sepctrogram saved to {filepath}')
 
     def plot(self, savepath=None, cmap='viridis', clim=None, decibel=False, **kwargs):
         """
@@ -251,9 +264,9 @@ class Spectrogram:
         cax = divider.append_axes('right', size='5%', pad=0.05)
 
         # Plot spectrogram with defined limits.
-        image = self.image_decibel if decibel else self.image
-        clim = (0, image.mean() + 4*image.std()) if not clim else clim
-        im = ax.imshow(image,
+        spectrogram = self.spectrogram_decibel if decibel else self.spectrogram
+        clim = (0, spectrogram.mean() + 4*spectrogram.std()) if not clim else clim
+        im = ax.imshow(spectrogram,
                        extent=(self.freq_lims[0],
                                self.freq_lims[1],
                                num_time_lims[0],
@@ -304,7 +317,7 @@ class Spectrogram:
         axis.set_major_locator(mdates.MinuteLocator(interval=2))
 
 
-class FrequencyData:
+class L1B:
 
     def __init__(self, data):
 
@@ -313,15 +326,14 @@ class FrequencyData:
         self.recording = Recording(self.dataid)
 
     @classmethod
-    def create(cls, spectrogram):
+    def create(cls, L1A_data, plot=False):
 
-        logger.info(f"Extracting frequency data for {spectrogram.dataid}")
+        logger.info(f"Extracting frequency data for {L1A_data.dataid}")
 
-        logger.debug(f'Extracting frequency data points from {spectrogram.dataid}')
-        data = extract_frequency_data(spectrogram.image, spectrogram.dt)
-        data['dt'] = spectrogram.dt
-        data['image'] = spectrogram.image
-        data['dataid'] = spectrogram.dataid
+        data = extract_frequency_data(L1A_data.spectrogram, L1A_data.dt, plot=plot)
+        data['dt'] = L1A_data.dt
+        data['spectrogram'] = L1A_data.spectrogram
+        data['dataid'] = L1A_data.dataid
 
         return cls(data)
 
@@ -338,6 +350,7 @@ class FrequencyData:
             data['tca'] = float(file.readline().strip('\n').split('=')[1])
             data['fca'] = float(file.readline().strip('\n').split('=')[1])
             data['dt'] = float(file.readline().strip('\n').split('=')[1])
+            data['rms'] = float(file.readline().strip('\n').split('=')[1])
 
             line = file.readline().strip('\n')
             string_coeffs = line.split('=')[1].strip('[]').split()
@@ -394,6 +407,7 @@ class FrequencyData:
             file.write(f"tca={self.tca}\n")
             file.write(f"fca={self.fca}\n")
             file.write(f"dt={self.dt}\n")
+            file.write(f"rms={self.rms}\n")
 
             file.write(f"tanh_coeffs={self.tanh_coeffs}\n")
             file.write(f"residual_func={self.residual_func.__name__}\n")
@@ -406,16 +420,17 @@ class FrequencyData:
                 datetime = start_time + timedelta(seconds=int(time))
                 file.write(f"{datetime},{time},{frequency},{power}\n")
 
-    def plot(self, fit_func=True, savepath=None):
+    def plot(self, fit_func=True, savepath=None, cmap='viridis', clim=None):
         fig, ax = plt.subplots(figsize=(16, 9))
 
         try:
-            xlim = (0 - 0.5, self.image.shape[1] - 0.5)
-            ylim = (self.image.shape[0]*self.dt, 0)
+            xlim = (0 - 0.5, self.spectrogram.shape[1] - 0.5)
+            ylim = (self.spectrogram.shape[0]*self.dt, 0)
             ax.set_xlim(*xlim)
             ax.set_ylim(*ylim)
+            clim = (0, self.spectrogram.mean() + 4*self.spectrogram.std()) if not clim else clim
             # TODO fix to take into account different nfft
-            ax.imshow(self.image, clim=(0, 0.1), cmap='viridis', aspect='auto',
+            ax.imshow(self.spectrogram, clim=clim, cmap=cmap, aspect='auto',
                       extent=(xlim[0],
                               xlim[1],
                               ylim[0],
@@ -435,5 +450,7 @@ class FrequencyData:
             fig.show()
 
 
-class RangerateData:
-    pass
+class L2:
+
+    def __init__(self):
+        raise NotImplementedError

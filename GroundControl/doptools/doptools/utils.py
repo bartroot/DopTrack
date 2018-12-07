@@ -1,11 +1,24 @@
 import sys
-import numpy as np
+import logging
 from collections import namedtuple
 from functools import wraps
 from time import time
 
 Position = namedtuple('Position', 'x y z')
 GeodeticPosition = namedtuple('GeodeticPosition', 'latitude longitude altitude')
+
+log_format_string = '%(asctime)s - %(name)-20s - %(levelname)-8s - %(message)-s'
+log_formatter = logging.Formatter(log_format_string)
+
+
+def inspect_loggers(logger_name):
+    """"Inspect a logger including all its parents."""
+    log_to_debug = logging.getLogger(logger_name)
+    while log_to_debug is not None:
+        print("level: %s, name: %s, handlers: %s" % (log_to_debug.level,
+                                                     log_to_debug.name,
+                                                     log_to_debug.handlers))
+        log_to_debug = log_to_debug.parent
 
 
 def timing(num=1, exit_after_run=False):
@@ -41,11 +54,3 @@ def timing(num=1, exit_after_run=False):
             return result
         return wrap
     return decorator
-
-
-#log_to_debug = logging.getLogger(f'{__name__}.test')
-#while log_to_debug is not None:
-#    print("level: %s, name: %s, handlers: %s" % (log_to_debug.level,
-#                                                 log_to_debug.name,
-#                                                 log_to_debug.handlers))
-#    log_to_debug = log_to_debug.parent

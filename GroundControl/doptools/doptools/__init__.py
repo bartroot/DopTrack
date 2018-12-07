@@ -1,6 +1,11 @@
 import logging
 import sys
 
+from .config import Config
+from .utils import log_format_string
 
-#  logging.getLogger(__name__).addHandler(logging.NullHandler())
-logging.basicConfig(stream=sys.stdout, format='%(asctime)s %(name)-20s %(levelname)-8s %(message)-s', level=logging.DEBUG)
+
+if Config().runtime['logging']:
+    logging.basicConfig(stream=sys.stdout, format=log_format_string, level=logging.DEBUG)
+else:
+    logging.getLogger(__name__).addHandler(logging.NullHandler())

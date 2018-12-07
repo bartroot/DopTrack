@@ -24,7 +24,7 @@ def time2004():
     return time
 
 
-class TestDatetimeConverter():
+class TestDatetimeConverter:
     def test_time2juliandate(self):
         """vallado1997, example 1-4, p.68"""
         time = datetime(1996, 10, 26, 14, 20)
