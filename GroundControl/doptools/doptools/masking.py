@@ -2,28 +2,62 @@ import numpy as np
 import cv2
 
 
-# These coeffs appear to work well for dt's of both 0.2, 0.5, 1, and 2 seconds
-coeffs = {'freq': {'thresh': 0.5,
-                   'erode': (1, 80),
-                   'dilate': (10, 2000)},
-          'time': {'thresh': 1.0,
-                   'erode': (20, 1),
-                   'dilate': (500, 20)}}
+def vertical_mask(image, dt):
 
+    scale_factor = np.sqrt(dt)
+    coeffs = {'thresh': 0.5,
+              'erode': (int(15/scale_factor), 1),
+              'dilate': (int(500/scale_factor), 10)}
 
-def area_mask(image, ori):
-
-    # TODO add warning for undefined dt
-
-    mask = image > np.mean(image) + coeffs[ori]['thresh'] * np.std(image)
+    mask = image > np.mean(image) + coeffs['thresh'] * np.std(image)
 
     # Erode the mask to find the location of areas with highest values
-    kernel = np.ones(coeffs[ori]['erode'], np.uint8)
+    kernel = np.ones(coeffs['erode'], np.uint8)
     mask = cv2.erode(mask.astype(np.uint8), kernel)
 
     # Dilate the mask to find approximate areas with highest values
-    kernel = np.ones(coeffs[ori]['dilate'], np.uint8)
+    kernel = np.ones(coeffs['dilate'], np.uint8)
     mask = cv2.dilate(mask, kernel)
+
+    # Invert ones and zeros to get the correct mask
+    mask = np.logical_not(mask)
+
+    return mask
+
+
+def horizontal_mask(image, dt):
+
+    scale_factor = np.sqrt(dt)
+    coeffs = {'thresh': 0.5,
+              'erode': (1, 80),
+              'dilate': (int(3/scale_factor), 2000)}
+
+    mask = image > np.mean(image) + coeffs['thresh'] * np.std(image)
+
+    # Erode the mask to find the location of areas with highest values
+    kernel = np.ones(coeffs['erode'], np.uint8)
+    mask = cv2.erode(mask.astype(np.uint8), kernel)
+
+    # Dilate the mask to find approximate areas with highest values
+    kernel = np.ones(coeffs['dilate'], np.uint8)
+    mask = cv2.dilate(mask, kernel)
+
+    # Invert ones and zeros to get the correct mask
+    mask = np.logical_not(mask)
+
+    return mask
+
+
+def spike_mask(image, dt):
+
+    scale_factor = np.sqrt(dt)
+    coeffs = {'dilate': (int(10/scale_factor), 50)}
+
+    mask = image > 1
+
+    # Dilate the mask to find approximate areas with highest values
+    kernel = np.ones(coeffs['dilate'], np.uint8)
+    mask = cv2.dilate(mask.astype(np.uint8), kernel)
 
     # Invert ones and zeros to get the correct mask
     mask = np.logical_not(mask)

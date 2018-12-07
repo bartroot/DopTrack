@@ -31,7 +31,7 @@ class Database:
 
         dataid = DataID(dataid)
 
-        if f'{level}_meta' not in levels:
+        if meta and f'{level}_meta' not in levels:
             raise RuntimeError(f'Meta files are not used for data level {level}')
 
         if not meta:
@@ -49,6 +49,33 @@ class Database:
             return filepath
         else:
             raise FileNotFoundError(f'No such file in database: {filepath}')
+
+    def update_status(self, dataid, status):
+
+        if status not in {'success', 'empty_recording', 'pass_not_found', 'unknown_error'}:
+            raise ValueError(f'Given status {status} is not a valid status')
+
+        status_dict = self.read_status()
+        status_dict[dataid] = status
+        self.save_status(status_dict)
+
+    def read_status(self):
+        status_dict = {}
+        filepath = self.paths['default'] / 'status.txt'
+        if filepath.is_file():
+            with open(filepath, 'r') as readfile:
+                readfile.readline()
+                for line in readfile.readlines():
+                    dataid_old, status_old = line.split()
+                    status_dict[dataid_old] = status_old
+        return status_dict
+
+    def save_status(self, status_dict):
+        filepath = self.paths['default'] / 'status.txt'
+        with open(filepath, 'w') as savefile:
+            savefile.write('dataid                         error\n')
+            for key in sorted(status_dict):
+                savefile.write(f'{key}    {status_dict[key]}\n')
 
     @classmethod
     def setup(cls, config=None):
@@ -101,8 +128,7 @@ class Database:
             if filepath.is_file():
                 return folder
         else:
-            logger.error('L0 file was searched for in multiple folders but not found')
-            Path()
+            raise FileNotFoundError(f'No such file in database: {filename}')
 
     @staticmethod
     def _get_dataids_from_filenames(filenames):
@@ -156,7 +182,6 @@ class DataID(str):
 
 def read_meta(dataid, filepath=None):
     if filepath is None:
-        dataid = dataid[:27]
         filepath = Database().filepath(dataid, level='L0', meta=True)
     with open(filepath, 'r') as metafile:
         meta = yaml.load(metafile)

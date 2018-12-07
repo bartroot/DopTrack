@@ -7,8 +7,8 @@ from time import time
 Position = namedtuple('Position', 'x y z')
 GeodeticPosition = namedtuple('GeodeticPosition', 'latitude longitude altitude')
 
-
-log_formatter = logging.Formatter('%(asctime)s - %(name)-20s - %(levelname)-8s - %(message)-s')
+log_format_string = '%(asctime)s - %(name)-20s - %(levelname)-8s - %(message)-s'
+log_formatter = logging.Formatter(log_format_string)
 
 
 def inspect_loggers(logger_name):
