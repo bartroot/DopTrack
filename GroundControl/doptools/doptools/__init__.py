@@ -1,8 +1,13 @@
-import logging
+import os
 import sys
+import logging
 
 from .config import Config
 from .utils import log_format_string
+
+if os.name == 'posix':
+    import matplotlib
+    matplotlib.use('Agg')
 
 
 if Config().runtime['logging']:
