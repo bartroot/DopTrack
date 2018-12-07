@@ -3,7 +3,7 @@
 import sys, getopt
 import numpy as np
 from scipy.fftpack import fft, ifft
-import Image
+#import Image
 import matplotlib as mpl
 import matplotlib.cm as cmMat
 import matplotlib.pyplot as plt
@@ -20,11 +20,11 @@ def main(argv):
    try:
       opts, args = getopt.getopt(argv,"hi:o:m:",["ifile=","ofile=","mfile="])
    except getopt.GetoptError:
-      print 'spectrogram.py -i <inputfile> -o <outputfile> -m <metafile>'
+      print('spectrogram.py -i <inputfile> -o <outputfile> -m <metafile>')
       sys.exit(2)
    for opt, arg in opts:
       if opt == '-h':
-         print 'spectogram.py -i <inputfile> -o <outputfile> -m <metafile>'
+         print('spectogram.py -i <inputfile> -o <outputfile> -m <metafile>')
          sys.exit()
       elif opt in ("-i", "--ifile"):
          inputfile = arg
@@ -56,7 +56,7 @@ def main(argv):
    #n2 = 1 #nextpow 2 algoritm
    #while n2 < L/Time/Dt: n2 *= 2
    #NFFT = 2.^n2 
-   NFFT = 65536.
+   NFFT = 65536
    #half = NFFT/2
 
    # get values for axis waterfall plot
@@ -67,8 +67,8 @@ def main(argv):
    time = np.arange(1,Time+1,ny)
 
    # set certain zoom area
-   lbound = 12000
-   rbound = 24000
+   lbound = -8000
+   rbound = 4000
 
    LF = np.array((bandwidth>lbound).nonzero())
    lfreq = LF.min()+1
@@ -78,7 +78,7 @@ def main(argv):
    tmp = bandwidth[lfreq:rfreq+1]
    numC = tmp.size
 
-   Waterfall = np.zeros([Time/Dt,numC],dtype='float')
+   Waterfall = np.zeros([int(Time/Dt),int(numC)],dtype='float')
 
    # Initialize Matrices
    forend = int(Time/Dt)
