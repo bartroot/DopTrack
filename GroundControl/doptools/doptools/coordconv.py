@@ -66,12 +66,12 @@ class DatetimeConverter():
             self.dut1 = dut1
         else:
             i = EOPC04.index.searchsorted(self.utc) - 1
-            self.dut1 = EOPC04.ix[EOPC04.index[i]]['DUT1']
+            self.dut1 = EOPC04.loc[EOPC04.index[i]]['DUT1']
         if dat:
             self.dat = dat
         else:
             i = DAT.index.searchsorted(self.utc) - 1
-            self.dat = DAT.ix[DAT.index[i]]['DAT']
+            self.dat = DAT.loc[DAT.index[i]]['DAT']
 
     @property
     def ut1(self):

@@ -7,7 +7,7 @@ class Config:
     def __init__(self, configpath=None):
 
         if configpath:
-            configpath = Path(configpath)
+            configpath = Path(configpath).resolve()
         else:
             configpath = Path.home() / 'dopconfig.yml'
 
@@ -16,7 +16,10 @@ class Config:
         config['paths']['config'] = configpath
 
         # Get full default path
-        config['paths']['default'] = Path(config['paths']['default'])
+        defaultpath = Path(config['paths']['default'])
+        if not defaultpath.is_absolute():
+            defaultpath = configpath.parent / defaultpath
+        config['paths']['default'] = defaultpath
 
         # Get remaining full paths
         for key, path in config['paths'].items():
