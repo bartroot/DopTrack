@@ -5,6 +5,7 @@ import numpy as np
 from pathlib import Path
 from datetime import datetime, timedelta
 import pandas as pd
+from collections import defaultdict
 
 from .config import Config
 
@@ -99,7 +100,7 @@ class Database:
         raise NotImplementedError()
 
     @property
-    def dataids(self):
+    def dataids(self, filter_status=False):
         dataid_dict = {}
 
         for level, ext in levels.items():
@@ -112,7 +113,16 @@ class Database:
                     files.extend(self._listfiles(path))
             filenames_with_correct_ext = [file for file in files if file.split('.')[-1] == ext]
             dataid_dict[level] = self._get_dataids_from_filenames(filenames_with_correct_ext)
+
+        status_dict = defaultdict(set)
+        for dataid, status in self.read_status().items():
+            if status != 'success':
+                status_dict[status].add(DataID(dataid))
+        dataid_dict.update(status_dict)
+
+        dataid_dict['L1B_failed'] = set.union(*status_dict.values())
         dataid_dict['all'] = set.union(*dataid_dict.values())
+
         return dataid_dict
 
     @staticmethod
@@ -177,7 +187,6 @@ class DataID(str):
 
     def __repr__(self):
         return f"DataID('{str(self)}')"
-
 
 
 def read_meta(dataid, filepath=None):

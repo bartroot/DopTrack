@@ -28,11 +28,7 @@ logger.addHandler(fh2)
 
 
 db = Database()
-
-L0_dataids = db.dataids['L0']
-L1B_dataids = db.dataids['L1B']
-
-dataids_to_process = L0_dataids - L1B_dataids
+dataids_to_process = db.dataids['L0'] - db.dataids['L1B'] - db.dataids['L1B_failed']
 
 
 logger.info(f'Processing {len(dataids_to_process)} data sets to level 1B')
