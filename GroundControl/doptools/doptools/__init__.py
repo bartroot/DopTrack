@@ -9,7 +9,6 @@ if os.name == 'posix':
     import matplotlib
     matplotlib.use('Agg')
 
-
 if Config().runtime['logging']:
     logging.basicConfig(stream=sys.stdout, format=log_format_string, level=logging.DEBUG)
 else:

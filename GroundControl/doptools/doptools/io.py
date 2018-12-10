@@ -100,7 +100,7 @@ class Database:
         raise NotImplementedError()
 
     @property
-    def dataids(self, filter_status=False):
+    def dataids(self):
         dataid_dict = {}
 
         for level, ext in levels.items():
