@@ -119,8 +119,10 @@ class Database:
             if status != 'success':
                 status_dict[status].add(DataID(dataid))
         dataid_dict.update(status_dict)
-
-        dataid_dict['L1B_failed'] = set.union(*status_dict.values())
+        if len(status_dict) == 0:
+            dataid_dict['L1B_failed'] = set()
+        else:
+            dataid_dict['L1B_failed'] = set.union(*status_dict.values())
         dataid_dict['all'] = set.union(*dataid_dict.values())
 
         return dataid_dict

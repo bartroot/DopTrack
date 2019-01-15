@@ -7,6 +7,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy.fftpack import fft, fftshift
 from tqdm import tqdm
 import logging
+import multiprocessing
 
 from .io import Database, read_meta
 from .extraction import extract_frequency_data, create_fit_func
@@ -53,7 +54,7 @@ class Recording:
         database = Database()
         filepath = database.filepath(self.dataid, level='L0')
 
-        if os.stat(filepath).st_size < 10*10**6:  # Check if file is more than 10 mb
+        if os.stat(filepath).st_size < 10e7:  # Check if file is more than 10 mb
             raise EmptyRecordingError(f'L0 data file for {self.dataid} is empty or too small')
 
         samples = int(self.sample_freq * self.duration)
@@ -61,7 +62,14 @@ class Recording:
         cutoff = int(2 * samples / timesteps)
         with open(filepath, 'r') as file:
             for i in range(timesteps):
-                yield np.fromfile(file, dtype=np.float32, count=cutoff)
+                if i == 0:
+                    data = np.fromfile(file, dtype=np.float32, count=cutoff)
+                    if not data.any():
+                        raise EmptyRecordingError(f'First chunck of L0 data file contains all zeros')
+                    else:
+                        yield data
+                else:
+                    yield np.fromfile(file, dtype=np.float32, count=cutoff)
 
 
 class L1A:
@@ -161,12 +169,15 @@ class L1A:
         timesteps = int(recording.duration / dt)
         # TODO fix spec width so it is not hardcoded
         spectrogram = np.zeros((timesteps, 14000))
+
         for i, raw_data in tqdm(enumerate(recording.data(dt)), total=timesteps):
+
             signal = np.zeros(int(len(raw_data)/2), dtype=np.complex)
             signal.real = raw_data[::2]
             signal.imag = -raw_data[1::2]
             row = cls._construct_spectrum(signal, nfft)
             # TODO does not currently use bounds other than as a flag
+
             if bounds:
                 row = row[mask]
             spectrogram[i] = row
@@ -217,14 +228,13 @@ class L1A:
         dataid : str
             ID of recording in the database.
         """
-        folderpath = Database().paths['spectrograms']
 
         logger.info(f"Saving spectrogram for {self.dataid}")
 
-        folderpath = Database().paths['spectrograms']
+        folderpath = Database().paths['L1A']
 
         if filename is None:
-            filename = f'{self.dataid}_{int(self.dt * 10)}'
+            filename = self.dataid
 
         with open(folderpath / f'{filename}.npy.meta', 'w+') as file:
             file.write(f'xlim_lower={self.freq_lims[0]}\n')
@@ -418,7 +428,7 @@ class L1B:
             file.write('datetime,time,frequency,power\n')
             for time, frequency, power in zip(self.time, self.frequency, self.power):
                 datetime = start_time + timedelta(seconds=int(time))
-                file.write(f"{datetime},{time},{frequency},{power}\n")
+                file.write(f"{datetime},{time:.2f},{frequency:.2f},{power:.6f}\n")
 
     def plot(self, fit_func=True, savepath=None, cmap='viridis', clim=None):
         fig, ax = plt.subplots(figsize=(16, 9))
