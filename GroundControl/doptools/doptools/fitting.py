@@ -51,13 +51,46 @@ def fourier5(x, a0, a1, a2, a3, a4, a5, b1, b2, b3, b4, b5, p):
             a5 * np.cos(5*x*p) + b5 * np.sin(5*x*p)
 
 
-def fourier6(x, a0, a1, a2, a3, a4, a5, a6, a7, b1, b2, b3, b4, b5, b6, b7, p):
+def fourier6(x, a0, a1, a2, a3, a4, a5, a6, b1, b2, b3, b4, b5, b6, p):
     return a0 + a1 * np.cos(1*x*p) + b1 * np.sin(1*x*p) + \
             a2 * np.cos(2*x*p) + b2 * np.sin(2*x*p) + \
             a3 * np.cos(3*x*p) + b3 * np.sin(3*x*p) + \
             a4 * np.cos(4*x*p) + b4 * np.sin(4*x*p) + \
             a5 * np.cos(5*x*p) + b5 * np.sin(5*x*p) + \
             a6 * np.cos(6*x*p) + b6 * np.sin(6*x*p)
+
+
+def fourier7(x, a0, a1, a2, a3, a4, a5, a6, a7, b1, b2, b3, b4, b5, b6, b7, p):
+    return a0 + a1 * np.cos(1*x*p) + b1 * np.sin(1*x*p) + \
+            a2 * np.cos(2*x*p) + b2 * np.sin(2*x*p) + \
+            a3 * np.cos(3*x*p) + b3 * np.sin(3*x*p) + \
+            a4 * np.cos(4*x*p) + b4 * np.sin(4*x*p) + \
+            a5 * np.cos(5*x*p) + b5 * np.sin(5*x*p) + \
+            a6 * np.cos(6*x*p) + b6 * np.sin(6*x*p) + \
+            a7 * np.cos(7*x*p) + b7 * np.sin(7*x*p)
+
+
+def fourier8(x, a0, a1, a2, a3, a4, a5, a6, a7, a8, b1, b2, b3, b4, b5, b6, b7, b8, p):
+    return a0 + a1 * np.cos(1*x*p) + b1 * np.sin(1*x*p) + \
+            a2 * np.cos(2*x*p) + b2 * np.sin(2*x*p) + \
+            a3 * np.cos(3*x*p) + b3 * np.sin(3*x*p) + \
+            a4 * np.cos(4*x*p) + b4 * np.sin(4*x*p) + \
+            a5 * np.cos(5*x*p) + b5 * np.sin(5*x*p) + \
+            a6 * np.cos(6*x*p) + b6 * np.sin(6*x*p) + \
+            a7 * np.cos(7*x*p) + b7 * np.sin(7*x*p) + \
+            a8 * np.cos(8*x*p) + b8 * np.sin(8*x*p)
+
+
+def fourier9(x, a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, b1, b2, b3, b4, b5, b6, b7, b8, b9, p):
+    return a0 + a1 * np.cos(1*x*p) + b1 * np.sin(1*x*p) + \
+            a2 * np.cos(2*x*p) + b2 * np.sin(2*x*p) + \
+            a3 * np.cos(3*x*p) + b3 * np.sin(3*x*p) + \
+            a4 * np.cos(4*x*p) + b4 * np.sin(4*x*p) + \
+            a5 * np.cos(5*x*p) + b5 * np.sin(5*x*p) + \
+            a6 * np.cos(6*x*p) + b6 * np.sin(6*x*p) + \
+            a7 * np.cos(7*x*p) + b7 * np.sin(7*x*p) + \
+            a8 * np.cos(8*x*p) + b8 * np.sin(8*x*p) + \
+            a9 * np.cos(9*x*p) + b9 * np.sin(9*x*p)
 
 
 def fourier3(x, a0, a1, a2, a3, b1, b2, b3, p):
@@ -76,20 +109,22 @@ def poly5(x, a0, a1, a2, a3, a4, a5, p):
 
 
 def fit_residual(times, residual):
+
     max_nfev = 6000
+    # TODO why is std normalization this needed???
     a = (times)/np.std(times)
     # non-linear least squares
-    for func in [fourier6, fourier4, fourier3, fourier5, poly3, poly5]:
+    for func in [fourier8, fourier7, fourier6, fourier5, fourier4, fourier3, fourier5, poly3, poly5]:
+
         try:
             fit_coeffs, covar = optimize.curve_fit(func, a, residual,
-                                                   method='trf',
-                                                   loss='soft_l1',
-                                                   max_nfev=max_nfev)
+                                                   method='lm',
+                                                   maxfev=max_nfev)
             fit_coeffs[-1] = (fit_coeffs[-1]) / np.std(times)
             logger.debug(f'Residual fitting converged using {func.__name__}')
             return func, fit_coeffs
         except RuntimeError:
-            logger.warning(f'Fitting function {func.__name__} did not converge')
+            logger.debug(f'Fitting function {func.__name__} did not converge')
             continue
 
     raise FittingError('None of the residual fitting functions converged')

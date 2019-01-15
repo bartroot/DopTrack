@@ -4,10 +4,9 @@ import cv2
 
 def vertical_mask(image, dt):
 
-    scale_factor = np.sqrt(dt)
-    coeffs = {'thresh': 0.5,
-              'erode': (int(15/scale_factor), 1),
-              'dilate': (int(500/scale_factor), 10)}
+    coeffs = {'thresh': 0,
+              'erode': (int(np.ceil(50/np.sqrt(dt))), 1),
+              'dilate': (int(np.ceil(100/dt)), 15)}
 
     mask = image > np.mean(image) + coeffs['thresh'] * np.std(image)
 
@@ -27,10 +26,9 @@ def vertical_mask(image, dt):
 
 def horizontal_mask(image, dt):
 
-    scale_factor = np.sqrt(dt)
-    coeffs = {'thresh': 0.5,
-              'erode': (1, 80),
-              'dilate': (int(3/scale_factor), 2000)}
+    coeffs = {'thresh': 5.0,
+              'erode': (int(np.ceil(1)), 100),
+              'dilate': (int(np.ceil(3/dt)), 1000)}
 
     mask = image > np.mean(image) + coeffs['thresh'] * np.std(image)
 
@@ -50,10 +48,9 @@ def horizontal_mask(image, dt):
 
 def spike_mask(image, dt):
 
-    scale_factor = np.sqrt(dt)
-    coeffs = {'dilate': (int(10/scale_factor), 50)}
+    coeffs = {'dilate': (int(np.ceil(8/dt)), 200)}
 
-    mask = image > 1
+    mask = image > 2.5/np.sqrt(dt)#np.mean(image) + 100 * np.std(image)
 
     # Dilate the mask to find approximate areas with highest values
     kernel = np.ones(coeffs['dilate'], np.uint8)
@@ -65,7 +62,7 @@ def spike_mask(image, dt):
     return mask
 
 
-def fit_mask(image, fit_func, dt):
+def fit_mask(image, fit_func, dt, bandwidth):
 
     mask = np.arange(image.shape[1])
     mask = np.broadcast_to(mask, image.shape)
@@ -73,7 +70,7 @@ def fit_mask(image, fit_func, dt):
     fits = fit_func(times)
     mask = abs(mask - np.reshape(fits, (-1, 1)))
 
-    mask = mask < 0.5 * 600
+    mask = mask < bandwidth/2
 
     return mask
 
