@@ -1,13 +1,40 @@
+"""Masking functions for time-frequncy data extraction.
+
+Routines
+--------
+- `vertical mask`
+- `horizontal_mask`
+- `spike_mask`
+- `fit_mask`
+- `time_mask`
+
+"""
 import numpy as np
 import cv2
 
 
 def vertical_mask(image, dt):
+    """
+    Create a mask that removes vertical lines from a spectrogram.
 
+    Parameters
+    ----------
+    image : np.array
+        The image/spectrogram to be masked.
+    dt : int or float
+        The timestep of the spectrogram.
+        Only used to give an initial guess of the coefficients.
+
+    Returns
+    -------
+    np.array
+        The mask.
+    """
     coeffs = {'thresh': 0,
               'erode': (int(np.ceil(50/np.sqrt(dt))), 1),
               'dilate': (int(np.ceil(100/dt)), 15)}
 
+    # TODO should be changed from depending on std to some fixed value
     mask = image > np.mean(image) + coeffs['thresh'] * np.std(image)
 
     # Erode the mask to find the location of areas with highest values
@@ -25,11 +52,27 @@ def vertical_mask(image, dt):
 
 
 def horizontal_mask(image, dt):
+    """
+    Create a mask that removes horizontal lines from a spectrogram.
 
+    Parameters
+    ----------
+    image : np.array
+        The image/spectrogram to be masked.
+    dt : int or float
+        The timestep of the spectrogram.
+        Only used to give an initial guess of the coefficients.
+
+    Returns
+    -------
+    np.array
+        The mask.
+    """
     coeffs = {'thresh': 5.0,
               'erode': (int(np.ceil(1)), 100),
               'dilate': (int(np.ceil(3/dt)), 1000)}
 
+    # TODO should be changed from depending on std to some fixed value
     mask = image > np.mean(image) + coeffs['thresh'] * np.std(image)
 
     # Erode the mask to find the location of areas with highest values
@@ -47,10 +90,25 @@ def horizontal_mask(image, dt):
 
 
 def spike_mask(image, dt):
+    """
+    Create a mask that removes areas around spikes in power level in a spectrogram.
 
+    Parameters
+    ----------
+    image : np.array
+        The image/spectrogram to be masked.
+    dt : int or float
+        The timestep of the spectrogram.
+        Only used to give an initial guess of the coefficients.
+
+    Returns
+    -------
+    np.array
+        The mask.
+    """
     coeffs = {'dilate': (int(np.ceil(8/dt)), 200)}
 
-    mask = image > 2.5/np.sqrt(dt)#np.mean(image) + 100 * np.std(image)
+    mask = image > 2.5/np.sqrt(dt)
 
     # Dilate the mask to find approximate areas with highest values
     kernel = np.ones(coeffs['dilate'], np.uint8)
@@ -63,7 +121,29 @@ def spike_mask(image, dt):
 
 
 def fit_mask(image, fit_func, dt, bandwidth):
+    """
+    Create a mask of the spectrogram around a fitting function.
 
+    The mask only keeps the parts of the image that are within a certain width
+    around the curve defined by the fitting function.
+
+    Parameters
+    ----------
+    image : np.array
+        The image/spectrogram to be masked.
+    fit_func : func
+        The fitting function to mask around.
+    dt : int or float
+        The timestep of the spectrogram.
+        Only used to give an initial guess of the coefficients.
+    bandwidth : float or int
+        The width of the band around the fitted curve.
+
+    Returns
+    -------
+    np.array
+        The mask.
+    """
     mask = np.arange(image.shape[1])
     mask = np.broadcast_to(mask, image.shape)
     times = np.arange(image.shape[0]) * dt
@@ -76,7 +156,26 @@ def fit_mask(image, fit_func, dt, bandwidth):
 
 
 def time_mask(image, start_time, end_time, dt):
+    """
+    Create a mask that removes the data before and after the visible pass.
 
+    Parameters
+    ----------
+    image : np.array
+        The image/spectrogram to be masked.
+    start_time : float
+        The start of the pass in seconds since beginning of recording.
+    end_time : float
+        The end of the pass in seconds since beginning of recording.
+    dt : int or float
+        The timestep of the spectrogram.
+        Only used to give an initial guess of the coefficients.
+
+    Returns
+    -------
+    np.array
+        The mask.
+    """
     min_index = int(start_time / dt)
     max_index = int(end_time / dt)
     mask = np.zeros(image.shape)

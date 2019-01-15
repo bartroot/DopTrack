@@ -1,3 +1,17 @@
+"""Data model of DopTrack
+
+This module contains classes for each main type of data used internally in
+the DopTrack project.
+
+Classes
+-------
+- `EmptyRecordingError` -- Exception thrown when a recording is empty or too small.
+- `L0` -- Radio recording from a complex binary file.
+- `L1A` -- Spectrogram processed from a radio recording.
+- `L1B` -- Time-frequency data of satellite signal extracted from a spectrogram.
+- `L2` -- Range-rate data modelled from time-frequency data.
+
+"""
 import os
 import numpy as np
 from datetime import datetime, timedelta
@@ -7,7 +21,6 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy.fftpack import fft, fftshift
 from tqdm import tqdm
 import logging
-import multiprocessing
 
 from .io import Database, read_meta
 from .extraction import extract_frequency_data, create_fit_func
@@ -21,9 +34,9 @@ class EmptyRecordingError(Exception):
     pass
 
 
-class Recording:
+class L0:
     """
-    Recording from DopTrack.
+    Radio recording from DopTrack.
 
     Parameters
     ----------
@@ -88,7 +101,6 @@ class L1A:
         The end and start time of recording. The order is reversen since it is
         convention to flip the y-axis in a spectrogram.
 
-
     Example
     --------
     >>> from doptools.doptrack import Spectrogram
@@ -98,13 +110,16 @@ class L1A:
 
     def __init__(self, dataid, spectrogram, freq_lims, time_lims, dt):
         self.dataid = dataid
-        self.recording = Recording(dataid)
+        self.recording = L0(dataid)
         self.spectrogram = spectrogram
-        self.spectrogram_decibel = self._to_decibel(spectrogram)
         self.freq_lims = freq_lims
         self.time_lims = time_lims
         self.dt = dt
         self.dfreq = (freq_lims[1] - freq_lims[0]) / spectrogram.shape[1]
+
+    @property
+    def spectrogram_decibel(self):
+        return self._to_decibel(self.spectrogram)
 
     @classmethod
     def create(cls, dataid, bounds=(12000, 24000), nfft=250_000, dt=1):
@@ -136,12 +151,15 @@ class L1A:
         The dt parameter should be chosen carefully. "Nice" values like 1,
         0.5, or 0.2 should work, but "ugly" values like 0.236687 will
         most likely raise an array broadcast exception.
+
+        Several values are stil hardcoded so the script will most likely give incorrect
+        results if nfft!=250_000 etc.
         """
 
         logger.info(f"Creating spectrogram for {dataid}")
 
         # Determine the limits of the spectrogram.
-        recording = Recording(dataid)
+        recording = L0(dataid)
         freq_lims = (recording.tuning_freq - recording.sample_freq/2,
                      recording.tuning_freq + recording.sample_freq/2)
         time_lims = (recording.stop_time, recording.start_time)
@@ -316,8 +334,8 @@ class L1A:
 
     @staticmethod
     def _to_decibel(spectrogram):
-        """ Calculate relative power level in dB of spectrum. """
-        return 10*np.log10(spectrogram / spectrogram.mean())
+        """ Calculate power level in dB of spectrogram relative to the median."""
+        return 10*np.log10(spectrogram / np.median(spectrogram))
 
     @staticmethod
     def _axis_format_totime(axis):
@@ -330,10 +348,8 @@ class L1A:
 class L1B:
 
     def __init__(self, data):
-
-        # Add data dictionary to instance dictionary
-        self.__dict__.update(data)
-        self.recording = Recording(self.dataid)
+        self.__dict__.update(data)  # Add data dictionary to instance dictionary
+        self.recording = L0(self.dataid)
 
     @classmethod
     def create(cls, L1A_data, plot=False):

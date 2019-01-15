@@ -1,3 +1,34 @@
+"""Frequency data extraction
+
+This module contains functions for extracting time-frequency data points of a
+satellite pass from a spectrograms.
+
+Classes
+-------
+- `PassNotFoundError` -- Exception thrown when no pass is found.
+
+Routines
+--------
+- `extract_frequency_data` -- Main extraction function.
+- `create_fit_func` -- Create a fitting function from Tanh and residual fit.
+- `first_masking` -- Create specgtrogram mask for the initial extraction cycle.
+- `second_masking` -- Create specgtrogram mask for the extraction refinement cycle.
+- `create_clusters` -- Create clusters of data points.
+- `estimate_tca` -- Estimate time of closest approach of the satellite pass.
+- `labels_of_clusters_with_n_or_more_points`
+- `labels_of_clusters_with_low_mean`
+- `labels_of_clusters_with_negative_slope`
+- `filter_clusters_by_label`
+- `get_rowmaxes_as_points` -- Extract the maximum pixel of each row as data points.
+- `remove_width_outliers` -- Remove data points outside some band in spectrogram.
+
+Warnings
+-----
+The current implementation of the extraction algorithm is designed specifically
+for recordings of the Delfi-C3 satellie signal. Other satellite signals with
+different modulation technique will not be extracted correctly.
+
+"""
 import matplotlib.pyplot as plt
 import logging
 import autograd.numpy as np
@@ -21,8 +52,42 @@ class PassNotFoundError(Exception):
 
 
 def extract_frequency_data(spectrogram, dt, plot=False):
+    """
+    Extract frequency data from a spectrogram.
 
-    original_spectrogram = spectrogram
+    Parameters
+    ----------
+    spectrogram : np.array
+        A 2D array with the spectrogram data.
+    dt : int or float
+        The timestep of the spectrogram.
+    plot : bool, optional
+        If True plot a figure of the resulting clusters.
+
+    Returns
+    -------
+    dict
+        Resulting data including frequency series, fitting coefficients, etc.
+
+    Raises
+    ------
+    PassNotFoundError
+        If extraction algorithm decides no pass in present in the recorded spectrogram.
+        Raised under multiple different situations.
+
+    Notes
+    -----
+    The extraction function can extract frequency data from spectrograms with
+    different timesteps, but the current algorithm is specifically designed
+    to work best with a timestep of 0.1 second. The script will run succesfully
+    with other timesteps, but the results might be suboptimal or even bad.
+
+    While timesteps close to 0.1, e.g. 0.2 or 0.3, should work fine, a more
+    robust algorithm should be developed if good results are needed for
+    timesteps in the full desired range from ~2 seconds to 0.1 seconds.
+    """
+
+    original_spectrogram = spectrogram  # The original is only kept for plotting purposes
     spectrogram = np.copy(spectrogram)
 
     #####################################################################################

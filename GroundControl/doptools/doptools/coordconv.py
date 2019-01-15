@@ -20,14 +20,14 @@ Classes
 -------
 - `DatetimeConverter` -- Class for timestamp conversions.
 
-Tranformation Functions
------------------------
-- :func:`ecef2geodetic` -- Convert from ECEF to Geodetic.
-- `geodetic2ecef`
-- :func:`teme2ecef`
+Routines
+--------
+- `ecef2geodetic` -- Convert coordinates from ECEF to Geodetic.
+- `geodetic2ecef` -- Convert coordinates from Geodetic to ECEF.
+- `teme2ecef` -- Convert coordinates from TEME to ECEF.
+- `gmst1982` -- Calculate a (deprecated) version of Greenwhich Mean Sidereal Time
 
 """
-
 import numpy as np
 from datetime import timedelta
 

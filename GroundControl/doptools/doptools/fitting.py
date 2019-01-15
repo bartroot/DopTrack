@@ -1,3 +1,15 @@
+"""Functions for fitting data during time-frequency data extraction.
+
+Classes
+-------
+- `FittingError` -- Exception thrown when fitting is unsuccesful.
+
+Routines
+--------
+- `fit_tanh` -- Fit tanh function to time-frequency data.
+- `fit_residual` -- Fit fourier function or polynomial to time-residual data.
+
+"""
 import logging
 import autograd.numpy as np
 import scipy.optimize as optimize
@@ -7,19 +19,39 @@ logger = logging.getLogger(__name__)
 
 
 class FittingError(Exception):
+    """Raised whenever the fitting algorithms fail in some way."""
     pass
 
 
-def tanh(xs, a, b, c, d):
-    return -a*np.tanh((xs - d)/c) + b
+def fit_tanh(times, frequencies, dt):
+    """
+    Extract frequency data from a spectrogram.
 
+    Parameters
+    ----------
+    times : np.array
+        The time series.
+    frequencies : np.array
+        The frequency series.
+    dt : int or float
+        The timestep of the spectrogram.
+        Only used to give an initial guess of the coefficients.
 
-def fit_tanh(xs, ys, dt):
+    Returns
+    -------
+    np.array
+        Array with the fitting coefficients of the tanh function.
+
+    Raises
+    ------
+    FittingError
+        If curve_fit fails in any way.
+    """
     # initial guess
-    a0 = (np.max(ys)-np.min(ys))/2
-    b0 = np.mean(ys)
+    a0 = (np.max(frequencies)-np.min(frequencies))/2
+    b0 = np.mean(frequencies)
     c0 = 100/dt
-    d0 = np.mean(xs)
+    d0 = np.mean(times)
     p0 = [a0, b0, c0, d0]
 
     ftol = 10**-8
@@ -28,12 +60,63 @@ def fit_tanh(xs, ys, dt):
 
     # non-linear least squares
     try:
-        fit_coeffs, covar = optimize.curve_fit(tanh, xs, ys, p0=p0, loss='soft_l1',
+        fit_coeffs, covar = optimize.curve_fit(tanh, times, frequencies, p0=p0, loss='soft_l1',
                                                method='trf', ftol=ftol, xtol=xtol, max_nfev=max_nfev)
     except RuntimeError as e:
         raise FittingError(f'Fitting of tanh was unsuccessful: {e}')
 
     return fit_coeffs
+
+
+def fit_residual(times, residual):
+    """
+    Extract frequency data from a spectrogram.
+
+    Parameters
+    ----------
+    times : np.array
+        Time series of data.
+    residual : np.array
+        Residual series of data.
+    dt : int or float
+        The timestep of the spectrogram.
+        Only used to give an initial guess of the coefficients.
+
+    Returns
+    -------
+    func
+        The function used to fit the residual.
+    np.array
+        Array with the fitting coefficients of the residual function.
+
+    Raises
+    ------
+    FittingError
+        If none of the candidate residual functions converge during fitting.
+    """
+
+    max_nfev = 6000
+    # TODO why is std normalization needed???
+    a = (times)/np.std(times)
+
+    for func in [fourier8, fourier7, fourier6, fourier5, fourier4, fourier3, fourier5, poly3, poly5]:
+        try:
+            fit_coeffs, covar = optimize.curve_fit(
+                    func, a, residual,
+                    method='lm',
+                    maxfev=max_nfev)
+            fit_coeffs[-1] = (fit_coeffs[-1]) / np.std(times)
+            logger.debug(f'Residual fitting converged using {func.__name__}')
+            return func, fit_coeffs
+        except RuntimeError:
+            logger.debug(f'Fitting function {func.__name__} did not converge')
+            continue
+
+    raise FittingError('None of the residual fitting functions converged')
+
+
+def tanh(xs, a, b, c, d):
+    return -a*np.tanh((xs - d)/c) + b
 
 
 def fourier4(x, a0, a1, a2, a3, a4, b1, b2, b3, b4, p):
@@ -106,25 +189,3 @@ def poly3(x, a0, a1, a2, a3, p):
 def poly5(x, a0, a1, a2, a3, a4, a5, p):
     return a0 + a1 * (x - p) + a2 * (x - p)**2 + a3 * (x - p)**3 + \
            a4 * (x - p)**4 + a5 * (x - p)**5
-
-
-def fit_residual(times, residual):
-
-    max_nfev = 6000
-    # TODO why is std normalization this needed???
-    a = (times)/np.std(times)
-    # non-linear least squares
-    for func in [fourier8, fourier7, fourier6, fourier5, fourier4, fourier3, fourier5, poly3, poly5]:
-
-        try:
-            fit_coeffs, covar = optimize.curve_fit(func, a, residual,
-                                                   method='lm',
-                                                   maxfev=max_nfev)
-            fit_coeffs[-1] = (fit_coeffs[-1]) / np.std(times)
-            logger.debug(f'Residual fitting converged using {func.__name__}')
-            return func, fit_coeffs
-        except RuntimeError:
-            logger.debug(f'Fitting function {func.__name__} did not converge')
-            continue
-
-    raise FittingError('None of the residual fitting functions converged')
