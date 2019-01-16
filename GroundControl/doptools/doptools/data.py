@@ -51,7 +51,6 @@ class L0:
         convention to flip the y-axis in a spectrogram.
 
     """
-
     def __init__(self, dataid):
         self.dataid = dataid
 
@@ -93,19 +92,28 @@ class L1A:
     ----------
     dataid : str
         ID of recording in the database.
+    recording : data.L0
+        Recording data object.
     spectrogram : (N, M) numpy.ndarray
-        An array containing the values of the spectrogram in dB.
+        An array containing the values of the spectrogram in power.
+    spectrogram_decibel : (N, M) numpy.ndarray
+        An array containing the values of the spectrogram in power level (dB).
     freq_lims : (float, float) tuple
         The minimum and maximum frequency values of the spectrogram.
     time_lims : (datetime.datetime, datetime.datetime) tuple
         The end and start time of recording. The order is reversen since it is
         convention to flip the y-axis in a spectrogram.
+    dt : float
+        Timestep of spectrogram.
+    dfreq : float
+        Frequency step of spectrogram.
 
     Example
     --------
-    >>> from doptools.doptrack import Spectrogram
-    >>> s = Spectrogram('Delfi-C3_32789_201602121133')
+    >>> from doptools.data import L1A
+    >>> s = L1A.create('Delfi-C3_32789_201602121133')
     >>> s.plot()
+
     """
 
     def __init__(self, dataid, spectrogram, freq_lims, time_lims, dt):
@@ -119,6 +127,7 @@ class L1A:
 
     @property
     def spectrogram_decibel(self):
+        """(N, M) numpy.ndarray: Spectrogram in power level (dB)."""
         return self._to_decibel(self.spectrogram)
 
     @classmethod
@@ -133,18 +142,18 @@ class L1A:
         bounds : (float or int, float or int) tuple, optional
             Contains the lower and upper bounds of the desired frequency range
             relative to the tuning frequency. Default is suitable for Delfi-C3.
-        nfft : int
+        nfft : int, optional
             The number of frequency bins to use in FFT. The FFT is fastest
             if nfft is a power of two.
             The default is suitable for 250 kHz bandwidth
-        dt : int or float
+        dt : int or float, optional
             The timestep used during the FFT. Specifies the time resolution
             of the spectrogram.
 
         Returns
         -------
-        Spectrogram
-            A spectrogram object for the given recording.
+        data.L1A
+            A spectrogram object.
 
         Warnings
         --------
@@ -152,8 +161,9 @@ class L1A:
         0.5, or 0.2 should work, but "ugly" values like 0.236687 will
         most likely raise an array broadcast exception.
 
-        Several values are stil hardcoded so the script will most likely give incorrect
+        Several values are stil hardcoded so the script will give incorrect
         results if nfft!=250_000 etc.
+
         """
 
         logger.info(f"Creating spectrogram for {dataid}")
@@ -214,8 +224,9 @@ class L1A:
 
         Returns
         -------
-        Spectrogram
-            A spectrogram object for the given recording.
+        data.L1A
+            A spectrogram object.
+
         """
 
         logger.info(f"Loading spectrogram for {dataid}")
@@ -245,6 +256,7 @@ class L1A:
         ----------
         dataid : str
             ID of recording in the database.
+
         """
 
         logger.info(f"Saving spectrogram for {self.dataid}")
@@ -280,6 +292,7 @@ class L1A:
             Specifies the limits of the color map.
         kwargs : optional
             Keyword arguments are passed on to matplotlib.pyplot.imshow.
+
         """
 
         # Convert datetime values to floats.
@@ -320,12 +333,16 @@ class L1A:
         ----------
         signal : (N,) numpy.ndarray
             Array containing complex time series data of a signal
+        nfft : int
+            The number of frequency bins to use when performing the Fast Fourier Transform.
 
         Returns
         -------
         (N,) numpy.ndarray
             Array containing the spectrum of the signal over the full bandwidth.
+
         """
+
         spectrum = fft(signal, nfft)
         spectrum = fftshift(spectrum)
         spectrum = abs(spectrum)
@@ -346,25 +363,110 @@ class L1A:
 
 
 class L1B:
+    """
+    L1B data (time-frequency data points) of a DopTrack recording.
+
+    Parameters
+    ----------
+    dataid : str
+        ID of recording in the database.
+    recording : data.L0
+        Recording data object.
+    time : (float,) numpy.ndarray
+        Time in seconds from start of recording for each data point.
+    datetime : (datetime.datetime,) numpy.ndarray
+        Time in datetime for each data point.
+    frequency : (float,) numpy.ndarray
+    power : (float,) numpy.ndarray
+    tca : float
+        Estimated time of closest approach of satellite in seconds from start of recording.
+    tca_datetime : float
+        Estimated time of closest approach of satellite as datetime object.
+    fca : float
+        Estimated frequency at closest approach of satellite.
+    rmse : float
+        Root-mean-square error between data points and tanh fit function.
+    tanh_coeffs : (float,) numpy.ndarray
+        Array of coefficients of the fitted tanh function.
+    residual_coeffs : (float,) numpy.ndarray
+        Array of coefficients of the fitted residual function.
+    residual_func : func
+        The function used in residual fitting.
+    fit_func : func
+        The final fitting function combining both the tanh function and the residual function.
+
+    Example
+    --------
+    >>> from doptools.data import L1B
+    >>> s = L1B.create('Delfi-C3_32789_201602121133')
+    >>> s.plot()
+
+    """
 
     def __init__(self, data):
-        self.__dict__.update(data)  # Add data dictionary to instance dictionary
+        self.dataid = data['dataid']
         self.recording = L0(self.dataid)
 
+        self.time = data['time']
+        self.datetime = self.recording.start_time + timedelta(seconds=int(self.time))
+        self.frequency = data['frequency']
+        self.power = data['power']
+
+        self.tca = data['tca']
+        self.tca_datetime = np.array([self.recording.start_time + timedelta(seconds=int(t)) for t in self.time])
+        self.fca = data['fca']
+        self.dt = data['dt']
+        self.rmse = data['rmse']
+
+        self.tanh_coeffs = data['tanh_coeffs'],
+        self.residual_coeffs = data['residual_coeffs'],
+        self.residual_func = data['residual_func']
+        self.fit_func = data['fit_func']
+
     @classmethod
-    def create(cls, L1A_data, plot=False):
+    def create(cls, L1A_object, plot=False):
+        """
+        Create time-frequency data from spectrogram.
 
-        logger.info(f"Extracting frequency data for {L1A_data.dataid}")
+        Parameters
+        ----------
+        L1A_object : data.L1A
+            L1A (spectrogram) object.
+        plot : bool, optional
+            If True plot figures for each step of the data point extraction process.
 
-        data = extract_frequency_data(L1A_data.spectrogram, L1A_data.dt, plot=plot)
-        data['dt'] = L1A_data.dt
-        data['spectrogram'] = L1A_data.spectrogram
-        data['dataid'] = L1A_data.dataid
+        Returns
+        -------
+        data.L1B
+            Time-frequency data object.
+
+        """
+
+        logger.info(f"Extracting frequency data for {L1A_object.dataid}")
+
+        data = extract_frequency_data(L1A_object.spectrogram, L1A_object.dt, plot=plot)
+        data['dt'] = L1A_object.dt
+        data['spectrogram'] = L1A_object.spectrogram
+        data['dataid'] = L1A_object.dataid
 
         return cls(data)
 
     @classmethod
     def load(cls, dataid):
+        """
+        Load saved time-frequency data from database.
+
+        Parameters
+        ----------
+        dataid : str
+            ID of recording in the database.
+
+        Returns
+        -------
+        data.L1B
+            Time-frequency data object.
+
+        """
 
         logger.info(f"Loading frequency data for {dataid}")
 
@@ -376,7 +478,7 @@ class L1B:
             data['tca'] = float(file.readline().strip('\n').split('=')[1])
             data['fca'] = float(file.readline().strip('\n').split('=')[1])
             data['dt'] = float(file.readline().strip('\n').split('=')[1])
-            data['rms'] = float(file.readline().strip('\n').split('=')[1])
+            data['rmse'] = float(file.readline().strip('\n').split('=')[1])
 
             line = file.readline().strip('\n')
             string_coeffs = line.split('=')[1].strip('[]').split()
@@ -404,6 +506,11 @@ class L1B:
                     residual_coeffs.extend([float(coeff) for coeff in string_coeffs])
             data['residual_coeffs'] = residual_coeffs
 
+            data['fit_func'] = create_fit_func(
+                    data['tanh_coeffs'],
+                    data['residual_coeffs'],
+                    data['residual_func'])
+
             file.readline()
             file.readline()
 
@@ -416,24 +523,29 @@ class L1B:
             data['time'] = np.array(time)
             data['frequency'] = np.array(frequency)
             data['power'] = np.array(power)
-            data['fit_func'] = create_fit_func(data['tanh_coeffs'],
-                                               data['residual_coeffs'],
-                                               data['residual_func'])
+
         return cls(data)
 
     def save(self):
+        """
+        Save the time-frequency data to database.
+
+        Parameters
+        ----------
+        dataid : str
+            ID of recording in the database.
+
+        """
 
         logger.info(f"Saving frequency data for {self.dataid}")
 
         filepath = Database().paths['L1B'] / f"{self.dataid}.DOP1B"
 
-        start_time = self.recording.start_time
-
         with open(filepath, 'w+') as file:
             file.write(f"tca={self.tca}\n")
             file.write(f"fca={self.fca}\n")
             file.write(f"dt={self.dt}\n")
-            file.write(f"rms={self.rms}\n")
+            file.write(f"rmse={self.rmse}\n")
 
             file.write(f"tanh_coeffs={self.tanh_coeffs}\n")
             file.write(f"residual_func={self.residual_func.__name__}\n")
@@ -442,13 +554,32 @@ class L1B:
             file.write("==============\n")
 
             file.write('datetime,time,frequency,power\n')
-            for time, frequency, power in zip(self.time, self.frequency, self.power):
-                datetime = start_time + timedelta(seconds=int(time))
-                file.write(f"{datetime},{time:.2f},{frequency:.2f},{power:.6f}\n")
+            for datetime_, time, frequency, power in zip(
+                    self.datetime,
+                    self.time,
+                    self.frequency,
+                    self.power):
+                file.write(f"{datetime_},{time:.2f},{frequency:.2f},{power:.6f}\n")
 
     def plot(self, fit_func=True, savepath=None, cmap='viridis', clim=None):
-        fig, ax = plt.subplots(figsize=(16, 9))
+        """
+        Plot the time-frequency data.
 
+        Parameters
+        ----------
+        bounds : (float, float) tuple, optional
+            Contains the lower and upper bounds of the desired frequency range
+            relative to the tuning frequency.
+        cmap : str, optional
+            Specifies the color map.
+        clim : (float, float) tuple, optional
+            Specifies the limits of the color map.
+        kwargs : optional
+            Keyword arguments are passed on to matplotlib.pyplot.imshow.
+
+        """
+
+        fig, ax = plt.subplots(figsize=(16, 9))
         try:
             xlim = (0 - 0.5, self.spectrogram.shape[1] - 0.5)
             ylim = (self.spectrogram.shape[0]*self.dt, 0)
@@ -478,5 +609,5 @@ class L1B:
 
 class L2:
 
-    def __init__(self):
+    def __init__(self, data):
         raise NotImplementedError

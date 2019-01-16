@@ -57,7 +57,7 @@ def extract_frequency_data(spectrogram, dt, plot=False):
 
     Parameters
     ----------
-    spectrogram : np.array
+    spectrogram : (N, M) numpy.ndarray
         A 2D array with the spectrogram data.
     dt : int or float
         The timestep of the spectrogram.
@@ -215,7 +215,7 @@ def extract_frequency_data(spectrogram, dt, plot=False):
 
     data['tca'] = estimate_tca(data, fit_func, tanh_coeffs)
     data['fca'] = fit_func(data['tca'])
-    data['rms'] = np.sqrt(((data['frequency'] - tanh(data['time'], *tanh_coeffs))**2).mean())
+    data['rmse'] = np.sqrt(((data['frequency'] - tanh(data['time'], *tanh_coeffs))**2).mean())
     data['tanh_coeffs'] = tanh_coeffs
     data['residual_func'] = residual_func
     data['residual_coeffs'] = residual_coeffs
@@ -253,7 +253,7 @@ def first_masking(spectrogram, dt, plot=False):
 
     Parameters
     ----------
-    spectrogram : np.array
+    spectrogram : (N, M) numpy.ndarray
         A 2D array of the spectrogram.
     dt : int or float
         The timestep of the spectrogram.
@@ -262,7 +262,7 @@ def first_masking(spectrogram, dt, plot=False):
 
     Returns
     -------
-    np.array
+    (N, M) numpy.ndarray
         The masked spectrogram.
     """
     logger.debug('Creating vertical mask...')
@@ -292,7 +292,7 @@ def second_masking(spectrogram, fit_func, start_of_signal, end_of_signal, dt, pl
 
     Parameters
     ----------
-    spectrogram : np.array
+    spectrogram : (N, M) numpy.ndarray
         A 2D array of the spectrogram.
     fit_func : func
         Function fitted to the data.
@@ -307,7 +307,7 @@ def second_masking(spectrogram, fit_func, start_of_signal, end_of_signal, dt, pl
 
     Returns
     -------
-    np.array
+    (N, M) numpy.ndarray
         The masked spectrogram.
     """
     logger.debug('Creating fit mask...')
@@ -335,9 +335,9 @@ def create_clusters(xs, ys, eps, min_samples, plot=False):
 
     Parameters
     ----------
-    xs : np.array
+    xs : (N,) numpy.ndarray
         The x values of the data.
-    ys : np.array
+    ys : (N,) numpy.ndarray
         The y values of the data.
     eps : int or float
         Value of epsilon used in the DBSCAN algorithm.
@@ -348,7 +348,7 @@ def create_clusters(xs, ys, eps, min_samples, plot=False):
 
     Returns
     -------
-    np.array
+    (N,) numpy.ndarray
         A 1D array of the cluster label of each data point.
     """
     data = np.dstack((xs, ys))[0]
@@ -417,7 +417,7 @@ def labels_of_clusters_with_n_or_more_points(array_of_labels, n):
 
     Parameters
     ----------
-    array_of_labels : np.array
+    array_of_labels : (N,) numpy.ndarray
         Array of the cluster label of each data point.
     n : int
         Minimum number of data points for cluster to be valid.
@@ -444,9 +444,9 @@ def labels_of_clusters_with_low_mean(array_of_labels, values, maximum_mean):
 
     Parameters
     ----------
-    array_of_labels : np.array
+    array_of_labels : (N,) numpy.ndarray
         Array of the cluster label of each data point.
-    values : np.array
+    values : (N,) numpy.ndarray
         Values which should be compared to the mean the values.
     mean : float
         Maximum mean of data points for cluster to be valid.
@@ -473,11 +473,11 @@ def labels_of_clusters_with_negative_slope(array_of_labels, xs, ys, min_slope=0.
 
     Parameters
     ----------
-    array_of_labels : np.array
+    array_of_labels : (N,) numpy.ndarray
         Array of the cluster label of each data point.
-    xs : np.array
+    xs : (N,) numpy.ndarray
         The x values of the data.
-    ys : np.array
+    ys : (N,) numpy.ndarray
         The y values of the data.
     min_slope : float, optional
         The minimum aboslute value of the slope. A value of zero means that all clusters
@@ -505,7 +505,7 @@ def filter_clusters_by_label(data, labels_to_filter, exclude_outliers=True, plot
     ----------
     data : dict
         Data of the extraction process.
-    labels_to_filter : np.array
+    labels_to_filter : array_like
         Labels of all valid clusters, i.e. clusters to keep.
     exclude_outliers : bool, optional
         If True data points with label (-1) are removed. The label -1 is given to
@@ -551,7 +551,7 @@ def get_rowmaxes_as_points(spectrogram, dt, cutoff, plot=False):
 
     Parameters
     ----------
-    spectrogram : np.array
+    spectrogram : (N, M) numpy.ndarray
         A 2D array of the spectrogram.
     dt : int or float
         The timestep of the spectrogram.
@@ -615,7 +615,7 @@ def remove_width_outliers(data, mean, bandwidth):
     ----------
     data : dict
         Data of the extraction process.
-    mean : np.array
+    mean : (N,) numpy.ndarray
         An array of the mean values of the band.
     bandwidth : float
         The bandwidth of the band.

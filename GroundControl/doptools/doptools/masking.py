@@ -19,7 +19,7 @@ def vertical_mask(image, dt):
 
     Parameters
     ----------
-    image : np.array
+    image : (N, M) numpy.ndarray
         The image/spectrogram to be masked.
     dt : int or float
         The timestep of the spectrogram.
@@ -27,7 +27,7 @@ def vertical_mask(image, dt):
 
     Returns
     -------
-    np.array
+    (N, M) numpy.ndarray
         The mask.
     """
     coeffs = {'thresh': 0,
@@ -57,7 +57,7 @@ def horizontal_mask(image, dt):
 
     Parameters
     ----------
-    image : np.array
+    image : (N, M) numpy.ndarray
         The image/spectrogram to be masked.
     dt : int or float
         The timestep of the spectrogram.
@@ -65,7 +65,7 @@ def horizontal_mask(image, dt):
 
     Returns
     -------
-    np.array
+    (N, M) numpy.ndarray
         The mask.
     """
     coeffs = {'thresh': 5.0,
@@ -95,7 +95,7 @@ def spike_mask(image, dt):
 
     Parameters
     ----------
-    image : np.array
+    image : (N, M) numpy.ndarray
         The image/spectrogram to be masked.
     dt : int or float
         The timestep of the spectrogram.
@@ -103,7 +103,7 @@ def spike_mask(image, dt):
 
     Returns
     -------
-    np.array
+    (N, M) numpy.ndarray
         The mask.
     """
     coeffs = {'dilate': (int(np.ceil(8/dt)), 200)}
@@ -129,7 +129,7 @@ def fit_mask(image, fit_func, dt, bandwidth):
 
     Parameters
     ----------
-    image : np.array
+    image : (N, M) numpy.ndarray
         The image/spectrogram to be masked.
     fit_func : func
         The fitting function to mask around.
@@ -141,7 +141,7 @@ def fit_mask(image, fit_func, dt, bandwidth):
 
     Returns
     -------
-    np.array
+    (N, M) numpy.ndarray
         The mask.
     """
     mask = np.arange(image.shape[1])
@@ -161,7 +161,7 @@ def time_mask(image, start_time, end_time, dt):
 
     Parameters
     ----------
-    image : np.array
+    image : (N, M) numpy.ndarray
         The image/spectrogram to be masked.
     start_time : float
         The start of the pass in seconds since beginning of recording.
@@ -173,7 +173,7 @@ def time_mask(image, start_time, end_time, dt):
 
     Returns
     -------
-    np.array
+    (N, M) numpy.ndarray
         The mask.
     """
     min_index = int(start_time / dt)

@@ -29,9 +29,9 @@ def fit_tanh(times, frequencies, dt):
 
     Parameters
     ----------
-    times : np.array
+    times : (N,) numpy.ndarray
         The time series.
-    frequencies : np.array
+    frequencies : (N,) numpy.ndarray
         The frequency series.
     dt : int or float
         The timestep of the spectrogram.
@@ -39,7 +39,7 @@ def fit_tanh(times, frequencies, dt):
 
     Returns
     -------
-    np.array
+    (N,) numpy.ndarray
         Array with the fitting coefficients of the tanh function.
 
     Raises
@@ -74,9 +74,9 @@ def fit_residual(times, residual):
 
     Parameters
     ----------
-    times : np.array
+    times : (N,) numpy.ndarray
         Time series of data.
-    residual : np.array
+    residual : (N,) numpy.ndarray
         Residual series of data.
     dt : int or float
         The timestep of the spectrogram.
@@ -86,7 +86,7 @@ def fit_residual(times, residual):
     -------
     func
         The function used to fit the residual.
-    np.array
+    (N,) numpy.ndarray
         Array with the fitting coefficients of the residual function.
 
     Raises
