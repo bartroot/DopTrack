@@ -28,6 +28,36 @@ class Database:
         config = config if config is not None else Config()
         self.paths = config.paths
 
+    @property
+    def dataids(self):
+        dataid_dict = {}
+
+        # Add dataids based on what files are in database
+        for level, ext in levels.items():
+            baselevel = level.split('_')[0]
+            if not isinstance(self.paths[baselevel], set):
+                files = self._listfiles(self.paths[baselevel])
+            else:
+                files = []
+                for path in self.paths[baselevel]:
+                    files.extend(self._listfiles(path))
+            filenames_with_correct_ext = [file for file in files if file.split('.')[-1] == ext]
+            dataid_dict[level] = self._get_dataids_from_filenames(filenames_with_correct_ext)
+
+        # Add dataids based on what has been logged in the processing status file
+        status_dict = defaultdict(set)
+        for dataid, status in self.read_status().items():
+            if status != 'success':
+                status_dict[status].add(DataID(dataid))
+        dataid_dict.update(status_dict)
+        if len(status_dict) == 0:
+            dataid_dict['L1B_failed'] = set()
+        else:
+            dataid_dict['L1B_failed'] = set.union(*status_dict.values())
+        dataid_dict['all'] = set.union(*dataid_dict.values())
+
+        return dataid_dict
+
     def filepath(self, dataid, level, meta=False):
 
         dataid = DataID(dataid)
@@ -50,6 +80,34 @@ class Database:
             return filepath
         else:
             raise FileNotFoundError(f'No such file in database: {filepath}')
+
+    def create_folder_structure(self):
+
+        for key, path in self.paths.items():
+
+            if type(path) is set:
+                for subpath in path:
+                    try:
+                        subpath.mkdir(parents=True)
+                        logger.info(f"Created directory: {subpath}")
+                    except FileExistsError:
+                        logger.info(f"Directory already exists: {subpath}")
+
+            elif key is not "config":
+                try:
+                    path.mkdir(parents=True)
+                    logger.info(f"Created directory: {path}")
+                except FileExistsError:
+                    logger.info(f"Directory already exists: {path}")
+
+        # Temporary output folder structure
+        # TODO change this when processing scripts are integrated into doptools
+        for path in [self.paths['output'] / 'L1B', self.paths['output'] / 'L1b_failed']:
+            try:
+                path.mkdir(parents=True)
+                logger.info(f"Created directory: {path}")
+            except FileExistsError:
+                logger.info(f"Directory already exists: {path}")
 
     def update_status(self, dataid, status):
 
@@ -98,34 +156,6 @@ class Database:
 
     def validate(self):
         raise NotImplementedError()
-
-    @property
-    def dataids(self):
-        dataid_dict = {}
-
-        for level, ext in levels.items():
-            baselevel = level.split('_')[0]
-            if not isinstance(self.paths[baselevel], set):
-                files = self._listfiles(self.paths[baselevel])
-            else:
-                files = []
-                for path in self.paths[baselevel]:
-                    files.extend(self._listfiles(path))
-            filenames_with_correct_ext = [file for file in files if file.split('.')[-1] == ext]
-            dataid_dict[level] = self._get_dataids_from_filenames(filenames_with_correct_ext)
-
-        status_dict = defaultdict(set)
-        for dataid, status in self.read_status().items():
-            if status != 'success':
-                status_dict[status].add(DataID(dataid))
-        dataid_dict.update(status_dict)
-        if len(status_dict) == 0:
-            dataid_dict['L1B_failed'] = set()
-        else:
-            dataid_dict['L1B_failed'] = set.union(*status_dict.values())
-        dataid_dict['all'] = set.union(*dataid_dict.values())
-
-        return dataid_dict
 
     @staticmethod
     def _listfiles(path):
