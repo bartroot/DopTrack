@@ -3,20 +3,20 @@ from datetime import timedelta
 from sgp4.model import Satellite
 from sgp4.io import twoline2rv
 from sgp4.earth_gravity import wgs84
-import scipy.constants as constants
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
-from .coordconv import teme2ecef
-from .data import Recording
-from .io import read_meta, read_rre
-from .coordconv import geodetic2ecef, ecef2geodetic
+from .recording import Recording
+from .data import L1B
+from .coordconv import teme2ecef, geodetic2ecef
 from .utils import GeodeticPosition
-
+from .utils import timing
 
 radius_earth = wgs84.radiusearthkm * 1000
 
-geodetic = GeodeticPosition(51.9989, 4.3733585, 95)
-ecef = geodetic2ecef(*geodetic)
-DopTrackStation = {'geodetic': geodetic, 'ecef': ecef}
+_geodetic = GeodeticPosition(51.9989, 4.3733585, 95)
+_ecef = geodetic2ecef(*_geodetic)
+DopTrackStation = {'geodetic': _geodetic, 'ecef': _ecef}
 
 
 #class GroundStation:
@@ -77,16 +77,41 @@ class SatelliteSGP4(Satellite):
 
 class SatellitePassTLE:
 
-    def __init__(self, tle, times):
+    def __init__(self, tle, time):
         self.station = DopTrackStation
-        self.time = times
+        self.satellite = SatelliteSGP4(tle[0], tle[1])
+
         self.tle = tle
-        self.sgp4 = SatelliteSGP4(tle[0], tle[1])
-        self.position, self.velocity = self.sgp4.construct_track(self.time)
-        self.rangerate = self._calculate_rangerate(self.position,
-                                                   self.velocity,
-                                                   self.station['ecef'])
+        self.time = time
+        self.position, self.velocity = self.satellite.construct_track(self.time)
+        self.rangerate = self._calculate_rangerate(self.position, self.velocity, self.station['ecef'])
         self.tca = self._calculate_tca(self.time, self.rangerate)
+
+    @classmethod
+    def from_dataid(cls, dataid):
+        times = L1B.load(dataid).datetime
+        tle = Recording(dataid).tle
+        return cls(tle, times)
+
+    def plot(self, savepath=None):
+        fig, ax = plt.subplots(figsize=(16, 9))
+        ax.plot(self.time, self.rangerate)
+        if savepath:
+            fig.savefig(savepath, format='png', dpi=300)
+            plt.close(fig)
+        else:
+            fig.show()
+
+    def plot3d(self, savepath=None):
+        fig = plt.figure(figsize=(16, 9))
+        ax = fig.add_subplot(111, projection='3d')
+        ax.plot(*zip(*self.position))
+        # TODO add the earth to plot
+        if savepath:
+            fig.savefig(savepath, format='png', dpi=300)
+            plt.close(fig)
+        else:
+            fig.show()
 
     @staticmethod
     def _calculate_rangerate(positions, velocities, station_position):
@@ -112,44 +137,36 @@ class SatellitePassTLE:
             tca = times[np.where(rangerates == 0)]
         return tca
 
-    @classmethod
-    def from_dataid(cls, dataid):
-        times = read_rre(dataid)['datetime']
-        meta = read_meta(dataid)
-        tle = [meta['Sat']['Predict']['used TLE line1'],
-               meta['Sat']['Predict']['used TLE line2']]
-        return cls(tle, times)
 
-
-class SatellitePassRecorded:
-    """
-    Spectrogram of a DopTrack recording.
-
-    Parameters
-    ----------
-    dataid : str
-        ID of recording in the database.
-    spectrogram : (N, M) numpy.ndarray
-        An array containing the values of the spectrogram in dB.
-    freq_lims : (float, float) tuple
-        The minimum and maximum frequency values of the spectrogram.
-    time_lims : (datetime.datetime, datetime.datetime) tuple
-        The end and start time of recording. The order is reversen since it is
-        convention to flip the y-axis in a spectrogram.
-
-    """
-    def __init__(self, dataid):
-        self.station = DopTrackStation
-        self.dataid = dataid
-        self.recording = Recording(dataid)
-
-        rre = read_rre(self.dataid)
-        self.time = rre['datetime']
-        self.tca = rre['tca']
-        self.frequency = np.array(rre['frequency'])
-        self.fca = rre['fca']
-        self.rangerate = self._rangerate_model(self.frequency, self.fca)
-
-    @staticmethod
-    def _rangerate_model(frequency, fca):
-        return (1 - (frequency/fca)) * constants.c
+#class SatellitePassRecorded:
+#    """
+#    Old rre code.
+#
+#    Parameters
+#    ----------
+#    dataid : str
+#        ID of recording in the database.
+#    spectrogram : (N, M) numpy.ndarray
+#        An array containing the values of the spectrogram in dB.
+#    freq_lims : (float, float) tuple
+#        The minimum and maximum frequency values of the spectrogram.
+#    time_lims : (datetime.datetime, datetime.datetime) tuple
+#        The end and start time of recording. The order is reversen since it is
+#        convention to flip the y-axis in a spectrogram.
+#
+#    """
+#    def __init__(self, dataid):
+#        self.station = DopTrackStation
+#        self.dataid = dataid
+#        self.recording = Recording(dataid)
+#
+#        rre = read_rre(self.dataid)
+#        self.time = rre['datetime']
+#        self.tca = rre['tca']
+#        self.frequency = np.array(rre['frequency'])
+#        self.fca = rre['fca']
+#        self.rangerate = self._rangerate_model(self.frequency, self.fca)
+#
+#    @staticmethod
+#    def _rangerate_model(frequency, fca):
+#        return (1 - (frequency/fca)) * constants.c

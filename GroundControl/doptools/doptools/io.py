@@ -8,17 +8,10 @@ import pandas as pd
 from collections import defaultdict
 
 from .config import Config
+from .utils import DataID
 
 
 logger = logging.getLogger(__name__)
-
-
-levels = {'L0': '32fc',
-          'L0_meta': 'yml',
-          'L1A': 'npy',
-          'L1A_meta': 'npy.meta',
-          'L1B': 'DOP1B',
-          'L2': 'rre'}
 
 
 class Database:
@@ -27,13 +20,19 @@ class Database:
 
         config = config if config is not None else Config()
         self.paths = config.paths
+        self.levels = {'L0': '32fc',
+                       'L0_meta': 'yml',
+                       'L1A': 'npy',
+                       'L1A_meta': 'npy.meta',
+                       'L1B': 'DOP1B',
+                       'L2': 'rre'}
 
     @property
     def dataids(self):
         dataid_dict = {}
 
         # Add dataids based on what files are in database
-        for level, ext in levels.items():
+        for level, ext in self.levels.items():
             baselevel = level.split('_')[0]
             if not isinstance(self.paths[baselevel], set):
                 files = self._listfiles(self.paths[baselevel])
@@ -58,32 +57,12 @@ class Database:
 
         return dataid_dict
 
-    def filepath(self, dataid, level, meta=False):
+    @classmethod
+    def setup(cls, config=None):
 
-        dataid = DataID(dataid)
+        config = config if config is not None else Config()
 
-        if meta and f'{level}_meta' not in levels:
-            raise RuntimeError(f'Meta files are not used for data level {level}')
-
-        if not meta:
-            filename = f'{dataid}.{levels[level]}'
-        else:
-            filename = f"{dataid}.{levels[f'{level}_meta']}"
-
-        if level == 'L0':
-            folderpath = self._get_folder_with_file(filename, self.paths[level])
-        else:
-            folderpath = self.paths[level]
-        filepath = folderpath / filename
-
-        if filepath.is_file():
-            return filepath
-        else:
-            raise FileNotFoundError(f'No such file in database: {filepath}')
-
-    def create_folder_structure(self):
-
-        for key, path in self.paths.items():
+        for key, path in config.paths.items():
 
             if type(path) is set:
                 for subpath in path:
@@ -102,12 +81,35 @@ class Database:
 
         # Temporary output folder structure
         # TODO change this when processing scripts are integrated into doptools
-        for path in [self.paths['output'] / 'L1B', self.paths['output'] / 'L1b_failed']:
+        for path in [config.paths['output'] / 'L1B', config.paths['output'] / 'L1b_failed']:
             try:
                 path.mkdir(parents=True)
                 logger.info(f"Created directory: {path}")
             except FileExistsError:
                 logger.info(f"Directory already exists: {path}")
+
+    def filepath(self, dataid, level, meta=False):
+
+        dataid = DataID(dataid)
+
+        if meta and f'{level}_meta' not in self.levels:
+            raise RuntimeError(f'Meta files are not used for data level {level}')
+
+        if not meta:
+            filename = f'{dataid}.{self.levels[level]}'
+        else:
+            filename = f"{dataid}.{self.levels[f'{level}_meta']}"
+
+        if level == 'L0':
+            folderpath = self._get_folder_with_file(filename, self.paths[level])
+        else:
+            folderpath = self.paths[level]
+        filepath = folderpath / filename
+
+        if filepath.is_file():
+            return filepath
+        else:
+            raise FileNotFoundError(f'No such file in database: {filepath}')
 
     def update_status(self, dataid, status):
 
@@ -135,24 +137,6 @@ class Database:
             savefile.write('dataid                         error\n')
             for key in sorted(status_dict):
                 savefile.write(f'{key}    {status_dict[key]}\n')
-
-    @classmethod
-    def setup(cls, config=None):
-
-        config = config if config is not None else Config()
-
-        for key, path in config.paths.items():
-            if key == 'L0':
-                paths = path if isinstance(path, set) else {path}
-                for subpath in paths:
-                    if not subpath.is_dir():
-                        logger.error(f'Given L0 data folder does not exist: {subpath}')
-            elif key in ['default', 'L1A', 'L1B', 'L2', 'external', 'output', 'logs']:
-                if not path.is_dir():
-                    logger.info(f'Creating folder ({key}): {path}')
-                    os.makedirs(path)
-                else:
-                    logger.info(f'Folder already exists ({key}): {path}')
 
     def validate(self):
         raise NotImplementedError()
@@ -183,42 +167,6 @@ class Database:
                 logger.warning(f'File with incorrect dataid in database: {filename}')
 
         return set(valid_dataids)
-
-
-class DataID(str):
-
-    def __init__(self, string):
-        self.validate()
-
-    def validate(self):
-        try:
-            assert len(self.split('_')) == 3
-            assert len(self.satnum) == 5
-            assert len(self.strtimestamp) == 12
-        except AssertionError as e:
-            raise TypeError(f'Invalid dataid format {self}. {e}')
-
-    @property
-    def satname(self):
-        satname, satnum, strtimestamp = self.split('_')
-        return satname
-
-    @property
-    def satnum(self):
-        satname, satnum, timestamp = self.split('_')
-        return satnum
-
-    @property
-    def strtimestamp(self):
-        satname, satnum, strtimestamp = self.split('_')
-        return strtimestamp
-
-    @property
-    def timestamp(self):
-        raise NotImplementedError()
-
-    def __repr__(self):
-        return f"DataID('{str(self)}')"
 
 
 def read_meta(dataid, filepath=None):

@@ -261,7 +261,7 @@ def update_pass_graphs_from_bulk(clickData, t_prev, t_next, figure):
     }, 1, 1)
     fig.append_trace({
         'x': pass_data.time,
-        'y': pass_data.residual_first,
+        'y': pass_data.first_residual,
         'name': 'First residual',
         'mode': 'lines+markers',
         'type': 'scatter'

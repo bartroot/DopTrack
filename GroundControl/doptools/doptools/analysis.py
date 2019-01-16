@@ -6,7 +6,8 @@ from collections import defaultdict
 from tqdm import tqdm
 import logging
 
-from .model import SatellitePassRecorded, SatellitePassTLE
+from .data import L1B, L2
+from .model import SatellitePassTLE
 from .io import Database
 from .config import Config
 
@@ -20,16 +21,14 @@ class ResidualAnalysis:
 
         self.dataid = dataid
 
-        self.doptrack = SatellitePassRecorded(dataid)
+        self.doptrack = L2.create(L1B.load(dataid))
         self.tle = SatellitePassTLE.from_dataid(dataid)
+        assert np.array_equal(self.doptrack.time, self.tle.time)
 
         self.time = self.doptrack.time
-        self.residual_first = self.doptrack.rangerate - self.tle.rangerate
+        self.first_residual = self.doptrack.rangerate - self.tle.rangerate
+        self.dtca = (self.doptrack.tca - self.tle.tca).total_seconds()
 
-        if pd.isnull(self.tle.tca):
-            self.dtca = np.NaN
-        else:
-            self.dtca = (self.doptrack.tca - self.tle.tca).total_seconds()
 
     def __repr__(self):
         return f'{self.__module__}.{self.__class__.__name__}({self.dataid})'
@@ -43,7 +42,7 @@ class ResidualAnalysis:
         ax1.set_ylabel('range rate')
         ax1.legend()
         ax1.grid()
-        ax2.plot(self.doptrack.time, self.residual_first)
+        ax2.plot(self.doptrack.time, self.first_residual)
         ax2.set_xlabel('time')
         ax2.set_ylabel('first residual')
         ax2.grid()
@@ -59,8 +58,6 @@ class BulkAnalysis:
             self.data['tca'] = pd.to_datetime(self.data['tca'])
         except FileNotFoundError:
             self.update()
-
-        self.database = Database()
 
     def plot(self, key1, key2):
         fig = plt.figure()

@@ -6,10 +6,11 @@ the DopTrack project.
 Classes
 -------
 - `EmptyRecordingError` -- Exception thrown when a recording is empty or too small.
+- `Database` -- Object for managing and inspecting the DopTrack database.
 - `L0` -- Radio recording from a complex binary file.
 - `L1A` -- Spectrogram processed from a radio recording.
 - `L1B` -- Time-frequency data of satellite signal extracted from a spectrogram.
-- `L2` -- Range-rate data modelled from time-frequency data.
+- `L2` -- Rangerate data modelled from time-frequency data.
 
 """
 import os
@@ -19,10 +20,12 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy.fftpack import fft, fftshift
+import scipy.constants as constants
 from tqdm import tqdm
 import logging
 
-from .io import Database, read_meta
+from .recording import Recording
+from .io import Database
 from .extraction import extract_frequency_data, create_fit_func
 from . import fitting
 
@@ -36,30 +39,30 @@ class EmptyRecordingError(Exception):
 
 class L0:
     """
-    Radio recording from DopTrack.
+    Recorded complex binary data from DopTrack.
 
     Parameters
     ----------
     dataid : str
         ID of recording in the database.
-    spectrogram : (N, M) numpy.ndarray
-        An array containing the values of the spectrogram in dB.
+    recording : recording.Recording
+        An object representing a DopTrack radio recording.
     freq_lims : (float, float) tuple
         The minimum and maximum frequency values of the spectrogram.
     time_lims : (datetime.datetime, datetime.datetime) tuple
         The end and start time of recording. The order is reversed since it is
         convention to flip the y-axis in a spectrogram.
 
+    Notes
+    -----
+    There is no technical reason to keep the L0 data as a class instead of
+    simply a function. L0 is implemented as a class to be consistent with
+    all the other data levels also being implemented as classes.
+
     """
     def __init__(self, dataid):
         self.dataid = dataid
-
-        self.meta = read_meta(dataid)
-        self.duration = int(self.meta['Sat']['Predict']['Length of pass'])
-        self.start_time = self.meta['Sat']['Record']['time1 UTC']
-        self.stop_time = self.start_time + timedelta(seconds=self.duration)
-        self.sample_freq = int(self.meta['Sat']['Record']['sample_rate'])
-        self.tuning_freq = int(self.meta['Sat']['State']['Tuning Frequency'])
+        self.recording = Recording(dataid)
 
     def data(self, dt):
         """Returns an iterable of the raw data cut into chunks of  size dt*sample_rate."""
@@ -69,8 +72,8 @@ class L0:
         if os.stat(filepath).st_size < 10e7:  # Check if file is more than 10 mb
             raise EmptyRecordingError(f'L0 data file for {self.dataid} is empty or too small')
 
-        samples = int(self.sample_freq * self.duration)
-        timesteps = int(self.duration / dt)
+        samples = int(self.recording.sample_freq * self.recording.duration)
+        timesteps = int(self.recording.duration / dt)
         cutoff = int(2 * samples / timesteps)
         with open(filepath, 'r') as file:
             for i in range(timesteps):
@@ -118,7 +121,7 @@ class L1A:
 
     def __init__(self, dataid, spectrogram, freq_lims, time_lims, dt):
         self.dataid = dataid
-        self.recording = L0(dataid)
+        self.recording = Recording(dataid)
         self.spectrogram = spectrogram
         self.freq_lims = freq_lims
         self.time_lims = time_lims
@@ -169,7 +172,7 @@ class L1A:
         logger.info(f"Creating spectrogram for {dataid}")
 
         # Determine the limits of the spectrogram.
-        recording = L0(dataid)
+        recording = Recording(dataid)
         freq_lims = (recording.tuning_freq - recording.sample_freq/2,
                      recording.tuning_freq + recording.sample_freq/2)
         time_lims = (recording.stop_time, recording.start_time)
@@ -198,7 +201,7 @@ class L1A:
         # TODO fix spec width so it is not hardcoded
         spectrogram = np.zeros((timesteps, 14000))
 
-        for i, raw_data in tqdm(enumerate(recording.data(dt)), total=timesteps):
+        for i, raw_data in tqdm(enumerate(L0(dataid).data(dt)), total=timesteps):
 
             signal = np.zeros(int(len(raw_data)/2), dtype=np.complex)
             signal.real = raw_data[::2]
@@ -405,15 +408,15 @@ class L1B:
 
     def __init__(self, data):
         self.dataid = data['dataid']
-        self.recording = L0(self.dataid)
+        self.recording = Recording(self.dataid)
 
         self.time = data['time']
-        self.datetime = self.recording.start_time + timedelta(seconds=int(self.time))
+        self.datetime = np.array([self.recording.start_time + timedelta(seconds=int(t)) for t in self.time])
         self.frequency = data['frequency']
         self.power = data['power']
 
         self.tca = data['tca']
-        self.tca_datetime = np.array([self.recording.start_time + timedelta(seconds=int(t)) for t in self.time])
+        self.tca_datetime = self.recording.start_time + timedelta(seconds=int(self.tca))
         self.fca = data['fca']
         self.dt = data['dt']
         self.rmse = data['rmse']
@@ -609,5 +612,57 @@ class L1B:
 
 class L2:
 
-    def __init__(self, data):
-        raise NotImplementedError
+    def __init__(self, dataid, time, rangerate, tca, fca):
+        self.dataid = dataid
+        self.recording = Recording(dataid)
+        self.time = time
+        self.rangerate = rangerate
+        self.tca = tca
+        self.fca = fca
+
+    @classmethod
+    def create(cls, L1B_object):
+
+        dataid = L1B_object.dataid
+        time = L1B_object.datetime
+        frequency = L1B_object.frequency + Recording(dataid).tuning_freq
+        # TODO Swtich tca_datetime to tca and tca to tca_int
+        tca = L1B_object.tca_datetime
+        fca = L1B_object.fca + Recording(dataid).tuning_freq
+
+        rangerate = cls.rangerate_model(frequency, fca)
+
+        return cls(dataid, time, rangerate, tca, fca)
+
+    @staticmethod
+    def rangerate_model(frequency, carrier_frequency):
+        return (1 - (frequency / carrier_frequency)) * constants.c
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

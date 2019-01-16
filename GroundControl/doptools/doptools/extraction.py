@@ -10,7 +10,7 @@ Classes
 Routines
 --------
 - `extract_frequency_data` -- Main extraction function.
-- `create_fit_func` -- Create a fitting function from Tanh and residual fit.
+- `create_fit_func` -- Create a fitting function from tanh fit and residual fit.
 - `first_masking` -- Create specgtrogram mask for the initial extraction cycle.
 - `second_masking` -- Create specgtrogram mask for the extraction refinement cycle.
 - `create_clusters` -- Create clusters of data points.
