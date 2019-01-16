@@ -16,9 +16,10 @@ class TestDatabase:
         db = io.Database(config=config)
         db.filepath('Delfi-C3_32789_201602210946', level=level)
 
-    def test_filepath_when_metadata_is_available(self):
+    @pytest.mark.parametrize('level', ['L0', 'L1A'])
+    def test_filepath_when_metadata_is_available(self, level):
         db = io.Database(config=config)
-        db.filepath('Delfi-C3_32789_201602210946', level='L1A', meta=True)
+        db.filepath('Delfi-C3_32789_201602210946', level=level, meta=True)
 
     @pytest.mark.parametrize('level', ['L0', 'L1A', 'L1B'])
     def test_filepath_when_data_is_unavailable(self, level):
