@@ -51,7 +51,7 @@ class PassNotFoundError(Exception):
     pass
 
 
-def extract_frequency_data(spectrogram, dt, plot=False):
+def extract_frequency_data(spectrogram, dt, tca_sec, plot=False):
     """
     Extract frequency data from a spectrogram.
 
@@ -72,7 +72,7 @@ def extract_frequency_data(spectrogram, dt, plot=False):
     Raises
     ------
     PassNotFoundError
-        If extraction algorithm decides no pass in present in the recorded spectrogram.
+        If extraction algorithm decides no pass is present in the recorded spectrogram.
         Raised under multiple different situations.
 
     Notes
@@ -146,6 +146,9 @@ def extract_frequency_data(spectrogram, dt, plot=False):
     labels2 = labels_of_clusters_with_negative_slope(data['labels'], data['time'], data['frequency'])
     data = filter_clusters_by_label(data, set.intersection(labels1, labels2), exclude_outliers=True)
 
+    if not data['time'][0] < tca_sec < data['time'][-1]:
+        raise PassNotFoundError("TCA is outside the time range of the data points. TCA will be incorrect and pass is discarded.")
+
     # Calculate initial residual fit
     try:
         residual_func, residual_coeffs = fit_residual(data['time'], data['residual'])
@@ -180,7 +183,7 @@ def extract_frequency_data(spectrogram, dt, plot=False):
     data = filter_clusters_by_label(data, set.intersection(labels1, labels2), exclude_outliers=True)
 
     # Final check to see if there is enough data points to be an actual pass
-    if len(data['time']) < 100/np.sqrt(dt):
+    if len(data['time']) < int(100/np.sqrt(dt)):
         raise PassNotFoundError(f'Final extraction contains too few data points: {len(data["time"])}<{100/np.sqrt(dt)}')
 
     # Calculate final fits
@@ -213,8 +216,6 @@ def extract_frequency_data(spectrogram, dt, plot=False):
         ax.plot(tanh(t, *tanh_coeffs), t, 'g')
         fig.show()
 
-    data['tca'] = estimate_tca(data, fit_func, tanh_coeffs)
-    data['fca'] = fit_func(data['tca'])
     data['rmse'] = np.sqrt(((data['frequency'] - tanh(data['time'], *tanh_coeffs))**2).mean())
     data['tanh_coeffs'] = tanh_coeffs
     data['residual_func'] = residual_func
@@ -406,8 +407,6 @@ def estimate_tca(data, fit_func, tanh_coeffs):
         logger.warning("Refined root finding failed with fit_func. Keeping result from tanh instead.")
 
     logger.debug(f"Time of closest approach estimated: {round(tca, 2)}")
-    if not data['time'][0] < tca < data['time'][-1]:
-        raise PassNotFoundError("TCA is outside the time range of the data points. TCA will be incorrect and pass is discarded.")
 
     return tca
 
@@ -492,7 +491,7 @@ def labels_of_clusters_with_negative_slope(array_of_labels, xs, ys, min_slope=0.
     valid_labels = set()
     for label in set(array_of_labels):
         linreg = linregress(xs[array_of_labels == label], ys[array_of_labels == label])
-        if abs(linreg.slope) < min_slope:
+        if linreg.slope < -min_slope:
             valid_labels.add(label)
     logger.debug(f'Found {len(valid_labels)} clusters with slope smaller than {- min_slope}: {valid_labels}')
     return valid_labels
