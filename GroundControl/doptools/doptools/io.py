@@ -218,8 +218,8 @@ def read_eopp(folderpath=None):
                 line = f.readline()
                 e = line.split()
                 data['MJD'].append(int(e[0]))
-                data['Xp'].append(float(e[1]) / 3600)
-                data['Yp'].append(float(e[2]) / 3600)
+                data['Xp'].append(np.deg2rad(np.float(e[1]) / 3600))
+                data['Yp'].append(np.deg2rad(float(e[2]) / 3600))
     except FileNotFoundError as e:
         logger.error(e)
     df = pd.DataFrame.from_dict(data)
