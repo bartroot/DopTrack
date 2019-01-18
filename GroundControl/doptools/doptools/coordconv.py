@@ -46,8 +46,8 @@ EOPC04 = read_eopc04()
 DAT = read_tai_utc()
 
 
-class DatetimeConverter():
-    """Class for converting timestamps between common formats.
+class ExpandedDatetime:
+    """A container for a datetime object with additional conversion methods.
 
     Attributes
     ----------
@@ -72,6 +72,12 @@ class DatetimeConverter():
         else:
             i = DAT.index.searchsorted(self.utc) - 1
             self.dat = DAT.loc[DAT.index[i]]['DAT']
+
+    def __repr__(self):
+        return f"ExpandedDatetime({self.utc.__repr__()}, dut1={self.dut1}, dat={self.dat})"
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
 
     @property
     def ut1(self):
@@ -274,8 +280,7 @@ def teme2ecef(utc, r_teme, v_teme, polarmotion=True, lod=True, **kwargs):
 
     Taking into account changes in length of day should have near zero influence
     on results, even at extreme accuracy. Taking into polar motion will result in
-    about 1km difference in position for a LEO satellite. These conclusions are
-    from testing only.
+    about 10s of meters difference in position for a LEO satellite.
 
     This function is adapted from the ``teme2ecef.m`` script by Vallado
     published on the Celestrak website. See [1]_.
@@ -286,7 +291,7 @@ def teme2ecef(utc, r_teme, v_teme, polarmotion=True, lod=True, **kwargs):
         "Revisiting Spacetrack Report #3",
         eq. C-2, 2006.
     """
-    time = DatetimeConverter(utc, **kwargs)
+    time = ExpandedDatetime(utc, **kwargs)
     omega = _nutation_omega_moon(time.Ttdt)
     gmst = gmst1982(time.Tut1)
     if time.JDut1 > 2450449.5:
