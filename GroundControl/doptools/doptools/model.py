@@ -63,16 +63,29 @@ class SatelliteSGP4(Satellite):
         position = np.zeros((len(times), 3), dtype='float64')
         velocity = np.zeros((len(times), 3), dtype='float64')
         for i, time in enumerate(times):
-            time_ints = [int(t) for t in time.strftime('%Y %m %d %H %M %S').split()]
-            pos_eci, vel_eci = self.propagate(*time_ints)
-            pos, vel = teme2ecef(time, pos_eci, vel_eci, polarmotion=False, lod=False)
+            pos_eci, vel_eci = self.propagate(time)
+            #  Not taking into account changes in length of day. See note for teme2ecef function.
+            pos, vel = teme2ecef(time, pos_eci, vel_eci, polarmotion=True, lod=False)
             position[i] = pos
             velocity[i] = vel
         return position, velocity
 
-    def propagate(self, *args, **kwargs):
-        pos, vel = super().propagate(*args, **kwargs)
+    def propagate(self, time, **kwargs):
+        time_ints = [int(t) for t in time.strftime('%Y %m %d %H %M %S').split()]
+        pos, vel = super().propagate(*time_ints, **kwargs)
         return np.array(pos)*1000, np.array(vel)*1000
+
+    def elevation(self, time, station_pos):
+        # Not taking flattening into account
+        sat_pos, _ = self.propagate(time)
+        vec_range = sat_pos - station_pos
+        phi = np.arccos(
+                np.dot(station_pos, vec_range) /
+                (np.linalg.norm(station_pos) * np.linalg.norm(vec_range)))
+        return 90 - np.rad2deg(phi)
+
+    def azimuth(time, groundstation):
+        raise NotImplementedError
 
 
 class SatellitePassTLE:
@@ -86,16 +99,19 @@ class SatellitePassTLE:
         self.position, self.velocity = self.satellite.construct_track(self.time)
         self.rangerate = self._calculate_rangerate(self.position, self.velocity, self.station['ecef'])
         self.tca = self._calculate_tca(self.time, self.rangerate)
+        self.elevation = np.array([self.satellite.elevation(t, self.station['ecef']) for t in self.time])
+        #  Maybe not the best way to calc max_elev if self.time is sparse around tca
+        self.max_elevation = self.satellite.elevation(self.tca, self.station['ecef'])
 
     @classmethod
     def from_dataid(cls, dataid):
-        times = L1B.load(dataid).datetime
+        time = L1B.load(dataid).time
         tle = Recording(dataid).tle
-        return cls(tle, times)
+        return cls(tle, time)
 
     def plot(self, savepath=None):
         fig, ax = plt.subplots(figsize=(16, 9))
-        ax.plot(self.time, self.rangerate)
+        ax.plot(self.time, self.elevation)
         if savepath:
             fig.savefig(savepath, format='png', dpi=300)
             plt.close(fig)
@@ -106,7 +122,19 @@ class SatellitePassTLE:
         fig = plt.figure(figsize=(16, 9))
         ax = fig.add_subplot(111, projection='3d')
         ax.plot(*zip(*self.position))
-        # TODO add the earth to plot
+        ax.scatter(*self.station['ecef'], color='r')
+
+#        u = np.linspace(0, 2 * np.pi, 100)
+#        v = np.linspace(0, np.pi, 100)
+#        x = radius_earth * np.outer(np.cos(u), np.sin(v))
+#        y = radius_earth * np.outer(np.sin(u), np.sin(v))
+#        z = radius_earth * np.outer(np.ones(np.size(u)), np.cos(v))
+#        ax.plot_surface(x, y, z,  rstride=4, cstride=4, color='b')
+#        ax.set_xlim3d(-7000000, 7000000)
+#        ax.set_ylim3d(-7000000, 7000000)
+#        ax.set_zlim3d(-7000000, 7000000)
+#        ax.pbaspect = [1.0, 1.0, 1.0]
+
         if savepath:
             fig.savefig(savepath, format='png', dpi=300)
             plt.close(fig)

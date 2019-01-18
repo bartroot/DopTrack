@@ -375,15 +375,15 @@ class L1B:
         ID of recording in the database.
     recording : data.L0
         Recording data object.
-    time : (float,) numpy.ndarray
+    time_sec : (float,) numpy.ndarray
         Time in seconds from start of recording for each data point.
-    datetime : (datetime.datetime,) numpy.ndarray
+    time : (datetime.datetime,) numpy.ndarray
         Time in datetime for each data point.
     frequency : (float,) numpy.ndarray
     power : (float,) numpy.ndarray
-    tca : float
+    tca_sec : float
         Estimated time of closest approach of satellite in seconds from start of recording.
-    tca_datetime : float
+    tca : float
         Estimated time of closest approach of satellite as datetime object.
     fca : float
         Estimated frequency at closest approach of satellite.
@@ -410,13 +410,13 @@ class L1B:
         self.dataid = data['dataid']
         self.recording = Recording(self.dataid)
 
-        self.time = data['time']
-        self.datetime = np.array([self.recording.start_time + timedelta(seconds=int(t)) for t in self.time])
+        self.time_sec = data['time_sec']
+        self.time = np.array([self.recording.start_time + timedelta(seconds=int(t)) for t in self.time_sec])
         self.frequency = data['frequency']
         self.power = data['power']
 
-        self.tca = data['tca']
-        self.tca_datetime = self.recording.start_time + timedelta(seconds=int(self.tca))
+        self.tca_sec = data['tca_sec']
+        self.tca = self.recording.start_time + timedelta(seconds=int(self.tca_sec))
         self.fca = data['fca']
         self.dt = data['dt']
         self.rmse = data['rmse']
@@ -474,11 +474,10 @@ class L1B:
         logger.info(f"Loading frequency data for {dataid}")
 
         filepath = Database().filepath(dataid, level='L1B')
-
         data = {'dataid': dataid}
 
         with open(filepath, 'r') as file:
-            data['tca'] = float(file.readline().strip('\n').split('=')[1])
+            data['tca_sec'] = float(file.readline().strip('\n').split('=')[1])
             data['fca'] = float(file.readline().strip('\n').split('=')[1])
             data['dt'] = float(file.readline().strip('\n').split('=')[1])
             data['rmse'] = float(file.readline().strip('\n').split('=')[1])
@@ -511,19 +510,19 @@ class L1B:
 
             data['fit_func'] = create_fit_func(
                     data['tanh_coeffs'],
-                    data['residual_coeffs'],
-                    data['residual_func'])
+                    data['residual_func'],
+                    data['residual_coeffs'])
 
             file.readline()
             file.readline()
 
-            time, frequency, power = [], [], []
+            time_sec, frequency, power = [], [], []
             for line in file.readlines():
-                time.append(float(line.split(',')[1]))
+                time_sec.append(float(line.split(',')[1]))
                 frequency.append(float(line.split(',')[2]))
                 power.append(float(line.split(',')[3]))
 
-            data['time'] = np.array(time)
+            data['time_sec'] = np.array(time_sec)
             data['frequency'] = np.array(frequency)
             data['power'] = np.array(power)
 
@@ -545,7 +544,7 @@ class L1B:
         filepath = Database().paths['L1B'] / f"{self.dataid}.DOP1B"
 
         with open(filepath, 'w+') as file:
-            file.write(f"tca={self.tca}\n")
+            file.write(f"tca_sec={self.tca_sec}\n")
             file.write(f"fca={self.fca}\n")
             file.write(f"dt={self.dt}\n")
             file.write(f"rmse={self.rmse}\n")
@@ -557,12 +556,12 @@ class L1B:
             file.write("==============\n")
 
             file.write('datetime,time,frequency,power\n')
-            for datetime_, time, frequency, power in zip(
-                    self.datetime,
+            for time, time_sec, frequency, power in zip(
                     self.time,
+                    self.time_sec,
                     self.frequency,
                     self.power):
-                file.write(f"{datetime_},{time:.2f},{frequency:.2f},{power:.6f}\n")
+                file.write(f"{time},{time_sec:.2f},{frequency:.2f},{power:.6f}\n")
 
     def plot(self, fit_func=True, savepath=None, cmap='viridis', clim=None):
         """
@@ -590,17 +589,21 @@ class L1B:
             ax.set_ylim(*ylim)
             clim = (0, self.spectrogram.mean() + 4*self.spectrogram.std()) if not clim else clim
             # TODO fix to take into account different nfft
-            ax.imshow(self.spectrogram, clim=clim, cmap=cmap, aspect='auto',
-                      extent=(xlim[0],
-                              xlim[1],
-                              ylim[0],
-                              ylim[1]))
+            ax.imshow(
+                    self.spectrogram,
+                    clim=clim,
+                    cmap=cmap,
+                    aspect='auto',
+                    extent=(xlim[0],
+                            xlim[1],
+                            ylim[0],
+                            ylim[1]))
         except AttributeError as e:
             logger.warning(f"{e}. This happens when loading data. Plotting without spectrogram.")
         markersize = 0.5 if savepath else None
-        ax.scatter(self.frequency, self.time, s=markersize, color='r')
+        ax.scatter(self.frequency, self.time_sec, s=markersize, color='r')
         if fit_func:
-            times = np.linspace(self.time[0], self.time[-1], 100)
+            times = np.linspace(self.time_sec[0], self.time_sec[-1], 100)
             ax.plot(self.fit_func(times), times, 'k')
 
         if savepath:
@@ -624,10 +627,9 @@ class L2:
     def create(cls, L1B_object):
 
         dataid = L1B_object.dataid
-        time = L1B_object.datetime
+        time = L1B_object.time
         frequency = L1B_object.frequency + Recording(dataid).tuning_freq
-        # TODO Swtich tca_datetime to tca and tca to tca_int
-        tca = L1B_object.tca_datetime
+        tca = L1B_object.tca
         fca = L1B_object.fca + Recording(dataid).tuning_freq
 
         rangerate = cls.rangerate_model(frequency, fca)

@@ -21,14 +21,15 @@ class ResidualAnalysis:
 
         self.dataid = dataid
 
-        self.doptrack = L2.create(L1B.load(dataid))
-        self.tle = SatellitePassTLE.from_dataid(dataid)
-        assert np.array_equal(self.doptrack.time, self.tle.time)
+        self.dataL1B = L1B.load(self.dataid)
+        self.dataL2 = L2.create(self.dataL1B)
+        self.dataTLE = SatellitePassTLE.from_dataid(dataid)
+        assert np.array_equal(self.dataL1B.time, self.dataL2.time)
+        assert np.array_equal(self.dataL1B.time, self.dataTLE.time)
 
-        self.time = self.doptrack.time
-        self.first_residual = self.doptrack.rangerate - self.tle.rangerate
-        self.dtca = (self.doptrack.tca - self.tle.tca).total_seconds()
-
+        self.time = self.dataL1B.time
+        self.first_residual = self.dataL2.rangerate - self.dataTLE.rangerate
+        self.dtca = (self.dataL2.tca - self.dataTLE.tca).total_seconds()
 
     def __repr__(self):
         return f'{self.__module__}.{self.__class__.__name__}({self.dataid})'
@@ -37,12 +38,12 @@ class ResidualAnalysis:
         fig = plt.figure()
         ax1 = fig.add_subplot(211)
         ax2 = fig.add_subplot(212, sharex=ax1)
-        ax1.plot(self.doptrack.time, self.doptrack.rangerate, label='doptrack')
-        ax1.plot(self.tle.time, self.tle.rangerate, label='tle')
+        ax1.plot(self.time, self.dataL2.rangerate, label='doptrack')
+        ax1.plot(self.time, self.dataTLE.rangerate, label='tle')
         ax1.set_ylabel('range rate')
         ax1.legend()
         ax1.grid()
-        ax2.plot(self.doptrack.time, self.first_residual)
+        ax2.plot(self.time, self.first_residual)
         ax2.set_xlabel('time')
         ax2.set_ylabel('first residual')
         ax2.grid()
@@ -73,15 +74,20 @@ class BulkAnalysis:
         dataids = Database().dataids['L1B']
         for dataid in tqdm(dataids, desc='Analyzing passes:'):
             a = ResidualAnalysis(dataid)
+
             datadict['dataid'].append(a.dataid)
-            datadict['tca'].append(a.doptrack.tca)
-            datadict['tca_time'].append(a.doptrack.tca.time())
-            datadict['fca'].append(a.doptrack.fca)
+            datadict['tca'].append(a.dataTLE.tca)
+            datadict['tca_time'].append(a.dataTLE.tca.time())
+            datadict['fca'].append(a.dataL1B.fca)
             datadict['dtca'].append(a.dtca)
-            if a.doptrack.tca.time() < time(16):
+            datadict['rmse'].append(a.dataL1B.rmse)
+            datadict['max_elevation'].append(a.dataTLE.max_elevation)
+
+            if a.dataTLE.tca.time() < time(16):
                 datadict['timeofday'].append('morning')
             else:
                 datadict['timeofday'].append('evening')
+
         self.data = pd.DataFrame.from_dict(datadict)
         self.data.set_index('dataid', inplace=True)
         self.data.sort_index(axis=0, inplace=True)

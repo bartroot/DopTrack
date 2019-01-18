@@ -17,7 +17,9 @@ data = BulkAnalysis().data
 data_labels = {'tca': {'name': 'TCA - Datetime of closest approach', 'unit': ''},
                'fca': {'name': 'FCA - Frequency at closest approach', 'unit': '(Hz)'},
                'dtca': {'name': 'dTCA - Time error', 'unit': '(s)'},
-               'tca_time_plotly': {'name': 'TCA - Time of day of closest approach', 'unit': ''}}
+               'tca_time_plotly': {'name': 'TCA - Time of day of closest approach', 'unit': ''},
+               'rmse': {'name': 'RMSE - Error between data and tanh fit', 'unit': '(Hz)'},
+               'max_elevation': {'name': 'Maximum elevation', 'unit': '(deg)'}}
 data['tca_time_plotly'] = [dt.replace(year=2000, month=1, day=1) for dt in data['tca']]
 
 
@@ -230,7 +232,7 @@ def update_pass_graphs_from_bulk(clickData, t_prev, t_next, figure):
 
     fig.append_trace(
             {'x': pass_data.time,
-             'y': pass_data.doptrack.rangerate,
+             'y': pass_data.dataL2.rangerate,
              'name': 'DopTrack range rate',
              'mode': 'markers',
              'type': 'scatter'},
@@ -239,7 +241,7 @@ def update_pass_graphs_from_bulk(clickData, t_prev, t_next, figure):
 
     fig.append_trace(
             {'x': pass_data.time,
-             'y': pass_data.tle.rangerate,
+             'y': pass_data.dataTLE.rangerate,
              'name': 'TLE range rate',
              'mode': 'lines',
              'type': 'scatter'},

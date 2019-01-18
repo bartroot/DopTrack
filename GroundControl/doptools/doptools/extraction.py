@@ -219,6 +219,7 @@ def extract_frequency_data(spectrogram, dt, plot=False):
     data['tanh_coeffs'] = tanh_coeffs
     data['residual_func'] = residual_func
     data['residual_coeffs'] = residual_coeffs
+    data['fit_func'] = fit_func
 
     return data
 
