@@ -261,10 +261,21 @@ def teme2ecef(utc, r_teme, v_teme, polarmotion=True, lod=True, **kwargs):
     v_ecef: (3,) ndarray
         Velocity vector in the ECEF frame.
 
+    Warnings
+    --------
+    The current implementation uses EOPP data (see doptools.ftp) which only gets
+    downloaded from 2016-01-01. Any transformation at a time before this date will
+    instead ignore polar motion, even if the polarmotion flag is set to True.
+
     Notes
     -----
     The units of the position and veloty vectors should be at same scale
     and the resulting vectors will have the same units.
+
+    Taking into account changes in length of day should have near zero influence
+    on results, even at extreme accuracy. Taking into polar motion will result in
+    about 1km difference in position for a LEO satellite. These conclusions are
+    from testing only.
 
     This function is adapted from the ``teme2ecef.m`` script by Vallado
     published on the Celestrak website. See [1]_.
@@ -284,13 +295,13 @@ def teme2ecef(utc, r_teme, v_teme, polarmotion=True, lod=True, **kwargs):
     ST = _sidereal_matrix(gmst)
     r_pef = ST.dot(r_teme)
     if lod:
-        lod = EOPC04.truncate(after=time.utc).iloc[-1]['LOD']
-        thetasa = WGS84_omega*(1 - lod/86400)
+        lod_val = EOPC04.truncate(after=time.utc).iloc[-1]['LOD']
+        thetasa = WGS84_omega*(1 - lod_val/86400)
     else:
         thetasa = WGS84_omega
     v_pef = ST.dot(v_teme) - np.cross(np.array([0, 0, thetasa]), r_pef)
 
-    if polarmotion:
+    if polarmotion and time.utc.year >= 2016:
         if type(polarmotion) == tuple:
             xp, yp = polarmotion
         else:
