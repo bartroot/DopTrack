@@ -30,6 +30,7 @@ Routines
 """
 import numpy as np
 from datetime import timedelta
+import warnings
 
 from .utils import Position, GeodeticPosition
 from .io import read_nutation_coeffs, read_eopp, read_eopc04, read_tai_utc
@@ -269,8 +270,8 @@ def teme2ecef(utc, r_teme, v_teme, polarmotion=True, lod=True, **kwargs):
 
     Warnings
     --------
-    The current implementation uses EOPP data (see doptools.ftp) which only gets
-    downloaded from 2016-01-01. Any transformation at a time before this date will
+    The current implementation uses EOPP data (see doptools.ftp) from
+    2016-01-01 and forward. Any transformation at a time before this date will
     instead ignore polar motion, even if the polarmotion flag is set to True.
 
     Notes
@@ -306,9 +307,12 @@ def teme2ecef(utc, r_teme, v_teme, polarmotion=True, lod=True, **kwargs):
         thetasa = WGS84_omega
     v_pef = ST.dot(v_teme) - np.cross(np.array([0, 0, thetasa]), r_pef)
 
-    if polarmotion and time.utc.year >= 2016:
+    if polarmotion:
         if type(polarmotion) == tuple:
             xp, yp = polarmotion
+        elif time.utc.year <= 2016:  # No EOPP data from before 2016
+            warnings.warn("No EOPP data from before 2016. Ignoring polar motion.")
+            xp, yp = 0, 0
         else:
             polar_params = EOPP.truncate(after=time.MJDutc).iloc[-1]
             xp, yp = polar_params['Xp'], polar_params['Yp']
@@ -325,11 +329,6 @@ def teme2ecef(utc, r_teme, v_teme, polarmotion=True, lod=True, **kwargs):
 def gmst1982(Tut1):
     """Deprecated version of Greenwich Mean Sidereal Time (GMST).
 
-    Note
-    ----
-    Should only be used in transformations to and from
-    the TEME reference frame.
-
     Parameters
     ----------
     Tut1 : int
@@ -338,6 +337,11 @@ def gmst1982(Tut1):
     Returns
     -------
     gmst : rad
+
+    Warnings
+    --------
+    Should only be used in transformations to and from
+    the TEME reference frame.
 
     Notes
     -----
