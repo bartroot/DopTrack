@@ -8,9 +8,8 @@ from mpl_toolkits.mplot3d import Axes3D
 
 from .recording import Recording
 from .data import L1B
-from .coordconv import teme2ecef, geodetic2ecef
+from .coordconv import teme2ecef, geodetic2ecef, ecef2geodetic
 from .utils import GeodeticPosition
-from .utils import timing
 
 radius_earth = wgs84.radiusearthkm * 1000
 
@@ -19,39 +18,26 @@ _ecef = geodetic2ecef(*_geodetic)
 DopTrackStation = {'geodetic': _geodetic, 'ecef': _ecef}
 
 
-#class GroundStation:
-#    """
-#    This class creates an object representing a 'station'
-#    from which satellites are observed.
-#    """
-#
-#    def __init__(self, geo):
-#        self.position_geodetic = GeodeticPosition(*geo)
-#        self.position = geodetic2ecef(*self.position_geodetic)
-#
-#
-#    def satellite_inview(self, sat_pos_ecef):
-#        """Checks if satellite is in view of station.
-#
-#        Args:
-#            sat_pos_ecef: position of satellite
-#
-#        Returns:
-#            bool: True if satellite is in view. False if not.
-#        """
-#        # TODO Make this part more readable
-#        sat_pos_geo = ecef2geodetic(*sat_pos_ecef)
-#
-#        inner_self_self = np.inner(self.position, self.position)
-#        inner_sat_sat = np.inner(sat_pos_ecef, sat_pos_ecef)
-#        inner_self_sat = np.inner(self.position, sat_pos_ecef)
-#
-#        cosgamma = radius_earth / (radius_earth + sat_pos_geo.altitude)
-#        satgamma = inner_self_sat / (np.sqrt(inner_sat_sat) * np.sqrt(inner_self_self))
-#        if satgamma > cosgamma:
-#            return True
-#        else:
-#            return False
+class GroundStation:
+
+    def __init__(self, name, geo):
+        self.name
+        self.position_geodetic = GeodeticPosition(*geo)
+        self.position = geodetic2ecef(*self.position_geodetic)
+
+    def satellite_inview(self, sat_pos_ecef):
+        sat_pos_geo = ecef2geodetic(*sat_pos_ecef)
+
+        inner_self_self = np.inner(self.position, self.position)
+        inner_sat_sat = np.inner(sat_pos_ecef, sat_pos_ecef)
+        inner_self_sat = np.inner(self.position, sat_pos_ecef)
+
+        cosgamma = radius_earth / (radius_earth + sat_pos_geo.altitude)
+        satgamma = inner_self_sat / (np.sqrt(inner_sat_sat) * np.sqrt(inner_self_self))
+        if satgamma > cosgamma:
+            return True
+        else:
+            return False
 
 
 class SatelliteSGP4(Satellite):
@@ -90,7 +76,7 @@ class SatelliteSGP4(Satellite):
 
 class SatellitePassTLE:
 
-    def __init__(self, tle, time):
+    def __init__(self, tle, time, tca=None):
         self.station = DopTrackStation
         self.satellite = SatelliteSGP4(tle[0], tle[1])
 
@@ -98,16 +84,28 @@ class SatellitePassTLE:
         self.time = time
         self.position, self.velocity = self.satellite.construct_track(self.time)
         self.rangerate = self._calculate_rangerate(self.position, self.velocity, self.station['ecef'])
-        self.tca = self._calculate_tca(self.time, self.rangerate)
         self.elevation = np.array([self.satellite.elevation(t, self.station['ecef']) for t in self.time])
-        #  Maybe not the best way to calc max_elev if self.time is sparse around tca
-        self.max_elevation = self.satellite.elevation(self.tca, self.station['ecef'])
+
+        if tca:
+            self.tca = tca
+        else:
+            self.tca = self._calculate_tca(self.time, self.rangerate)
 
     @classmethod
-    def from_dataid(cls, dataid):
+    def from_recording(cls, dataid, num=1000):
+        rec = Recording(dataid)
+        dtime = np.linspace(0, rec.duration, num=num)
+        time = [rec.start_time + timedelta(seconds=dt) for dt in dtime]
+
+        return cls(rec.prediction['tle'], time)
+
+    @classmethod
+    def from_L1B(cls, dataid):
+        rec = Recording(dataid)
+        temp = cls.from_recording(dataid, num=1000)
         time = L1B.load(dataid).time
-        tle = Recording(dataid).tle
-        return cls(tle, time)
+
+        return cls(rec.prediction['tle'], time, tca=temp.tca)
 
     def plot(self, savepath=None):
         fig, ax = plt.subplots(figsize=(16, 9))
@@ -123,18 +121,6 @@ class SatellitePassTLE:
         ax = fig.add_subplot(111, projection='3d')
         ax.plot(*zip(*self.position))
         ax.scatter(*self.station['ecef'], color='r')
-
-#        u = np.linspace(0, 2 * np.pi, 100)
-#        v = np.linspace(0, np.pi, 100)
-#        x = radius_earth * np.outer(np.cos(u), np.sin(v))
-#        y = radius_earth * np.outer(np.sin(u), np.sin(v))
-#        z = radius_earth * np.outer(np.ones(np.size(u)), np.cos(v))
-#        ax.plot_surface(x, y, z,  rstride=4, cstride=4, color='b')
-#        ax.set_xlim3d(-7000000, 7000000)
-#        ax.set_ylim3d(-7000000, 7000000)
-#        ax.set_zlim3d(-7000000, 7000000)
-#        ax.pbaspect = [1.0, 1.0, 1.0]
-
         if savepath:
             fig.savefig(savepath, format='png', dpi=300)
             plt.close(fig)
@@ -166,35 +152,3 @@ class SatellitePassTLE:
         return tca
 
 
-#class SatellitePassRecorded:
-#    """
-#    Old rre code.
-#
-#    Parameters
-#    ----------
-#    dataid : str
-#        ID of recording in the database.
-#    spectrogram : (N, M) numpy.ndarray
-#        An array containing the values of the spectrogram in dB.
-#    freq_lims : (float, float) tuple
-#        The minimum and maximum frequency values of the spectrogram.
-#    time_lims : (datetime.datetime, datetime.datetime) tuple
-#        The end and start time of recording. The order is reversen since it is
-#        convention to flip the y-axis in a spectrogram.
-#
-#    """
-#    def __init__(self, dataid):
-#        self.station = DopTrackStation
-#        self.dataid = dataid
-#        self.recording = Recording(dataid)
-#
-#        rre = read_rre(self.dataid)
-#        self.time = rre['datetime']
-#        self.tca = rre['tca']
-#        self.frequency = np.array(rre['frequency'])
-#        self.fca = rre['fca']
-#        self.rangerate = self._rangerate_model(self.frequency, self.fca)
-#
-#    @staticmethod
-#    def _rangerate_model(frequency, fca):
-#        return (1 - (frequency/fca)) * constants.c
