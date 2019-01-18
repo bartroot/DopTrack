@@ -161,26 +161,68 @@ def update_bulk_graph(xkey, ykey):
     ytitle = ' '.join(['<b>', data_labels[ykey]['name'], data_labels[ykey]['unit'], '</b>'])
 
     plot = dict()
-    plot['data'] = [
-            go.Scatter(
-                    x=data[data['timeofday'] == 'morning'][xkey],
-                    y=data[data['timeofday'] == 'morning'][ykey],
-                    text=data[data['timeofday'] == 'morning'].index,
-                    mode='markers',
-                    marker={
-                        'size': 8,
-                        'line': {'width': 1, 'color': 'white'}},
-                    name='Morning'),
+    for timeofday in ['morning', 'evening']:
+        if xkey == 'fca' and ykey == 'fca':
 
-            go.Scatter(
-                    x=data[data['timeofday'] == 'evening'][xkey],
-                    y=data[data['timeofday'] == 'evening'][ykey],
-                    text=data[data['timeofday'] == 'evening'].index,
-                    mode='markers',
-                    marker={
-                        'size': 8,
-                        'line': {'width': 1, 'color': 'white'}},
-                    name='Evening')]
+            plot['data'] = [
+                go.Scatter(
+                        x=[val.n for val in data[data['timeofday'] == timeofday][xkey]],
+                        error_x=dict(
+                                type='data',
+                                array=[val.s for val in data[data['timeofday'] == timeofday][xkey]],
+                                visible=True),
+                        y=[val.n for val in data[data['timeofday'] == timeofday][ykey]],
+                        error_y=dict(
+                                type='data',
+                                array=[val.s for val in data[data['timeofday'] == timeofday][ykey]],
+                                visible=True),
+                        text=data[data['timeofday'] == timeofday].index,
+                        mode='markers',
+                        marker={
+                            'size': 8,
+                            'line': {'width': 1, 'color': 'white'}},
+                        name=timeofday)]
+        elif xkey == 'fca':
+            plot['data'] = [
+                go.Scatter(
+                        x=[val.n for val in data[data['timeofday'] == timeofday][xkey]],
+                        error_x=dict(
+                                type='data',
+                                array=[val.s for val in data[data['timeofday'] == timeofday][xkey]],
+                                visible=True),
+                        y=data[data['timeofday'] == timeofday][ykey],
+                        text=data[data['timeofday'] == timeofday].index,
+                        mode='markers',
+                        marker={
+                            'size': 8,
+                            'line': {'width': 1, 'color': 'white'}},
+                        name=timeofday)]
+        elif ykey == 'fca':
+            plot['data'] = [
+                go.Scatter(
+                        x=data[data['timeofday'] == timeofday][xkey],
+                        y=[val.n for val in data[data['timeofday'] == timeofday][ykey]],
+                        error_y=dict(
+                                type='data',
+                                array=[val.s for val in data[data['timeofday'] == timeofday][ykey]],
+                                visible=True),
+                        text=data[data['timeofday'] == timeofday].index,
+                        mode='markers',
+                        marker={
+                            'size': 8,
+                            'line': {'width': 1, 'color': 'white'}},
+                        name=timeofday)]
+        else:
+            plot['data'] = [
+                go.Scatter(
+                        x=data[data['timeofday'] == 'timeofday'][xkey],
+                        y=data[data['timeofday'] == 'timeofday'][ykey],
+                        text=data[data['timeofday'] == 'timeofday'].index,
+                        mode='markers',
+                        marker={
+                            'size': 8,
+                            'line': {'width': 1, 'color': 'white'}},
+                        name='timeofday')]
 
     plot['layout'] = go.Layout(
             #  title='Complete Dataset',

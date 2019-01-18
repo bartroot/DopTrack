@@ -20,11 +20,14 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy.fftpack import fft, fftshift
+import scipy.optimize as optimize
 import scipy.constants as constants
 from tqdm import tqdm
 import logging
+import uncertainties
 
 from .recording import Recording
+from .model import SatellitePassTLE
 from .io import Database
 from .extraction import extract_frequency_data, create_fit_func
 from . import fitting
@@ -410,13 +413,13 @@ class L1B:
         self.dataid = data['dataid']
         self.recording = Recording(self.dataid)
 
-        self.time_sec = data['time_sec']
+        self.time_sec = data['time']  # time_sec is named time during extraction
         self.time = np.array([self.recording.start_time + timedelta(seconds=int(t)) for t in self.time_sec])
         self.frequency = data['frequency']
         self.power = data['power']
 
         self.tca_sec = data['tca_sec']
-        self.tca = self.recording.start_time + timedelta(seconds=int(self.tca_sec))
+        self.tca = data['tca']
         self.fca = data['fca']
         self.dt = data['dt']
         self.rmse = data['rmse']
@@ -447,10 +450,22 @@ class L1B:
 
         logger.info(f"Extracting frequency data for {L1A_object.dataid}")
 
-        data = extract_frequency_data(L1A_object.spectrogram, L1A_object.dt, plot=plot)
+        rec = Recording(L1A_object.dataid)
+
+        satpass = SatellitePassTLE.from_recording(L1A_object.dataid, num=10_000)
+        tca_sec = (satpass.tca - rec.start_time).total_seconds()
+        data = extract_frequency_data(
+                L1A_object.spectrogram,
+                L1A_object.dt,
+                tca_sec,
+                plot=plot)
+
         data['dt'] = L1A_object.dt
         data['spectrogram'] = L1A_object.spectrogram
         data['dataid'] = L1A_object.dataid
+        data['tca_sec'] = tca_sec
+        data['tca'] = satpass.tca
+        data['fca'] = cls.estimate_fca(data['time'], data['frequency'], tca_sec)
 
         return cls(data)
 
@@ -478,7 +493,7 @@ class L1B:
 
         with open(filepath, 'r') as file:
             data['tca_sec'] = float(file.readline().strip('\n').split('=')[1])
-            data['fca'] = float(file.readline().strip('\n').split('=')[1])
+            data['fca'] = uncertainties.ufloat_fromstr(file.readline().strip('\n').split('=')[1])
             data['dt'] = float(file.readline().strip('\n').split('=')[1])
             data['rmse'] = float(file.readline().strip('\n').split('=')[1])
 
@@ -563,7 +578,7 @@ class L1B:
                     self.power):
                 file.write(f"{time},{time_sec:.2f},{frequency:.2f},{power:.6f}\n")
 
-    def plot(self, fit_func=True, savepath=None, cmap='viridis', clim=None):
+    def plot(self, fit_func=True, savepath=None, cmap='viridis', clim=None, **kwargs):
         """
         Plot the time-frequency data.
 
@@ -597,7 +612,8 @@ class L1B:
                     extent=(xlim[0],
                             xlim[1],
                             ylim[0],
-                            ylim[1]))
+                            ylim[1]),
+                    **kwargs)
         except AttributeError as e:
             logger.warning(f"{e}. This happens when loading data. Plotting without spectrogram.")
         markersize = 0.5 if savepath else None
@@ -611,6 +627,23 @@ class L1B:
             plt.close(fig)
         else:
             fig.show()
+
+    @staticmethod
+    def estimate_fca(time_sec, frequency, tca_sec):
+
+        bools = abs(time_sec - tca_sec) < 10
+
+        coeffs, covariance = optimize.curve_fit(
+                    fitting.linear,
+                    time_sec[bools],
+                    frequency[bools],
+                    method='lm')
+
+        err = np.sqrt(np.diag(covariance))
+        a = uncertainties.ufloat(coeffs[0], err[0])
+        b = uncertainties.ufloat(coeffs[1], err[1])
+
+        return a*tca_sec + b
 
 
 class L2:
