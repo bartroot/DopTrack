@@ -115,8 +115,12 @@ def fit_residual(times, residual):
     raise FittingError('None of the residual fitting functions converged')
 
 
-def tanh(xs, a, b, c, d):
-    return -a*np.tanh((xs - d)/c) + b
+def linear(x, a, b):
+    return a*x + b
+
+
+def tanh(x, a, b, c, d):
+    return -a*np.tanh((x - d)/c) + b
 
 
 def fourier4(x, a0, a1, a2, a3, a4, b1, b2, b3, b4, p):
