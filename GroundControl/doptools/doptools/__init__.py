@@ -13,3 +13,4 @@ if Config().runtime['logging']:
     logging.basicConfig(stream=sys.stdout, format=log_format_string, level=logging.DEBUG)
 else:
     logging.getLogger(__name__).addHandler(logging.NullHandler())
+logging.captureWarnings(True)
