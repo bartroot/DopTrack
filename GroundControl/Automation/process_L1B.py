@@ -37,27 +37,30 @@ for dataid in sorted(dataids_to_process):
     logger.info(f'Processing {dataid}')
 
     try:
-        spec = L1A.create(dataid, nfft=250_000, dt=0.1)
+        try:
+            L1A_obj = L1A.load(dataid)
+        except FileNotFoundError:
+            L1A_obj = L1A.create(dataid, nfft=250_000, dt=0.1)
     except EmptyRecordingError as e:
         logger.warning(e)
         db.update_status(dataid, status='empty_recording')
         continue
 
     try:
-        data = L1B.create(spec)
-        data.save()
+        L1B_obj = L1B.create(L1A_obj)
+        L1B_obj.save()
         figpath = db.paths['output'] / 'L1B' / f'{dataid}.png'
-        data.plot(savepath=figpath, fit_func=False)
+        L1B_obj.plot(savepath=figpath, L1A=L1A_obj, fit_func=False)
         logger.info(f'Extraction of {dataid} succeded')
         db.update_status(dataid, status='success')
     except PassNotFoundError as e:
         figpath = db.paths['output'] / 'L1B_failed' / f'{dataid}.png'
-        spec.plot(savepath=figpath)
+        L1A_obj.plot(savepath=figpath)
         logger.info(f'No pass was found in {dataid}: {e}')
         db.update_status(dataid, status='pass_not_found')
     except Exception:
         figpath = db.paths['output'] / 'L1B_failed' / f'{dataid}.png'
-        spec.plot(savepath=figpath)
+        L1A_obj.plot(savepath=figpath)
         logger.exception(f'Extraction of {dataid} failed unexpectedly')
         db.update_status(dataid, status='unknown_error')
 
