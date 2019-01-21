@@ -7,6 +7,7 @@ import numpy as np
 from plotly import tools
 import time
 import pandas as pd
+import uncertainties
 
 from doptools.analysis import BulkAnalysis, ResidualAnalysis
 from doptools.config import Config
@@ -18,7 +19,7 @@ data_labels = {'tca': {'name': 'TCA - Datetime of closest approach', 'unit': ''}
                'fca': {'name': 'FCA - Frequency at closest approach', 'unit': '(Hz)'},
                'dtca': {'name': 'dTCA - Time error', 'unit': '(s)'},
                'tca_time_plotly': {'name': 'TCA - Time of day of closest approach', 'unit': ''},
-               'rmse': {'name': 'RMSE - Error between data and tanh fit', 'unit': '(Hz)'},
+               'rmse': {'name': 'RMSE - Error between data and tanh fit', 'unit': '(Hz)'}}
                'max_elevation': {'name': 'Maximum elevation', 'unit': '(deg)'}}
 data['tca_time_plotly'] = [dt.replace(year=2000, month=1, day=1) for dt in data['tca']]
 
@@ -73,7 +74,7 @@ app.layout = html.Div(
                                                                                 options=[
                                                                                         {'label': val['name'], 'value': key}
                                                                                         for key, val in data_labels.items()],
-                                                                                value='fca')],
+                                                                                value='tca')],
                                                                 style={'fontSize': 12, 'marginBottom': 30}),
 
                                                         html.Div(
@@ -161,34 +162,36 @@ def update_bulk_graph(xkey, ykey):
     ytitle = ' '.join(['<b>', data_labels[ykey]['name'], data_labels[ykey]['unit'], '</b>'])
 
     plot = dict()
+    plot['data'] = []
     for timeofday in ['morning', 'evening']:
+
         if xkey == 'fca' and ykey == 'fca':
 
-            plot['data'] = [
+            plot['data'].append(
                 go.Scatter(
-                        x=[val.n for val in data[data['timeofday'] == timeofday][xkey]],
+                        x=[uncertainties.ufloat_fromstr(val).n for val in data[data['timeofday'] == timeofday][xkey]],
                         error_x=dict(
                                 type='data',
-                                array=[val.s for val in data[data['timeofday'] == timeofday][xkey]],
+                                array=[uncertainties.ufloat_fromstr(val).s for val in data[data['timeofday'] == timeofday][xkey]],
                                 visible=True),
-                        y=[val.n for val in data[data['timeofday'] == timeofday][ykey]],
+                        y=[uncertainties.ufloat_fromstr(val).n for val in data[data['timeofday'] == timeofday][ykey]],
                         error_y=dict(
                                 type='data',
-                                array=[val.s for val in data[data['timeofday'] == timeofday][ykey]],
+                                array=[uncertainties.ufloat_fromstr(val).s for val in data[data['timeofday'] == timeofday][ykey]],
                                 visible=True),
                         text=data[data['timeofday'] == timeofday].index,
                         mode='markers',
                         marker={
                             'size': 8,
                             'line': {'width': 1, 'color': 'white'}},
-                        name=timeofday)]
+                        name=timeofday))
         elif xkey == 'fca':
-            plot['data'] = [
+            plot['data'].append(
                 go.Scatter(
-                        x=[val.n for val in data[data['timeofday'] == timeofday][xkey]],
+                        x=[uncertainties.ufloat_fromstr(val).n for val in data[data['timeofday'] == timeofday][xkey]],
                         error_x=dict(
                                 type='data',
-                                array=[val.s for val in data[data['timeofday'] == timeofday][xkey]],
+                                array=[uncertainties.ufloat_fromstr(val).s for val in data[data['timeofday'] == timeofday][xkey]],
                                 visible=True),
                         y=data[data['timeofday'] == timeofday][ykey],
                         text=data[data['timeofday'] == timeofday].index,
@@ -196,33 +199,33 @@ def update_bulk_graph(xkey, ykey):
                         marker={
                             'size': 8,
                             'line': {'width': 1, 'color': 'white'}},
-                        name=timeofday)]
+                        name=timeofday))
         elif ykey == 'fca':
-            plot['data'] = [
+            plot['data'].append(
                 go.Scatter(
                         x=data[data['timeofday'] == timeofday][xkey],
-                        y=[val.n for val in data[data['timeofday'] == timeofday][ykey]],
+                        y=[uncertainties.ufloat_fromstr(val).n for val in data[data['timeofday'] == timeofday][ykey]],
                         error_y=dict(
                                 type='data',
-                                array=[val.s for val in data[data['timeofday'] == timeofday][ykey]],
+                                array=[uncertainties.ufloat_fromstr(val).s for val in data[data['timeofday'] == timeofday][ykey]],
                                 visible=True),
                         text=data[data['timeofday'] == timeofday].index,
                         mode='markers',
                         marker={
                             'size': 8,
                             'line': {'width': 1, 'color': 'white'}},
-                        name=timeofday)]
+                        name=timeofday))
         else:
-            plot['data'] = [
+            plot['data'].append(
                 go.Scatter(
-                        x=data[data['timeofday'] == 'timeofday'][xkey],
-                        y=data[data['timeofday'] == 'timeofday'][ykey],
-                        text=data[data['timeofday'] == 'timeofday'].index,
+                        x=data[data['timeofday'] == timeofday][xkey],
+                        y=data[data['timeofday'] == timeofday][ykey],
+                        text=data[data['timeofday'] == timeofday].index,
                         mode='markers',
                         marker={
                             'size': 8,
                             'line': {'width': 1, 'color': 'white'}},
-                        name='timeofday')]
+                        name=timeofday))
 
     plot['layout'] = go.Layout(
             #  title='Complete Dataset',
