@@ -310,7 +310,7 @@ def teme2ecef(utc, r_teme, v_teme, polarmotion=True, lod=True, **kwargs):
     if polarmotion:
         if type(polarmotion) == tuple:
             xp, yp = polarmotion
-        elif time.utc.year <= 2016:  # No EOPP data from before 2016
+        elif time.utc.year < 2016:  # No EOPP data from before 2016
             warnings.warn("No EOPP data from before 2016. Ignoring polar motion.")
             xp, yp = 0, 0
         else:

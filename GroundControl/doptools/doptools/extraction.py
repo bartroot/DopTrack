@@ -61,6 +61,8 @@ def extract_frequency_data(spectrogram, dt, tca_sec, plot=False):
         A 2D array with the spectrogram data.
     dt : int or float
         The timestep of the spectrogram.
+    tca_sec : float
+        Time of closest approach in seconds since start of recording.
     plot : bool, optional
         If True plot a figure of the resulting clusters.
 

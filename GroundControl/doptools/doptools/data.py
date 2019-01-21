@@ -10,7 +10,7 @@ Classes
 - `L0` -- Radio recording from a complex binary file.
 - `L1A` -- Spectrogram processed from a radio recording.
 - `L1B` -- Time-frequency data of satellite signal extracted from a spectrogram.
-- `L2` -- Rangerate data modelled from time-frequency data.
+- `L1C` -- Rangerate data modelled from time-frequency data.
 
 """
 import os
@@ -378,16 +378,16 @@ class L1B:
         ID of recording in the database.
     recording : data.L0
         Recording data object.
-    time_sec : (float,) numpy.ndarray
-        Time in seconds from start of recording for each data point.
     time : (datetime.datetime,) numpy.ndarray
         Time in datetime for each data point.
+    time_sec : (float,) numpy.ndarray
+        Time in seconds from start of recording for each data point.
     frequency : (float,) numpy.ndarray
     power : (float,) numpy.ndarray
-    tca_sec : float
-        Estimated time of closest approach of satellite in seconds from start of recording.
     tca : float
         Estimated time of closest approach of satellite as datetime object.
+    tca_sec : float
+        Estimated time of closest approach of satellite in seconds from start of recording.
     fca : float
         Estimated frequency at closest approach of satellite.
     rmse : float
@@ -413,19 +413,21 @@ class L1B:
         self.dataid = data['dataid']
         self.recording = Recording(self.dataid)
 
-        self.time_sec = data['time']  # time_sec is named time during extraction
-        self.time = np.array([self.recording.start_time + timedelta(seconds=int(t)) for t in self.time_sec])
+        # Series data
+        self.time = data['time']
+        self.time_sec = data['time_sec']
         self.frequency = data['frequency']
         self.power = data['power']
 
-        self.tca_sec = data['tca_sec']
+        # Single value data
         self.tca = data['tca']
+        self.tca_sec = data['tca_sec']
         self.fca = data['fca']
-        self.dt = data['dt']
         self.rmse = data['rmse']
 
-        self.tanh_coeffs = data['tanh_coeffs'],
-        self.residual_coeffs = data['residual_coeffs'],
+        # Fitting data
+        self.tanh_coeffs = data['tanh_coeffs']
+        self.residual_coeffs = data['residual_coeffs']
         self.residual_func = data['residual_func']
         self.fit_func = data['fit_func']
 
@@ -451,21 +453,23 @@ class L1B:
         logger.info(f"Extracting frequency data for {L1A_object.dataid}")
 
         rec = Recording(L1A_object.dataid)
-
         satpass = SatellitePassTLE.from_recording(L1A_object.dataid, num=10_000)
         tca_sec = (satpass.tca - rec.start_time).total_seconds()
+
         data = extract_frequency_data(
                 L1A_object.spectrogram,
                 L1A_object.dt,
                 tca_sec,
                 plot=plot)
 
-        data['dt'] = L1A_object.dt
-        data['spectrogram'] = L1A_object.spectrogram
         data['dataid'] = L1A_object.dataid
-        data['tca_sec'] = tca_sec
+
+        data['time_sec'] = data['time']
+        data['time'] = np.array([rec.start_time + timedelta(seconds=t) for t in data['time_sec']])
+
         data['tca'] = satpass.tca
-        data['fca'] = cls.estimate_fca(data['time'], data['frequency'], tca_sec)
+        data['tca_sec'] = tca_sec
+        data['fca'] = cls.estimate_fca(data['time_sec'], data['frequency'], data['tca_sec'])
 
         return cls(data)
 
@@ -488,18 +492,22 @@ class L1B:
 
         logger.info(f"Loading frequency data for {dataid}")
 
+        rec = Recording(dataid)
+
         filepath = Database().filepath(dataid, level='L1B')
         data = {'dataid': dataid}
 
         with open(filepath, 'r') as file:
+            data['tca'] = datetime.strptime(file.readline().strip('\n').split('=')[1], "%Y-%m-%d %H:%M:%S.%f")
             data['tca_sec'] = float(file.readline().strip('\n').split('=')[1])
+            assert (data['tca'] - rec.start_time).total_seconds() == data['tca_sec']
+
             data['fca'] = uncertainties.ufloat_fromstr(file.readline().strip('\n').split('=')[1])
-            data['dt'] = float(file.readline().strip('\n').split('=')[1])
             data['rmse'] = float(file.readline().strip('\n').split('=')[1])
 
             line = file.readline().strip('\n')
             string_coeffs = line.split('=')[1].strip('[]').split()
-            data['tanh_coeffs'] = [float(coeff) for coeff in string_coeffs]
+            data['tanh_coeffs'] = np.array([float(coeff) for coeff in string_coeffs])
 
             residual_func_name = file.readline().strip('\n').split('=')[1]
             data['residual_func'] = getattr(fitting, residual_func_name)
@@ -521,7 +529,7 @@ class L1B:
                 else:
                     string_coeffs = line.split()
                     residual_coeffs.extend([float(coeff) for coeff in string_coeffs])
-            data['residual_coeffs'] = residual_coeffs
+            data['residual_coeffs'] = np.array(residual_coeffs)
 
             data['fit_func'] = create_fit_func(
                     data['tanh_coeffs'],
@@ -531,12 +539,15 @@ class L1B:
             file.readline()
             file.readline()
 
-            time_sec, frequency, power = [], [], []
+            time, time_sec, frequency, power = [], [], [], []
             for line in file.readlines():
+                time.append(datetime.strptime(line.split(',')[0], "%Y-%m-%d %H:%M:%S.%f"))
                 time_sec.append(float(line.split(',')[1]))
                 frequency.append(float(line.split(',')[2]))
                 power.append(float(line.split(',')[3]))
 
+            # time_sec set to time to conform with create method
+            data['time'] = np.array(time)
             data['time_sec'] = np.array(time_sec)
             data['frequency'] = np.array(frequency)
             data['power'] = np.array(power)
@@ -559,18 +570,19 @@ class L1B:
         filepath = Database().paths['L1B'] / f"{self.dataid}.DOP1B"
 
         with open(filepath, 'w+') as file:
+            file.write(f"tcac={self.tca}\n")
             file.write(f"tca_sec={self.tca_sec}\n")
-            file.write(f"fca={self.fca}\n")
-            file.write(f"dt={self.dt}\n")
+            file.write(f"fca={repr(self.fca)}\n")
             file.write(f"rmse={self.rmse}\n")
 
             file.write(f"tanh_coeffs={self.tanh_coeffs}\n")
+
             file.write(f"residual_func={self.residual_func.__name__}\n")
             file.write(f"residual_coeffs={self.residual_coeffs}\n")
 
-            file.write("==============\n")
+            file.write(f"="*20 + "\n")
 
-            file.write('datetime,time,frequency,power\n')
+            file.write('time,time_sec,frequency,power\n')
             for time, time_sec, frequency, power in zip(
                     self.time,
                     self.time_sec,
@@ -578,7 +590,7 @@ class L1B:
                     self.power):
                 file.write(f"{time},{time_sec:.2f},{frequency:.2f},{power:.6f}\n")
 
-    def plot(self, fit_func=True, savepath=None, cmap='viridis', clim=None, **kwargs):
+    def plot(self, fit_func=True, savepath=None, L1A=None, cmap='viridis', clim=None, **kwargs):
         """
         Plot the time-frequency data.
 
@@ -597,15 +609,16 @@ class L1B:
         """
 
         fig, ax = plt.subplots(figsize=(16, 9))
-        try:
-            xlim = (0 - 0.5, self.spectrogram.shape[1] - 0.5)
-            ylim = (self.spectrogram.shape[0]*self.dt, 0)
+
+        if L1A is not None:
+            xlim = (0 - 0.5, L1A.spectrogram.shape[1] - 0.5)
+            ylim = (L1A.spectrogram.shape[0]*L1A.dt, 0)
             ax.set_xlim(*xlim)
             ax.set_ylim(*ylim)
-            clim = (0, self.spectrogram.mean() + 4*self.spectrogram.std()) if not clim else clim
+            clim = (0, L1A.spectrogram.mean() + 4*L1A.spectrogram.std()) if not clim else clim
             # TODO fix to take into account different nfft
             ax.imshow(
-                    self.spectrogram,
+                    L1A.spectrogram,
                     clim=clim,
                     cmap=cmap,
                     aspect='auto',
@@ -614,8 +627,7 @@ class L1B:
                             ylim[0],
                             ylim[1]),
                     **kwargs)
-        except AttributeError as e:
-            logger.warning(f"{e}. This happens when loading data. Plotting without spectrogram.")
+
         markersize = 0.5 if savepath else None
         ax.scatter(self.frequency, self.time_sec, s=markersize, color='r')
         if fit_func:
@@ -646,58 +658,81 @@ class L1B:
         return a*tca_sec + b
 
 
-class L2:
+class L1C:
+    """
+    L1C data (rangerate) of a DopTrack recording.
 
-    def __init__(self, dataid, time, rangerate, tca, fca):
+    Parameters
+    ----------
+    dataid : str
+        ID of recording in the database.
+    recording : data.L0
+        Recording data object.
+    time : (datetime.datetime,) numpy.ndarray
+        Time in datetime for each data point.
+    time_sec : (float,) numpy.ndarray
+        Time in seconds from start of recording for each data point.
+    rangerate : (float,) numpy.ndarray
+
+    """
+
+    def __init__(self, dataid, time, time_sec, rangerate):
         self.dataid = dataid
         self.recording = Recording(dataid)
         self.time = time
+        self.time_sec = time_sec
         self.rangerate = rangerate
-        self.tca = tca
-        self.fca = fca
 
     @classmethod
-    def create(cls, L1B_object):
+    def create(cls, L1B_obj):
 
-        dataid = L1B_object.dataid
-        time = L1B_object.time
-        frequency = L1B_object.frequency + Recording(dataid).tuning_freq
-        tca = L1B_object.tca
-        fca = L1B_object.fca + Recording(dataid).tuning_freq
+        dataid = L1B_obj.dataid
 
-        rangerate = cls.rangerate_model(frequency, fca)
+        time = L1B_obj.time
+        time_sec = L1B_obj.time_sec
+        frequency = L1B_obj.frequency + Recording(dataid).tuning_freq
+        fca = L1B_obj.fca + Recording(dataid).tuning_freq
 
-        return cls(dataid, time, rangerate, tca, fca)
+        # TODO might want to propogate uncertainties further down the data stream. Remove .n if so.
+        rangerate = cls.rangerate_model(frequency, fca.n)
+
+        return cls(dataid, time, time_sec, rangerate)
+
+    @classmethod
+    def load(cls, dataid):
+
+        logger.info(f"Loading frequency data for {dataid}")
+
+        filepath = Database().filepath(dataid, level='L1C')
+        with open(filepath, 'r') as file:
+            file.readline()
+            time, time_sec, rangerate = [], [], []
+            for line in file.readlines():
+                time.append(datetime.strptime(line.split(',')[0], "%Y-%m-%d %H:%M:%S.%f"))
+                time_sec.append(float(line.split(',')[1]))
+                rangerate.append(float(line.split(',')[2]))
+
+        return cls(dataid, np.array(time), np.array(time_sec), np.array(rangerate))
+
+    def save(self):
+        logger.info(f"Saving rangerate data for {self.dataid}")
+
+        filepath = Database().paths['L1C'] / f"{self.dataid}.DOP1C"
+
+        with open(filepath, 'w+') as file:
+
+            file.write('time,time_sec,frequency,power\n')
+            for time, time_sec, rangerate in zip(
+                    self.time,
+                    self.time_sec,
+                    self.rangerate):
+                file.write(f"{time},{time_sec:.2f},{rangerate:.2f}\n")
 
     @staticmethod
     def rangerate_model(frequency, carrier_frequency):
         return (1 - (frequency / carrier_frequency)) * constants.c
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+class L2A:
+    def __init__(self):
+        raise NotImplementedError

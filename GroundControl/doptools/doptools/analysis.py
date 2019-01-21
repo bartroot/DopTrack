@@ -5,11 +5,13 @@ from datetime import time
 from collections import defaultdict
 from tqdm import tqdm
 import logging
+from scipy.optimize import curve_fit
 
-from .data import L1B, L2
+from .data import L1B, L1C
 from .model import SatellitePassTLE
 from .io import Database
 from .config import Config
+from . import fitting
 
 
 logger = logging.getLogger(__name__)
@@ -22,31 +24,47 @@ class ResidualAnalysis:
         self.dataid = dataid
 
         self.dataL1B = L1B.load(self.dataid)
-        self.dataL2 = L2.create(self.dataL1B)
-        self.dataTLE = SatellitePassTLE.from_dataid(dataid)
-        assert np.array_equal(self.dataL1B.time, self.dataL2.time)
+        self.dataL1C = L1C.create(self.dataL1B)
+        self.dataTLE = SatellitePassTLE.from_L1B(dataid)
+        assert np.array_equal(self.dataL1B.time, self.dataL1C.time)
         assert np.array_equal(self.dataL1B.time, self.dataTLE.time)
 
         self.time = self.dataL1B.time
-        self.first_residual = self.dataL2.rangerate - self.dataTLE.rangerate
-        self.dtca = (self.dataL2.tca - self.dataTLE.tca).total_seconds()
+        self.time_sec = self.dataL1B.time_sec
+        self.first_residual = self.dataL1C.rangerate - self.dataTLE.rangerate
+        self.dtca = (self.dataL1B.tca - self.dataTLE.tca).total_seconds()
+
+        coeffs, covar = curve_fit(fitting.linear, self.time_sec, self.first_residual)
+        self.first_residual_fit = fitting.linear(self.time_sec, *coeffs)
+        self.second_residual = self.first_residual - self.first_residual_fit
 
     def __repr__(self):
-        return f'{self.__module__}.{self.__class__.__name__}({self.dataid})'
+        return f"{self.__module__}.{self.__class__.__name__}('{self.dataid}')"
 
     def plot(self):
         fig = plt.figure()
-        ax1 = fig.add_subplot(211)
-        ax2 = fig.add_subplot(212, sharex=ax1)
-        ax1.plot(self.time, self.dataL2.rangerate, label='doptrack')
-        ax1.plot(self.time, self.dataTLE.rangerate, label='tle')
-        ax1.set_ylabel('range rate')
+        ax1 = fig.add_subplot(311)
+        ax2 = fig.add_subplot(312, sharex=ax1)
+        ax3 = fig.add_subplot(313, sharex=ax1)
+
+        ax1.plot(self.time, self.dataL1C.rangerate, '.', label='doptrack')
+        ax1.plot(self.time, self.dataTLE.rangerate, '.', label='tle')
+        ax1.set_ylabel('')
         ax1.legend()
         ax1.grid()
-        ax2.plot(self.time, self.first_residual)
-        ax2.set_xlabel('time')
-        ax2.set_ylabel('first residual')
+
+        ax2.plot(self.time, self.first_residual, label='first residual')
+        ax2.plot(self.time, self.first_residual_fit, label='linear fit')
+        ax2.set_ylabel('range rate [m/s]')
+        ax2.legend()
         ax2.grid()
+
+        ax3.plot(self.time, self.second_residual, label='second residual')
+        ax3.set_xlabel('time')
+        ax3.set_ylabel('')
+        ax3.legend()
+        ax3.grid()
+
         fig.show()
 
 
@@ -78,10 +96,10 @@ class BulkAnalysis:
             datadict['dataid'].append(a.dataid)
             datadict['tca'].append(a.dataTLE.tca)
             datadict['tca_time'].append(a.dataTLE.tca.time())
-            datadict['fca'].append(a.dataL1B.fca)
+            datadict['fca'].append(f'{a.dataL1B.fca:.2f}')
             datadict['dtca'].append(a.dtca)
             datadict['rmse'].append(a.dataL1B.rmse)
-            datadict['max_elevation'].append(a.dataTLE.max_elevation)
+            datadict['max_elevation'].append(max(a.dataTLE.elevation))
 
             if a.dataTLE.tca.time() < time(16):
                 datadict['timeofday'].append('morning')

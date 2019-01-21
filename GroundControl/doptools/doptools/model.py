@@ -7,23 +7,21 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 from .recording import Recording
-from .data import L1B
 from .coordconv import teme2ecef, geodetic2ecef, ecef2geodetic
 from .utils import GeodeticPosition
 
 radius_earth = wgs84.radiusearthkm * 1000
 
-_geodetic = GeodeticPosition(51.9989, 4.3733585, 95)
-_ecef = geodetic2ecef(*_geodetic)
-DopTrackStation = {'geodetic': _geodetic, 'ecef': _ecef}
-
 
 class GroundStation:
 
-    def __init__(self, name, geo):
-        self.name
-        self.position_geodetic = GeodeticPosition(*geo)
-        self.position = geodetic2ecef(*self.position_geodetic)
+    def __init__(self, name, position_geodetic):
+        self.name = name
+        self.position = GeodeticPosition(*position_geodetic)
+
+    @property
+    def position_ecef(self):
+        return geodetic2ecef(*self.position)
 
     def satellite_inview(self, sat_pos_ecef):
         sat_pos_geo = ecef2geodetic(*sat_pos_ecef)
@@ -38,6 +36,18 @@ class GroundStation:
             return True
         else:
             return False
+
+    def calc_elevation(self, sat_pos_ecef):
+        # TODO Fix not taking flattening into account
+        station_pos_ecef = np.array(self.position_ecef)
+        vec_range = sat_pos_ecef - station_pos_ecef
+        phi = np.arccos(
+                np.dot(station_pos_ecef, vec_range) /
+                (np.linalg.norm(station_pos_ecef) * np.linalg.norm(vec_range)))
+        return 90 - np.rad2deg(phi)
+
+    def calc_azimuth(self):
+        raise NotImplementedError
 
 
 class SatelliteSGP4(Satellite):
@@ -57,34 +67,22 @@ class SatelliteSGP4(Satellite):
         return position, velocity
 
     def propagate(self, time, **kwargs):
-        time_ints = [int(t) for t in time.strftime('%Y %m %d %H %M %S').split()]
-        pos, vel = super().propagate(*time_ints, **kwargs)
+        time_nums = [float(t) for t in time.strftime('%Y %m %d %H %M %S.%f').split()]
+        pos, vel = super().propagate(*time_nums, **kwargs)
         return np.array(pos)*1000, np.array(vel)*1000
-
-    def elevation(self, time, station_pos):
-        # Not taking flattening into account
-        sat_pos, _ = self.propagate(time)
-        vec_range = sat_pos - station_pos
-        phi = np.arccos(
-                np.dot(station_pos, vec_range) /
-                (np.linalg.norm(station_pos) * np.linalg.norm(vec_range)))
-        return 90 - np.rad2deg(phi)
-
-    def azimuth(time, groundstation):
-        raise NotImplementedError
 
 
 class SatellitePassTLE:
 
     def __init__(self, tle, time, tca=None):
-        self.station = DopTrackStation
+        self.station = GroundStation('DopTrack', GeodeticPosition(51.9989, 4.3733585, 95))
         self.satellite = SatelliteSGP4(tle[0], tle[1])
 
         self.tle = tle
         self.time = time
-        self.position, self.velocity = self.satellite.construct_track(self.time)
-        self.rangerate = self._calculate_rangerate(self.position, self.velocity, self.station['ecef'])
-        self.elevation = np.array([self.satellite.elevation(t, self.station['ecef']) for t in self.time])
+        self.satellite.position, self.satellite.velocity = self.satellite.construct_track(self.time)
+        self.rangerate = self._calculate_rangerate(self.satellite.position, self.satellite.velocity, self.station.position_ecef)
+        self.elevation = np.array([self.station.calc_elevation(p) for p in self.satellite.position])
 
         if tca:
             self.tca = tca
@@ -101,6 +99,7 @@ class SatellitePassTLE:
 
     @classmethod
     def from_L1B(cls, dataid):
+        from .data import L1B
         rec = Recording(dataid)
         temp = cls.from_recording(dataid, num=1000)
         time = L1B.load(dataid).time
@@ -109,7 +108,7 @@ class SatellitePassTLE:
 
     def plot(self, savepath=None):
         fig, ax = plt.subplots(figsize=(16, 9))
-        ax.plot(self.time, self.elevation)
+        ax.plot(self.time, self.rangerate)
         if savepath:
             fig.savefig(savepath, format='png', dpi=300)
             plt.close(fig)
@@ -119,8 +118,8 @@ class SatellitePassTLE:
     def plot3d(self, savepath=None):
         fig = plt.figure(figsize=(16, 9))
         ax = fig.add_subplot(111, projection='3d')
-        ax.plot(*zip(*self.position))
-        ax.scatter(*self.station['ecef'], color='r')
+        ax.plot(*zip(*self.satellite.position))
+        ax.scatter(*self.station.position_ecef, color='r')
         if savepath:
             fig.savefig(savepath, format='png', dpi=300)
             plt.close(fig)
@@ -150,5 +149,3 @@ class SatellitePassTLE:
         else:
             tca = times[np.where(rangerates == 0)]
         return tca
-
-

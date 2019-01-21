@@ -25,7 +25,7 @@ class Database:
                        'L1A': 'npy',
                        'L1A_meta': 'npy.meta',
                        'L1B': 'DOP1B',
-                       'L2': 'rre'}
+                       'L1C': 'DOP1C'}
 
     @property
     def dataids(self):
