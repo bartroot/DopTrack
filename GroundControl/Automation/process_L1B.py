@@ -39,7 +39,7 @@ for dataid in sorted(dataids_to_process):
     try:
         try:
             L1A_obj = L1A.load(dataid)
-            assert L1A_obj.dt == 0.1
+            assert L1A_obj.dt == 0.2
         except (FileNotFoundError, AssertionError):
             L1A_obj = L1A.create(dataid, nfft=250_000, dt=0.1)
     except EmptyRecordingError as e:
