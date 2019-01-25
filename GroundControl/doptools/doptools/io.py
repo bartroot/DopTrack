@@ -84,7 +84,8 @@ class Database:
         extra_folders = [
                 config.paths['output'] / 'L1B',
                 config.paths['output'] / 'L1B_failed',
-                config.paths['external'] / 'eopp']
+                config.paths['external'] / 'eopp',
+                config.paths['analysis'] / 'passes']
         for path in extra_folders:
             try:
                 path.mkdir(parents=True)

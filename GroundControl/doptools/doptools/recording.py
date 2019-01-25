@@ -7,6 +7,7 @@ class Recording:
 
     def __init__(self, dataid):
         meta = read_meta(dataid)
+        self.dataid = dataid
         self.duration = int(meta['Sat']['Predict']['Length of pass'])
         self.n_samples = int(meta['Sat']['Record']['num_sample'])
         self.start_time = meta['Sat']['Record']['time1 UTC']

@@ -7,6 +7,7 @@ paths:
     output: null
     external: null
     logs: null
+    analysis: null
 
 station:
     latitude: 51.9989

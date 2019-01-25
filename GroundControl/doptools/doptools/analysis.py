@@ -6,11 +6,11 @@ from collections import defaultdict
 from tqdm import tqdm
 import logging
 from scipy.optimize import curve_fit
+import dill as pickle
 
 from .data import L1B, L1C
 from .model import SatellitePassTLE
 from .io import Database
-from .config import Config
 from . import fitting
 
 
@@ -32,14 +32,26 @@ class ResidualAnalysis:
         self.time = self.dataL1B.time
         self.time_sec = self.dataL1B.time_sec
         self.first_residual = self.dataL1C.rangerate - self.dataTLE.rangerate
-        self.dtca = (self.dataL1B.tca - self.dataTLE.tca).total_seconds()
 
         coeffs, covar = curve_fit(fitting.linear, self.time_sec, self.first_residual)
+        self.linear_fit_slope = coeffs[0]
+        self.linear_fit_intersection = coeffs[1]
         self.first_residual_fit = fitting.linear(self.time_sec, *coeffs)
         self.second_residual = self.first_residual - self.first_residual_fit
 
     def __repr__(self):
         return f"{self.__module__}.{self.__class__.__name__}('{self.dataid}')"
+
+    def save(self):
+        db = Database()
+        path = db.paths['analysis'] / f'passes/{self.dataid}.DOPA'
+        pickle.dump(self, open(path, "wb"))
+
+    @classmethod
+    def load(cls, dataid):
+        db = Database()
+        path = db.paths['analysis'] / f'passes/{dataid}.DOPA'
+        return pickle.load(open(path, "rb"))
 
     def plot(self):
         fig = plt.figure()
@@ -72,7 +84,7 @@ class BulkAnalysis:
 
     def __init__(self):
         try:
-            self.data = pd.read_csv(Config().paths['default'] / 'bulk.csv')
+            self.data = pd.read_csv(Database().paths['analysis'] / 'bulk.csv')
             self.data.set_index('dataid', inplace=True)
             self.data['tca'] = pd.to_datetime(self.data['tca'])
         except FileNotFoundError:
@@ -92,15 +104,20 @@ class BulkAnalysis:
         dataids = Database().dataids['L1B']
         for dataid in tqdm(dataids, desc='Analyzing passes:'):
             d = L1B.load(dataid)
-            a = ResidualAnalysis(d)
+            try:
+                a = ResidualAnalysis.load(dataid)
+            except FileNotFoundError:
+                a = ResidualAnalysis(d)
+                a.save()
 
             datadict['dataid'].append(a.dataid)
             datadict['tca'].append(a.dataTLE.tca)
             datadict['tca_time'].append(a.dataTLE.tca.time())
             datadict['fca'].append(f'{a.dataL1B.fca:.2f}')
-            datadict['dtca'].append(a.dtca)
             datadict['rmse'].append(a.dataL1B.rmse)
             datadict['max_elevation'].append(max(a.dataTLE.elevation))
+            datadict['linear_fit_slope'].append(a.linear_fit_slope)
+            datadict['linear_fit_intersection'].append(a.linear_fit_intersection)
 
             if a.dataTLE.tca.time() < time(16):
                 datadict['timeofday'].append('morning')
@@ -112,4 +129,4 @@ class BulkAnalysis:
         self.data.sort_index(axis=0, inplace=True)
         self.data.sort_index(axis=1, inplace=True)
 
-        self.data.to_csv(Config().paths['default'] / 'bulk.csv')
+        self.data.to_csv(Database().paths['analysis'] / 'bulk.csv')

@@ -9,7 +9,6 @@ import time
 import pandas as pd
 import uncertainties
 
-from doptools.data import L1B
 from doptools.analysis import BulkAnalysis, ResidualAnalysis
 from doptools.config import Config
 
@@ -18,10 +17,11 @@ data = BulkAnalysis().data
 
 data_labels = {'tca': {'name': 'TCA - Datetime of closest approach', 'unit': ''},
                'fca': {'name': 'FCA - Frequency at closest approach', 'unit': '(Hz)'},
-               'dtca': {'name': 'dTCA - Time error', 'unit': '(s)'},
                'tca_time_plotly': {'name': 'TCA - Time of day of closest approach', 'unit': ''},
                'rmse': {'name': 'RMSE - Error between data and tanh fit', 'unit': '(Hz)'},
-               'max_elevation': {'name': 'Maximum elevation', 'unit': '(deg)'}}
+               'max_elevation': {'name': 'Maximum elevation', 'unit': '(deg)'},
+               'linear_fit_slope': {'name': 'Slope of linear fit of first residual', 'unit': '(m/s2)'},
+               'linear_fit_intersection': {'name': 'Intersection of linear fit of first residual', 'unit': '(m/s)'}}
 data['tca_time_plotly'] = [dt.replace(year=2000, month=1, day=1) for dt in data['tca']]
 
 
@@ -64,7 +64,7 @@ app.layout = html.Div(
                                                                                 options=[
                                                                                         {'label': val['name'], 'value': key}
                                                                                         for key, val in data_labels.items()],
-                                                                                value='dtca')],
+                                                                                value='fca')],
                                                                 style={'fontSize': 12, 'marginBottom': 30}),
 
                                                         html.Div(
@@ -271,9 +271,9 @@ def update_pass_graphs_from_bulk(clickData, t_prev, t_next, figure):
         dataid = clickData['points'][0]['text']
         i = int(np.where(data.index == dataid)[0])
 
-    pass_data = ResidualAnalysis(L1B.load(dataid))
+    pass_data = ResidualAnalysis.load(dataid)
 
-    fig = tools.make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0)
+    fig = tools.make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0)
     fig['layout']['legend'] = {'x': 0.03, 'y': 1, 'xanchor': 'left'}
 
     fig.append_trace(
@@ -281,7 +281,7 @@ def update_pass_graphs_from_bulk(clickData, t_prev, t_next, figure):
              'y': pass_data.dataL1C.rangerate,
              'name': 'DopTrack range rate',
              'mode': 'markers',
-             'type': 'scatter'},
+             'type': 'scattergl'},
             1,
             1)
 
@@ -290,7 +290,7 @@ def update_pass_graphs_from_bulk(clickData, t_prev, t_next, figure):
              'y': pass_data.dataTLE.rangerate,
              'name': 'TLE range rate',
              'mode': 'lines',
-             'type': 'scatter'},
+             'type': 'scattergl'},
             1,
             1)
 
@@ -299,8 +299,17 @@ def update_pass_graphs_from_bulk(clickData, t_prev, t_next, figure):
              'y': pass_data.first_residual,
              'name': 'First residual',
              'mode': 'lines+markers',
-             'type': 'scatter'},
+             'type': 'scattergl'},
             2,
+            1)
+
+    fig.append_trace(
+            {'x': pass_data.time,
+             'y': pass_data.second_residual,
+             'name': 'Second residual',
+             'mode': 'lines+markers',
+             'type': 'scattergl'},
+            3,
             1)
 
     fig['layout'].update(
