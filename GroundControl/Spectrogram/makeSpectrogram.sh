@@ -5,8 +5,8 @@
 #ls /media/data/ | grep Delfi | cut -c 1-32 > tmpDelfi.txt
 #ls /media/data/ | grep NOAA | cut -c 1-33 > tmpDelfi.txt
 
-ls /media/data/ | grep Delfi-C3_32789_2018 | grep ".32fc" | cut -c 1-27 | sort > test1
-ls /var/www/html/archive_all/ | grep Delfi-C3_32789_2018 | cut -c 1-27 | sort > test2
+ls /media/data/ | grep Delfi-C3_32789_2019 | grep ".32fc" | cut -c 1-27 | sort > test1
+ls /var/www/html/archive_all/ | grep Delfi-C3_32789_2019 | cut -c 1-27 | sort > test2
 
 grep -vf test2 test1 > tmpDelfi.txt
 rm test1 test2
