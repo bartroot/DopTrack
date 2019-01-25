@@ -19,13 +19,13 @@ logger = logging.getLogger(__name__)
 
 class ResidualAnalysis:
 
-    def __init__(self, dataid):
+    def __init__(self, L1B_obj):
 
-        self.dataid = dataid
+        self.dataid = L1B_obj.dataid
 
-        self.dataL1B = L1B.load(self.dataid)
+        self.dataL1B = L1B_obj
         self.dataL1C = L1C.create(self.dataL1B)
-        self.dataTLE = SatellitePassTLE.from_L1B(dataid)
+        self.dataTLE = SatellitePassTLE.from_L1B(self.dataL1B)
         assert np.array_equal(self.dataL1B.time, self.dataL1C.time)
         assert np.array_equal(self.dataL1B.time, self.dataTLE.time)
 
@@ -91,7 +91,8 @@ class BulkAnalysis:
         datadict = defaultdict(list)
         dataids = Database().dataids['L1B']
         for dataid in tqdm(dataids, desc='Analyzing passes:'):
-            a = ResidualAnalysis(dataid)
+            d = L1B.load(dataid)
+            a = ResidualAnalysis(d)
 
             datadict['dataid'].append(a.dataid)
             datadict['tca'].append(a.dataTLE.tca)
