@@ -98,11 +98,11 @@ class SatellitePassTLE:
         return cls(rec.prediction['tle'], time)
 
     @classmethod
-    def from_L1B(cls, dataid):
-        from .data import L1B
-        rec = Recording(dataid)
-        temp = cls.from_recording(dataid, num=1000)
-        time = L1B.load(dataid).time
+    def from_L1B(cls, L1B_obj):
+
+        rec = Recording(L1B_obj.dataid)
+        temp = cls.from_recording(L1B_obj.dataid, num=1000)
+        time = L1B_obj.time
 
         return cls(rec.prediction['tle'], time, tca=temp.tca)
 
