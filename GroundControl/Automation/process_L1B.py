@@ -41,7 +41,7 @@ for dataid in sorted(dataids_to_process):
             L1A_obj = L1A.load(dataid)
             assert L1A_obj.dt == 0.2
         except (FileNotFoundError, AssertionError):
-            L1A_obj = L1A.create(dataid, nfft=250_000, dt=0.1)
+            L1A_obj = L1A.create(dataid, nfft=250_000, dt=0.2)
     except EmptyRecordingError as e:
         logger.warning(e)
         db.update_status(dataid, status='empty_recording')
