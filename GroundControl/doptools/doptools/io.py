@@ -8,17 +8,10 @@ import pandas as pd
 from collections import defaultdict
 
 from .config import Config
+from .utils import DataID
 
 
 logger = logging.getLogger(__name__)
-
-
-levels = {'L0': '32fc',
-          'L0_meta': 'yml',
-          'L1A': 'npy',
-          'L1A_meta': 'npy.meta',
-          'L1B': 'DOP1B',
-          'L2': 'rre'}
 
 
 class Database:
@@ -27,18 +20,85 @@ class Database:
 
         config = config if config is not None else Config()
         self.paths = config.paths
+        self.levels = {'L0': '32fc',
+                       'L0_meta': 'yml',
+                       'L1A': 'npy',
+                       'L1A_meta': 'npy.meta',
+                       'L1B': 'DOP1B',
+                       'L1C': 'DOP1C'}
+
+    @property
+    def dataids(self):
+        dataid_dict = {}
+
+        # Add dataids based on what files are in database
+        for level, ext in self.levels.items():
+            baselevel = level.split('_')[0]
+            if not isinstance(self.paths[baselevel], set):
+                files = self._listfiles(self.paths[baselevel])
+            else:
+                files = []
+                for path in self.paths[baselevel]:
+                    files.extend(self._listfiles(path))
+            filenames_with_correct_ext = [file for file in files if file.split('.')[-1] == ext]
+            dataid_dict[level] = self._get_dataids_from_filenames(filenames_with_correct_ext)
+
+        # Add dataids based on what has been logged in the processing status file
+        status_dict = defaultdict(set)
+        for dataid, status in self.read_status().items():
+            if status != 'success':
+                status_dict[status].add(DataID(dataid))
+        dataid_dict.update(status_dict)
+        if len(status_dict) == 0:
+            dataid_dict['L1B_failed'] = set()
+        else:
+            dataid_dict['L1B_failed'] = set.union(*status_dict.values())
+        dataid_dict['all'] = set.union(*dataid_dict.values())
+
+        return dataid_dict
+
+    @classmethod
+    def setup(cls, config=None):
+
+        config = config if config is not None else Config()
+
+        for key, path in config.paths.items():
+
+            if type(path) is set:
+                for subpath in path:
+                    try:
+                        subpath.mkdir(parents=True)
+                        logger.info(f"Created directory: {subpath}")
+                    except FileExistsError:
+                        logger.info(f"Directory already exists: {subpath}")
+
+            elif key is not "config":
+                try:
+                    path.mkdir(parents=True)
+                    logger.info(f"Created directory: {path}")
+                except FileExistsError:
+                    logger.info(f"Directory already exists: {path}")
+
+        # Temporary output folder structure
+        # TODO change this when processing scripts are integrated into doptools
+        for path in [config.paths['output'] / 'L1B', config.paths['output'] / 'L1b_failed']:
+            try:
+                path.mkdir(parents=True)
+                logger.info(f"Created directory: {path}")
+            except FileExistsError:
+                logger.info(f"Directory already exists: {path}")
 
     def filepath(self, dataid, level, meta=False):
 
         dataid = DataID(dataid)
 
-        if meta and f'{level}_meta' not in levels:
+        if meta and f'{level}_meta' not in self.levels:
             raise RuntimeError(f'Meta files are not used for data level {level}')
 
         if not meta:
-            filename = f'{dataid}.{levels[level]}'
+            filename = f'{dataid}.{self.levels[level]}'
         else:
-            filename = f"{dataid}.{levels[f'{level}_meta']}"
+            filename = f"{dataid}.{self.levels[f'{level}_meta']}"
 
         if level == 'L0':
             folderpath = self._get_folder_with_file(filename, self.paths[level])
@@ -78,52 +138,8 @@ class Database:
             for key in sorted(status_dict):
                 savefile.write(f'{key}    {status_dict[key]}\n')
 
-    @classmethod
-    def setup(cls, config=None):
-
-        config = config if config is not None else Config()
-
-        for key, path in config.paths.items():
-            if key == 'L0':
-                paths = path if isinstance(path, set) else {path}
-                for subpath in paths:
-                    if not subpath.is_dir():
-                        logger.error(f'Given L0 data folder does not exist: {subpath}')
-            elif key in ['default', 'L1A', 'L1B', 'L2', 'external', 'output', 'logs']:
-                if not path.is_dir():
-                    logger.info(f'Creating folder ({key}): {path}')
-                    os.makedirs(path)
-                else:
-                    logger.info(f'Folder already exists ({key}): {path}')
-
     def validate(self):
         raise NotImplementedError()
-
-    @property
-    def dataids(self):
-        dataid_dict = {}
-
-        for level, ext in levels.items():
-            baselevel = level.split('_')[0]
-            if not isinstance(self.paths[baselevel], set):
-                files = self._listfiles(self.paths[baselevel])
-            else:
-                files = []
-                for path in self.paths[baselevel]:
-                    files.extend(self._listfiles(path))
-            filenames_with_correct_ext = [file for file in files if file.split('.')[-1] == ext]
-            dataid_dict[level] = self._get_dataids_from_filenames(filenames_with_correct_ext)
-
-        status_dict = defaultdict(set)
-        for dataid, status in self.read_status().items():
-            if status != 'success':
-                status_dict[status].add(DataID(dataid))
-        dataid_dict.update(status_dict)
-
-        dataid_dict['L1B_failed'] = set.union(*status_dict.values())
-        dataid_dict['all'] = set.union(*dataid_dict.values())
-
-        return dataid_dict
 
     @staticmethod
     def _listfiles(path):
@@ -151,42 +167,6 @@ class Database:
                 logger.warning(f'File with incorrect dataid in database: {filename}')
 
         return set(valid_dataids)
-
-
-class DataID(str):
-
-    def __init__(self, string):
-        self.validate()
-
-    def validate(self):
-        try:
-            assert len(self.split('_')) == 3
-            assert len(self.satnum) == 5
-            assert len(self.strtimestamp) == 12
-        except AssertionError as e:
-            raise TypeError(f'Invalid dataid format {self}. {e}')
-
-    @property
-    def satname(self):
-        satname, satnum, strtimestamp = self.split('_')
-        return satname
-
-    @property
-    def satnum(self):
-        satname, satnum, timestamp = self.split('_')
-        return satnum
-
-    @property
-    def strtimestamp(self):
-        satname, satnum, strtimestamp = self.split('_')
-        return strtimestamp
-
-    @property
-    def timestamp(self):
-        raise NotImplementedError()
-
-    def __repr__(self):
-        return f"DataID('{str(self)}')"
 
 
 def read_meta(dataid, filepath=None):
@@ -238,8 +218,8 @@ def read_eopp(folderpath=None):
                 line = f.readline()
                 e = line.split()
                 data['MJD'].append(int(e[0]))
-                data['Xp'].append(float(e[1]) / 3600)
-                data['Yp'].append(float(e[2]) / 3600)
+                data['Xp'].append(np.deg2rad(np.float(e[1]) / 3600))
+                data['Yp'].append(np.deg2rad(float(e[2]) / 3600))
     except FileNotFoundError as e:
         logger.error(e)
     df = pd.DataFrame.from_dict(data)

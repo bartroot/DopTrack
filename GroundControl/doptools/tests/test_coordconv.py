@@ -9,7 +9,7 @@ import doptools.coordconv as coordconv
 def time1991():
     """vallado1997, example 1-6, p.87"""
     utc = datetime(1991, 4, 6, 7, 51, 28, 386200)
-    time = coordconv.DatetimeConverter(utc)
+    time = coordconv.ExpandedDatetime(utc)
     time.dut1 = 0.40233
     time.dat = 26
     return time
@@ -18,17 +18,17 @@ def time1991():
 @pytest.fixture(scope='module')
 def time2004():
     utc = datetime(2004, 4, 6, 7, 51, 28, 386000)
-    time = coordconv.DatetimeConverter(utc)
+    time = coordconv.ExpandedDatetime(utc)
     time.dut1 = -0.439961
     time.dat = 32
     return time
 
 
-class TestDatetimeConverter:
+class TestExpandedDatetime:
     def test_time2juliandate(self):
         """vallado1997, example 1-4, p.68"""
         time = datetime(1996, 10, 26, 14, 20)
-        jd = coordconv.DatetimeConverter.time2juliandate(time)
+        jd = coordconv.ExpandedDatetime.time2juliandate(time)
         np.testing.assert_almost_equal(jd, 2450383.09722222, decimal=8)
 
     def test_ut1(self, time1991):

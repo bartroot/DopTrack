@@ -24,7 +24,7 @@ paths:
     L0: None
     L1A: None
     L1B: None
-    L2: None
+    L1C: None
     external: None
 ```
 
@@ -40,7 +40,7 @@ paths:
         path2: D:/recordingsB
     L1A: None
     L1B: None
-    L2: None
+    L1C: None
     external: None
 ```
 
@@ -61,9 +61,10 @@ Data Processing
 The data is organised into levels corresponding to the levels used by ESA.
 
 * **Level 0**: Raw data. Recordings stored as a data file and a meta file.
-* **Level 1A**: Processed data. Spectrograms of recordings  stored as a data file and a meta file.
-* **Level 1B**: Processed data. Frequency data points extracted from spectrograms. 
-* **Level 2**: Modeled data. Range rate data etc. from frequency data points.
+* **Level 1A**: Spectrograms of recordings  stored as a data file and a meta file.
+* **Level 1B**: Time-frequency data points extracted from spectrograms. 
+* **Level 1C**: Range rate data modeled from time-frequency data points.
+* **Level 2**: Orbit determined from range rate data.
 
 
 

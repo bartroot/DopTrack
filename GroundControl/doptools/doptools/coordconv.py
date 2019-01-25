@@ -20,16 +20,17 @@ Classes
 -------
 - `DatetimeConverter` -- Class for timestamp conversions.
 
-Tranformation Functions
------------------------
-- :func:`ecef2geodetic` -- Convert from ECEF to Geodetic.
-- `geodetic2ecef`
-- :func:`teme2ecef`
+Routines
+--------
+- `ecef2geodetic` -- Convert coordinates from ECEF to Geodetic.
+- `geodetic2ecef` -- Convert coordinates from Geodetic to ECEF.
+- `teme2ecef` -- Convert coordinates from TEME to ECEF.
+- `gmst1982` -- Calculate a (deprecated) version of Greenwhich Mean Sidereal Time
 
 """
-
 import numpy as np
 from datetime import timedelta
+import warnings
 
 from .utils import Position, GeodeticPosition
 from .io import read_nutation_coeffs, read_eopp, read_eopc04, read_tai_utc
@@ -46,8 +47,8 @@ EOPC04 = read_eopc04()
 DAT = read_tai_utc()
 
 
-class DatetimeConverter():
-    """Class for converting timestamps between common formats.
+class ExpandedDatetime:
+    """A container for a datetime object with additional conversion methods.
 
     Attributes
     ----------
@@ -72,6 +73,12 @@ class DatetimeConverter():
         else:
             i = DAT.index.searchsorted(self.utc) - 1
             self.dat = DAT.loc[DAT.index[i]]['DAT']
+
+    def __repr__(self):
+        return f"ExpandedDatetime({self.utc.__repr__()}, dut1={self.dut1}, dat={self.dat})"
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
 
     @property
     def ut1(self):
@@ -261,10 +268,20 @@ def teme2ecef(utc, r_teme, v_teme, polarmotion=True, lod=True, **kwargs):
     v_ecef: (3,) ndarray
         Velocity vector in the ECEF frame.
 
+    Warnings
+    --------
+    The current implementation uses EOPP data (see doptools.ftp) from
+    2016-01-01 and forward. Any transformation at a time before this date will
+    instead ignore polar motion, even if the polarmotion flag is set to True.
+
     Notes
     -----
     The units of the position and veloty vectors should be at same scale
     and the resulting vectors will have the same units.
+
+    Taking into account changes in length of day should have near zero influence
+    on results, even at extreme accuracy. Taking into polar motion will result in
+    about 10s of meters difference in position for a LEO satellite.
 
     This function is adapted from the ``teme2ecef.m`` script by Vallado
     published on the Celestrak website. See [1]_.
@@ -275,7 +292,7 @@ def teme2ecef(utc, r_teme, v_teme, polarmotion=True, lod=True, **kwargs):
         "Revisiting Spacetrack Report #3",
         eq. C-2, 2006.
     """
-    time = DatetimeConverter(utc, **kwargs)
+    time = ExpandedDatetime(utc, **kwargs)
     omega = _nutation_omega_moon(time.Ttdt)
     gmst = gmst1982(time.Tut1)
     if time.JDut1 > 2450449.5:
@@ -284,8 +301,8 @@ def teme2ecef(utc, r_teme, v_teme, polarmotion=True, lod=True, **kwargs):
     ST = _sidereal_matrix(gmst)
     r_pef = ST.dot(r_teme)
     if lod:
-        lod = EOPC04.truncate(after=time.utc).iloc[-1]['LOD']
-        thetasa = WGS84_omega*(1 - lod/86400)
+        lod_val = EOPC04.truncate(after=time.utc).iloc[-1]['LOD']
+        thetasa = WGS84_omega*(1 - lod_val/86400)
     else:
         thetasa = WGS84_omega
     v_pef = ST.dot(v_teme) - np.cross(np.array([0, 0, thetasa]), r_pef)
@@ -293,6 +310,9 @@ def teme2ecef(utc, r_teme, v_teme, polarmotion=True, lod=True, **kwargs):
     if polarmotion:
         if type(polarmotion) == tuple:
             xp, yp = polarmotion
+        elif time.utc.year < 2016:  # No EOPP data from before 2016
+            warnings.warn("No EOPP data from before 2016. Ignoring polar motion.")
+            xp, yp = 0, 0
         else:
             polar_params = EOPP.truncate(after=time.MJDutc).iloc[-1]
             xp, yp = polar_params['Xp'], polar_params['Yp']
@@ -309,11 +329,6 @@ def teme2ecef(utc, r_teme, v_teme, polarmotion=True, lod=True, **kwargs):
 def gmst1982(Tut1):
     """Deprecated version of Greenwich Mean Sidereal Time (GMST).
 
-    Note
-    ----
-    Should only be used in transformations to and from
-    the TEME reference frame.
-
     Parameters
     ----------
     Tut1 : int
@@ -322,6 +337,11 @@ def gmst1982(Tut1):
     Returns
     -------
     gmst : rad
+
+    Warnings
+    --------
+    Should only be used in transformations to and from
+    the TEME reference frame.
 
     Notes
     -----
