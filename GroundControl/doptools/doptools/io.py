@@ -79,9 +79,13 @@ class Database:
                 except FileExistsError:
                     logger.info(f"Directory already exists: {path}")
 
-        # Temporary output folder structure
+        # Temporary hardcoded folder structure
         # TODO change this when processing scripts are integrated into doptools
-        for path in [config.paths['output'] / 'L1B', config.paths['output'] / 'L1b_failed']:
+        extra_folders = [
+                config.paths['output'] / 'L1B',
+                config.paths['output'] / 'L1B_failed',
+                config.paths['external'] / 'eopp']
+        for path in extra_folders:
             try:
                 path.mkdir(parents=True)
                 logger.info(f"Created directory: {path}")
