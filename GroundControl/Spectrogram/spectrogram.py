@@ -44,8 +44,8 @@ def main(argv):
    inputfilename = inputfile
 
    # initail values
-   Time = int(meta['Sat']['Predict']['Length of pass'])
-   Fs = int(meta['Sat']['Record']['sample_rate'])
+   Time = (meta['Sat']['Predict']['Length of pass'])
+   Fs = (meta['Sat']['Record']['sample_rate'])
    Dt = 0.5;
 
    # Construct other information
@@ -56,7 +56,8 @@ def main(argv):
    #n2 = 1 #nextpow 2 algoritm
    #while n2 < L/Time/Dt: n2 *= 2
    #NFFT = 2.^n2 
-   NFFT = 65536
+   NFFT = 65536.
+   #NFFT = 8192
    #half = NFFT/2
 
    # get values for axis waterfall plot
@@ -78,8 +79,8 @@ def main(argv):
    tmp = bandwidth[lfreq:rfreq+1]
    numC = tmp.size
 
-   Waterfall = np.zeros([int(Time/Dt),int(numC)],dtype='float')
-
+   Waterfall = np.zeros([int(Time/Dt),numC],dtype='float')
+   NFFT = int(NFFT)
    # Initialize Matrices
    forend = int(Time/Dt)
    f = open(inputfilename,'rb')
