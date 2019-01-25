@@ -75,6 +75,7 @@ def download_tai_utc():
 
 
 def download_external():
-    download_eopp()
     download_eopc04()
     download_tai_utc()
+    download_eopp()
+
