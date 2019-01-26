@@ -44,8 +44,8 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
-	'sphinx_automodapi.automodapi',
-	'numpydoc',
+    'numpydoc',
+    'sphinx_automodapi.automodapi',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -164,8 +164,14 @@ texinfo_documents = [
 
 # -- Extension configuration -------------------------------------------------
 
-#Generate .rst files automatically using autosummary
-autosummary_generate = True
+## Generate .rst files automatically using autosummary
+#autosummary_generate = False
+
+# Added so class attributes and methods dont show twice when using automodapi
+numpydoc_show_class_members = False
+
+# Dont show inherited members
+automodsumm_inherited_members = False
 
 # -- Options for todo extension ----------------------------------------------
 

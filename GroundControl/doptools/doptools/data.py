@@ -114,7 +114,7 @@ class L1A:
     dfreq : float
         Frequency step of spectrogram.
 
-    Example
+    Examples
     --------
     >>> from doptools.data import L1A
     >>> s = L1A.create('Delfi-C3_32789_201602121133')
@@ -401,7 +401,7 @@ class L1B:
     fit_func : func
         The final fitting function combining both the tanh function and the residual function.
 
-    Example
+    Examples
     --------
     >>> from doptools.data import L1B
     >>> s = L1B.create('Delfi-C3_32789_201602121133')

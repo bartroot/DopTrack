@@ -1,4 +1,5 @@
 config.yml
 docs/_build/*
+docs/api/*
 .coverage
 **/.pytest_cache
