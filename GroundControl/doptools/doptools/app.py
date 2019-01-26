@@ -9,8 +9,8 @@ import time
 import pandas as pd
 import uncertainties
 
-from doptools.analysis import BulkAnalysis, ResidualAnalysis
-from doptools.config import Config
+from .analysis import BulkAnalysis, ResidualAnalysis
+from .config import Config
 
 
 data = BulkAnalysis().data
