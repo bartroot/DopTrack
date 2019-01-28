@@ -2,6 +2,9 @@ from pathlib import Path
 import yaml
 
 
+__all__ = ['Config']
+
+
 class Config:
 
     def __init__(self, configpath=None):
