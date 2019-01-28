@@ -7,18 +7,16 @@ Welcome to DopTrack's documentation!
 ====================================
 
 This documentation is currently being written.
-We follow :pep:`8`. See :ref:`search`.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    about
-   usage/index
-   reference/index
-
-
-
+   user-guide/index
+   ops-guide
+   dev-guide
+   contact
 
 
 Indices and tables
