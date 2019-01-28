@@ -39,8 +39,8 @@ from scipy.stats import linregress
 from collections import Counter
 from sklearn.cluster import DBSCAN
 
-from .masking import horizontal_mask, vertical_mask, spike_mask, fit_mask, time_mask
-from .fitting import tanh, fit_tanh, fit_residual, FittingError
+from doptools.masking import horizontal_mask, vertical_mask, spike_mask, fit_mask, time_mask
+from doptools.fitting import tanh, fit_tanh, fit_residual, FittingError
 
 
 logger = logging.getLogger(__name__)

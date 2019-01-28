@@ -6,9 +6,9 @@ from sgp4.earth_gravity import wgs84
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-from .recording import Recording
-from .coordconv import teme2ecef, geodetic2ecef, ecef2geodetic
-from .utils import GeodeticPosition
+from doptools.recording import Recording
+from doptools.coordconv import teme2ecef, geodetic2ecef, ecef2geodetic
+from doptools.utils import GeodeticPosition
 
 radius_earth = wgs84.radiusearthkm * 1000
 

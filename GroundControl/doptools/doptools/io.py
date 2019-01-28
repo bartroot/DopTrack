@@ -7,8 +7,8 @@ from datetime import datetime, timedelta
 import pandas as pd
 from collections import defaultdict
 
-from .config import Config
-from .utils import DataID
+from doptools.config import Config
+from doptools.utils import DataID
 
 
 logger = logging.getLogger(__name__)

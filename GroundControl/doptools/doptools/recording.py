@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from .io import read_meta
+from doptools.io import read_meta
 
 
 class Recording:

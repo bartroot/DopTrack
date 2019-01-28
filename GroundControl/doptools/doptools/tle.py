@@ -1,7 +1,7 @@
 import logging
 import requests
 
-from .config import config
+from doptools.config import config
 
 
 logger = logging.getLogger(__name__)

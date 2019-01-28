@@ -1,11 +1,10 @@
 from ftplib import FTP
 from pathlib import Path
 import logging
-import sys
 import os
 from contextlib import contextmanager
 
-from .config import Config
+from doptools.config import Config
 
 
 logger = logging.getLogger(__name__)

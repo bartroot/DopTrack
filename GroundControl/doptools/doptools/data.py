@@ -26,11 +26,11 @@ from tqdm import tqdm
 import logging
 import uncertainties
 
-from .recording import Recording
-from .model import SatellitePassTLE
-from .io import Database
-from .extraction import extract_frequency_data, create_fit_func
-from . import fitting
+from doptools.recording import Recording
+from doptools.model import SatellitePassTLE
+from doptools.io import Database
+from doptools.extraction import extract_frequency_data, create_fit_func
+import doptools.fitting as fitting
 
 
 logger = logging.getLogger(__name__)

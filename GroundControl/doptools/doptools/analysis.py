@@ -8,10 +8,10 @@ import logging
 from scipy.optimize import curve_fit
 import dill as pickle
 
-from .data import L1B, L1C
-from .model import SatellitePassTLE
-from .io import Database
-from . import fitting
+from doptools.data import L1B, L1C
+from doptools.model import SatellitePassTLE
+from doptools.io import Database
+import doptools.fitting as fitting
 
 
 logger = logging.getLogger(__name__)

@@ -32,8 +32,8 @@ import numpy as np
 from datetime import timedelta
 import warnings
 
-from .utils import Position, GeodeticPosition
-from .io import read_nutation_coeffs, read_eopp, read_eopc04, read_tai_utc
+from doptools.utils import Position, GeodeticPosition
+from doptools.io import read_nutation_coeffs, read_eopp, read_eopc04, read_tai_utc
 
 
 WGS84_omega = 7.2921151467e-05
