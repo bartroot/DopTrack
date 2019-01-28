@@ -31,6 +31,7 @@ logger = logging.getLogger(__name__)
 
 
 class EmptyRecordingError(Exception):
+    """Raised when the data file (L0) of a recording is empty."""
     pass
 
 
