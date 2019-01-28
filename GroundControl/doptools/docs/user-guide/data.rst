@@ -1,11 +1,11 @@
 Data Model (`doptools.data`)
-============================
+****************************
 
 
 .. _data-levels:
 
 Data Levels
------------
+===========
 
 The DopTrack data model uses levels which signifies how far a dataset is in processing.
 These levels conform with the data levels specified by :abbr:`ESA (European Space Agency)`.
@@ -22,7 +22,7 @@ L2A    Orbital parameters estimated from range-rate
 
 
 Reference/API
--------------
+=============
 
 .. automodapi:: doptools.data
         :include-all-objects:

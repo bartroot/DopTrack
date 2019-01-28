@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to DopTrack's documentation!
-====================================
+************************************
 
 This documentation is currently being written.
 

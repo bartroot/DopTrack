@@ -1,5 +1,5 @@
 Contact
-=======
+*******
 
 Have a questions about the DopTrack project? Please contact Dr.ir. Bart Root (B.C.Root@tudelft.nl). 
 
