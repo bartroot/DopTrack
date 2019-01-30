@@ -11,6 +11,7 @@ from doptools.io import Database
 def dataid():
     return 'Delfi-C3_32789_201602210946'
 
+
 class TestL0:
     def test_available_data(self, dataid):
         d = data.L0(dataid)
@@ -44,9 +45,9 @@ class TestL1A:
             data.L1A._construct_spectrum(input_data)
 
     def test_to_decibel(self):
-        a = np.array([0, 1, 100])
+        a = np.array([1, 1, 100])
         b = data.L1A._to_decibel(a)
-        assert all(b == np.array([-np.inf, 0, 20]))
+        assert all(b == np.array([0, 0, 20]))
 
 
 class TestL1B:
@@ -58,6 +59,7 @@ class TestL1B:
         assert fca.nominal_value == pytest.approx(3)
 
 
+@pytest.mark.slow
 def test_data_integration(dataid):
     db = Database()
     if dataid not in db.dataids['L0']:
