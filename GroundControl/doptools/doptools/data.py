@@ -42,7 +42,7 @@ class EmptyRecordingError(Exception):
 
 class L0:
     """
-    Recorded complex binary data from DopTrack.
+    L1A data (raw complex binary data) of a DopTrack recording.
 
     Parameters
     ----------
@@ -50,11 +50,6 @@ class L0:
         ID of recording in the database.
     recording : recording.Recording
         An object representing a DopTrack radio recording.
-    freq_lims : (float, float) tuple
-        The minimum and maximum frequency values of the spectrogram.
-    time_lims : (datetime.datetime, datetime.datetime) tuple
-        The end and start time of recording. The order is reversed since it is
-        convention to flip the y-axis in a spectrogram.
 
     Notes
     -----
@@ -67,6 +62,7 @@ class L0:
         self.dataid = dataid
         self.recording = Recording(dataid)
 
+    # TODO Handle dt as Decimal
     def data(self, dt):
         """Returns an iterable of the raw data cut into chunks of  size dt*sample_rate."""
         database = Database()
@@ -121,15 +117,18 @@ class L1A:
     >>> s.plot()
 
     """
+    def __init__(self, **kwargs):
 
-    def __init__(self, dataid, spectrogram, freq_lims, time_lims, dt):
-        self.dataid = dataid
-        self.recording = Recording(dataid)
-        self.spectrogram = spectrogram
-        self.freq_lims = freq_lims
-        self.time_lims = time_lims
-        self.dt = dt
-        self.dfreq = (freq_lims[1] - freq_lims[0]) / spectrogram.shape[1]
+        self.dataid = kwargs['dataid']
+        self.spectrogram = kwargs['spectrogram']
+        self.time_lims = kwargs['time_lims']
+        self.freq_lims = kwargs['freq_lims']
+        self.dt = kwargs['dt']
+
+        assert all(key in self.__dict__ for key in kwargs.keys())
+
+        self.recording = Recording(self.dataid)
+        self.dfreq = (self.freq_lims[1] - self.freq_lims[0]) / self.spectrogram.shape[1]
 
     @property
     def spectrogram_decibel(self):
@@ -137,17 +136,14 @@ class L1A:
         return self._to_decibel(self.spectrogram)
 
     @classmethod
-    def create(cls, dataid, bounds=(12000, 24000), nfft=250_000, dt=1):
+    def create(cls, dataid, nfft=250_000, dt=1):
         """
-        Create a spectrogram from a 32fc file.
+        Create L1A data from L0 data.
 
         Parameters
         ----------
         dataid : str
             ID of recording in the database.
-        bounds : (float or int, float or int) tuple, optional
-            Contains the lower and upper bounds of the desired frequency range
-            relative to the tuning frequency. Default is suitable for Delfi-C3.
         nfft : int, optional
             The number of frequency bins to use in FFT. The FFT is fastest
             if nfft is a power of two.
@@ -171,7 +167,6 @@ class L1A:
         results if nfft!=250_000 etc.
 
         """
-
         logger.info(f"Creating spectrogram for {dataid}")
 
         # Determine the limits of the spectrogram.
@@ -185,9 +180,6 @@ class L1A:
                                 freq_lims[1],
                                 nfft)
 
-        # Calculate the bounds of zoom
-#        lower = tuning_freq + bounds[0]
-#        upper = tuning_freq + bounds[1]
         # TODO decide on how bounds are determined
         estimated_signal_width = 7000
         estimated_signal_freq = 145_888_300
@@ -210,18 +202,23 @@ class L1A:
             signal.real = raw_data[::2]
             signal.imag = -raw_data[1::2]
             row = cls._construct_spectrum(signal, nfft)
-            # TODO does not currently use bounds other than as a flag
-
-            if bounds:
-                row = row[mask]
+            # TODO no way to run without bounds
+            row = row[mask]
             spectrogram[i] = row
 
-        return cls(dataid, spectrogram, freq_lims, time_lims, dt)
+        data_dict = {}
+        data_dict['dataid'] = dataid
+        data_dict['time_lims'] = time_lims
+        data_dict['freq_lims'] = freq_lims
+        data_dict['spectrogram'] = spectrogram
+        data_dict['dt'] = dt
+
+        return cls(**data_dict)
 
     @classmethod
     def load(cls, dataid):
         """
-        Load a spectrogram from .npy and .npy.meta files.
+        Load L1B data from the database.
 
         Parameters
         ----------
@@ -234,7 +231,6 @@ class L1A:
             A spectrogram object.
 
         """
-
         logger.info(f"Loading spectrogram for {dataid}")
 
         db = Database()
@@ -247,24 +243,28 @@ class L1A:
                                       '%Y-%m-%d %H:%M:%S.%f')
             ylim2 = datetime.strptime(file.readline().strip('\n').split('=')[1],
                                       '%Y-%m-%d %H:%M:%S.%f')
-        freq_lims = (xlim1, xlim2)
-        time_lims = (ylim1, ylim2)
-        spectrogram = np.load(datafilepath)
-        dt = (time_lims[0] - time_lims[1]).total_seconds() / spectrogram.shape[0]
 
-        return cls(dataid, spectrogram, freq_lims, time_lims, dt)
+        data_dict = {}
+        data_dict['dataid'] = dataid
+        data_dict['time_lims'] = (ylim1, ylim2)
+        data_dict['freq_lims'] = (xlim1, xlim2)
+        data_dict['spectrogram'] = np.load(datafilepath)
+        data_dict['dt'] = ((data_dict['time_lims'][0] - data_dict['time_lims'][1]).total_seconds()
+                           / data_dict['spectrogram'].shape[0])
+
+        return cls(**data_dict)
 
     def save(self, filename=None):
         """
-        Save the spectrogram data as .npy and .npy.meta files.
+        Save the L1B data to the database.
 
         Parameters
         ----------
-        dataid : str
-            ID of recording in the database.
+        filename : str or None, optional
+            Filename that the data should be saved with in the database.
+            If `None` use the dataid as the filename.
 
         """
-
         logger.info(f"Saving spectrogram for {self.dataid}")
 
         folderpath = Database().paths['L1A']
@@ -289,9 +289,9 @@ class L1A:
 
         Parameters
         ----------
-        bounds : (float, float) tuple, optional
-            Contains the lower and upper bounds of the desired frequency range
-            relative to the tuning frequency.
+        savepath : str or None
+            Path which figure should be saved to.
+            If `None` only show the figure.
         cmap : str, optional
             Specifies the color map.
         clim : (float, float) tuple, optional
@@ -300,7 +300,6 @@ class L1A:
             Keyword arguments are passed on to matplotlib.pyplot.imshow.
 
         """
-
         # Convert datetime values to floats.
         num_time_lims = tuple(e for e in map(mdates.date2num, self.time_lims))
 
@@ -348,7 +347,6 @@ class L1A:
             Array containing the spectrum of the signal over the full bandwidth.
 
         """
-
         spectrum = fft(signal, nfft)
         spectrum = fftshift(spectrum)
         spectrum = abs(spectrum)
@@ -370,7 +368,7 @@ class L1A:
 
 class L1B:
     """
-    L1B data (time-frequency data points) of a DopTrack recording.
+    L1B data (frequency) of a DopTrack recording.
 
     Parameters
     ----------
@@ -408,75 +406,87 @@ class L1B:
     >>> s.plot()
 
     """
-
-    def __init__(self, data):
-        self.dataid = data['dataid']
-        self.recording = Recording(self.dataid)
+    def __init__(self, **kwargs):
+        self.dataid = kwargs['dataid']
 
         # Series data
-        self.time = data['time']
-        self.time_sec = data['time_sec']
-        self.frequency = data['frequency']
-        self.power = data['power']
+        self.time = kwargs['time']
+        self.time_sec = kwargs['time_sec']
+        self.frequency = kwargs['frequency']
+        self.power = kwargs['power']
 
         # Single value data
-        self.tca = data['tca']
-        self.tca_sec = data['tca_sec']
-        self.fca = data['fca']
-        self.rmse = data['rmse']
+        self.tca = kwargs['tca']
+        self.tca_sec = kwargs['tca_sec']
+        self.fca = kwargs['fca']
+        self.rmse = kwargs['rmse']
 
         # Fitting data
-        self.tanh_coeffs = data['tanh_coeffs']
-        self.residual_coeffs = data['residual_coeffs']
-        self.residual_func = data['residual_func']
-        self.fit_func = data['fit_func']
+        self.tanh_coeffs = kwargs['tanh_coeffs']
+        self.residual_coeffs = kwargs['residual_coeffs']
+        self.residual_func = kwargs['residual_func']
+        self.fit_func = kwargs['fit_func']
+
+        assert all(key in self.__dict__ for key in kwargs.keys())
+
+        self.recording = Recording(self.dataid)
 
     @classmethod
     def create(cls, L1A_object, plot=False):
         """
-        Create time-frequency data from spectrogram.
+        Create L1B data from L1A.
 
         Parameters
         ----------
         L1A_object : data.L1A
-            L1A (spectrogram) object.
+            L1A data (spectrogram).
         plot : bool, optional
             If True plot figures for each step of the data point extraction process.
 
         Returns
         -------
         data.L1B
-            Time-frequency data object.
+            L1B data (frequency).
 
         """
-
         logger.info(f"Extracting frequency data for {L1A_object.dataid}")
 
         rec = Recording(L1A_object.dataid)
         satpass = SatellitePassTLE.from_recording(L1A_object.dataid, num=10_000)
         tca_sec = (satpass.tca - rec.start_time).total_seconds()
 
-        data = extract_frequency_data(
+        extracted_data = extract_frequency_data(
                 L1A_object.spectrogram,
                 L1A_object.dt,
                 tca_sec,
                 plot=plot)
 
-        data['dataid'] = L1A_object.dataid
+        data_dict = {}
+        data_dict['dataid'] = L1A_object.dataid
 
-        data['time_sec'] = data['time']
-        data['time'] = np.array([rec.start_time + timedelta(seconds=t) for t in data['time_sec']])
+        data_dict['time_sec'] = extracted_data['time']
+        data_dict['time'] = np.array(
+                [rec.start_time + timedelta(seconds=t) for t in data_dict['time_sec']])
+        data_dict['frequency'] = extracted_data['frequency']
+        data_dict['power'] = extracted_data['power']
 
-        data['tca'] = satpass.tca
-        data['tca_sec'] = tca_sec
-        data['fca'] = cls.estimate_fca(data['time_sec'], data['frequency'], data['tca_sec'])
+        data_dict['tca'] = satpass.tca
+        data_dict['tca_sec'] = tca_sec
+        data_dict['fca'] = cls.estimate_fca(
+                data_dict['time_sec'], data_dict['frequency'], data_dict['tca_sec'])
+        data_dict['rmse'] = extracted_data['rmse']
 
-        return cls(data)
+        data_dict['tanh_coeffs'] = extracted_data['tanh_coeffs']
+        data_dict['residual_coeffs'] = extracted_data['residual_coeffs']
+        data_dict['residual_func'] = extracted_data['residual_func']
+        data_dict['fit_func'] = extracted_data['fit_func']
+
+        return cls(**data_dict)
 
     @classmethod
     def load(cls, dataid):
         """
-        Load saved time-frequency data from database.
+        Load L1B data from the database.
 
         Parameters
         ----------
@@ -486,10 +496,9 @@ class L1B:
         Returns
         -------
         data.L1B
-            Time-frequency data object.
+            L1B data (frequency).
 
         """
-
         logger.info(f"Loading frequency data for {dataid}")
 
         rec = Recording(dataid)
@@ -552,19 +561,10 @@ class L1B:
             data['frequency'] = np.array(frequency)
             data['power'] = np.array(power)
 
-        return cls(data)
+        return cls(**data)
 
     def save(self):
-        """
-        Save the time-frequency data to database.
-
-        Parameters
-        ----------
-        dataid : str
-            ID of recording in the database.
-
-        """
-
+        """Save the L1B data to the database."""
         logger.info(f"Saving frequency data for {self.dataid}")
 
         filepath = Database().paths['L1B'] / f"{self.dataid}.DOP1B"
@@ -592,7 +592,7 @@ class L1B:
 
     def plot(self, fit_func=True, savepath=None, L1A=None, cmap='viridis', clim=None, **kwargs):
         """
-        Plot the time-frequency data.
+        Plot L1B data as time vs frequency.
 
         Parameters
         ----------
@@ -607,7 +607,6 @@ class L1B:
             Keyword arguments are passed on to matplotlib.pyplot.imshow.
 
         """
-
         fig, ax = plt.subplots(figsize=(16, 9))
 
         if L1A is not None:
@@ -660,7 +659,7 @@ class L1B:
 
 class L1C:
     """
-    L1C data (rangerate) of a DopTrack recording.
+    L1C data (range-rate) of a DopTrack recording.
 
     Parameters
     ----------
@@ -675,32 +674,59 @@ class L1C:
     rangerate : (float,) numpy.ndarray
 
     """
+    def __init__(self, **kwargs):
+        self.dataid = kwargs['dataid']
+        self.time = kwargs['time']
+        self.time_sec = kwargs['time_sec']
+        self.rangerate = kwargs['rangerate']
 
-    def __init__(self, dataid, time, time_sec, rangerate):
-        self.dataid = dataid
-        self.recording = Recording(dataid)
-        self.time = time
-        self.time_sec = time_sec
-        self.rangerate = rangerate
+        self.recording = Recording(self.dataid)
 
     @classmethod
     def create(cls, L1B_obj):
+        """
+        Create L1C data from L1B data.
 
-        dataid = L1B_obj.dataid
+        Parameters
+        ----------
+        L1B_obj : data.L1B
+            L1B  data(frequency).
 
-        time = L1B_obj.time
-        time_sec = L1B_obj.time_sec
-        frequency = L1B_obj.frequency + Recording(dataid).tuning_freq
-        fca = L1B_obj.fca + Recording(dataid).tuning_freq
+        Returns
+        -------
+        data.L1C
+            L1C data (range-rate).
+
+        """
+        data_dict = {}
+        data_dict['dataid'] = L1B_obj.dataid
+        data_dict['time'] = L1B_obj.time
+        data_dict['time_sec'] = L1B_obj.time_sec
+
+        frequency = L1B_obj.frequency + Recording(data_dict['dataid']).tuning_freq
+        fca = L1B_obj.fca + Recording(data_dict['dataid']).tuning_freq
 
         # TODO might want to propogate uncertainties further down the data stream. Remove .n if so.
-        rangerate = cls.rangerate_model(frequency, fca.n)
+        data_dict['rangerate'] = cls.rangerate_model(frequency, fca.n)
 
-        return cls(dataid, time, time_sec, rangerate)
+        return cls(**data_dict)
 
     @classmethod
     def load(cls, dataid):
+        """
+        Load L1C data from the database.
 
+        Parameters
+        ----------
+        dataid : str
+            ID of recording in the database.
+
+        Returns
+        -------
+        data.L1B
+            L1C data (range-rate).
+
+        """
         logger.info(f"Loading frequency data for {dataid}")
 
         filepath = Database().filepath(dataid, level='L1C')
@@ -712,9 +738,16 @@ class L1C:
                 time_sec.append(float(line.split(',')[1]))
                 rangerate.append(float(line.split(',')[2]))
 
-        return cls(dataid, np.array(time), np.array(time_sec), np.array(rangerate))
+        data_dict = {}
+        data_dict['dataid'] = dataid
+        data_dict['time'] = np.array(time)
+        data_dict['time_sec'] = np.array(time_sec)
+        data_dict['rangerate'] = np.array(rangerate)
+
+        return cls(**data_dict)
 
     def save(self):
+        """Save the L1B data to the database."""
         logger.info(f"Saving rangerate data for {self.dataid}")
 
         filepath = Database().paths['L1C'] / f"{self.dataid}.DOP1C"
@@ -730,6 +763,22 @@ class L1C:
 
     @staticmethod
     def rangerate_model(frequency, carrier_frequency):
+        """
+        Basic range-rate model.
+
+        Parameters
+        ----------
+        frequency : (float,) np.ndarray
+            Array of frequencies.
+        carrier_frequency : float
+            The frequency transmitted by the satellite.
+
+        Returns
+        -------
+        (float,) np.ndarray
+            Range-rate.
+
+        """
         return (1 - (frequency / carrier_frequency)) * constants.c
 
 
