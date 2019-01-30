@@ -1,34 +1,4 @@
-"""Frequency data extraction
-
-This module contains functions for extracting time-frequency data points of a
-satellite pass from a spectrograms.
-
-Classes
--------
-- `PassNotFoundError` -- Exception thrown when no pass is found.
-
-Routines
---------
-- `extract_frequency_data` -- Main extraction function.
-- `create_fit_func` -- Create a fitting function from tanh fit and residual fit.
-- `first_masking` -- Create specgtrogram mask for the initial extraction cycle.
-- `second_masking` -- Create specgtrogram mask for the extraction refinement cycle.
-- `create_clusters` -- Create clusters of data points.
-- `estimate_tca` -- Estimate time of closest approach of the satellite pass.
-- `labels_of_clusters_with_n_or_more_points`
-- `labels_of_clusters_with_low_mean`
-- `labels_of_clusters_with_negative_slope`
-- `filter_clusters_by_label`
-- `get_rowmaxes_as_points` -- Extract the maximum pixel of each row as data points.
-- `remove_width_outliers` -- Remove data points outside some band in spectrogram.
-
-Warnings
------
-The current implementation of the extraction algorithm is designed specifically
-for recordings of the Delfi-C3 satellie signal. Other satellite signals with
-different modulation technique will not be extracted correctly.
-
-"""
+"""Frequency data extraction."""
 import matplotlib.pyplot as plt
 import logging
 import autograd.numpy as np
@@ -41,6 +11,10 @@ from sklearn.cluster import DBSCAN
 
 from doptools.masking import horizontal_mask, vertical_mask, spike_mask, fit_mask, time_mask
 from doptools.fitting import tanh, fit_tanh, fit_residual, FittingError
+
+
+# TODO Add all functions to __all__
+__all__ = ['PassNotFoundError', 'extract_frequency_data']
 
 
 logger = logging.getLogger(__name__)

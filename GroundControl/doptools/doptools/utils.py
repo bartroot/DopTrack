@@ -5,6 +5,11 @@ from functools import wraps
 from time import time
 
 
+__all__ = [
+        'Position', 'GeodeticPosition',
+        'DataID', 'inspect_loggers', 'timing']
+
+
 Position = namedtuple('Position', 'x y z')
 GeodeticPosition = namedtuple('GeodeticPosition', 'latitude longitude altitude')
 
@@ -69,7 +74,7 @@ def timing(num=1, exit_after_run=False):
         The number of times the function or method has to be called.
         The higher the number the more accurate the timing becomes.
 
-    Example
+    Examples
     --------
     >>> @timing(num=1000)
     >>> def func():

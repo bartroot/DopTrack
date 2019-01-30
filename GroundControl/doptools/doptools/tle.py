@@ -29,7 +29,7 @@ def spacetrack_query(query, username=None, password=None):
 
     The function sets up a requests session, logs in to the space-track
     website, and sends a get request to the API. Specifically, the request
-    makes an API call to `/basicspacedata/query/' along with the query.
+    makes an API call to ``/basicspacedata/query/`` along with the query.
     The documentation to the space-track API can be found at
     `https://www.space-track.org/documentation`.
 
@@ -45,8 +45,8 @@ def spacetrack_query(query, username=None, password=None):
         will try and find one in the config file.
 
 
-    Return
-    ------
+    Returns
+    -------
     list(str) or None
         A list of lines of the response or None if no response was given.
 
@@ -55,8 +55,8 @@ def spacetrack_query(query, username=None, password=None):
     RateLimitException
         If the API is called too many times within a certain time span.
 
-    Warning
-    -------
+    Warnings
+    --------
     This function is rate limited to 20 calls per minute and 200 calls per hour.
     If the one minute rate limit is reached the function call will sleep and
     retry when allowed. If the one hour rate limit is reached an exception will
@@ -111,8 +111,8 @@ def get_latest_tle(norad_id, **kwargs):
     kwargs : optional
         Keyword arguments are passed on to the `spacetrack_query` function.
 
-    Return
-    ------
+    Returns
+    -------
     tuple(str)
         A tuple of two strings corresponding to the two lines in a TLE.
 
@@ -146,8 +146,8 @@ def get_n_latest_tles(norad_id, n, **kwargs):
     kwargs : optional
         Keyword arguments are passed on to the `spacetrack_query` function.
 
-    Return
-    ------
+    Returns
+    -------
     tuple(str)
         A tuple of two strings corresponding to the two lines in a TLE.
 
@@ -183,8 +183,8 @@ def get_tles_for_n_latest_days(norad_id, n, **kwargs):
     kwargs : optional
         Keyword arguments are passed on to the `spacetrack_query` function.
 
-    Return
-    ------
+    Returns
+    -------
     tuple(str)
         A tuple of two strings corresponding to the two lines in a TLE.
 

@@ -10,5 +10,14 @@ User Guide
         io
         coordconv
         config
+        analysis
+        extraction
+        fitting
+        external
+        masking
+        model
+        recording
+        tle
+        utils
         
 

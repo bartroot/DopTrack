@@ -7,6 +7,10 @@ from contextlib import contextmanager
 from doptools.config import Config
 
 
+__all__ = ['ftpconnection', 'download_eopp', 'download_eopc04',
+           'download_tai_utc', 'download_external']
+
+
 logger = logging.getLogger(__name__)
 
 

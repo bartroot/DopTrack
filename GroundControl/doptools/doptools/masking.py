@@ -1,16 +1,9 @@
-"""Masking functions for time-frequncy data extraction.
-
-Routines
---------
-- `vertical mask`
-- `horizontal_mask`
-- `spike_mask`
-- `fit_mask`
-- `time_mask`
-
-"""
+"""Masking functions for time-frequncy data extraction."""
 import numpy as np
 import cv2
+
+
+__all__ = ['vertical_mask', 'horizontal_mask', 'spike_mask', 'fit_mask', 'time_mask']
 
 
 def vertical_mask(image, dt):

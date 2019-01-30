@@ -1,18 +1,11 @@
-"""Functions for fitting data during time-frequency data extraction.
-
-Classes
--------
-- `FittingError` -- Exception thrown when fitting is unsuccesful.
-
-Routines
---------
-- `fit_tanh` -- Fit tanh function to time-frequency data.
-- `fit_residual` -- Fit fourier function or polynomial to time-residual data.
-
-"""
+"""Functions for fitting data during time-frequency data extraction."""
 import logging
 import autograd.numpy as np
 import scipy.optimize as optimize
+
+
+# TODO Add all fitting functions to __all__
+__all__ = ['FittingError', 'fit_tanh', 'fit_residual']
 
 
 logger = logging.getLogger(__name__)

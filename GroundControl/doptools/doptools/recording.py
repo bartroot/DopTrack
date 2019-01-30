@@ -3,6 +3,9 @@ from datetime import timedelta
 from doptools.io import read_meta
 
 
+__all__ = ['Recording']
+
+
 class Recording:
 
     def __init__(self, dataid):

@@ -14,6 +14,9 @@ from doptools.io import Database
 import doptools.fitting as fitting
 
 
+__all__ = ['ResidualAnalysis', 'BulkAnalysis']
+
+
 logger = logging.getLogger(__name__)
 
 
