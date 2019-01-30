@@ -14,9 +14,10 @@ station:
     longitude: 4.3733585
     altitude: 95
 
-space-track.org:
-    user: <USERNAME>
-    password: <PASSWORD>
+credentials:
+    space-track.org:
+        user: <USERNAME>
+        password: <PASSWORD>
 
 runtime:
     logging: false
