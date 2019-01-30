@@ -3,30 +3,6 @@
 This module contains functions for transformations between the different
 reference frames used in doppler tracking.
 
-Constants
----------
-- `WGS84_omega` -- Earth's rotational speed.
-- `WGS84_a` -- Earth's radius.
-- `WGS84_e` -- Earth's eccentricity.
-
-Data
-----
-- `NUTATION_COEFFS` -- Coefficients used in nutation theory.
-- `EOPP` -- Earth orientation parameters Xp, Yp.
-- `EOPC04` -- Values for UT1 difference (DUT1) and length of day (LOD)
-- `DAT` -- Values for TAI difference (DAT).
-
-Classes
--------
-- `DatetimeConverter` -- Class for timestamp conversions.
-
-Routines
---------
-- `ecef2geodetic` -- Convert coordinates from ECEF to Geodetic.
-- `geodetic2ecef` -- Convert coordinates from Geodetic to ECEF.
-- `teme2ecef` -- Convert coordinates from TEME to ECEF.
-- `gmst1982` -- Calculate a (deprecated) version of Greenwhich Mean Sidereal Time
-
 """
 import numpy as np
 from datetime import timedelta
@@ -36,9 +12,18 @@ from doptools.utils import Position, GeodeticPosition
 from doptools.io import read_nutation_coeffs, read_eopp, read_eopc04, read_tai_utc
 
 
+__all__ = [
+        'WGS84_omega', 'WGS84_a', 'WGS84_e',
+        'ExpandedDatetime', 'geodetic2ecef', 'ecef2geodetic',
+        'teme2ecef', 'gmst1982']
+
+
 WGS84_omega = 7.2921151467e-05
+"""Angular speed of Earth (rad/s)"""
 WGS84_a = 6378137.0
+"""Radius of Earth (m)"""
 WGS84_e = 0.08181919092890638
+"""Eccentricity of Earth"""
 
 # TODO determine what happens when files are not found
 NUTATION_COEFFS = read_nutation_coeffs()
@@ -54,9 +39,9 @@ class ExpandedDatetime:
     ----------
     utc : datetime.datetime
         Timestamp in Coordinated Universal Time (UTC).
-    DUT1 : float
+    dut1 : float
         Difference between UTC and UT1.
-    DAT: float
+    dat : float
         Difference between UTC and TAI.
 
     """

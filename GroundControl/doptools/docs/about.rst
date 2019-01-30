@@ -1,5 +1,5 @@
 About DopTrack
-==============
+**************
 
 DopTrack is an initiative that proposes to acquire and operate radio equipment
 for the purpose of tracking Low-Earth Orbit (LEO) satellites by the means

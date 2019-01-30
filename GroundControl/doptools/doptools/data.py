@@ -3,15 +3,6 @@
 This module contains classes for each main type of data used internally in
 the DopTrack project.
 
-Classes
--------
-- `EmptyRecordingError` -- Exception thrown when a recording is empty or too small.
-- `Database` -- Object for managing and inspecting the DopTrack database.
-- `L0` -- Radio recording from a complex binary file.
-- `L1A` -- Spectrogram processed from a radio recording.
-- `L1B` -- Time-frequency data of satellite signal extracted from a spectrogram.
-- `L1C` -- Rangerate data modelled from time-frequency data.
-
 """
 import os
 import numpy as np
@@ -33,10 +24,14 @@ from doptools.extraction import extract_frequency_data, create_fit_func
 import doptools.fitting as fitting
 
 
+__all__ = ['EmptyRecordingError', 'L0', 'L1A', 'L1B', 'L1C']
+
+
 logger = logging.getLogger(__name__)
 
 
 class EmptyRecordingError(Exception):
+    """Raised when the data file (L0) of a recording is empty."""
     pass
 
 
