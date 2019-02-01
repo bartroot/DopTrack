@@ -1,0 +1,3 @@
+sphinx==1.8.3
+numpydoc
+sphinx-automodapi==0.10
