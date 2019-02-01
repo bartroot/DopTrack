@@ -1,5 +1,5 @@
 paths:
-    default: <absolute path>
+    default: null
     L0: null
     L1A: null
     L1B: null
