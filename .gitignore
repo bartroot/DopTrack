@@ -3,3 +3,7 @@ unison.*
 local
 *.swp
 .DS_Store
+
+.coverage
+**/.pytest_cache
+__pycache__/
