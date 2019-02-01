@@ -1,5 +1,5 @@
-External Data Interface (`doptools.external`)
-*********************************************
+External Data Interface (``doptools.external``)
+***********************************************
 
 
 Reference/API

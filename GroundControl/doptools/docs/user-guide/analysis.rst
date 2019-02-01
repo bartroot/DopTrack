@@ -1,5 +1,5 @@
-Data Analysis (`doptools.analysis`)
-***********************************
+Data Analysis (``doptools.analysis``)
+*************************************
 
 
 Reference/API

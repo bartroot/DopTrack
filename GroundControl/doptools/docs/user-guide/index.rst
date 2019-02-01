@@ -1,23 +1,65 @@
 User Guide
 **********
 
+
+Getting Started
+===============
+
+
 .. toctree::
         :maxdepth: 2
 
         setup
-        getting-started
+        using-doptools
+        
+        
+
+Module Documentation
+====================
+        
+        
+Data and Functionality
+----------------------
+
+.. toctree::
+        :maxdepth: 1
+        
         data
-        io
-        coordconv
-        config
         analysis
-        extraction
-        fitting
-        external
-        masking
         model
         recording
+        coordconv
+        
+
+Computations
+------------
+
+.. toctree::
+        :maxdepth: 1
+        
+        extraction
+        fitting
+        masking
+
+        
+Interfaces
+----------
+
+.. toctree::
+        :maxdepth: 1
+        
+        io
         tle
+        external
+        
+
+Nuts and Bolts
+--------------
+
+.. toctree::
+        :maxdepth: 1
+        
+        config
         utils
         
 

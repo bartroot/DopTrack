@@ -1,5 +1,5 @@
-Data Model (`doptools.data`)
-****************************
+Data Model (``doptools.data``)
+******************************
 
 
 .. _data-levels:

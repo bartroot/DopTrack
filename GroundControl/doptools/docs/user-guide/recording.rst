@@ -1,5 +1,5 @@
-DopTrack Recordings (`doptools.recording`)
-******************************************
+DopTrack Recordings (``doptools.recording``)
+********************************************
 
 
 Reference/API

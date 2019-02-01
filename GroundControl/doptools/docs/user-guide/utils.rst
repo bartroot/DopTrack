@@ -1,5 +1,5 @@
-Utility Functions (`doptools.utils`)
-************************************
+Utility Functions (``doptools.utils``)
+**************************************
 
 
 Reference/API

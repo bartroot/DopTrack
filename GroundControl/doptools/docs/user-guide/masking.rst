@@ -1,5 +1,5 @@
-Image Masking (`doptools.masking`)
-**********************************
+Image Masking (``doptools.masking``)
+************************************
 
 
 Reference/API

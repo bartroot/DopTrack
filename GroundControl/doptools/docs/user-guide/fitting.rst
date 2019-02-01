@@ -1,5 +1,5 @@
-Fitting (`doptools.fitting`)
-****************************
+Fitting (``doptools.fitting``)
+******************************
 
 
 Reference/API

@@ -31,7 +31,7 @@ def spacetrack_query(query, username=None, password=None):
     website, and sends a get request to the API. Specifically, the request
     makes an API call to ``/basicspacedata/query/`` along with the query.
     The documentation to the space-track API can be found at
-    `https://www.space-track.org/documentation`.
+    https://www.space-track.org/documentation.
 
     Parameters
     ----------
@@ -116,6 +116,10 @@ def get_latest_tle(norad_id, **kwargs):
     tuple(str)
         A tuple of two strings corresponding to the two lines in a TLE.
 
+    See also
+    --------
+    spacetrack_query : Send a query to the space-track API.
+
     Examples
     --------
     >>> from doptools.tle import get_latest_tle
@@ -150,6 +154,10 @@ def get_n_latest_tles(norad_id, n, **kwargs):
     -------
     tuple(str)
         A tuple of two strings corresponding to the two lines in a TLE.
+
+    See also
+    --------
+    spacetrack_query : Send a query to the space-track API.
 
     Examples
     --------
@@ -187,6 +195,10 @@ def get_tles_for_n_latest_days(norad_id, n, **kwargs):
     -------
     tuple(str)
         A tuple of two strings corresponding to the two lines in a TLE.
+
+    See also
+    --------
+    spacetrack_query : Send a query to the space-track API.
 
     Examples
     --------

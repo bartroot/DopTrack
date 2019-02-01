@@ -1,5 +1,5 @@
-Coordinates (`doptools.coordconv`)
-**********************************
+Coordinates (``doptools.coordconv``)
+************************************
 
 
 

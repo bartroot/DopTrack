@@ -1,5 +1,5 @@
-Frequency Extraction (`doptools.extraction`)
-********************************************
+Frequency Extraction (``doptools.extraction``)
+**********************************************
 
 
 Reference/API

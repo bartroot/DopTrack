@@ -1,5 +1,5 @@
-Physical Models (`doptools.model`)
-**********************************
+Physical Models (``doptools.model``)
+************************************
 
 
 Reference/API

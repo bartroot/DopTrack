@@ -1,5 +1,5 @@
-Configuration (`doptools.config`)
-*********************************
+Configuration (``doptools.config``)
+***********************************
 
 
 
