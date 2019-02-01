@@ -1,11 +1,11 @@
-External Data Interface (``doptools.external``)
+External Data Interface (``doptrack.external``)
 ***********************************************
 
 
 Reference/API
 =============
 
-.. automodapi:: doptools.external
+.. automodapi:: doptrack.external
         :include-all-objects:
         :no-inheritance-diagram:
 

@@ -2,7 +2,7 @@ import logging
 import requests
 from ratelimit import limits, sleep_and_retry
 
-from doptools.config import Config
+from doptrack.config import Config
 
 
 __all__ = [

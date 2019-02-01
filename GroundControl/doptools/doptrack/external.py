@@ -4,7 +4,7 @@ import logging
 import os
 from contextlib import contextmanager
 
-from doptools.config import Config
+from doptrack.config import Config
 
 
 __all__ = ['ftpconnection', 'download_eopp', 'download_eopc04',

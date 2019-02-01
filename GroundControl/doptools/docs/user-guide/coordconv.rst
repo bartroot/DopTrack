@@ -1,4 +1,4 @@
-Coordinates (``doptools.coordconv``)
+Coordinates (``doptrack.coordconv``)
 ************************************
 
 
@@ -8,7 +8,7 @@ Coordinates (``doptools.coordconv``)
 Reference/API
 =============
 
-.. automodapi:: doptools.coordconv
+.. automodapi:: doptrack.coordconv
         :include-all-objects:
         :no-inheritance-diagram:
 

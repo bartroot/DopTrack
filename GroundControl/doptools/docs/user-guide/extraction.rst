@@ -1,11 +1,11 @@
-Frequency Extraction (``doptools.extraction``)
+Frequency Extraction (``doptrack.extraction``)
 **********************************************
 
 
 Reference/API
 =============
 
-.. automodapi:: doptools.extraction
+.. automodapi:: doptrack.extraction
         :include-all-objects:
         :no-inheritance-diagram:
 

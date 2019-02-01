@@ -3,8 +3,8 @@ import pytest
 import numpy as np
 from shutil import copyfile
 
-import doptools.data as data
-from doptools.io import Database
+import doptrack.data as data
+from doptrack.io import Database
 
 
 @pytest.fixture(scope='module')

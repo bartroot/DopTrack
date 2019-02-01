@@ -1,11 +1,11 @@
-TLE Interface (``doptools.tle``)
+TLE Interface (``doptrack.tle``)
 ********************************
 
 
 Reference/API
 =============
 
-.. automodapi:: doptools.tle
+.. automodapi:: doptrack.tle
         :include-all-objects:
         :no-inheritance-diagram:
 

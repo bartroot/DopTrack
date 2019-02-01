@@ -1,5 +1,5 @@
-Using DopTools
-**************
+Using DopTrack Software
+***********************
 
 
 Predicting Satellite Passes

@@ -2,7 +2,7 @@ import pytest
 import logging
 from pathlib import Path
 
-from doptools.config import Config
+from doptrack.config import Config
 
 logger = logging.getLogger(__name__)
 

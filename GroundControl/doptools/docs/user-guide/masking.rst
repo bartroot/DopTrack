@@ -1,11 +1,11 @@
-Image Masking (``doptools.masking``)
+Image Masking (``doptrack.masking``)
 ************************************
 
 
 Reference/API
 =============
 
-.. automodapi:: doptools.masking
+.. automodapi:: doptrack.masking
         :include-all-objects:
         :no-inheritance-diagram:
 

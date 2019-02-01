@@ -1,11 +1,11 @@
-Utility Functions (``doptools.utils``)
+Utility Functions (``doptrack.utils``)
 **************************************
 
 
 Reference/API
 =============
 
-.. automodapi:: doptools.utils
+.. automodapi:: doptrack.utils
         :include-all-objects:
         :no-inheritance-diagram:
 

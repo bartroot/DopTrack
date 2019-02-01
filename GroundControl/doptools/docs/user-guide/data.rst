@@ -1,4 +1,4 @@
-Data Model (``doptools.data``)
+Data Model (``doptrack.data``)
 ******************************
 
 
@@ -13,7 +13,7 @@ These levels conform with the data levels specified by :abbr:`ESA (European Spac
 =====  ===========
 Level  Explanation
 =====  ===========
-L0     Recorded signal as complex binary data (``.fc32``) 
+L0     Recorded signal as complex binary data (``.fc32``)
 L1A    Spectrogram of recorded signal
 L1B    Frequency data extracted from spectrogram
 L1C    Range-rate data modelled from frequency
@@ -24,7 +24,7 @@ L2A    Orbital parameters estimated from range-rate
 Reference/API
 =============
 
-.. automodapi:: doptools.data
+.. automodapi:: doptrack.data
         :include-all-objects:
         :no-inheritance-diagram:
 

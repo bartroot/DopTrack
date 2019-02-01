@@ -1,11 +1,11 @@
-Data Analysis (``doptools.analysis``)
+Data Analysis (``doptrack.analysis``)
 *************************************
 
 
 Reference/API
 =============
 
-.. automodapi:: doptools.analysis
+.. automodapi:: doptrack.analysis
         :include-all-objects:
         :no-inheritance-diagram:
 

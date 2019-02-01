@@ -8,10 +8,10 @@ import logging
 from scipy.optimize import curve_fit
 import dill as pickle
 
-from doptools.data import L1B, L1C
-from doptools.model import SatellitePassTLE
-from doptools.io import Database
-import doptools.fitting as fitting
+from doptrack.data import L1B, L1C
+from doptrack.model import SatellitePassTLE
+from doptrack.io import Database
+import doptrack.fitting as fitting
 
 
 __all__ = ['ResidualAnalysis', 'BulkAnalysis']

@@ -1,6 +1,6 @@
 import argparse
 
-from doptools.ftp import download_eopp, download_eopc04, download_tai_utc
+from doptrack.ftp import download_eopp, download_eopc04, download_tai_utc
 
 
 parser = argparse.ArgumentParser(description='DopTrack tools')

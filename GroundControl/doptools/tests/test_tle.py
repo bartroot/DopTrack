@@ -1,14 +1,14 @@
 import pytest
 import requests
 
-import doptools
-import doptools.tle as doptle
+import doptrack
+import doptrack.tle as doptle
 
 
 class TestSpacetrackQuery:
 
     def test_post_request_was_given_correct_input_with_given_payload(self, mocker):
-        mocker.patch('doptools.config.Config')
+        mocker.patch('doptrack.config.Config')
         mocker.patch('requests.Session.post')
         mocker.patch('requests.Session.get')
 
@@ -19,7 +19,7 @@ class TestSpacetrackQuery:
 
     def test_post_request_was_given_correct_input_with_config_payload(self, mocker):
         mocker.patch.object(
-                doptools.config.Config,
+                doptrack.config.Config,
                 'credentials',
                 create=True,
                 return_value={'space-track.org': {
@@ -34,7 +34,7 @@ class TestSpacetrackQuery:
                 data={'identity': 'test_username', 'password': 'test_password'})
 
     def test_get_request_was_given_correct_input(self, mocker):
-        mocker.patch('doptools.config.Config')
+        mocker.patch('doptrack.config.Config')
         mock_response = mocker.Mock()
         mock_status_code = mocker.PropertyMock(return_value=200)
         type(mock_response).status_code = mock_status_code

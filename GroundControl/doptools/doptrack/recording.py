@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from doptools.io import read_meta
+from doptrack.io import read_meta
 
 
 __all__ = ['Recording']

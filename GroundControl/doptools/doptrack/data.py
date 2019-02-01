@@ -17,11 +17,11 @@ from tqdm import tqdm
 import logging
 import uncertainties
 
-from doptools.recording import Recording
-from doptools.model import SatellitePassTLE
-from doptools.io import Database
-from doptools.extraction import extract_frequency_data, create_fit_func
-import doptools.fitting as fitting
+from doptrack.recording import Recording
+from doptrack.model import SatellitePassTLE
+from doptrack.io import Database
+from doptrack.extraction import extract_frequency_data, create_fit_func
+import doptrack.fitting as fitting
 
 
 __all__ = ['EmptyRecordingError', 'L0', 'L1A', 'L1B', 'L1C']

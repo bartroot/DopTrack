@@ -1,11 +1,11 @@
-DopTrack Recordings (``doptools.recording``)
+DopTrack Recordings (``doptrack.recording``)
 ********************************************
 
 
 Reference/API
 =============
 
-.. automodapi:: doptools.recording
+.. automodapi:: doptrack.recording
         :include-all-objects:
         :no-inheritance-diagram:
 

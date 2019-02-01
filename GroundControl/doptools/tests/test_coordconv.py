@@ -2,7 +2,7 @@ import pytest
 from datetime import datetime
 import numpy as np
 
-import doptools.coordconv as coordconv
+import doptrack.coordconv as coordconv
 
 
 @pytest.fixture(scope='module')

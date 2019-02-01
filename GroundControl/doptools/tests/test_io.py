@@ -2,8 +2,8 @@ import pytest
 import logging
 from pathlib import Path
 
-import doptools.io as io
-from doptools.config import Config
+import doptrack.io as io
+from doptrack.config import Config
 
 logger = logging.getLogger(__name__)
 config = Config(configpath=Path(__file__).parent / 'test_dopconfig.yml')

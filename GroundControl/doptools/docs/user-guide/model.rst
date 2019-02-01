@@ -1,11 +1,11 @@
-Physical Models (``doptools.model``)
+Physical Models (``doptrack.model``)
 ************************************
 
 
 Reference/API
 =============
 
-.. automodapi:: doptools.model
+.. automodapi:: doptrack.model
         :include-all-objects:
         :no-inheritance-diagram:
 

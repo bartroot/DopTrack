@@ -1,4 +1,4 @@
-Configuration (``doptools.config``)
+Configuration (``doptrack.config``)
 ***********************************
 
 
@@ -8,7 +8,7 @@ Configuration (``doptools.config``)
 Reference/API
 =============
 
-.. automodapi:: doptools.config
+.. automodapi:: doptrack.config
         :include-all-objects:
         :no-inheritance-diagram:
 

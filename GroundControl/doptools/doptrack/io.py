@@ -7,8 +7,8 @@ from datetime import datetime, timedelta
 import pandas as pd
 from collections import defaultdict
 
-from doptools.config import Config
-from doptools.utils import DataID
+from doptrack.config import Config
+from doptrack.utils import DataID
 
 
 __all__ = [

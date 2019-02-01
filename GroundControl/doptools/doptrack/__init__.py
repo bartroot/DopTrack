@@ -2,8 +2,8 @@ import os
 import sys
 import logging
 
-from doptools.config import Config
-from doptools.utils import log_format_string
+from doptrack.config import Config
+from doptrack.utils import log_format_string
 
 if os.name == 'posix':
     import matplotlib

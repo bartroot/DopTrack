@@ -2,14 +2,13 @@ Setup
 *****
 
 .. warning::
-        The doptools package requires Python 3.6+.
+        The DopTrack software requires Python 3.6+.
 
 
-Installing doptools
-===================
+Installing the DopTrack software
+================================
 
 
-First we have to install the doptools package.
 The doptools package is located inside the DopTrack github repository, so we start by downloading this repository.
 We assume that we only want to use doptools  and not develop on it. If you want to develop on doptools, see :doc:`../dev-guide`.
 

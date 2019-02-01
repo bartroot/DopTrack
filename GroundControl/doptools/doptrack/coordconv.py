@@ -8,8 +8,8 @@ import numpy as np
 from datetime import timedelta
 import warnings
 
-from doptools.utils import Position, GeodeticPosition
-from doptools.io import read_nutation_coeffs, read_eopp, read_eopc04, read_tai_utc
+from doptrack.utils import Position, GeodeticPosition
+from doptrack.io import read_nutation_coeffs, read_eopp, read_eopc04, read_tai_utc
 
 
 __all__ = [

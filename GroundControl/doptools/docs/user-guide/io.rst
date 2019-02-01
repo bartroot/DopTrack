@@ -1,11 +1,11 @@
-I/O Interface (``doptools.io``)
+I/O Interface (``doptrack.io``)
 *******************************
 
 
 Reference/API
 =============
 
-.. automodapi:: doptools.io
+.. automodapi:: doptrack.io
         :include-all-objects:
         :no-inheritance-diagram:
 

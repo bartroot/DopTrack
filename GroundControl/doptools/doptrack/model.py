@@ -6,9 +6,9 @@ from sgp4.earth_gravity import wgs84
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-from doptools.recording import Recording
-from doptools.coordconv import teme2ecef, geodetic2ecef, ecef2geodetic
-from doptools.utils import GeodeticPosition
+from doptrack.recording import Recording
+from doptrack.coordconv import teme2ecef, geodetic2ecef, ecef2geodetic
+from doptrack.utils import GeodeticPosition
 
 
 __all__ = ['GroundStation', 'SatelliteSGP4', 'SatellitePassTLE']
