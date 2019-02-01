@@ -1,8 +1,12 @@
 from pathlib import Path
 import yaml
+import logging
 
 
 __all__ = ['Config']
+
+
+logger = logging.getLogger(__name__)
 
 
 class Config:
@@ -13,13 +17,19 @@ class Config:
             configpath = Path(configpath).resolve()
         else:
             configpath = Path.home() / 'dopconfig.yml'
+            if not configpath.is_file():
+                logger.warning('Could not find config file in HOME folder. Using default config.')
+                configpath = Path(__file__).parent / '../dopconfig.example.yml'
 
         with open(configpath) as metafile:
             config = yaml.load(metafile)
         config['paths']['config'] = configpath
 
         # Get full default path
-        defaultpath = Path(config['paths']['default'])
+        if config['paths']['default'] is None:
+            defaultpath = Path.home() / 'data'
+
+        defaultpath = Path(defaultpath)
         if not defaultpath.is_absolute():
             defaultpath = configpath.parent / defaultpath
         config['paths']['default'] = defaultpath
