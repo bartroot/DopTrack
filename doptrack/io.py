@@ -218,21 +218,26 @@ def read_rre(dataid, filepath=None, metafilepath=None):
 
 def read_eopp(folderpath=None):
     folderpath = Database().paths['external'] if folderpath is None else folderpath
+    folderpath = folderpath / 'eopp'
     data = dict(MJD=[], Xp=[], Yp=[])
-    try:
-        for filename in os.listdir(folderpath / 'eopp'):
-            if os.stat(folderpath / 'eopp' / filename).st_size == 0:
-                break
-            with open(folderpath / 'eopp' / filename) as f:
-                for _ in range(5):
-                    next(f)
-                line = f.readline()
-                e = line.split()
-                data['MJD'].append(int(e[0]))
-                data['Xp'].append(np.deg2rad(np.float(e[1]) / 3600))
-                data['Yp'].append(np.deg2rad(float(e[2]) / 3600))
-    except FileNotFoundError as e:
-        logger.error(e)
+
+    filenames = os.listdir(folderpath)
+    if len(filenames) == 0:
+        logger.warning('No EOPP files in database')
+    for filename in sorted(filenames):
+        filepath = folderpath / filename
+        if os.stat(filepath).st_size == 0:
+            logger.warning('EOPP file is empty: {folderpath / filename}')
+            continue
+        with open(filepath) as f:
+            for _ in range(5):
+                next(f)
+            line = f.readline()
+            e = line.split()
+            data['MJD'].append(int(e[0]))
+            data['Xp'].append(np.deg2rad(np.float(e[1]) / 3600))
+            data['Yp'].append(np.deg2rad(float(e[2]) / 3600))
+
     df = pd.DataFrame.from_dict(data)
     df.set_index('MJD', inplace=True)
     return df
