@@ -26,7 +26,8 @@ data['tca_time_plotly'] = [dt.replace(year=2000, month=1, day=1) for dt in data[
 
 
 app = dash.Dash()
-app.title = 'DopTrack'
+app.title = 'DopTrack Dashboard'
+server = app.server
 
 
 app.css.append_css({"external_url": "https://www.tudelft.nl/typo3conf/ext/site_tud/Resources/Public/StyleSheets/dist.style.c1efa4e3be.min.css"})

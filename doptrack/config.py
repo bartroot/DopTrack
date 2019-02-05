@@ -28,8 +28,9 @@ class Config:
         # Get full default path
         if config['paths']['default'] is None:
             defaultpath = Path.home() / 'data'
+        else:
+            defaultpath = Path(config['paths']['default'])
 
-        defaultpath = Path(defaultpath)
         if not defaultpath.is_absolute():
             defaultpath = configpath.parent / defaultpath
         config['paths']['default'] = defaultpath

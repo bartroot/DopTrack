@@ -63,3 +63,60 @@ Manually create a _static folder in the docs folder.
 
 Install graphviz if inheritance diagrams are needed.
 
+
+Run the following command to build the documentation in the correct build directory::
+
+    sudo sphinx-build -b html . /var/www/html/docs-doptrack
+
+
+
+Setting Up Website
+==================
+
+The DopTrack website currently consists of two parts: 
+doptrack.tudelft.nl which holds the main website,
+and app.doptrack.tudelft.nl which holds the DopTrack app.
+
+The server uses the apache2 web server to deliver these website.
+The documentation for Apache2 configuration for Ubuntu can be found at::
+
+    /usr/share/doc/apache2/README.Debian
+    
+
+On Ubuntu the apache2 script does not give access to start, stop, restart, and status commands for the web server.
+Instead use the following script::
+
+    /etc/init.d/apache2
+    
+
+Setting up VirtualHosts
+-----------------------
+
+The apache2 web server uses name-based virtual hosts to redirect incoming requests to either the main site or the app.
+These virtual hosts are set up in the hosts file.
+
+
+show active virtual hosts::
+    
+    apache2ctl -S
+
+
+    
+Inspecting errors
+-----------------
+
+If the deployment of the website does not work the first place to look is in the logs.
+
+
+The virtual host access log shows what requests are being sent to the web server.
+Listen to this log by running the following command in shell::
+
+    tail -f /var/log/apache2/other_vhosts_access.log
+
+
+In case something goes wrong with the Flask server used for the app any errors, 
+including Python errors, are sent to the error log::
+
+    tail -f /var/log/apache2/error.log
+    
+
